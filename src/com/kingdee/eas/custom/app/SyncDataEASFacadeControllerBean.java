@@ -17,15 +17,16 @@ import com.kingdee.eas.custom.PurPlatSyncdbLogFactory;
 import com.kingdee.eas.custom.PurPlatSyncdbLogInfo;
 import com.kingdee.jdbc.rowset.IRowSet;
 
-public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeControllerBean
-{
+public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeControllerBean{
+	
+	
     private static Logger logger =
         Logger.getLogger("com.kingdee.eas.custom.app.SyncDataEASFacadeControllerBean");
 
 	
 
     /**
-     * type   :  1:客户  2：供应商  3：组织  4 人员  5 仓库
+     * type   :  1:客户  2：供应商  3：组织  4 人员  5 仓库   
      * newOrDele ： 1 新增 0 禁用
      */
     @Override

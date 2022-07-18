@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facade xmlns="com.kingdee.bos.metadata">
+    <package>com.kingdee.eas.custom.app</package>
+    <name>SyncDataEASFacade</name>
+    <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].alias</alias>
+    <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].description</description>
+    <userDefined>true</userDefined>
+    <bosType>5FE133C7</bosType>
+    <stereoType>false</stereoType>
+    <businessImplName>com.kingdee.eas.custom.SyncDataEASFacade</businessImplName>
+    <businessControllerName>com.kingdee.eas.custom.app.SyncDataEASFacadeController</businessControllerName>
+    <accessLevel>public</accessLevel>
+    <subClassingMode>normal</subClassingMode>
+    <methods>
+        <method>
+            <name>syncDateByType</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].description</description>
+            <innerID>68728a16-208a-4c3f-b266-fb2457f3ccf6</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>type</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[type].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[type].description</description>
+                    <direction>in</direction>
+                    <dataType>Integer</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+                <parameter>
+                    <name>data</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[data].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[data].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+                <parameter>
+                    <name>newOrDele</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[newOrDele].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[newOrDele].description</description>
+                    <direction>in</direction>
+                    <dataType>Integer</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+                <parameter>
+                    <name>name</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[name].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[name].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+                <parameter>
+                    <name>number</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[number].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[number].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+    </methods>
+    <resource>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].extendedProperty.genBusinessImplCode">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].extendedProperty.userDefined">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="根据类型同步数据" />
+            <lang locale="zh_HK" value="根據類型同步數據" />
+            <lang locale="zh_TW" value="根據類型同步數據" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[data].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="数据" />
+            <lang locale="zh_HK" value="數據" />
+            <lang locale="zh_TW" value="數據" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[data].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[name].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[name].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[newOrDele].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="新增禁用" />
+            <lang locale="zh_HK" value="新增禁用" />
+            <lang locale="zh_TW" value="新增禁用" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[newOrDele].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="1新增  0禁用" />
+            <lang locale="zh_HK" value="1新增  0禁用" />
+            <lang locale="zh_TW" value="1新增  0禁用" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[number].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[number].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[type].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="类型" />
+            <lang locale="zh_HK" value="類型" />
+            <lang locale="zh_TW" value="類型" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].parameters.parameter[type].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+    </resource>
+</facade>
+

@@ -1,14 +1,20 @@
 package com.kingdee.eas.basedata.org.app;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import com.alibaba.fastjson.JSONObject;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectCollection;
 import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.IObjectValue;
+import com.kingdee.bos.dao.ormapping.CanNotDeleteException;
 import com.kingdee.eas.common.EASBizException;
+import com.kingdee.eas.custom.ISyncDataEASFacade;
+import com.kingdee.eas.custom.SyncDataEASFacadeFactory;
+import com.kingdee.eas.framework.CoreBaseInfo;
 import com.kingdee.eas.framework.Result;
 import com.kingdee.jdbc.rowset.IRowSet;
 
@@ -46,7 +52,7 @@ public class FullOrgUnitControllerBeanEx extends FullOrgUnitControllerBean{
 			isNew = true;
 		}
 		IObjectPK id  = super._submit(ctx, model);
-		if(isNew){
+		if(true){ //isNew
 			HashMap<String, String> map = new HashMap<String, String>(); 
 			String sql  = " /*dialect*/ SELECT admin.fid  fId , admin.fnumber fNumber  ,admin.fname_l2  fName , admin.FLONGNUMBER  fLongNumber ,laytype.fid  fLayerTypeID , "+
 			  " admin.FISCOMPANYORGUNIT   fIsCompanyOrgUnit  ,admin.FISADMINORGUNIT  fIsAdminOrgUnit ,admin.FISCOSTORGUNIT  fIsCostOrgUnit £¬admin.fisstart  fIsStart , "+
@@ -55,7 +61,7 @@ public class FullOrgUnitControllerBeanEx extends FullOrgUnitControllerBean{
 			  " FROM T_ORG_admin admin "+
 			  " inner  join  T_Org_LayerType laytype  on laytype.fid = admin.FLAYERTYPEID  "+
 			  " left join  t_bd_person  person  on person.fid = admin.FJuridicalPersonID "+ 
-			  " where admin.fid = 'jbYAAAJA7YnM567U' ";  
+			  " where admin.fid = '"+id.toString()+"' ";  
 			
 			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
 			if(rs!=null && rs.size() > 0){
@@ -65,10 +71,10 @@ public class FullOrgUnitControllerBeanEx extends FullOrgUnitControllerBean{
 						map.put("fNumber",rs.getString("FNUMBER") );
 						map.put("fName",rs.getString("FNAME") );
 						map.put("fLongNumber",rs.getString("FLONGNUMBER") );
-						map.put("fLayerTypeID",rs.getString("FBANKACCOUNT") );
+						map.put("fLayerTypeID",rs.getString("FLAYERTYPEID") );
 						map.put("fIsCompanyOrgUnit",rs.getString("FISCOMPANYORGUNIT") );
 						map.put("fIsAdminOrgUnit",rs.getString("FISADMINORGUNIT") );
-						map.put("fIsCostOrgUnit",rs.getString("FUPDATETIME") );
+						map.put("fIsCostOrgUnit",rs.getString("FISCOSTORGUNIT") );
 						map.put("fIsStart",rs.getString("FISSTART") );
 						map.put("fLevel",rs.getString("FLEVEL") );
 						map.put("fIsLeaf",rs.getString("FISLEAF") );
@@ -85,8 +91,15 @@ public class FullOrgUnitControllerBeanEx extends FullOrgUnitControllerBean{
 					e.printStackTrace();
 				}
 			 }  
+			if(map.size() >0){
+				String datajsonStr = JSONObject.toJSONString(map);
+				ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
+				is.syncDateByType( 3 , datajsonStr , 1  , map.get("fName") ,map.get("fNumber") );
+			}
 		}
 		return id;
 	}
+ 
+	
 
 }

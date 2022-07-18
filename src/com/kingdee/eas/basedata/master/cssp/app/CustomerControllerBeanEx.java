@@ -3,12 +3,16 @@ package com.kingdee.eas.basedata.master.cssp.app;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import com.alibaba.fastjson.JSONObject;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectCollection;
 import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.IObjectValue;
 import com.kingdee.eas.common.EASBizException;
+import com.kingdee.eas.custom.ISyncDataEASFacade;
+import com.kingdee.eas.custom.SyncDataEASFacade;
+import com.kingdee.eas.custom.SyncDataEASFacadeFactory;
 import com.kingdee.eas.framework.Result;
 import com.kingdee.jdbc.rowset.IRowSet;
 
@@ -81,6 +85,12 @@ public class CustomerControllerBeanEx extends CustomerControllerBean{
 					e.printStackTrace();
 				}
 			 }  
+			if(map.size() >0){
+				String datajsonStr = JSONObject.toJSONString(map);
+				ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
+				is.syncDateByType( 1 , datajsonStr , 1  , map.get("fName") ,map.get("fNumber"));
+			}
+			
 		}
 		return id;
 	}
@@ -126,6 +136,11 @@ public class CustomerControllerBeanEx extends CustomerControllerBean{
 					e.printStackTrace();
 				}
 			 }  
+			if(map.size() >0){
+				String datajsonStr = JSONObject.toJSONString(map);
+				ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
+				is.syncDateByType( 1 , datajsonStr , 0 ,  map.get("fName") ,map.get("fNumber"));
+			}
 		}
 	}
 

@@ -88,7 +88,7 @@ public class AbstractPurPlatSyncdbLogInfo extends com.kingdee.eas.framework.Data
 		}
     }
     /**
-     * Object:基础资料同步记录's 异常信息property 
+     * Object:基础资料同步记录's 请求信息property 
      */
     public String getMessage()
     {

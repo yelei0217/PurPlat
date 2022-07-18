@@ -14,6 +14,7 @@ public class WarehouseControllerBeanEx extends WarehouseControllerBean{
 	protected Result _submit(Context ctx, IObjectCollection colls)
 			throws BOSException, EASBizException {
 		// TODO Auto-generated method stub
+		System.out.println("github test");
 		return super._submit(ctx, colls);
 	}
 

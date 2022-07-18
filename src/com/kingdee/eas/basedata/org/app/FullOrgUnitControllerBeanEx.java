@@ -38,7 +38,7 @@ public class FullOrgUnitControllerBeanEx extends FullOrgUnitControllerBean{
 	  /*SELECT admin.fid  fId , admin.fnumber fNumber  ,admin.fname_l2  fName , admin.FLONGNUMBER  fLongNumber ,laytype.fid  fLayerTypeID ,
 	  admin.FISCOMPANYORGUNIT   fIsCompanyOrgUnit  ,admin.FISADMINORGUNIT  fIsAdminOrgUnit ,admin.FISCOSTORGUNIT  fIsCostOrgUnit £¬admin.fisstart  fIsStart ,
 	  admin.FLevel fLevel ,  admin.FIsLeaf  fIsLeaf , admin.FIsSealUp  fIsOUSealUp , nvl(admin.FTaxNumber,'') fTaxNumber ,  nvl( admin.FADMINADDRESS_L2,'')  fAddress  , 
-	  nvl(person.fname_l2,'') fJuridicalPerson, nvl(admin.FRegisteredCapital,'') fRegisteredCapital  , nvl(to_char(admin.FSetupDate,'yyyy-hh-mm'),'') fSetupDate
+	  nvl(person.fname_l2,'') fJuridicalPerson, nvl(admin.FRegisteredCapital,'') fRegisteredCapital  , nvl(to_char(admin.FSetupDate,'yyyy-hh-dd'),'') fSetupDate
 	  FROM T_ORG_admin admin
 	  inner  join  T_Org_LayerType laytype  on laytype.fid = admin.FLAYERTYPEID 
 	  left join  t_bd_person  person  on person.fid = admin.FJuridicalPersonID
@@ -57,7 +57,7 @@ public class FullOrgUnitControllerBeanEx extends FullOrgUnitControllerBean{
 			String sql  = " /*dialect*/ SELECT admin.fid  fId , admin.fnumber fNumber  ,admin.fname_l2  fName , admin.FLONGNUMBER  fLongNumber ,laytype.fid  fLayerTypeID , "+
 			  " admin.FISCOMPANYORGUNIT   fIsCompanyOrgUnit  ,admin.FISADMINORGUNIT  fIsAdminOrgUnit ,admin.FISCOSTORGUNIT  fIsCostOrgUnit £¬admin.fisstart  fIsStart , "+
 			  " admin.FLevel fLevel ,  admin.FIsLeaf  fIsLeaf , admin.FIsSealUp  fIsOUSealUp , nvl(admin.FTaxNumber,'') fTaxNumber ,  nvl( admin.FADMINADDRESS_L2,'')  fAddress  , "+
-			  " nvl(person.fname_l2,'') fJuridicalPerson, nvl(admin.FRegisteredCapital,'') fRegisteredCapital  , nvl(to_char(admin.FSetupDate,'yyyy-hh-mm'),'') fSetupDate"+
+			  " nvl(person.fname_l2,'') fJuridicalPerson, nvl(admin.FRegisteredCapital,'') fRegisteredCapital  , nvl(to_char(admin.FSetupDate,'yyyy-hh-dd'),'') fSetupDate"+
 			  " FROM T_ORG_admin admin "+
 			  " inner  join  T_Org_LayerType laytype  on laytype.fid = admin.FLAYERTYPEID  "+
 			  " left join  t_bd_person  person  on person.fid = admin.FJuridicalPersonID "+ 

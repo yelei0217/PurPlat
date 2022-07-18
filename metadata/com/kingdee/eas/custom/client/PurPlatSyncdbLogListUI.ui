@@ -311,7 +311,7 @@
             <actionExtendProperty />
             <services>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;root&gt;&lt;service class="com.kingdee.eas.framework.client.service.PermissionService" /&gt;&lt;/root&gt;</services>
-            <userDefined>false</userDefined>
+            <userDefined>true</userDefined>
             <userDefinedLogic />
             <oprtIntent />
             <nextUI />

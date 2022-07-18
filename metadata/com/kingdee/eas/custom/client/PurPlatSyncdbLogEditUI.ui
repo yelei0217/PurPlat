@@ -1971,9 +1971,9 @@
         </rs>
         <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txtMessage].alias">
             <lang locale="en_US" value="null" />
-            <lang locale="zh_CN" value="请求信息" />
-            <lang locale="zh_HK" value="請求信息" />
-            <lang locale="zh_TW" value="請求信息" />
+            <lang locale="zh_CN" value="异常信息" />
+            <lang locale="zh_HK" value="異常信息" />
+            <lang locale="zh_TW" value="異常信息" />
         </rs>
         <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txtMessage].properties.property[horizontalAlignment].value">
             <lang locale="en_US" value="2" />

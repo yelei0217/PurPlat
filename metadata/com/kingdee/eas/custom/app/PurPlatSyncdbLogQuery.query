@@ -794,6 +794,68 @@
                 <key name="name" value="PurPlatSyncdbLogQuery" />
             </query>
         </queryField>
+        <queryField>
+            <name>errorMessage</name>
+            <userDefined>true</userDefined>
+            <formulaString>#0</formulaString>
+            <constString />
+            <displayName>joinQuery[com.kingdee.eas.custom.app.PurPlatSyncdbLogQuery].units.queryField[errorMessage].displayName</displayName>
+            <groupType />
+            <isSelector>true</isSelector>
+            <isFilter>true</isFilter>
+            <isSorter>true</isSorter>
+            <isParameter>false</isParameter>
+            <returnType>String</returnType>
+            <propertyRefs>
+                <propertyRef>
+                    <key>e97e8e31-2a0a-42b1-9165-26b8bee450b9</key>
+                    <parentUnit>
+                        <key name="name" value="errorMessage" />
+                    </parentUnit>
+                    <subEntity>
+                        <key name="name" value="PurPlatSyncdbLog" />
+                    </subEntity>
+                    <refProperty>
+                        <key name="name" value="errorMessage" />
+                    </refProperty>
+                </propertyRef>
+            </propertyRefs>
+            <query>
+                <key name="package" value="com.kingdee.eas.custom.app" />
+                <key name="name" value="PurPlatSyncdbLogQuery" />
+            </query>
+        </queryField>
+        <queryField>
+            <name>isSync</name>
+            <userDefined>true</userDefined>
+            <formulaString>#0</formulaString>
+            <constString />
+            <displayName>joinQuery[com.kingdee.eas.custom.app.PurPlatSyncdbLogQuery].units.queryField[isSync].displayName</displayName>
+            <groupType />
+            <isSelector>true</isSelector>
+            <isFilter>true</isFilter>
+            <isSorter>true</isSorter>
+            <isParameter>false</isParameter>
+            <returnType>Boolean</returnType>
+            <propertyRefs>
+                <propertyRef>
+                    <key>49e3d88f-51f1-4683-96db-90b59b97c353</key>
+                    <parentUnit>
+                        <key name="name" value="isSync" />
+                    </parentUnit>
+                    <subEntity>
+                        <key name="name" value="PurPlatSyncdbLog" />
+                    </subEntity>
+                    <refProperty>
+                        <key name="name" value="isSync" />
+                    </refProperty>
+                </propertyRef>
+            </propertyRefs>
+            <query>
+                <key name="package" value="com.kingdee.eas.custom.app" />
+                <key name="name" value="PurPlatSyncdbLogQuery" />
+            </query>
+        </queryField>
     </units>
     <defaultFilter>
         <name>defaultFilter</name>
@@ -1203,6 +1265,22 @@
             <lang locale="zh_CN" value="true" />
             <lang locale="zh_TW" value="true" />
         </rs>
+        <rs key="joinQuery[com.kingdee.eas.custom.app.PurPlatSyncdbLogQuery].units.queryField[errorMessage].displayName">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="失败信息" />
+            <lang locale="zh_HK" value="失敗信息" />
+            <lang locale="zh_TW" value="失敗信息" />
+        </rs>
+        <rs key="joinQuery[com.kingdee.eas.custom.app.PurPlatSyncdbLogQuery].units.queryField[errorMessage].extendedProperty.isCommonQueryFilter">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="joinQuery[com.kingdee.eas.custom.app.PurPlatSyncdbLogQuery].units.queryField[errorMessage].extendedProperty.isCommonQuerySorter">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
         <rs key="joinQuery[com.kingdee.eas.custom.app.PurPlatSyncdbLogQuery].units.queryField[id].displayName">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="" />
@@ -1232,6 +1310,22 @@
             <lang locale="en_US" value="false" />
             <lang locale="zh_CN" value="false" />
             <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="joinQuery[com.kingdee.eas.custom.app.PurPlatSyncdbLogQuery].units.queryField[isSync].displayName">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="是否正在同步" />
+            <lang locale="zh_HK" value="是否正在同步" />
+            <lang locale="zh_TW" value="是否正在同步" />
+        </rs>
+        <rs key="joinQuery[com.kingdee.eas.custom.app.PurPlatSyncdbLogQuery].units.queryField[isSync].extendedProperty.isCommonQueryFilter">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="joinQuery[com.kingdee.eas.custom.app.PurPlatSyncdbLogQuery].units.queryField[isSync].extendedProperty.isCommonQuerySorter">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
         </rs>
         <rs key="joinQuery[com.kingdee.eas.custom.app.PurPlatSyncdbLogQuery].units.queryField[lastUpdateTime].displayName">
             <lang locale="en_US" value="null" />

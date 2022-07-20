@@ -50,4 +50,31 @@ public class SyncDataEASFacade extends AbstractBizCtrl implements ISyncDataEASFa
             throw new EJBRemoteException(err);
         }
     }
+    /**
+     *DoErrorJon-User defined method
+     *@param data data
+     */
+    public void DoErrorJon(String data) throws BOSException
+    {
+        try {
+            getController().DoErrorJon(getContext(), data);
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
+    /**
+     *物料同步方法-User defined method
+     *@param data data
+     *@return
+     */
+    public String materialSyncFun(String data) throws BOSException
+    {
+        try {
+            return getController().materialSyncFun(getContext(), data);
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
 }

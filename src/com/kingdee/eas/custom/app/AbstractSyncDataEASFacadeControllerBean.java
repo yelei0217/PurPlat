@@ -55,4 +55,46 @@ public abstract class AbstractSyncDataEASFacadeControllerBean extends AbstractBi
         return;
     }
 
+    public void DoErrorJon(Context ctx, String data) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("d359caef-7a73-4414-b451-a338eb8b0aad"), new Object[]{ctx, data});
+            invokeServiceBefore(svcCtx);
+              if(!svcCtx.invokeBreak()) {
+            _DoErrorJon(ctx, data);
+            }
+            invokeServiceAfter(svcCtx);
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected void _DoErrorJon(Context ctx, String data) throws BOSException
+    {    	
+        return;
+    }
+
+    public String materialSyncFun(Context ctx, String data) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("3137f617-0d1f-4d45-a551-1e5895818966"), new Object[]{ctx, data});
+            invokeServiceBefore(svcCtx);
+            if(!svcCtx.invokeBreak()) {
+            String retValue = (String)_materialSyncFun(ctx, data);
+            svcCtx.setMethodReturnValue(retValue);
+            }
+            invokeServiceAfter(svcCtx);
+            return (String)svcCtx.getMethodReturnValue();
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected String _materialSyncFun(Context ctx, String data) throws BOSException
+    {    	
+        return null;
+    }
+
 }

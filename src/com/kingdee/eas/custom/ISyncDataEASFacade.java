@@ -15,4 +15,6 @@ import com.kingdee.bos.util.*;
 public interface ISyncDataEASFacade extends IBizCtrl
 {
     public void syncDateByType(int type, String data, int newOrDele, String name, String number) throws BOSException;
+    public void DoErrorJon(String data) throws BOSException;
+    public String materialSyncFun(String data) throws BOSException;
 }

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject; 
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectCollection;
@@ -17,6 +17,7 @@ import com.kingdee.eas.custom.ISyncDataEASFacade;
 import com.kingdee.eas.custom.SyncDataEASFacadeFactory;
 import com.kingdee.eas.framework.Result;
 import com.kingdee.jdbc.rowset.IRowSet;
+import com.sun.org.apache.bcel.internal.generic.F2D;
 
 public class WarehouseControllerBeanEx extends WarehouseControllerBean{
 
@@ -55,17 +56,28 @@ public class WarehouseControllerBeanEx extends WarehouseControllerBean{
 			if(rs!=null && rs.size() > 0){
 				try {
 					while(rs.next()){	  
-						map.put("fId",rs.getString("FID") );
-						map.put("fNumber",rs.getString("FNUMBER") );
-						map.put("fName",rs.getString("FNAME") );
-						map.put("fOrgtid",rs.getString("FORGTID") );
-						map.put("fOrgNumber",rs.getString("FORGNUMBER") );
-						map.put("fOrgName",rs.getString("FORGNAME") );
-						map.put("fStatus",rs.getString("FSTATUS") );
-						map.put("fCreator",rs.getString("FCREATOR") );
-						map.put("fCreateTime",rs.getString("FCREATETIME") );
-						map.put("fUpdateType",rs.getString("FUPDATETYPE") );
-						map.put("fUpdateTime",rs.getString("FUPDATETIME") ); 
+						String orgid = rs.getString("FORGTID");
+						if( "jbYAAAMU2SvM567U".equals(orgid)){
+							map.put("fId",rs.getString("FID") );
+							map.put("fNumber",rs.getString("FNUMBER") );
+							map.put("fName",rs.getString("FNAME") );
+							map.put("fOrgtid",rs.getString("FORGTID") );
+							map.put("fOrgNumber",rs.getString("FORGNUMBER") );
+							map.put("fOrgName",rs.getString("FORGNAME") );
+							map.put("fStatus",rs.getString("FSTATUS") );
+							map.put("fCreator",rs.getString("FCREATOR") );
+							map.put("fCreateTime",rs.getString("FCREATETIME") );
+							map.put("fUpdateType",rs.getString("FUPDATETYPE") );
+							map.put("fUpdateTime",rs.getString("FUPDATETIME") ); 
+						}else{
+							map.put("fId",rs.getString("FID") );
+							map.put("fNumber",rs.getString("FNUMBER") );
+							map.put("fName",rs.getString("FNAME") );
+							map.put("fOrgtid",rs.getString("FORGTID") );
+							map.put("fOrgNumber",rs.getString("FORGNUMBER") );
+							map.put("fOrgName",rs.getString("FORGNAME") );
+						}
+						  
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block

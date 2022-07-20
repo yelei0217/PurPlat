@@ -273,6 +273,34 @@
             <scale>0</scale>
             <precision>10</precision>
         </column>
+        <column>
+            <name>CFErrorMessage</name>
+            <alias>dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFErrorMessage].alias</alias>
+            <description>dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFErrorMessage].description</description>
+            <userDefined>true</userDefined>
+            <isMultilingual>false</isMultilingual>
+            <isEncoded>false</isEncoded>
+            <isNullable>true</isNullable>
+            <defaultValue />
+            <sqlType>NVARCHAR</sqlType>
+            <length>255</length>
+            <scale>0</scale>
+            <precision>0</precision>
+        </column>
+        <column>
+            <name>CFIsSync</name>
+            <alias>dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFIsSync].alias</alias>
+            <description>dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFIsSync].description</description>
+            <userDefined>true</userDefined>
+            <isMultilingual>false</isMultilingual>
+            <isEncoded>false</isEncoded>
+            <isNullable>true</isNullable>
+            <defaultValue />
+            <sqlType>INT</sqlType>
+            <length>1</length>
+            <scale>0</scale>
+            <precision>0</precision>
+        </column>
     </columns>
     <primaryKey>
         <name>CPK_CUS_PurPSLItcg</name>
@@ -365,17 +393,41 @@
             <lang locale="zh_HK" value="數據類型" />
             <lang locale="zh_TW" value="數據類型" />
         </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFErrorMessage].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="失败信息" />
+            <lang locale="zh_HK" value="失敗信息" />
+            <lang locale="zh_TW" value="失敗信息" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFErrorMessage].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="失败信息" />
+            <lang locale="zh_HK" value="失敗信息" />
+            <lang locale="zh_TW" value="失敗信息" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFIsSync].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="是否正在同步" />
+            <lang locale="zh_HK" value="是否正在同步" />
+            <lang locale="zh_TW" value="是否正在同步" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFIsSync].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="是否正在同步" />
+            <lang locale="zh_HK" value="是否正在同步" />
+            <lang locale="zh_TW" value="是否正在同步" />
+        </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFMessage].alias">
             <lang locale="en_US" value="null" />
-            <lang locale="zh_CN" value="异常信息" />
-            <lang locale="zh_HK" value="異常信息" />
-            <lang locale="zh_TW" value="異常信息" />
+            <lang locale="zh_CN" value="信息" />
+            <lang locale="zh_HK" value="信息" />
+            <lang locale="zh_TW" value="信息" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFMessage].description">
             <lang locale="en_US" value="null" />
-            <lang locale="zh_CN" value="异常信息" />
-            <lang locale="zh_HK" value="異常信息" />
-            <lang locale="zh_TW" value="異常信息" />
+            <lang locale="zh_CN" value="信息" />
+            <lang locale="zh_HK" value="信息" />
+            <lang locale="zh_TW" value="信息" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFProcessType].alias">
             <lang locale="en_US" value="null" />

@@ -18,4 +18,6 @@ import com.kingdee.bos.framework.ejb.BizController;
 public interface SyncDataEASFacadeController extends BizController
 {
     public void syncDateByType(Context ctx, int type, String data, int newOrDele, String name, String number) throws BOSException, RemoteException;
+    public void DoErrorJon(Context ctx, String data) throws BOSException, RemoteException;
+    public String materialSyncFun(Context ctx, String data) throws BOSException, RemoteException;
 }

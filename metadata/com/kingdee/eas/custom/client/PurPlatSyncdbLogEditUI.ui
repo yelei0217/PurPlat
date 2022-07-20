@@ -26,7 +26,7 @@
             <userDefined>false</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDPanel</classType>
             <isContainer>true</isContainer>
-            <constraints>0,0,979,416</constraints>
+            <constraints>0,0,979,579</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -37,7 +37,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>672,10,270,19</constraints>
+            <constraints>648,10,270,19</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -79,7 +79,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>672,34,270,19</constraints>
+            <constraints>648,34,270,19</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -121,7 +121,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>341,58,270,19</constraints>
+            <constraints>329,58,270,19</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -163,7 +163,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>672,58,270,19</constraints>
+            <constraints>648,58,270,19</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -219,7 +219,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>341,34,270,19</constraints>
+            <constraints>329,34,270,19</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -323,7 +323,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>341,10,270,19</constraints>
+            <constraints>329,10,270,19</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -519,7 +519,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>8,110,936,138</constraints>
+            <constraints>10,106,909,113</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -568,7 +568,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>19,261,925,135</constraints>
+            <constraints>10,226,909,113</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -617,7 +617,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>341,82,270,19</constraints>
+            <constraints>329,82,270,19</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -659,6 +659,105 @@
             <parent>
                 <key name="name" value="CoreUI" />
             </parent>
+        </component>
+        <component>
+            <name>conterrorMessage</name>
+            <alias>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[conterrorMessage].alias</alias>
+            <userDefined>true</userDefined>
+            <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
+            <isContainer>true</isContainer>
+            <constraints>10,346,909,113</constraints>
+            <tabIndex>0</tabIndex>
+            <herited>false</herited>
+            <bimUIObjectPK />
+            <layoutInfo>
+                <name />
+                <type>LabelContainerLayout</type>
+                <value />
+            </layoutInfo>
+            <properties>
+                <property>
+                    <name>boundLabelText</name>
+                    <type>java.lang.String</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[conterrorMessage].properties.property[boundLabelText].value</value>
+                    <isMultiLan>true</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>boundLabelLength</name>
+                    <type>int</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[conterrorMessage].properties.property[boundLabelLength].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>boundLabelUnderline</name>
+                    <type>boolean</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[conterrorMessage].properties.property[boundLabelUnderline].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>visible</name>
+                    <type>boolean</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[conterrorMessage].properties.property[visible].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+            </properties>
+            <parent>
+                <key name="name" value="CoreUI" />
+            </parent>
+        </component>
+        <component>
+            <name>chkisSync</name>
+            <alias>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[chkisSync].alias</alias>
+            <userDefined>true</userDefined>
+            <classType>com.kingdee.bos.ctrl.swing.KDCheckBox</classType>
+            <isContainer>false</isContainer>
+            <constraints>648,82,270,19</constraints>
+            <tabIndex>20</tabIndex>
+            <herited>false</herited>
+            <bimUIObjectPK />
+            <properties>
+                <property>
+                    <name>text</name>
+                    <type>java.lang.String</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[chkisSync].properties.property[text].value</value>
+                    <isMultiLan>true</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>visible</name>
+                    <type>boolean</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[chkisSync].properties.property[visible].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>horizontalAlignment</name>
+                    <type>int</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[chkisSync].properties.property[horizontalAlignment].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+            </properties>
+            <parent>
+                <key name="name" value="CoreUI" />
+            </parent>
+            <propertyBindings>
+                <propertyBinding>
+                    <propertyName>selected</propertyName>
+                    <propertyType>boolean</propertyType>
+                    <bindingObject>editData</bindingObject>
+                    <bindingField>isSync</bindingField>
+                    <fieldType>boolean</fieldType>
+                    <accessType>2</accessType>
+                    <autoMode>false</autoMode>
+                    <herited>false</herited>
+                    <userDefined>true</userDefined>
+                </propertyBinding>
+            </propertyBindings>
         </component>
         <component>
             <name>txtNumber</name>
@@ -1251,6 +1350,63 @@
             </propertyBindings>
         </component>
         <component>
+            <name>txterrorMessage</name>
+            <alias>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txterrorMessage].alias</alias>
+            <userDefined>true</userDefined>
+            <classType>com.kingdee.bos.ctrl.swing.KDTextField</classType>
+            <isContainer>false</isContainer>
+            <constraints>3</constraints>
+            <tabIndex>19</tabIndex>
+            <herited>false</herited>
+            <bimUIObjectPK />
+            <properties>
+                <property>
+                    <name>visible</name>
+                    <type>boolean</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txterrorMessage].properties.property[visible].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>horizontalAlignment</name>
+                    <type>int</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txterrorMessage].properties.property[horizontalAlignment].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>maxLength</name>
+                    <type>int</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txterrorMessage].properties.property[maxLength].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>required</name>
+                    <type>boolean</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txterrorMessage].properties.property[required].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+            </properties>
+            <parent>
+                <key name="name" value="conterrorMessage" />
+            </parent>
+            <propertyBindings>
+                <propertyBinding>
+                    <propertyName>text</propertyName>
+                    <propertyType>java.lang.String</propertyType>
+                    <bindingObject>editData</bindingObject>
+                    <bindingField>errorMessage</bindingField>
+                    <fieldType>String</fieldType>
+                    <accessType>2</accessType>
+                    <autoMode>false</autoMode>
+                    <herited>false</herited>
+                    <userDefined>true</userDefined>
+                </propertyBinding>
+            </propertyBindings>
+        </component>
+        <component>
             <name>btnPrint</name>
             <alias>uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[btnPrint].alias</alias>
             <userDefined>false</userDefined>
@@ -1496,6 +1652,30 @@
             <lang locale="zh_HK" value="false" />
             <lang locale="zh_TW" value="false" />
         </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[chkisSync].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="是否正在同步" />
+            <lang locale="zh_HK" value="是否正在同步" />
+            <lang locale="zh_TW" value="是否正在同步" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[chkisSync].properties.property[horizontalAlignment].value">
+            <lang locale="en_US" value="2" />
+            <lang locale="zh_CN" value="2" />
+            <lang locale="zh_HK" value="2" />
+            <lang locale="zh_TW" value="2" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[chkisSync].properties.property[text].value">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="是否正在同步" />
+            <lang locale="zh_HK" value="是否正在同步" />
+            <lang locale="zh_TW" value="是否正在同步" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[chkisSync].properties.property[visible].value">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_HK" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
         <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[chkstatus].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="同步状态" />
@@ -1534,9 +1714,9 @@
         </rs>
         <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[contMessage].properties.property[boundLabelText].value">
             <lang locale="en_US" value="null" />
-            <lang locale="zh_CN" value="异常信息" />
-            <lang locale="zh_HK" value="異常信息" />
-            <lang locale="zh_TW" value="異常信息" />
+            <lang locale="zh_CN" value="信息" />
+            <lang locale="zh_HK" value="信息" />
+            <lang locale="zh_TW" value="信息" />
         </rs>
         <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[contMessage].properties.property[boundLabelUnderline].value">
             <lang locale="en_US" value="true" />
@@ -1635,6 +1815,36 @@
             <lang locale="zh_TW" value="true" />
         </rs>
         <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[contdateBaseType].properties.property[visible].value">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_HK" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[conterrorMessage].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[conterrorMessage].properties.property[boundLabelLength].value">
+            <lang locale="en_US" value="100" />
+            <lang locale="zh_CN" value="100" />
+            <lang locale="zh_HK" value="100" />
+            <lang locale="zh_TW" value="100" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[conterrorMessage].properties.property[boundLabelText].value">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="失败信息" />
+            <lang locale="zh_HK" value="失敗信息" />
+            <lang locale="zh_TW" value="失敗信息" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[conterrorMessage].properties.property[boundLabelUnderline].value">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_HK" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[conterrorMessage].properties.property[visible].value">
             <lang locale="en_US" value="true" />
             <lang locale="zh_CN" value="true" />
             <lang locale="zh_HK" value="true" />
@@ -1971,9 +2181,9 @@
         </rs>
         <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txtMessage].alias">
             <lang locale="en_US" value="null" />
-            <lang locale="zh_CN" value="异常信息" />
-            <lang locale="zh_HK" value="異常信息" />
-            <lang locale="zh_TW" value="異常信息" />
+            <lang locale="zh_CN" value="信息" />
+            <lang locale="zh_HK" value="信息" />
+            <lang locale="zh_TW" value="信息" />
         </rs>
         <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txtMessage].properties.property[horizontalAlignment].value">
             <lang locale="en_US" value="2" />
@@ -2094,6 +2304,36 @@
             <lang locale="zh_CN" value="80" />
             <lang locale="zh_HK" value="80" />
             <lang locale="zh_TW" value="80" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txterrorMessage].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="失败信息" />
+            <lang locale="zh_HK" value="失敗信息" />
+            <lang locale="zh_TW" value="失敗信息" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txterrorMessage].properties.property[horizontalAlignment].value">
+            <lang locale="en_US" value="2" />
+            <lang locale="zh_CN" value="2" />
+            <lang locale="zh_HK" value="2" />
+            <lang locale="zh_TW" value="2" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txterrorMessage].properties.property[maxLength].value">
+            <lang locale="en_US" value="255" />
+            <lang locale="zh_CN" value="255" />
+            <lang locale="zh_HK" value="255" />
+            <lang locale="zh_TW" value="255" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txterrorMessage].properties.property[required].value">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_HK" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txterrorMessage].properties.property[visible].value">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_HK" value="true" />
+            <lang locale="zh_TW" value="true" />
         </rs>
         <rs key="uiObject[com.kingdee.eas.custom.client.PurPlatSyncdbLogEditUI].components.component[txtversion].alias">
             <lang locale="en_US" value="null" />

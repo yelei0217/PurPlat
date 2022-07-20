@@ -74,6 +74,58 @@
             </parameters>
             <configured>false</configured>
         </method>
+        <method>
+            <name>DoErrorJon</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoErrorJon].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoErrorJon].description</description>
+            <innerID>d359caef-7a73-4414-b451-a338eb8b0aad</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>data</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoErrorJon].parameters.parameter[data].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoErrorJon].parameters.parameter[data].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>materialSyncFun</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[materialSyncFun].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[materialSyncFun].description</description>
+            <innerID>3137f617-0d1f-4d45-a551-1e5895818966</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>String</returnValueType>
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>data</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[materialSyncFun].parameters.parameter[data].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[materialSyncFun].parameters.parameter[data].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
     </methods>
     <resource>
         <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].alias">
@@ -97,6 +149,50 @@
             <lang locale="en_US" value="true" />
             <lang locale="zh_CN" value="true" />
             <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoErrorJon].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoErrorJon].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoErrorJon].parameters.parameter[data].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoErrorJon].parameters.parameter[data].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[materialSyncFun].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="物料同步方法" />
+            <lang locale="zh_HK" value="物料同步方法" />
+            <lang locale="zh_TW" value="物料同步方法" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[materialSyncFun].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[materialSyncFun].parameters.parameter[data].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[materialSyncFun].parameters.parameter[data].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
         </rs>
         <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[syncDateByType].alias">
             <lang locale="en_US" value="null" />

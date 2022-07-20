@@ -88,7 +88,7 @@ public class AbstractPurPlatSyncdbLogInfo extends com.kingdee.eas.framework.Data
 		}
     }
     /**
-     * Object:基础资料同步记录's 异常信息property 
+     * Object:基础资料同步记录's 信息property 
      */
     public String getMessage()
     {
@@ -119,6 +119,28 @@ public class AbstractPurPlatSyncdbLogInfo extends com.kingdee.eas.framework.Data
     public void setSendCount(int item)
     {
         setInt("SendCount", item);
+    }
+    /**
+     * Object:基础资料同步记录's 失败信息property 
+     */
+    public String getErrorMessage()
+    {
+        return getString("errorMessage");
+    }
+    public void setErrorMessage(String item)
+    {
+        setString("errorMessage", item);
+    }
+    /**
+     * Object:基础资料同步记录's 是否正在同步property 
+     */
+    public boolean isIsSync()
+    {
+        return getBoolean("isSync");
+    }
+    public void setIsSync(boolean item)
+    {
+        setBoolean("isSync", item);
     }
     public BOSObjectType getBOSType()
     {

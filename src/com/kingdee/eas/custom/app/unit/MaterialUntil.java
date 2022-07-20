@@ -1,11 +1,15 @@
 package com.kingdee.eas.custom.app.unit;
 
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kingdee.bos.BOSException;
@@ -16,9 +20,12 @@ import com.kingdee.bos.metadata.entity.EntityViewInfo;
 import com.kingdee.bos.metadata.entity.FilterInfo;
 import com.kingdee.bos.metadata.entity.FilterItemInfo;
 import com.kingdee.bos.metadata.query.util.CompareType;
+import com.kingdee.eas.base.core.fm.ContextHelperFactory;
+import com.kingdee.eas.basedata.assistant.KAClassficationCollection;
 import com.kingdee.eas.basedata.assistant.KAClassficationFactory;
 import com.kingdee.eas.basedata.assistant.MeasureUnitCollection;
 import com.kingdee.eas.basedata.assistant.MeasureUnitFactory;
+import com.kingdee.eas.basedata.framework.app.ParallelSqlExecutor;
 import com.kingdee.eas.basedata.master.material.EquipmentPropertyEnum;
 import com.kingdee.eas.basedata.master.material.IMaterial;
 import com.kingdee.eas.basedata.master.material.MaterialFactory;
@@ -30,6 +37,7 @@ import com.kingdee.eas.basedata.master.material.UsedStatusEnum;
 import com.kingdee.eas.basedata.org.CtrlUnitFactory;
 import com.kingdee.eas.basedata.org.CtrlUnitInfo;
 import com.kingdee.eas.common.EASBizException;
+import com.kingdee.jdbc.rowset.IRowSet;
 
 public class MaterialUntil {
 
@@ -183,8 +191,90 @@ public class MaterialUntil {
 				e.printStackTrace();
 			}
 			try {
+				
+				String kaclass = dataMap.get("fKAClass").toString();
+				
+				MeasureUnitCollection measure = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitCollection(" where number = '"+dataMap.get("fPurUnit").toString()+"'");
+				MeasureUnitCollection salemeasure = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitCollection(" where number = '"+dataMap.get("fSaleUnit").toString()+"'");
+				
+				
 				MaterialInfo ma = createInfo(  ctx,   dataMap );
 				IObjectPK pk = imbiz.addnew(ma);
+				String userId = ContextHelperFactory.getLocalInstance(ctx).getCurrentUser().getId().toString(); 
+				ExecutorService pool = Executors.newFixedThreadPool(6);
+			    ParallelSqlExecutor pe = new ParallelSqlExecutor(pool); 
+				ArrayList<String> ctrlOrgIds = getAllCtrlOrgIDs(ctx);
+				 
+				for(String cid:ctrlOrgIds){
+					
+					//成本资料
+					StringBuffer sbr  = new StringBuffer(" INSERT INTO T_BD_MaterialCost (  fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
+		    		sbr.append("FEFFECTEDSTATUS ,FSTORETYPE ,FIscreWatecostobject ,fcostobejctgroupid,FDEFAULTCOSTITEMID ,FISPARTICIPATEREDUCT ,FEXPENSEID  ) ");
+		    		sbr.append(" values(newbosid('C45E21AA'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+cid+"', '' , '"+pk.toString()+"', ");
+		    		sbr.append(" 2	,1	,0,'','',0,''	 )"); 
+		    		pe.getSqlList().add(sbr);
+		    		
+		    		 //采购资料  
+				    StringBuffer pusbr  = new StringBuffer(" INSERT INTO T_BD_MaterialPurchasing (   fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
+				    pusbr.append(" FUNITID , FRECEIVETOPRATIO ,FRECEIVEBOTTOMRATIO, FDAYDAHEAD ,FDAYSDELAY ,FISRETURN ,FEFFECTEDSTATUS ,FPURCHASECHECK ,FISNOTCONTROLTIME ,FISNOTCONTROLQTY ,FISPURCHASECHECK , " +
+				    		" FFINEQUALITYFAIRPRICE,FUSESUPPLYLIST ,FUSESUPPLYPRICE ,FQUOTAPOLICYID ,FMINDIVISIONQTY  ) ");
+				    pusbr.append(" values(newbosid('0193BD9B'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+cid+"', '' , '"+pk.toString()+"', ");
+				    pusbr.append(" '"+measure.get(0).getId().toString()+"' , 0,0,0,0 , 0 ,2,0,1,0 ,0,0,0,0,'SdQ8j/QxRueXfLDTP9izyRRbtvQ=',0 	 )"); 
+		    		pe.getSqlList().add(pusbr);
+		    		 
+		    		
+		    		//销售资料 
+		    		StringBuffer salesbr  = new StringBuffer(" INSERT INTO T_BD_MaterialSales (    fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
+		    		salesbr.append(" FISRETURN ,FISNOTCHECKONRETURN ,FISRECEIVBYCHECK ,FUNITID ,FISSUETOPRATIO ,FISSUEBOTTOMRATIO ,FDAYDAHEAD ,FDAYSDELAY ,FABCTYPE ,FEFFECTEDSTATUS ,FISPURBYSALE ,FISCONSIGNCHECK ,FINNERPRICERATE ,FCHEAPRATE ) ");
+		    		salesbr.append(" values(newbosid('C84112CF'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+cid+"', '' , '"+pk.toString()+"', ");
+		    		salesbr.append("  0,0,0,'"+salemeasure.get(0).getId().toString()+"',0,0,0,0,-1,2,0,0,0,0	 )"); 
+		    		pe.getSqlList().add(salesbr);
+		    		 
+		    		
+		    		
+					if(!"00000000-0000-0000-0000-000000000000CCE7AED4".equals(cid)){
+						//成本资料
+						ArrayList<String> companyIds  =getNoAssignMaterialIDS(ctx,cid,pk.toString(),"cost");
+					    if(companyIds!=null &&companyIds.size()>0){
+					    	for(String comid : companyIds){
+					    		StringBuffer sbr2  = new StringBuffer(" INSERT INTO T_BD_MaterialCost (  fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
+					    		sbr2.append("FEFFECTEDSTATUS ,FSTORETYPE ,FIscreWatecostobject ,fcostobejctgroupid,FDEFAULTCOSTITEMID ,FISPARTICIPATEREDUCT ,FEXPENSEID  ) ");
+					    		sbr2.append(" values(newbosid('C45E21AA'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+comid+"', '' , '"+pk.toString()+"', ");
+					    		sbr2.append(" 2	,1	,0,'','',0,''	 )"); 
+					    		pe.getSqlList().add(sbr2);
+					    	}
+					    }  
+					    //采购资料 
+					    ArrayList<String> pucompanyIds  = getNoAssignMaterialIDS(ctx,cid,pk.toString(),"purchase");
+					    if(pucompanyIds!=null &&pucompanyIds.size()>0){
+					    	for(String comid : pucompanyIds){
+					    		
+							    StringBuffer sbr2  = new StringBuffer(" INSERT INTO T_BD_MaterialPurchasing (   fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
+							    sbr2.append(" FUNITID , FRECEIVETOPRATIO ,FRECEIVEBOTTOMRATIO, FDAYDAHEAD ,FDAYSDELAY ,FISRETURN ,FEFFECTEDSTATUS ,FPURCHASECHECK ,FISNOTCONTROLTIME ,FISNOTCONTROLQTY ,FISPURCHASECHECK , " +
+							    		" FFINEQUALITYFAIRPRICE,FUSESUPPLYLIST ,FUSESUPPLYPRICE ,FQUOTAPOLICYID ,FMINDIVISIONQTY  ) ");
+							    sbr2.append(" values(newbosid('0193BD9B'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+comid+"', '' , '"+pk.toString()+"', ");
+							    sbr2.append(" '"+measure.get(0).getId().toString()+"' , 0,0,0,0 , 0 ,2,0,1,0 ,0,0,0,0,'SdQ8j/QxRueXfLDTP9izyRRbtvQ=',0 	 )"); 
+					    		pe.getSqlList().add(sbr2); 
+					    	}
+					    }  					   
+					    //采购资料 
+					    ArrayList<String>  salecompanyIds  = getNoAssignMaterialIDS(ctx,cid,pk.toString(),"sales");
+					    if(salecompanyIds!=null &&salecompanyIds.size()>0){
+					    	for(String comid : salecompanyIds){
+					    		
+							    StringBuffer sbr2  = new StringBuffer(" INSERT INTO T_BD_MaterialSales (    INSERT INTO T_BD_MaterialPurchasing (    fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
+							    sbr2.append(" FISRETURN ,FISNOTCHECKONRETURN ,FISRECEIVBYCHECK ,FUNITID ,FISSUETOPRATIO ,FISSUEBOTTOMRATIO ,FDAYDAHEAD ,FDAYSDELAY ,FABCTYPE ,FEFFECTEDSTATUS ,FISPURBYSALE ,FISCONSIGNCHECK ,FINNERPRICERATE ,FCHEAPRATE )");
+							    sbr2.append(" values(newbosid('C84112CF'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+comid+"', '' , '"+pk.toString()+"', ");
+							    sbr2.append(" 0,0,0,'"+salemeasure.get(0).getId().toString()+"',0,0,0,0,-1,2,0,0,0,0		 )"); 
+					    		pe.getSqlList().add(sbr2); 
+					    	}
+					    }  
+			    		
+					} 
+				}
+				//财务资料   单独处理
+				pe = setAllCtrlComOrgs(ctx,kaclass,pk.toString() ,pe);
+				  
 			} catch (EASBizException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -200,6 +290,44 @@ public class MaterialUntil {
 	}
 	
 	
+	private ParallelSqlExecutor setAllCtrlComOrgs(Context ctx , String kaclass , String materialid , ParallelSqlExecutor pe) { 
+		
+		String userId = ContextHelperFactory.getLocalInstance(ctx).getCurrentUser().getId().toString(); 
+		StringBuffer sbr = new  StringBuffer(); 
+	 	sbr.append(" /*dialect*/SELECT cunit.FID CID ,nvl(kacl.fid,'') LID FROM T_ORG_CtrlUnit cunit  left join T_BD_KAClassfication kacl on kacl.fnumber = '"+kaclass+"' and  kacl.FCURRENCYCOMPANY  = cunit.fid  \r\n"); 
+	 	sbr.append(" WHERE (cunit.FID <> '11111111-1111-1111-1111-111111111111CCE7AED4') AND cunit.FIsOUSealUp = 0 AND (cunit.FLongNumber LIKE 'M%')    \r\n"); 
+	 	sbr.append(" ORDER BY cunit.FLongNumber ASC     \r\n");   
+		try {
+			IRowSet rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, sbr.toString());
+			if(rs!=null){
+				while(rs.next()){
+					String cityid = rs.getObject("CID").toString();
+					String kaclid = rs.getObject("LID").toString();
+					
+					/*StringBuffer comsbr  = new StringBuffer(" INSERT INTO T_BD_MaterialCompanyInfo (   fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
+				    comsbr.append(" FUNITID , FRECEIVETOPRATIO ,FRECEIVEBOTTOMRATIO, FDAYDAHEAD ,FDAYSDELAY ,FISRETURN ,FEFFECTEDSTATUS ,FPURCHASECHECK ,FISNOTCONTROLTIME ,FISNOTCONTROLQTY ,FISPURCHASECHECK , " +
+				    		" FFINEQUALITYFAIRPRICE,FUSESUPPLYLIST ,FUSESUPPLYPRICE ,FQUOTAPOLICYID ,FMINDIVISIONQTY  ) ");
+				    comsbr.append(" values(newbosid('0193BD9B'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+cid+"', '' , '"+pk.toString()+"', ");
+				    comsbr.append(" '"+measure.get(0).getId().toString()+"' , 0,0,0,0 , 0 ,2,0,1,0 ,0,0,0,0,'SdQ8j/QxRueXfLDTP9izyRRbtvQ=',0 	 )"); 
+					pe.getSqlList().add(comsbr);*/
+				}
+			}
+		} catch (BOSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		  
+		 
+	    
+		
+		
+		return pe;
+	}
+
+
 	public static MaterialInfo createInfo(Context ctx, Map dataMap ) throws BOSException, EASBizException, ParseException {
 		MaterialInfo material = null;
 
@@ -255,4 +383,97 @@ public class MaterialUntil {
 		return material;
 	}
 	
+	
+
+	  private static ArrayList<String> getAllCtrlOrgIDs(Context ctx){
+		  ArrayList<String>  ids = new ArrayList<String>();
+		  StringBuffer sbr = new  StringBuffer(); 
+	 	  sbr.append(" SELECT FID FROM T_ORG_CtrlUnit  \r\n"); 
+	 	  sbr.append(" WHERE (FID <> '11111111-1111-1111-1111-111111111111CCE7AED4') AND FIsOUSealUp = 0 AND (FLongNumber LIKE 'M%')  \r\n"); 
+	 	  sbr.append(" ORDER BY FLongNumber ASC  \r\n");   
+		  try {
+			  IRowSet rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, sbr.toString());
+			  if(rs!=null){
+				  while(rs.next()){
+					  ids.add( rs.getObject("FID").toString());
+				  }
+			  }
+		} catch (BOSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		  return ids ;
+	  }
+	
+	  // 获取没有分配的公司id集合
+	  private static ArrayList<String> getNoAssignMaterialIDS(Context ctx,String ctrlId,String materialid,String ope){
+		  ArrayList<String>  ids = new ArrayList<String>();
+		  StringBuffer sbr = new  StringBuffer();  
+		  if(ope.equals("purchase")){
+			  //采购资料
+			  sbr.append("select fid from t_org_company c1 \r\n");
+			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and \r\n");
+			  sbr.append("not exists ( \r\n");
+			  sbr.append("select 1 from T_BD_MaterialPurchasing mc2  \r\n");
+			  sbr.append("inner join t_org_company org2 on org2.fid = mc2.FOrgUnit  \r\n");
+			  sbr.append("where org2.fcontrolunitid = c1.fcontrolunitid and mc2.FOrgUnit = c1.fid  \r\n");
+			  sbr.append("and mc2.FMaterialID='"+materialid+"' )  \r\n"); 
+		  }else if(ope.equals("company")){
+			  //财务资料   这个单独处理 不走此查询
+			  sbr.append("select fid from t_org_company c1 \r\n");
+			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and \r\n");
+			  sbr.append("not exists ( \r\n");
+			  sbr.append("select 1 from T_BD_MaterialCompanyInfo mc2  \r\n");
+			  sbr.append("inner join t_org_company org2 on org2.fid = mc2.FCompanyID  \r\n");
+			  sbr.append("where org2.fcontrolunitid = c1.fcontrolunitid and mc2.FCompanyID = c1.fid  \r\n");
+			  sbr.append("and mc2.FMaterialID='"+materialid+"' )  \r\n"); 
+		  }else if(ope.equals("sales")){
+			  //销售资料
+			  sbr.append("select fid from t_org_company c1 \r\n");
+			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and \r\n");
+			  sbr.append("not exists ( \r\n");
+			  sbr.append("select 1 from T_BD_MaterialSales mc2  \r\n");
+			  sbr.append("inner join t_org_company org2 on org2.fid = mc2.FOrgUnit  \r\n");
+			  sbr.append("where org2.fcontrolunitid = c1.fcontrolunitid and mc2.FOrgUnit = c1.fid  \r\n");
+			  sbr.append("and mc2.FMaterialID='"+materialid+"' )  \r\n"); 
+		  }else if(ope.equals("inven")){
+			  //库存资料
+			  sbr.append("select fid from t_org_company c1 \r\n");
+			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and \r\n");
+			  sbr.append("not exists ( \r\n");
+			  sbr.append("select 1 from T_BD_MaterialInventory mc2  \r\n");
+			  sbr.append("inner join t_org_company org2 on org2.fid = mc2.FOrgUnit  \r\n");
+			  sbr.append("where org2.fcontrolunitid = c1.fcontrolunitid and mc2.FOrgUnit = c1.fid  \r\n");
+			  sbr.append("and mc2.FMaterialID='"+materialid+"' )  \r\n"); 
+		  }else if(ope.equals("cost")){
+			  //成本资料
+			  sbr.append("select fid from t_org_company c1 \r\n");
+			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and \r\n");
+			  sbr.append("not exists ( \r\n");
+			  sbr.append("select 1 from T_BD_MaterialCost mc2  \r\n");
+			  sbr.append("inner join t_org_company org2 on org2.fid = mc2.FOrgUnit  \r\n");
+			  sbr.append("where org2.fcontrolunitid = c1.fcontrolunitid and mc2.FOrgUnit = c1.fid  \r\n");
+			  sbr.append("and mc2.FMaterialID='"+materialid+"' )  \r\n"); 
+		  }
+
+		  try {
+			  IRowSet rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, sbr.toString());
+			  if(rs!=null){
+				  while(rs.next()){
+					  ids.add( rs.getObject("fid").toString());
+				  }
+			  }
+		} catch (BOSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		  return ids ;
+	  }
+	  
 }

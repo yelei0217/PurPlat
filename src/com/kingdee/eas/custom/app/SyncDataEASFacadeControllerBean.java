@@ -70,40 +70,6 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     		}else if(type ==2){
     			getlogInfo(ctx , map ,  DateBasetype.Supplier ,flag);
     			  
-    			CompanyOrgUnitInfo companyInfo = CompanyOrgUnitFactory.getLocalInstance(ctx).getCompanyOrgUnitInfo("where id='"+ map.get("FORGNUMBER").toString()+ "'");
-    			
-    			String supsql = " /*dialect*/ SELECT supplier.fid  fId, supplier.fnumber fNumber, supplier.fname_l2  fName ,'' fOpenBank , '' fBankAccount  ,  "+
-    			  " cuser.fname_l2  fCreator ,  to_char( supplier.FCREATETIME ,'yyyy-mm-dd' ) fCreateTime ,to_char( supplier.FLASTUPDATETIME  ,'yyyy-mm-dd' ) fUpdateTime   "+
-    			  " FROM   T_BD_Supplier supplier   "+
-    			  " inner join  T_PM_User  cuser on cuser.fid= supplier.FCREATORID  "+
-          		  " where  supplier.fnumber  = '"+number+"' ";
-	    		IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,supsql);
-				if(rs!=null && rs.size() > 0){
-					  try {
-						while(rs.next()){	 
-							map.put("fId",rs.getString("FID") );
-							map.put("fNumber",rs.getString("FNUMBER") );
-							map.put("fName",rs.getString("FNAME") );
-							map.put("fOpenBank",rs.getString("FOPENBANK") );
-							map.put("fBankAccount",rs.getString("FBANKACCOUNT") );
-							map.put("fCreator",rs.getString("FCREATOR") );
-							map.put("fCreateTime",rs.getString("FCREATETIME") );
-							map.put("fUpdateTime",rs.getString("FUPDATETIME") ); 
-							
-							map.put("fIsGroup",map.get("FISGROUP") ); 
-							map.put("fOrgNumber",companyInfo.getNumber() ); 
-							map.put("fOrgName",companyInfo.getName() ); 
-							map.put("fStatus","0" ); 
-							map.put("fOrgtId",companyInfo.getId().toString() ); 
-							map.put("fUpdateType",map.get("FSTATUS") );  
-							
-						}
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			
     		}else if(type ==3){
     			getlogInfo(ctx , map ,  DateBasetype.orgUnit ,flag);
     		}else if(type ==4){
@@ -174,9 +140,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     			String orgid = map.get("FORGTID").toString();
     			if( "jbYAAAMU2SvM567U".equals(orgid)){//B2B
 					 
-				}else{//¸øhis
-					
-
+				}else{//¸øhis 
 					List<Map<String,String>> eMps = new ArrayList<Map<String,String>>();
 					if(newOrDele ==1 ){
 						eMps.add(mapWar);
@@ -207,7 +171,6 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					}
 					
 				}
-    			
     			getlogInfo(ctx , map ,  DateBasetype.FreeItem ,flag );
     		}
     		 
@@ -287,7 +250,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				
 				
 				String upEndsql = " update CT_CUS_PurPlatSyncdbLog set cfIsSync = 0 where  fid in ("+ids+") ";
-				com.kingdee.eas.custom.util.DBUtil.execute(ctx,upsql);
+				com.kingdee.eas.custom.util.DBUtil.execute(ctx,upEndsql);
 				
 			}
 			

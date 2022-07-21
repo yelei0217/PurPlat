@@ -42,9 +42,9 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
         Logger.getLogger("com.kingdee.eas.custom.app.SyncDataEASFacadeControllerBean");
 
 
-    private static String warurl = "http://sr.wellekq.com:10090/his-/his-war/notify/receiveClinicStore"; //测试地址
+    private static String warurl = "http://sr.wellekq.com:10090/his-war/notify/receiveClinicStore"; //测试地址
 
-    private static String warJinYongurl = "http://sr.wellekq.com:10090//his-war/notify/updateClinicStoreStatus"; //测试地址
+    private static String warJinYongurl = "http://sr.wellekq.com:10090/his-war/notify/updateClinicStoreStatus"; //测试地址
     
     /**
      * type   :  1:客户  2：供应商  3：组织  4 人员  5 仓库   
@@ -137,35 +137,45 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     		}else if(type ==5){
     			Map<String, String> mapWar = new  HashMap<String, String>();
     			mapWar = (Map) JSONObject.parse(data);
-    			String orgid = map.get("FORGTID").toString();
+    			Map<String, String> mapRet = new  HashMap<String, String>();
+    			
+    			String orgid = mapWar.get("forgId").toString();
     			if( "jbYAAAMU2SvM567U".equals(orgid)){//B2B
 					 
 				}else{//给his 
 					List<Map<String,String>> eMps = new ArrayList<Map<String,String>>();
 					if(newOrDele ==1 ){
 						eMps.add(mapWar);
-						//Map<String,Object> mp = new HashMap<String,Object>();
-						//mp.put("subList", eMps);
+						Map<String,Object> mp = new HashMap<String,Object>();
+						mp.put("subList", eMps);
 						
 						System.out.println("########  body ########"+JSONObject.toJSONString(eMps));
 						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 , warurl);
 						logger.info("发送仓库,"+mapWar+"通知给his系统，result：" + result);
 						System.out.println("########  result ########"+result);
+						
+						mapRet = (Map) JSONObject.parse(result);  
+						if(mapRet.get("flag") != null && "1".equals(mapRet.get("flag").toString())){
+							flag=true;
+						}
 						map.put("RESJSON", result);
 						map.put("JSON", JSONObject.toJSONString(eMps));
 					}else if(newOrDele ==0 ){ 
 						Map<String, String> mapNew = new  HashMap<String, String>();
-						mapNew.put("fId",mapWar.get("fId").toString()); 
-						mapNew.put("fStatus","2" );
+						mapNew.put("fid",mapWar.get("fId").toString()); 
+						mapNew.put("fstatus","2" );
 						
 						eMps.add(mapNew);
-						//Map<String,Object> mp = new HashMap<String,Object>();
-						//mp.put("subList", eMps);
+						Map<String,Object> mp = new HashMap<String,Object>();
+						mp.put("subList", eMps);
 						
 						System.out.println("########  body ########"+JSONObject.toJSONString(eMps));
 						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 ,warJinYongurl);
 						logger.info("发送仓库禁用信息,"+mapWar+"通知给his系统，result：" + result);
 						System.out.println("########  result ########"+result);
+						if(mapRet.get("flag") != null && "1".equals(mapRet.get("flag").toString())){
+							flag=true;
+						}
 						map.put("RESJSON", result);
 						map.put("JSON", JSONObject.toJSONString(eMps));
 					}
@@ -564,6 +574,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 	   	        } catch (Exception e) {
 	   	            System.out.println("发送 POST 请求出现异常！"+e);
 	   	            e.printStackTrace();
+	   	            return  e.getMessage();
 	   	        }
 	   	        //使用finally块来关闭输出流、输入流
 	   	        finally{
@@ -577,6 +588,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 	   	            }
 	   	            catch(IOException ex){
 	   	                ex.printStackTrace();
+	   	                return  ex.getMessage();
 	   	            }
 	   	        }
 	        }

@@ -197,6 +197,9 @@ public class MaterialUntil {
 				MeasureUnitCollection measure = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitCollection(" where number = '"+dataMap.get("fPurUnit").toString()+"'");
 				MeasureUnitCollection salemeasure = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitCollection(" where number = '"+dataMap.get("fSaleUnit").toString()+"'");
 				
+				MeasureUnitCollection kcmeasure = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitCollection(" where number = '"+dataMap.get("fInvUnit").toString()+"'");
+			 
+				
 				
 				MaterialInfo ma = createInfo(  ctx,   dataMap );
 				IObjectPK pk = imbiz.addnew(ma);
@@ -216,10 +219,10 @@ public class MaterialUntil {
 		    		
 		    		 //采购资料  
 				    StringBuffer pusbr  = new StringBuffer(" INSERT INTO T_BD_MaterialPurchasing (   fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
-				    pusbr.append(" FUNITID , FRECEIVETOPRATIO ,FRECEIVEBOTTOMRATIO, FDAYDAHEAD ,FDAYSDELAY ,FISRETURN ,FEFFECTEDSTATUS ,FPURCHASECHECK ,FISNOTCONTROLTIME ,FISNOTCONTROLQTY ,FISPURCHASECHECK , " +
-				    		" FFINEQUALITYFAIRPRICE,FUSESUPPLYLIST ,FUSESUPPLYPRICE ,FQUOTAPOLICYID ,FMINDIVISIONQTY  ) ");
+				    pusbr.append(" FUNITID , FRECEIVETOPRATIO ,FRECEIVEBOTTOMRATIO, FDAYDAHEAD ,FDAYSDELAY ,   FISRETURN ,FEFFECTEDSTATUS ,FPURCHASECHECK ,FISNOTCONTROLTIME ,FISNOTCONTROLQTY ,FISPURCHASECHECK , " +
+				    		" FFINEQUALITYFAIRPRICE,FUSESUPPLYLIST ,FUSESUPPLYPRICE ,FQUOTAPOLICYID ,FMINDIVISIONQTY ,FPRICE  ,FPRICETOP , FQuotaPeriod) ");
 				    pusbr.append(" values(newbosid('0193BD9B'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+cid+"', '' , '"+pk.toString()+"', ");
-				    pusbr.append(" '"+measure.get(0).getId().toString()+"' , 0,0,0,0 , 0 ,2,0,1,0 ,0,0,0,0,'SdQ8j/QxRueXfLDTP9izyRRbtvQ=',0 	 )"); 
+				    pusbr.append(" '"+measure.get(0).getId().toString()+"' , 0,0,0,0    , 0 ,2,0,1,0 ,0   ,0,0,1,'SdQ8j/QxRueXfLDTP9izyRRbtvQ=',0 ,0,0,1	 )"); 
 		    		pe.getSqlList().add(pusbr);
 		    		 
 		    		
@@ -230,8 +233,18 @@ public class MaterialUntil {
 		    		salesbr.append("  0,0,0,'"+salemeasure.get(0).getId().toString()+"',0,0,0,0,-1,2,0,0,0,0	 )"); 
 		    		pe.getSqlList().add(salesbr);
 		    		 
+		    		//库存资料 
+		    		StringBuffer kcsbr  = new StringBuffer(" INSERT INTO T_BD_MaterialInventory (  fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
 		    		
-		    		
+		    		kcsbr.append(" FISCONTROL ,FQTYSAFETY ,FQTYMIN ,FQTYMAX ,FDAYSBOTTOM  ,FDAYSTOP ,FDAYSTURNOVER ,FISNEGATIVE ,FISBATCHNO FISSEQUENCENO ,FISLOTNUMBER ,FISBARCODE ,FQTYMINPACKAGE ,FABCTYPE ,FISCOMPAGES ,FISSUEPRIORITYMODE ,  ");
+		    		kcsbr.append(" FUNITID , FEFFECTEDSTATUS , FISPERIODVALID ,FPERIODVALID ,FPERIODVALIDUNIT ,FINWAREHSAHEAD , FOUTWAREHSAHEAD , FPREPWARNAHEAD ,FAHEADUNIT , FPLANNINGMODE ,FREBOOKQTY , FCONSUMESPEED ,FPURCHASINGAHEADDATE ,  ");
+		    		kcsbr.append(" FBATCHPOLICY ,FFIXATIONBATCHQTY ,FDAYSPLANTURNOVER ,FCHEAPRATE ,FISCHECK ,FTOOLRATE ,FISPROJECTNUMBER ,FISTRACKINGNUMBER ,FISRESERVATION ,FRESERVATIONDATE ,FCLOSEDATECALMODE )  ");
+		    		kcsbr.append("   ");
+		    		kcsbr.append(" values(newbosid('557E499F'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+cid+"', '' , '"+pk.toString()+"', ");
+		    		kcsbr.append("  0, 0,0,0, 0 , 0 , 0,0, 0 ,0,, 0 , 0 ,0,-1  ,0 ,    -1 , '"+kcmeasure.get(0).getId().toString()+"' ,2       ,  0 ,0, 3,      0  ， 0,    0 ,  3,      0 ,   0 ,0,0,1,0,0,0,  0 ,   0,   0,0,0,0,0 )"); 
+		    		pe.getSqlList().add(kcsbr);
+		    		  
+		    		 
 					if(!"00000000-0000-0000-0000-000000000000CCE7AED4".equals(cid)){
 						//成本资料
 						ArrayList<String> companyIds  =getNoAssignMaterialIDS(ctx,cid,pk.toString(),"cost");
@@ -251,24 +264,41 @@ public class MaterialUntil {
 					    		
 							    StringBuffer sbr2  = new StringBuffer(" INSERT INTO T_BD_MaterialPurchasing (   fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
 							    sbr2.append(" FUNITID , FRECEIVETOPRATIO ,FRECEIVEBOTTOMRATIO, FDAYDAHEAD ,FDAYSDELAY ,FISRETURN ,FEFFECTEDSTATUS ,FPURCHASECHECK ,FISNOTCONTROLTIME ,FISNOTCONTROLQTY ,FISPURCHASECHECK , " +
-							    		" FFINEQUALITYFAIRPRICE,FUSESUPPLYLIST ,FUSESUPPLYPRICE ,FQUOTAPOLICYID ,FMINDIVISIONQTY  ) ");
+							    		" FFINEQUALITYFAIRPRICE,FUSESUPPLYLIST ,FUSESUPPLYPRICE ,FQUOTAPOLICYID ,FMINDIVISIONQTY ,FPRICE  ,FPRICETOP , FQuotaPeriod  ) ");
 							    sbr2.append(" values(newbosid('0193BD9B'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+comid+"', '' , '"+pk.toString()+"', ");
-							    sbr2.append(" '"+measure.get(0).getId().toString()+"' , 0,0,0,0 , 0 ,2,0,1,0 ,0,0,0,0,'SdQ8j/QxRueXfLDTP9izyRRbtvQ=',0 	 )"); 
+							    sbr2.append(" '"+measure.get(0).getId().toString()+"' , 0,0,0,0 , 0 ,2,0,1,0 ,0,0,0,0,'SdQ8j/QxRueXfLDTP9izyRRbtvQ=',0 ,0,0,1	 )"); 
 					    		pe.getSqlList().add(sbr2); 
 					    	}
 					    }  					   
-					    //采购资料 
+					    //销售资料 
 					    ArrayList<String>  salecompanyIds  = getNoAssignMaterialIDS(ctx,cid,pk.toString(),"sales");
 					    if(salecompanyIds!=null &&salecompanyIds.size()>0){
 					    	for(String comid : salecompanyIds){
 					    		
-							    StringBuffer sbr2  = new StringBuffer(" INSERT INTO T_BD_MaterialSales (    INSERT INTO T_BD_MaterialPurchasing (    fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
+							    StringBuffer sbr2  = new StringBuffer(" INSERT INTO T_BD_MaterialSales (   fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID , ");
 							    sbr2.append(" FISRETURN ,FISNOTCHECKONRETURN ,FISRECEIVBYCHECK ,FUNITID ,FISSUETOPRATIO ,FISSUEBOTTOMRATIO ,FDAYDAHEAD ,FDAYSDELAY ,FABCTYPE ,FEFFECTEDSTATUS ,FISPURBYSALE ,FISCONSIGNCHECK ,FINNERPRICERATE ,FCHEAPRATE )");
 							    sbr2.append(" values(newbosid('C84112CF'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+comid+"', '' , '"+pk.toString()+"', ");
 							    sbr2.append(" 0,0,0,'"+salemeasure.get(0).getId().toString()+"',0,0,0,0,-1,2,0,0,0,0		 )"); 
 					    		pe.getSqlList().add(sbr2); 
 					    	}
 					    }  
+					    //库存资料
+					    ArrayList<String>  kccompanyIds  = getNoAssignMaterialIDS(ctx,cid,pk.toString(),"inven");
+					    if(kccompanyIds!=null &&kccompanyIds.size()>0){
+					    	for(String comid : kccompanyIds){
+					    		
+							    StringBuffer sbr2  = new StringBuffer(" INSERT INTO T_BD_MaterialInventory (  fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
+			    		
+							    sbr2.append(" FISCONTROL ,FQTYSAFETY ,FQTYMIN ,FQTYMAX ,FDAYSBOTTOM  ,FDAYSTOP ,FDAYSTURNOVER ,FISNEGATIVE ,FISBATCHNO FISSEQUENCENO ,FISLOTNUMBER ,FISBARCODE ,FQTYMINPACKAGE ,FABCTYPE ,FISCOMPAGES ,FISSUEPRIORITYMODE ,  ");
+							    sbr2.append(" FUNITID , FEFFECTEDSTATUS , FISPERIODVALID ,FPERIODVALID ,FPERIODVALIDUNIT ,FINWAREHSAHEAD , FOUTWAREHSAHEAD , FPREPWARNAHEAD ,FAHEADUNIT , FPLANNINGMODE ,FREBOOKQTY , FCONSUMESPEED ,FPURCHASINGAHEADDATE ,  ");
+							    sbr2.append(" FBATCHPOLICY ,FFIXATIONBATCHQTY ,FDAYSPLANTURNOVER ,FCHEAPRATE ,FISCHECK ,FTOOLRATE ,FISPROJECTNUMBER ,FISTRACKINGNUMBER ,FISRESERVATION ,FRESERVATIONDATE ,FCLOSEDATECALMODE )  ");
+							    sbr2.append("   ");
+							    sbr2.append(" values(newbosid('557E499F'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+comid+"', '' , '"+pk.toString()+"', ");
+							    sbr2.append("  0, 0,0,0, 0 , 0 , 0,0, 0 ,0,, 0 , 0 ,0,-1  ,0 ,    -1 , '"+kcmeasure.get(0).getId().toString()+"' ,2       ,  0 ,0, 3,      0  ， 0,    0 ,  3,      0 ,   0 ,0,0,1,0,0,0,  0 ,   0,   0,0,0,0,0 )"); 
+					    		pe.getSqlList().add(sbr2); 
+					    	}
+					    }  
+					   
 			    		
 					} 
 				}
@@ -310,6 +340,10 @@ public class MaterialUntil {
 				    comsbr.append(" values(newbosid('0193BD9B'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+cid+"', '' , '"+pk.toString()+"', ");
 				    comsbr.append(" '"+measure.get(0).getId().toString()+"' , 0,0,0,0 , 0 ,2,0,1,0 ,0,0,0,0,'SdQ8j/QxRueXfLDTP9izyRRbtvQ=',0 	 )"); 
 					pe.getSqlList().add(comsbr);*/
+					if(!"00000000-0000-0000-0000-000000000000CCE7AED4".equals(cityid)){
+						
+					}
+					
 				}
 			}
 		} catch (BOSException e) {

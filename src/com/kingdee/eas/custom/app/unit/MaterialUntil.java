@@ -334,14 +334,36 @@ public class MaterialUntil {
 					String cityid = rs.getObject("CID").toString();
 					String kaclid = rs.getObject("LID").toString();
 					
-					/*StringBuffer comsbr  = new StringBuffer(" INSERT INTO T_BD_MaterialCompanyInfo (   fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID , FSTATUS ,FORGUNIT ,FFREEZEORGUNIT ,FMATERIALID ,");
-				    comsbr.append(" FUNITID , FRECEIVETOPRATIO ,FRECEIVEBOTTOMRATIO, FDAYDAHEAD ,FDAYSDELAY ,FISRETURN ,FEFFECTEDSTATUS ,FPURCHASECHECK ,FISNOTCONTROLTIME ,FISNOTCONTROLQTY ,FISPURCHASECHECK , " +
-				    		" FFINEQUALITYFAIRPRICE,FUSESUPPLYLIST ,FUSESUPPLYPRICE ,FQUOTAPOLICYID ,FMINDIVISIONQTY  ) ");
-				    comsbr.append(" values(newbosid('0193BD9B'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cid+"',  1 , '"+cid+"', '' , '"+pk.toString()+"', ");
-				    comsbr.append(" '"+measure.get(0).getId().toString()+"' , 0,0,0,0 , 0 ,2,0,1,0 ,0,0,0,0,'SdQ8j/QxRueXfLDTP9izyRRbtvQ=',0 	 )"); 
-					pe.getSqlList().add(comsbr);*/
+					StringBuffer comsbr  = new StringBuffer(" INSERT INTO T_BD_MaterialCompanyInfo ( fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID ,  FMATERIALID , FCOMPANYID ,FKACLASSID , ");
+				    comsbr.append(" FACCOUNTTYPE  , FSTANDARDCOST  ,FEFFECTEDSTATUS ,FCALCULATETYPE FSTATUS ,FCREATECOBYORDER ,FISLOT   ,FISASSISTPROPERTY ,FISPROJECT ,FISTRACKNUMBER  ) ");
+				    comsbr.append(" values(newbosid('D431F8BB'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cityid+"',  '"+materialid+"' , '"+cityid+"', '"+kaclid+"' , ");
+				    comsbr.append(" ' 4, 0 ,2,0,1,0,0,0,0,0	 )"); 
+					pe.getSqlList().add(comsbr);
 					if(!"00000000-0000-0000-0000-000000000000CCE7AED4".equals(cityid)){
+						 
+						StringBuffer comsbrsql = new  StringBuffer(); 
+						comsbrsql.append(" /*dialect*/select c1.fid  FID , kacl.FID KID from t_org_company c1   \r\n"); 
+						comsbrsql.append(" left join T_BD_KAClassfication kacl on kacl.fnumber = '"+kaclass+"' and  kacl.FCURRENCYCOMPANY  = cunit.fid  \r\n"); 
+						comsbrsql.append(" where c1.fcontrolunitid = '"+cityid+"' and    \r\n"); 
+						comsbrsql.append(" not exists (   \r\n"); 
+						comsbrsql.append(" select 1 from T_BD_MaterialCompanyInfo mc2     \r\n"); 
+						comsbrsql.append(" inner join t_org_company org2 on org2.fid = mc2.FCompanyID    \r\n"); 
+						comsbrsql.append(" where org2.fcontrolunitid = c1.fcontrolunitid and mc2.FCompanyID = c1.fid    \r\n"); 
+						comsbrsql.append(" and mc2.FMaterialID='"+materialid+"' )    \r\n"); 
 						
+						IRowSet rsCom = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, comsbrsql.toString());
+						if(rsCom!=null && rsCom.size() > 0){
+							while(rsCom.next()){
+								String comid = rs.getObject("FID").toString();
+								String kacComlid = rs.getObject("KID").toString();
+								
+								StringBuffer sbr2  = new StringBuffer(" INSERT INTO T_BD_MaterialCompanyInfo ( fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID ,  FMATERIALID , FCOMPANYID ,FKACLASSID , ");
+							    sbr2.append(" FACCOUNTTYPE  , FSTANDARDCOST  ,FEFFECTEDSTATUS ,FCALCULATETYPE FSTATUS ,FCREATECOBYORDER ,FISLOT   ,FISASSISTPROPERTY ,FISPROJECT ,FISTRACKNUMBER  ) ");
+							    sbr2.append(" values(newbosid('D431F8BB'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cityid+"',  '"+materialid+"' , '"+comid+"', '"+kacComlid+"' , ");
+							    sbr2.append(" ' 4, 0 ,2,0,1,0,0,0,0,0	 )"); 
+							    pe.getSqlList().add(sbr2); 
+							}
+						}   
 					}
 					
 				}

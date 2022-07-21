@@ -48,7 +48,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     
     /**
      * type   :  1:客户  2：供应商  3：组织  4 人员  5 仓库   
-     * newOrDele ： 1 新增 0 禁用
+     * newOrDele : 0:新增 ; 1启用 ; 2:禁用
      */
     @Override
 	protected void _syncDateByType(Context ctx, int type, String data,
@@ -66,14 +66,14 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
         	String retMsg = "";
         	map.put("RESJSON", "");
     		if(type ==1){ 
-    			getlogInfo(ctx , map ,  DateBasetype.Customer  ,flag);
+    			getlogInfo(ctx , map ,  DateBasetype.Customer ,DateBaseProcessType.AddNew ,flag);
     		}else if(type ==2){
-    			getlogInfo(ctx , map ,  DateBasetype.Supplier ,flag);
+    			getlogInfo(ctx , map ,  DateBasetype.Supplier ,DateBaseProcessType.AddNew,flag);
     			  
     		}else if(type ==3){
-    			getlogInfo(ctx , map ,  DateBasetype.orgUnit ,flag);
+    			getlogInfo(ctx , map ,  DateBasetype.orgUnit ,DateBaseProcessType.AddNew,flag);
     		}else if(type ==4){
-    			getlogInfo(ctx , map ,  DateBasetype.Person ,flag);
+    			getlogInfo(ctx , map ,  DateBasetype.Person ,DateBaseProcessType.AddNew,flag);
     			
 
     			/* SELECT    person.fid , person.fnumber, person.fname_l2 ,pmuser.FNUMBER  ,empposition.fid ,   
@@ -129,7 +129,6 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 							map.put("fEmpNumber",rs.getString("FEMPNUMBER") );  
 						  }
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -138,13 +137,13 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     			Map<String, String> mapWar = new  HashMap<String, String>();
     			mapWar = (Map) JSONObject.parse(data);
     			Map<String, String> mapRet = new  HashMap<String, String>();
-    			
+    			DateBaseProcessType processType = null;
     			String orgid = mapWar.get("forgId").toString();
     			if( "jbYAAAMU2SvM567U".equals(orgid)){//B2B
 					 
 				}else{//给his 
 					List<Map<String,String>> eMps = new ArrayList<Map<String,String>>();
-					if(newOrDele ==1 ){
+					if(newOrDele == 0 ){
 						eMps.add(mapWar);
 						Map<String,Object> mp = new HashMap<String,Object>();
 						mp.put("subList", eMps);
@@ -155,14 +154,35 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						System.out.println("########  result ########"+result);
 						
 						mapRet = (Map) JSONObject.parse(result);  
-						if(mapRet.get("flag") != null && "1".equals(mapRet.get("flag").toString())){
+						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
 							flag=true;
 						}
 						map.put("RESJSON", result);
 						map.put("JSON", JSONObject.toJSONString(eMps));
-					}else if(newOrDele ==0 ){ 
+						processType = DateBaseProcessType.AddNew;
+					}else if(newOrDele == 1 ){ 
 						Map<String, String> mapNew = new  HashMap<String, String>();
-						mapNew.put("fid",mapWar.get("fId").toString()); 
+						mapNew.put("fid",mapWar.get("fid").toString()); 
+						mapNew.put("fstatus","1" );
+						
+						eMps.add(mapNew);
+						Map<String,Object> mp = new HashMap<String,Object>();
+						mp.put("subList", eMps);
+						
+						System.out.println("########  body ########"+JSONObject.toJSONString(eMps));
+						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 ,warJinYongurl);
+						logger.info("发送仓库启用信息,"+mapWar+"通知给his系统，result：" + result);
+						System.out.println("########  result ########"+result);
+						mapRet = (Map) JSONObject.parse(result);  
+						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
+							flag=true;
+						}
+						map.put("RESJSON", result);
+						map.put("JSON", JSONObject.toJSONString(eMps));
+						processType = DateBaseProcessType.ENABLE; 
+					}else if(newOrDele == 2 ){ 
+						Map<String, String> mapNew = new  HashMap<String, String>();
+						mapNew.put("fid",mapWar.get("fid").toString()); 
 						mapNew.put("fstatus","2" );
 						
 						eMps.add(mapNew);
@@ -173,26 +193,25 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 ,warJinYongurl);
 						logger.info("发送仓库禁用信息,"+mapWar+"通知给his系统，result：" + result);
 						System.out.println("########  result ########"+result);
-						if(mapRet.get("flag") != null && "1".equals(mapRet.get("flag").toString())){
+						mapRet = (Map) JSONObject.parse(result);  
+						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
 							flag=true;
 						}
 						map.put("RESJSON", result);
 						map.put("JSON", JSONObject.toJSONString(eMps));
+						processType = DateBaseProcessType.DisAble;
 					}
-					
 				}
-    			getlogInfo(ctx , map ,  DateBasetype.FreeItem ,flag );
+    			getlogInfo(ctx , map,DateBasetype.FreeItem ,processType,flag );
     		}
-    		 
 		} catch (EASBizException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
     	
 	}
 
-	public PurPlatSyncdbLogInfo getlogInfo(Context ctx , Map<String, String> map,DateBasetype dateBasetype, boolean flag)
+	public PurPlatSyncdbLogInfo getlogInfo(Context ctx , Map<String, String> map,DateBasetype dateBasetype,DateBaseProcessType processType, boolean flag)
 	throws BOSException, EASBizException {
 		Calendar cal = Calendar.getInstance();
 		PurPlatSyncdbLogInfo loginfo = new PurPlatSyncdbLogInfo();
@@ -207,6 +226,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 		loginfo.setMessage(map.get("JSON").toString());
 		loginfo.setRespond(map.get("RESJSON").toString());
 		loginfo.setStatus(flag);
+		loginfo.setProcessType(processType);
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		loginfo.setIsSync(false); 

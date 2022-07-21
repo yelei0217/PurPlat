@@ -87,7 +87,7 @@ public class WarehouseControllerBeanEx extends WarehouseControllerBean{
 			if(map.size() >0){
 				String datajsonStr = JSONObject.toJSONString(map);
 				ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(arg0);
-				is.syncDateByType( 5 , datajsonStr , 1  , map.get("fname") ,map.get("fnumber") );
+				is.syncDateByType( 5 , datajsonStr , 0 , map.get("fname") ,map.get("fnumber") );
 			}
 		}
 		return id;

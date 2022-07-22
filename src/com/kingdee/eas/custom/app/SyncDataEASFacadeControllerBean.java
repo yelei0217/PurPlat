@@ -379,7 +379,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的名称不能为空"; flag = false;
 					continue;
 				}  
-				if (dataMap.get("fModel")== null || "".equals(dataMap.get("fModel").toString()) ) { 
+				/*if (dataMap.get("fModel")== null || "".equals(dataMap.get("fModel").toString()) ) { 
 					error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的型号不能为空";  flag = false;
 					continue;
 				}
@@ -391,7 +391,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				if (dataMap.get("fBrand")== null || "".equals(dataMap.get("fBrand").toString()) ) { 
 					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的品牌不能为空"; flag = false;
 					continue;
-				}
+				}*/
 				if (dataMap.get("fMaterialGroup")== null || "".equals(dataMap.get("fMaterialGroup").toString()) ) { 
 					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的物料类别不能为空"; flag = false;
 					continue;
@@ -405,35 +405,33 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
-				if (dataMap.get("fCreateTime")== null || "".equals(dataMap.get("fCreateTime").toString()) ) { 
-					error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的创建时间不能为空"; flag = false;
-					continue;
-				}
-				String createTime = dataMap.get("fCreateTime").toString();
 				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-				try {
-					Date date = sdf1.parse(createTime);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
-					error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的创建时间格式不正确;"; flag = false;
-					continue;
+				
+				if (dataMap.get("fCreateTime")!= null &&  !"".equals(dataMap.get("fCreateTime").toString()) ) { 
+					String createTime = dataMap.get("fCreateTime").toString();
 					
+					try {
+						Date date = sdf1.parse(createTime);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+						error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的创建时间格式不正确;"; flag = false;
+						continue;
+						
+					}
 				}
-				if (dataMap.get("fUpdateTime")== null || "".equals(dataMap.get("fUpdateTime").toString()) ) { 
-					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的最后修改时间不能为空"; flag = false;
-					continue;
-				}
-				String updateTime = dataMap.get("fUpdateTime").toString(); 
-				try {
-					Date date = sdf1.parse(updateTime);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
-					error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的最后修改时间格式不正确;"; flag = false;
-					continue;
+				
+				if (dataMap.get("fUpdateTime")!= null && !"".equals(dataMap.get("fUpdateTime").toString()) ) { 
+					String updateTime = dataMap.get("fUpdateTime").toString(); 
+					try {
+						Date date = sdf1.parse(updateTime);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+						error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的最后修改时间格式不正确;"; flag = false;
+						continue;
+						
+					}
 					
 				}
 				
@@ -508,7 +506,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}if("1".equals(map.get("operType").toString())){
+			}if("1".equals(map.get("operType").toString())){//修改
 				
 				if (dataMap.get("fNumber")== null || "".equals(dataMap.get("fNumber").toString()) ) { 
 					error = error+ "物料编码不能为空;"; flag = false;
@@ -518,8 +516,8 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				 
 				String  number  = dataMap.get("fNumber").toString() ;
 				try {
-					if ( !"0".equals(map.get("operType").toString()) && imbiz.exists("where number = '"+number+"'") ) { 
-						error = error+ "物料编码已存在;"; flag = false;
+					if (  !imbiz.exists("where number = '"+number+"'") ) { 
+						error = error+ "物料编码不存在;"; flag = false;
 						continue;
 					}
 				} catch (EASBizException e1) {
@@ -531,7 +529,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的名称不能为空"; flag = false;
 					continue;
 				}  
-				if (dataMap.get("fModel")== null || "".equals(dataMap.get("fModel").toString()) ) { 
+				/*if (dataMap.get("fModel")== null || "".equals(dataMap.get("fModel").toString()) ) { 
 					error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的型号不能为空";  flag = false;
 					continue;
 				}
@@ -543,7 +541,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				if (dataMap.get("fBrand")== null || "".equals(dataMap.get("fBrand").toString()) ) { 
 					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的品牌不能为空"; flag = false;
 					continue;
-				}
+				}*/
 				if (dataMap.get("fMaterialGroup")== null || "".equals(dataMap.get("fMaterialGroup").toString()) ) { 
 					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的物料类别不能为空"; flag = false;
 					continue;

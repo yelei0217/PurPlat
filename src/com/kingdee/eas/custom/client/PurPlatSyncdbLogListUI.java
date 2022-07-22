@@ -7,6 +7,7 @@ import java.awt.event.*;
 import org.apache.log4j.Logger;
 import com.kingdee.bos.ui.face.CoreUIObject;
 import com.kingdee.bos.dao.IObjectValue;
+import com.kingdee.eas.custom.SyncDataEASFacadeFactory;
 import com.kingdee.eas.framework.*;
 
 /**
@@ -77,7 +78,8 @@ public class PurPlatSyncdbLogListUI extends AbstractPurPlatSyncdbLogListUI
      */
     public void actionAbout_actionPerformed(ActionEvent e) throws Exception
     {
-        super.actionAbout_actionPerformed(e);
+        //super.actionAbout_actionPerformed(e);
+    	SyncDataEASFacadeFactory.getRemoteInstance().materialSyncFun("");
     }
 
     /**

@@ -43,6 +43,7 @@ public class MaterialUntil {
 
 	public String doCreateMaterial(Context ctx, String data) throws BOSException{
 		
+		data = "{\"msgId\":\"pkKBgt311111\",\"operType\":0,\"reqCount\":1,\"reqTime\":\"20220715121020\",\"data\":[{\"fNumber\":\"CSqq001\",\"fName\":\"测试物料001\",\"fModel\":\"型号\",\"fMaterialGroup\":\"W303\",\"fArtNo\":\"fArtNo\",\"fBrand\":\"fBrand\",\"fCreateTime\":\"2022-07-20\",\"fUpdateTime\":\"2022-07-20\",\"fKAClass\":\"erjg\",\"fBaseUnit\":\"G01\",\"fInvUnit\":\"G04\",\"fPurUnit\":\"G04\",\"fSaleUnit\":\"G04\"}]}";
 		Map map = (Map) JSONObject.parse(data);
 		String operType = map.get("operType").toString();
 		 
@@ -71,22 +72,21 @@ public class MaterialUntil {
 				e1.printStackTrace();
 			}
 			
-			if (dataMap.get("fName")== null || "".equals(dataMap.get("fName").toString()) ) { 
+			if (dataMap.get("fName")== null  || "".equals(dataMap.get("fName").toString()) ) { 
 				error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的名称不能为空"; flag = false;
 				continue;
 			}  
-			if (dataMap.get("fModel")== null || "".equals(dataMap.get("fModel").toString()) ) { 
-				error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的型号不能为空";  flag = false;
-				continue;
+			String fModel = "";
+			if (dataMap.get("fModel")!= null && !"".equals(dataMap.get("fModel").toString()) ) { 
+				fModel = dataMap.get("fModel").toString();
 			}
-			if (dataMap.get("fArtNo")== null || "".equals(dataMap.get("fArtNo").toString()) ) { 
-				error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的货号不能为空"; flag = false;
-				continue;
+			String fArtNo = "";
+			if (dataMap.get("fArtNo")!= null && !"".equals(dataMap.get("fArtNo").toString()) ) { 
+				fArtNo = dataMap.get("fArtNo").toString();
 			}
-			
-			if (dataMap.get("fBrand")== null || "".equals(dataMap.get("fBrand").toString()) ) { 
-				error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的品牌不能为空"; flag = false;
-				continue;
+			String fBrand = "";
+			if (dataMap.get("fBrand")!= null && !"".equals(dataMap.get("fBrand").toString()) ) { 
+				fBrand = dataMap.get("fBrand").toString();
 			}
 			
 			if (dataMap.get("fCreateTime")== null || "".equals(dataMap.get("fCreateTime").toString()) ) { 

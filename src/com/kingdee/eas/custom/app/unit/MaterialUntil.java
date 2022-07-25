@@ -2,10 +2,12 @@ package com.kingdee.eas.custom.app.unit;
 
 
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -16,18 +18,22 @@ import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.ormapping.ObjectStringPK;
+import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
 import com.kingdee.bos.metadata.entity.EntityViewInfo;
 import com.kingdee.bos.metadata.entity.FilterInfo;
 import com.kingdee.bos.metadata.entity.FilterItemInfo;
+import com.kingdee.bos.metadata.entity.SelectorItemInfo;
 import com.kingdee.bos.metadata.query.util.CompareType;
+import com.kingdee.bos.sql.ParserException;
+import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.eas.base.core.fm.ContextHelperFactory;
-import com.kingdee.eas.basedata.assistant.KAClassficationCollection;
 import com.kingdee.eas.basedata.assistant.KAClassficationFactory;
 import com.kingdee.eas.basedata.assistant.MeasureUnitCollection;
 import com.kingdee.eas.basedata.assistant.MeasureUnitFactory;
 import com.kingdee.eas.basedata.framework.app.ParallelSqlExecutor;
 import com.kingdee.eas.basedata.master.material.EquipmentPropertyEnum;
 import com.kingdee.eas.basedata.master.material.IMaterial;
+import com.kingdee.eas.basedata.master.material.MaterialCollection;
 import com.kingdee.eas.basedata.master.material.MaterialFactory;
 import com.kingdee.eas.basedata.master.material.MaterialGroupCollection;
 import com.kingdee.eas.basedata.master.material.MaterialGroupFactory;
@@ -37,6 +43,10 @@ import com.kingdee.eas.basedata.master.material.UsedStatusEnum;
 import com.kingdee.eas.basedata.org.CtrlUnitFactory;
 import com.kingdee.eas.basedata.org.CtrlUnitInfo;
 import com.kingdee.eas.common.EASBizException;
+import com.kingdee.eas.custom.PurPlatSyncdbLogFactory;
+import com.kingdee.eas.custom.PurPlatSyncdbLogInfo;
+import com.kingdee.eas.custom.app.DateBaseProcessType;
+import com.kingdee.eas.custom.app.DateBasetype;
 import com.kingdee.jdbc.rowset.IRowSet;
 
 public class MaterialUntil {
@@ -45,12 +55,136 @@ public class MaterialUntil {
 		
 		data = "{\"msgId\":\"pkKBgt311111\",\"operType\":0,\"reqCount\":1,\"reqTime\":\"20220715121020\",\"data\":[{\"fNumber\":\"CSqq001\",\"fName\":\"测试物料001\",\"fModel\":\"型号\",\"fMaterialGroup\":\"W303\",\"fArtNo\":\"fArtNo\",\"fBrand\":\"fBrand\",\"fCreateTime\":\"2022-07-20\",\"fUpdateTime\":\"2022-07-20\",\"fKAClass\":\"erjg\",\"fBaseUnit\":\"G01\",\"fInvUnit\":\"G04\",\"fPurUnit\":\"G04\",\"fSaleUnit\":\"G04\"}]}";
 		Map map = (Map) JSONObject.parse(data);
-		String operType = map.get("operType").toString();
-		 
-		IMaterial imbiz = MaterialFactory.getLocalInstance(ctx);
-		String  error = new String();
+		String operType = map.get("operType").toString(); 
+		String msgid = map.get("msgId").toString(); 
 		com.alibaba.fastjson.JSONArray  jsonArr = (com.alibaba.fastjson.JSONArray) map.get("data");     
+		String error = "";
+		if("0".equals(operType)){//新增
+			error = createMaterial(  ctx, jsonArr );
+		}else if("1".equals(operType)){//修改
+			 
+		}else if("2".equals(operType)){//删除
+			try {
+				error = endMaterial(  ctx, jsonArr );
+			} catch (EASBizException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		try {
+			PurPlatSyncdbLogInfo  log = PurPlatSyncdbLogFactory.getLocalInstance(ctx).getPurPlatSyncdbLogInfo( " where number = '"+msgid+"' ");
+			if(!"".equals(error)){
+				log.setStatus(false);
+			}else{
+				log.setStatus(true);
+			}
+			PurPlatSyncdbLogFactory.getLocalInstance(ctx).save(log);
+		} catch (EASBizException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return data;
+		
+	}
+	
+	public PurPlatSyncdbLogInfo getlogInfo(Context ctx , Map<String, String> map,DateBasetype dateBasetype,DateBaseProcessType processType, boolean flag)
+	throws BOSException, EASBizException {
+		Calendar cal = Calendar.getInstance();
+		PurPlatSyncdbLogInfo loginfo = new PurPlatSyncdbLogInfo();
+		cal.setTime(new Date());
+		loginfo.setNumber(cal.getTimeInMillis() + "." + map.get("FNUMBER"));
+		loginfo.setName(map.get("FNAME").toString());
+		loginfo.setSimpleName(map.get("FNUMBER").toString());
+		loginfo.setDateBaseType(dateBasetype);
+		String version = String.valueOf(cal.getTimeInMillis());
+		loginfo.setVersion(version);
+		loginfo.setUpdateDate(new Date());
+		loginfo.setMessage(map.get("JSON").toString());
+		loginfo.setRespond(map.get("RESJSON").toString());
+		loginfo.setStatus(flag);
+		loginfo.setProcessType(processType);
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		loginfo.setIsSync(false); 
+		String updatetime = sdf1.format(new Date()).substring(11);
+		loginfo.setUpdatetime(Time.valueOf(updatetime));
+		PurPlatSyncdbLogFactory.getLocalInstance(ctx).save(loginfo);
+		return loginfo;
+	}
+	
+	
+	private ParallelSqlExecutor setAllCtrlComOrgs(Context ctx , String kaclass , String materialid , ParallelSqlExecutor pe) { 
+		
+		String userId = ContextHelperFactory.getLocalInstance(ctx).getCurrentUser().getId().toString(); 
+		StringBuffer sbr = new  StringBuffer(); 
+	 	sbr.append(" /*dialect*/SELECT cunit.FID CID ,nvl(kacl.fid,'') LID FROM T_ORG_CtrlUnit cunit  left join T_BD_KAClassfication kacl on kacl.fnumber = '"+kaclass+"' and  kacl.FCURRENCYCOMPANY  = cunit.fid  \r\n"); 
+	 	sbr.append(" WHERE (cunit.FID <> '11111111-1111-1111-1111-111111111111CCE7AED4') AND cunit.FIsOUSealUp = 0 AND (cunit.FLongNumber LIKE 'M%')    \r\n"); 
+	 	sbr.append(" ORDER BY cunit.FLongNumber ASC     \r\n");   
+		try {
+			IRowSet rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, sbr.toString());
+			if(rs!=null){
+				while(rs.next()){
+					String cityid = rs.getObject("CID").toString();
+					String kaclid = rs.getObject("LID").toString();
+					
+					StringBuffer comsbr  = new StringBuffer(" INSERT INTO T_BD_MaterialCompanyInfo ( fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID ,  FMATERIALID , FCOMPANYID ,FKACLASSID , ");
+				    comsbr.append(" FACCOUNTTYPE  , FSTANDARDCOST  ,FEFFECTEDSTATUS ,FCALCULATETYPE FSTATUS ,FCREATECOBYORDER ,FISLOT   ,FISASSISTPROPERTY ,FISPROJECT ,FISTRACKNUMBER  ) ");
+				    comsbr.append(" values(newbosid('D431F8BB'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cityid+"',  '"+materialid+"' , '"+cityid+"', '"+kaclid+"' , ");
+				    comsbr.append(" ' 4, 0 ,2,0,1,0,0,0,0,0	 )"); 
+					pe.getSqlList().add(comsbr);
+					if(!"00000000-0000-0000-0000-000000000000CCE7AED4".equals(cityid)){
+						 
+						StringBuffer comsbrsql = new  StringBuffer(); 
+						comsbrsql.append(" /*dialect*/select c1.fid  FID , kacl.FID KID from t_org_company c1   \r\n"); 
+						comsbrsql.append(" left join T_BD_KAClassfication kacl on kacl.fnumber = '"+kaclass+"' and  kacl.FCURRENCYCOMPANY  = cunit.fid  \r\n"); 
+						comsbrsql.append(" where c1.fcontrolunitid = '"+cityid+"' and    \r\n"); 
+						comsbrsql.append(" not exists (   \r\n"); 
+						comsbrsql.append(" select 1 from T_BD_MaterialCompanyInfo mc2     \r\n"); 
+						comsbrsql.append(" inner join t_org_company org2 on org2.fid = mc2.FCompanyID    \r\n"); 
+						comsbrsql.append(" where org2.fcontrolunitid = c1.fcontrolunitid and mc2.FCompanyID = c1.fid    \r\n"); 
+						comsbrsql.append(" and mc2.FMaterialID='"+materialid+"' )    \r\n"); 
+						
+						IRowSet rsCom = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, comsbrsql.toString());
+						if(rsCom!=null && rsCom.size() > 0){
+							while(rsCom.next()){
+								String comid = rs.getObject("FID").toString();
+								String kacComlid = rs.getObject("KID").toString();
+								
+								StringBuffer sbr2  = new StringBuffer(" INSERT INTO T_BD_MaterialCompanyInfo ( fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID ,  FMATERIALID , FCOMPANYID ,FKACLASSID , ");
+							    sbr2.append(" FACCOUNTTYPE  , FSTANDARDCOST  ,FEFFECTEDSTATUS ,FCALCULATETYPE FSTATUS ,FCREATECOBYORDER ,FISLOT   ,FISASSISTPROPERTY ,FISPROJECT ,FISTRACKNUMBER  ) ");
+							    sbr2.append(" values(newbosid('D431F8BB'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cityid+"',  '"+materialid+"' , '"+comid+"', '"+kacComlid+"' , ");
+							    sbr2.append(" ' 4, 0 ,2,0,1,0,0,0,0,0	 )"); 
+							    pe.getSqlList().add(sbr2); 
+							}
+						}   
+					}
+					
+				}
+			}
+		} catch (BOSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		  
+		 
+	    
+		
+		
+		return pe;
+	}
+
+	
+	public   String createMaterial(Context ctx, com.alibaba.fastjson.JSONArray  jsonArr ) throws BOSException {
 		boolean flag = true;
+		String  error = new String();
+		IMaterial imbiz = MaterialFactory.getLocalInstance(ctx);
 		int  size = jsonArr.size();
 		for( int i = 0 ; i < size ; i++ ){
 			Map dataMap = (Map) jsonArr.get(i);  
@@ -63,7 +197,7 @@ public class MaterialUntil {
 			} 
 			String  number  = dataMap.get("fNumber").toString() ;
 			try {
-				if ( !"0".equals(operType) && imbiz.exists("where number = '"+number+"'") ) { 
+				if (  imbiz.exists("where number = '"+number+"'") ) { 
 					error = error+ "物料编码已存在;"; flag = false;
 					continue;
 				}
@@ -297,93 +431,173 @@ public class MaterialUntil {
 							    sbr2.append("  0, 0,0,0, 0 , 0 , 0,0, 0 ,0,, 0 , 0 ,0,-1  ,0 ,    -1 , '"+kcmeasure.get(0).getId().toString()+"' ,2       ,  0 ,0, 3,      0  ， 0,    0 ,  3,      0 ,   0 ,0,0,1,0,0,0,  0 ,   0,   0,0,0,0,0 )"); 
 					    		pe.getSqlList().add(sbr2); 
 					    	}
-					    }  
-					   
+					    }   
 			    		
 					} 
 				}
 				//财务资料   单独处理
 				pe = setAllCtrlComOrgs(ctx,kaclass,pk.toString() ,pe);
-				  
+				   
+			
+				if(pe.getSqlList().size()>0){
+					try {
+						pe.executeUpdate(ctx); 
+						pool.shutdown(); 
+					} catch (EASBizException e) { 
+						e.printStackTrace();
+						pool.shutdown(); 
+						error = error+e.getMessage()+";";
+					} catch (BOSException e) { 
+						e.printStackTrace();
+						pool.shutdown(); 
+						error = error+e.getMessage()+";";
+					}	
+				     pool.shutdown(); 
+				}
+					
 			} catch (EASBizException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				error = error+e.getMessage()+";";
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				error = error+e.getMessage()+";";
 			}
 			 
 		}
 		
-		return data;
-		
+		return error;
 	}
 	
-	
-	private ParallelSqlExecutor setAllCtrlComOrgs(Context ctx , String kaclass , String materialid , ParallelSqlExecutor pe) { 
-		
-		String userId = ContextHelperFactory.getLocalInstance(ctx).getCurrentUser().getId().toString(); 
-		StringBuffer sbr = new  StringBuffer(); 
-	 	sbr.append(" /*dialect*/SELECT cunit.FID CID ,nvl(kacl.fid,'') LID FROM T_ORG_CtrlUnit cunit  left join T_BD_KAClassfication kacl on kacl.fnumber = '"+kaclass+"' and  kacl.FCURRENCYCOMPANY  = cunit.fid  \r\n"); 
-	 	sbr.append(" WHERE (cunit.FID <> '11111111-1111-1111-1111-111111111111CCE7AED4') AND cunit.FIsOUSealUp = 0 AND (cunit.FLongNumber LIKE 'M%')    \r\n"); 
-	 	sbr.append(" ORDER BY cunit.FLongNumber ASC     \r\n");   
-		try {
-			IRowSet rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, sbr.toString());
-			if(rs!=null){
-				while(rs.next()){
-					String cityid = rs.getObject("CID").toString();
-					String kaclid = rs.getObject("LID").toString();
-					
-					StringBuffer comsbr  = new StringBuffer(" INSERT INTO T_BD_MaterialCompanyInfo ( fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID ,  FMATERIALID , FCOMPANYID ,FKACLASSID , ");
-				    comsbr.append(" FACCOUNTTYPE  , FSTANDARDCOST  ,FEFFECTEDSTATUS ,FCALCULATETYPE FSTATUS ,FCREATECOBYORDER ,FISLOT   ,FISASSISTPROPERTY ,FISPROJECT ,FISTRACKNUMBER  ) ");
-				    comsbr.append(" values(newbosid('D431F8BB'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cityid+"',  '"+materialid+"' , '"+cityid+"', '"+kaclid+"' , ");
-				    comsbr.append(" ' 4, 0 ,2,0,1,0,0,0,0,0	 )"); 
-					pe.getSqlList().add(comsbr);
-					if(!"00000000-0000-0000-0000-000000000000CCE7AED4".equals(cityid)){
-						 
-						StringBuffer comsbrsql = new  StringBuffer(); 
-						comsbrsql.append(" /*dialect*/select c1.fid  FID , kacl.FID KID from t_org_company c1   \r\n"); 
-						comsbrsql.append(" left join T_BD_KAClassfication kacl on kacl.fnumber = '"+kaclass+"' and  kacl.FCURRENCYCOMPANY  = cunit.fid  \r\n"); 
-						comsbrsql.append(" where c1.fcontrolunitid = '"+cityid+"' and    \r\n"); 
-						comsbrsql.append(" not exists (   \r\n"); 
-						comsbrsql.append(" select 1 from T_BD_MaterialCompanyInfo mc2     \r\n"); 
-						comsbrsql.append(" inner join t_org_company org2 on org2.fid = mc2.FCompanyID    \r\n"); 
-						comsbrsql.append(" where org2.fcontrolunitid = c1.fcontrolunitid and mc2.FCompanyID = c1.fid    \r\n"); 
-						comsbrsql.append(" and mc2.FMaterialID='"+materialid+"' )    \r\n"); 
-						
-						IRowSet rsCom = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, comsbrsql.toString());
-						if(rsCom!=null && rsCom.size() > 0){
-							while(rsCom.next()){
-								String comid = rs.getObject("FID").toString();
-								String kacComlid = rs.getObject("KID").toString();
-								
-								StringBuffer sbr2  = new StringBuffer(" INSERT INTO T_BD_MaterialCompanyInfo ( fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID ,  FMATERIALID , FCOMPANYID ,FKACLASSID , ");
-							    sbr2.append(" FACCOUNTTYPE  , FSTANDARDCOST  ,FEFFECTEDSTATUS ,FCALCULATETYPE FSTATUS ,FCREATECOBYORDER ,FISLOT   ,FISASSISTPROPERTY ,FISPROJECT ,FISTRACKNUMBER  ) ");
-							    sbr2.append(" values(newbosid('D431F8BB'),'"+userId+"',sysdate,'"+userId+"',sysdate,'"+cityid+"',  '"+materialid+"' , '"+comid+"', '"+kacComlid+"' , ");
-							    sbr2.append(" ' 4, 0 ,2,0,1,0,0,0,0,0	 )"); 
-							    pe.getSqlList().add(sbr2); 
-							}
-						}   
-					}
-					
+	public   String endMaterial (Context ctx, com.alibaba.fastjson.JSONArray  jsonArr ) throws BOSException, EASBizException, ParseException {
+		String  error = new String();
+		IMaterial imbiz = MaterialFactory.getLocalInstance(ctx);
+		int  size = jsonArr.size();
+		for( int i = 0 ; i < size ; i++ ){
+			Map dataMap = (Map) jsonArr.get(i);  
+			if (dataMap.get("fNumber")== null || "".equals(dataMap.get("fNumber").toString()) ) { 
+				error = error+ "物料编码不能为空;";  
+				continue;
+			} 
+			if (dataMap.get("fid")== null || "".equals(dataMap.get("fid").toString()) ) { 
+				error = error+ "物料编码不能为空;";  
+				continue;
+			} 
+			String  number  = dataMap.get("fNumber").toString() ;
+			try {
+				if (  imbiz.exists("where number = '"+number+"'") ) { 
+					//imbiz.freeze("");
+					imbiz.unapprove(new ObjectUuidPK(BOSUuid.read(dataMap.get("fid").toString())));
 				}
+			} catch (EASBizException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-		} catch (BOSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
-		  
-		 
-	    
-		
-		
-		return pe;
+		}
+		return error;
 	}
-
-
+	
+	public   String updateMaterial (Context ctx, com.alibaba.fastjson.JSONArray  jsonArr ) throws BOSException, EASBizException, ParseException {
+		String  error = new String();
+		IMaterial imbiz = MaterialFactory.getLocalInstance(ctx);
+		int  size = jsonArr.size();
+		for( int i = 0 ; i < size ; i++ ){
+			boolean flag  = false;
+			Map dataMap = (Map) jsonArr.get(i);  
+			if (dataMap.get("fNumber")== null || "".equals(dataMap.get("fNumber").toString()) ) { 
+				error = error+ "物料编码不能为空;";  
+				continue;
+			} 
+			String  number  = dataMap.get("fNumber").toString() ;
+			try {
+				if (  !imbiz.exists("where number = '"+number+"'") ) { 
+					error = error+ "根据物料编码查询找不到对应物料信息;"; 
+					continue;
+				}
+			} catch (EASBizException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				error = error+e1.getMessage()+";";
+			}
+			MaterialInfo material = new MaterialInfo();
+			EntityViewInfo view = new EntityViewInfo();
+			view.getSelector().add(new SelectorItemInfo("number"));
+			try {
+				view.setFilter(new FilterInfo(number));
+			} catch (ParserException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			MaterialCollection materialColl = imbiz.getMaterialCollection(view);
+			if(materialColl.size()>0){
+				material = materialColl.get(0);
+			}
+			
+			String updateSql = "";
+			if (dataMap.get("fName")!= null && !"".equals(dataMap.get("fName").toString())
+					&& !"".equals(material.getName()) && !material.getName().equals(dataMap.get("fName").toString()) ) { 
+				material.setName(dataMap.get("fName").toString());flag  = true;
+			}  
+			if (dataMap.get("fModel")!= null && !"".equals(dataMap.get("fModel").toString())
+					&& !"".equals( material.getModel()) && !material.getModel().equals(dataMap.get("fModel").toString())  ) { 
+				material.setModel(dataMap.get("fModel").toString());flag  = true;
+				 
+			}
+			if (dataMap.get("fArtNo")!= null && !"".equals(dataMap.get("fArtNo").toString())
+					&& !"".equals( material.get("huohao")) && !material.get("huohao").toString().equals(dataMap.get("fArtNo").toString())  ) { 
+				material.put("huohao",dataMap.get("fArtNo").toString());flag  = true;
+			}
+			
+			if (dataMap.get("fBrand")!= null && !"".equals(dataMap.get("fBrand").toString())
+					&& !"".equals( material.get("pinpai")) && !material.get("pinpai").toString().equals(dataMap.get("fBrand").toString())  ) { 
+				material.put("pinpai",dataMap.get("fBrand").toString());flag  = true;
+				 
+			}
+			if (dataMap.get("fMaterialGroup")== null || "".equals(dataMap.get("fMaterialGroup").toString()) ) { 
+				error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的物料类别不能为空";  
+				continue;
+			}
+			String magroup = dataMap.get("fMaterialGroup").toString();
+			try {
+				if(!MaterialGroupFactory.getLocalInstance(ctx).exists(" where number = '"+magroup+"'")){
+					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的物料类别不存在";  
+					continue;
+				}
+				
+				EntityViewInfo viewGroup = new EntityViewInfo();
+				viewGroup.getSelector().add(new SelectorItemInfo("number"));
+				try {
+					viewGroup.setFilter(new FilterInfo(dataMap.get("fMaterialGroup").toString()));
+				} catch (ParserException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				MaterialGroupInfo materialGroup = new MaterialGroupInfo();
+				MaterialGroupCollection maco =  MaterialGroupFactory.getLocalInstance(ctx).getMaterialGroupCollection(viewGroup);
+				if(maco.size()>0){
+					materialGroup = maco.get(0);
+				}
+				String groupid = material.getMaterialGroup().getId().toString();
+				if(!materialGroup.getId().toString().equals(groupid)){
+					
+					material.setMaterialGroup(materialGroup);flag  = true;
+				}
+				
+				if(flag){
+					imbiz.unapprove(new ObjectUuidPK(material.getId()));
+					imbiz.save(material);
+					imbiz.approve(new ObjectUuidPK(material.getId()));
+				}
+				
+			} catch (EASBizException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return error;
+	}
+	
 	public static MaterialInfo createInfo(Context ctx, Map dataMap ) throws BOSException, EASBizException, ParseException {
 		MaterialInfo material = null;
 

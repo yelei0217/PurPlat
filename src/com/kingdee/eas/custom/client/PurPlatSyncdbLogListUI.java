@@ -6,7 +6,11 @@ package com.kingdee.eas.custom.client;
 import java.awt.event.*;
 import org.apache.log4j.Logger;
 import com.kingdee.bos.ui.face.CoreUIObject;
+import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.bos.dao.IObjectValue;
+import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
+import com.kingdee.eas.basedata.master.material.IMaterial;
+import com.kingdee.eas.basedata.master.material.MaterialFactory;
 import com.kingdee.eas.custom.SyncDataEASFacadeFactory;
 import com.kingdee.eas.framework.*;
 
@@ -80,8 +84,10 @@ public class PurPlatSyncdbLogListUI extends AbstractPurPlatSyncdbLogListUI
     {
         //super.actionAbout_actionPerformed(e);
     	SyncDataEASFacadeFactory.getRemoteInstance().materialSyncFun("");
+    	//IMaterial imbiz = MaterialFactory.getRemoteInstance();
+    	//imbiz.unapprove(new ObjectUuidPK(BOSUuid.read("jbYAAAacNwhECefw")));
     }
-
+    
     /**
      * output actionOnLoad_actionPerformed
      */

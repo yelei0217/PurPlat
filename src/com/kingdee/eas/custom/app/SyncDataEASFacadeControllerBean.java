@@ -244,7 +244,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 		StringBuffer ids = new StringBuffer();
 		ids= ids.append("'");
 		try {
-			String sql = " select  fid ,cfdatebasetype TYPE , cfmessage  MESSAGE    from  CT_CUS_PurPlatSyncdbLog where  cfstatus = 0 and  CFSendCount < 4  and  cfIsSync = 0 ";
+			String sql = " /*dialect*/select  fid ,cfdatebasetype TYPE , cfmessage  MESSAGE    from  CT_CUS_PurPlatSyncdbLog where  cfstatus = 0 and  cfdatebasetype = 6 and  nvl(CFSendCount,0) < 4  and  cfIsSync = 0 ";
 			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
 			  
 			Map<String, String> typemap = new  HashMap<String, String>();
@@ -267,7 +267,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				String upsql = " update CT_CUS_PurPlatSyncdbLog set cfIsSync = 1 where  fid in ("+ids+") ";
 				com.kingdee.eas.custom.util.DBUtil.execute(ctx,upsql);
 				
-				for(Map.Entry<String, String> entry : msgmap.entrySet()){
+				for(Map.Entry<String, String> entry : typemap.entrySet()){
 				    String id = entry.getKey();
 				    String type = entry.getValue(); 
 				    if(type.equals("6") && null !=msgmap.get(id) && !"".equals(msgmap.get(id).toString())){//ŒÔ¡œ

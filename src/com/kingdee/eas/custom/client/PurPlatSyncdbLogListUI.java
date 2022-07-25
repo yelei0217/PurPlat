@@ -83,9 +83,11 @@ public class PurPlatSyncdbLogListUI extends AbstractPurPlatSyncdbLogListUI
     public void actionAbout_actionPerformed(ActionEvent e) throws Exception
     {
         //super.actionAbout_actionPerformed(e);
-    	SyncDataEASFacadeFactory.getRemoteInstance().materialSyncFun("");
+    	//SyncDataEASFacadeFactory.getRemoteInstance().materialSyncFun("");
     	//IMaterial imbiz = MaterialFactory.getRemoteInstance();
     	//imbiz.unapprove(new ObjectUuidPK(BOSUuid.read("jbYAAAacNwhECefw")));
+    	
+    	SyncDataEASFacadeFactory.getRemoteInstance().DoErrorJon("");
     }
     
     /**

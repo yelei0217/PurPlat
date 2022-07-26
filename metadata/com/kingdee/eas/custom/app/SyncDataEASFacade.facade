@@ -126,6 +126,32 @@
             </parameters>
             <configured>false</configured>
         </method>
+        <method>
+            <name>DoMaterialJson</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoMaterialJson].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoMaterialJson].description</description>
+            <innerID>bed676fe-acc0-41c6-8066-c0e02aad0e07</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>data</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoMaterialJson].parameters.parameter[data].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoMaterialJson].parameters.parameter[data].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
     </methods>
     <resource>
         <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].alias">
@@ -168,6 +194,28 @@
             <lang locale="zh_TW" value="null" />
         </rs>
         <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoErrorJon].parameters.parameter[data].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoMaterialJson].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="单独处理物料的json" />
+            <lang locale="zh_HK" value="單獨處理物料的json" />
+            <lang locale="zh_TW" value="單獨處理物料的json" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoMaterialJson].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoMaterialJson].parameters.parameter[data].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoMaterialJson].parameters.parameter[data].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="" />
             <lang locale="zh_TW" value="null" />

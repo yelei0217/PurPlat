@@ -97,4 +97,24 @@ public abstract class AbstractSyncDataEASFacadeControllerBean extends AbstractBi
         return null;
     }
 
+    public void DoMaterialJson(Context ctx, String data) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("bed676fe-acc0-41c6-8066-c0e02aad0e07"), new Object[]{ctx, data});
+            invokeServiceBefore(svcCtx);
+              if(!svcCtx.invokeBreak()) {
+            _DoMaterialJson(ctx, data);
+            }
+            invokeServiceAfter(svcCtx);
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected void _DoMaterialJson(Context ctx, String data) throws BOSException
+    {    	
+        return;
+    }
+
 }

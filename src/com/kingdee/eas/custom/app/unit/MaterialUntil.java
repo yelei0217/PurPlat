@@ -53,7 +53,7 @@ public class MaterialUntil {
 
 	public String doCreateMaterial(Context ctx, String data) throws BOSException{
 		
-		data = "{\"msgId\":\"pkKBgt311111\",\"operType\":0,\"reqCount\":1,\"reqTime\":\"20220715121020\",\"data\":[{\"fNumber\":\"CSqq009\",\"fName\":\"测试物料001\",\"fModel\":\"型号\",\"fMaterialGroup\":\"W1\",\"fArtNo\":\"fArtNo\",\"fBrand\":\"fBrand\",\"fCreateTime\":\"2022-07-20\",\"fUpdateTime\":\"2022-07-20\",\"fKAClass\":\"erjg\",\"fBaseUnit\":\"G01\",\"fInvUnit\":\"G04\",\"fPurUnit\":\"G04\",\"fSaleUnit\":\"G04\"}]}";
+		//data = "{\"msgId\":\"pkKBgt311111\",\"operType\":0,\"reqCount\":1,\"reqTime\":\"20220715121020\",\"data\":[{\"fNumber\":\"CSqq009\",\"fName\":\"测试物料001\",\"fModel\":\"型号\",\"fMaterialGroup\":\"W1\",\"fArtNo\":\"fArtNo\",\"fBrand\":\"fBrand\",\"fCreateTime\":\"2022-07-20\",\"fUpdateTime\":\"2022-07-20\",\"fKAClass\":\"erjg\",\"fBaseUnit\":\"G01\",\"fInvUnit\":\"G04\",\"fPurUnit\":\"G04\",\"fSaleUnit\":\"G04\"}]}";
 		Map map = (Map) JSONObject.parse(data);
 		String operType = map.get("operType").toString(); 
 		String msgid = map.get("msgId").toString(); 
@@ -62,24 +62,39 @@ public class MaterialUntil {
 		if("0".equals(operType)){//新增
 			error = createMaterial(  ctx, jsonArr );
 		}else if("1".equals(operType)){//修改
-			 
+			try {
+				error = updateMaterial(  ctx, jsonArr );
+			} catch (EASBizException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				error = e.getMessage();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				error = e.getMessage();
+			}
 		}else if("2".equals(operType)){//删除
 			try {
 				error = endMaterial(  ctx, jsonArr );
 			} catch (EASBizException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				error = e.getMessage();
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				error = e.getMessage();
 			}
 		}
 		try {
 			PurPlatSyncdbLogInfo  log = PurPlatSyncdbLogFactory.getLocalInstance(ctx).getPurPlatSyncdbLogInfo( " where name = '"+msgid+"' ");
 			if(!"".equals(error)){
 				log.setStatus(false);
+				log.setErrorMessage(error);
+				log.setSendCount(1);
 			}else{
 				log.setStatus(true);
+				log.setSendCount(1);
 			}
 			PurPlatSyncdbLogFactory.getLocalInstance(ctx).save(log);
 		} catch (EASBizException e) {
@@ -117,76 +132,63 @@ public class MaterialUntil {
 	}
 	
 	
-	private ParallelSqlExecutor setAllCtrlComOrgs(Context ctx , String kaclass , String materialid , ParallelSqlExecutor pe) { 
+	private ParallelSqlExecutor setAllCtrlComOrgs(Context ctx , String kaclass , String materialid , ParallelSqlExecutor pe) throws BOSException, SQLException { 
 		
 		String userId = ContextHelperFactory.getLocalInstance(ctx).getCurrentUser().getId().toString(); 
 		StringBuffer sbr = new  StringBuffer(); 
 	 	sbr.append(" /*dialect*/SELECT cunit.FID CID ,nvl(kacl.fid,'') LID FROM T_ORG_CtrlUnit cunit  left join T_BD_KAClassfication kacl on kacl.fnumber = '"+kaclass+"' and  kacl.FCURRENCYCOMPANY  = cunit.fid  \r\n"); 
 	 	sbr.append(" WHERE (cunit.FID <> '11111111-1111-1111-1111-111111111111CCE7AED4') AND cunit.FIsOUSealUp = 0 AND (cunit.FLongNumber LIKE 'M%')    \r\n"); 
 	 	sbr.append(" ORDER BY cunit.FLongNumber ASC     \r\n");   
-		try {
-			IRowSet rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, sbr.toString());
-			if(rs!=null){
-				while(rs.next()){
-					String cityid = rs.getObject("CID").toString();
-					String kaclid = "";
-					if(rs.getObject("LID") != null && "".equals(rs.getObject("LID").toString()) ){
-						kaclid = rs.getObject("LID").toString();
-					} 
+	 	IRowSet rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, sbr.toString());
+		if(rs!=null){
+			while(rs.next()){
+				String cityid = rs.getObject("CID").toString();
+				String kaclid = "";
+				if(rs.getObject("LID") != null && "".equals(rs.getObject("LID").toString()) ){
+					kaclid = rs.getObject("LID").toString();
+				} 
+				
+				String compinfoid  = BOSUuid.create("D431F8BB").toString();
+				
+				StringBuffer comsbr  = new StringBuffer(" INSERT INTO T_BD_MaterialCompanyInfo ( fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID ,  FMATERIALID , FCOMPANYID ,FKACLASSID , ");
+			    comsbr.append(" FACCOUNTTYPE  , FSTANDARDCOST  ,FEFFECTEDSTATUS ,FCALCULATETYPE ,FSTATUS ,FCREATECOBYORDER ,FISLOT   ,FISASSISTPROPERTY ,FISPROJECT ,FISTRACKNUMBER  ) ");
+			    comsbr.append(" values( '"+compinfoid+"','"+userId+"',sysdate,'"+userId+"',sysdate,'"+cityid+"',  '"+materialid+"' , '"+cityid+"', '"+kaclid+"' , ");
+			    comsbr.append(" 4, 0 ,2,0,1,0,0,0,0,0	 )"); 
+				pe.getSqlList().add(comsbr);
+				if(!"00000000-0000-0000-0000-000000000000CCE7AED4".equals(cityid)){
+					 
+					StringBuffer comsbrsql = new  StringBuffer(); 
+					comsbrsql.append(" /*dialect*/select c1.fid  FID , kacl.FID KID from t_org_company c1   \r\n"); 
+					comsbrsql.append(" left join T_BD_KAClassfication kacl on kacl.fnumber = '"+kaclass+"' and  kacl.FCURRENCYCOMPANY  = c1.fid  \r\n"); 
+					comsbrsql.append(" where c1.fcontrolunitid = '"+cityid+"' and    \r\n"); 
+					comsbrsql.append(" not exists (   \r\n"); 
+					comsbrsql.append(" select 1 from T_BD_MaterialCompanyInfo mc2     \r\n"); 
+					comsbrsql.append(" inner join t_org_company org2 on org2.fid = mc2.FCompanyID    \r\n"); 
+					comsbrsql.append(" where org2.fcontrolunitid = c1.fcontrolunitid and mc2.FCompanyID = c1.fid    \r\n"); 
+					comsbrsql.append(" and mc2.FMaterialID='"+materialid+"' )    \r\n"); 
 					
-					String compinfoid  = BOSUuid.create("D431F8BB").toString();
-					
-					StringBuffer comsbr  = new StringBuffer(" INSERT INTO T_BD_MaterialCompanyInfo ( fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID ,  FMATERIALID , FCOMPANYID ,FKACLASSID , ");
-				    comsbr.append(" FACCOUNTTYPE  , FSTANDARDCOST  ,FEFFECTEDSTATUS ,FCALCULATETYPE ,FSTATUS ,FCREATECOBYORDER ,FISLOT   ,FISASSISTPROPERTY ,FISPROJECT ,FISTRACKNUMBER  ) ");
-				    comsbr.append(" values( '"+compinfoid+"','"+userId+"',sysdate,'"+userId+"',sysdate,'"+cityid+"',  '"+materialid+"' , '"+cityid+"', '"+kaclid+"' , ");
-				    comsbr.append(" 4, 0 ,2,0,1,0,0,0,0,0	 )"); 
-					pe.getSqlList().add(comsbr);
-					if(!"00000000-0000-0000-0000-000000000000CCE7AED4".equals(cityid)){
-						 
-						StringBuffer comsbrsql = new  StringBuffer(); 
-						comsbrsql.append(" /*dialect*/select c1.fid  FID , kacl.FID KID from t_org_company c1   \r\n"); 
-						comsbrsql.append(" left join T_BD_KAClassfication kacl on kacl.fnumber = '"+kaclass+"' and  kacl.FCURRENCYCOMPANY  = c1.fid  \r\n"); 
-						comsbrsql.append(" where c1.fcontrolunitid = '"+cityid+"' and    \r\n"); 
-						comsbrsql.append(" not exists (   \r\n"); 
-						comsbrsql.append(" select 1 from T_BD_MaterialCompanyInfo mc2     \r\n"); 
-						comsbrsql.append(" inner join t_org_company org2 on org2.fid = mc2.FCompanyID    \r\n"); 
-						comsbrsql.append(" where org2.fcontrolunitid = c1.fcontrolunitid and mc2.FCompanyID = c1.fid    \r\n"); 
-						comsbrsql.append(" and mc2.FMaterialID='"+materialid+"' )    \r\n"); 
-						
-						IRowSet rsCom = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, comsbrsql.toString());
-						if(rsCom!=null && rsCom.size() > 0){
-							while(rsCom.next()){
-								String comid = rsCom.getObject("FID").toString();
-								
-								String kacComlid = "";
-								if(rsCom.getObject("KID") != null && "".equals(rsCom.getObject("KID").toString()) ){
-									kacComlid = rsCom.getObject("KID").toString();
-								} 
-								 
-								String compinComid  = BOSUuid.create("D431F8BB").toString();
-								StringBuffer sbr2  = new StringBuffer(" INSERT INTO T_BD_MaterialCompanyInfo ( fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID ,  FMATERIALID , FCOMPANYID ,FKACLASSID , ");
-							    sbr2.append(" FACCOUNTTYPE  , FSTANDARDCOST  ,FEFFECTEDSTATUS ,FCALCULATETYPE , FSTATUS ,FCREATECOBYORDER ,FISLOT   ,FISASSISTPROPERTY ,FISPROJECT ,FISTRACKNUMBER  ) ");
-							    sbr2.append(" values('"+compinComid+"','"+userId+"',sysdate,'"+userId+"',sysdate,'"+cityid+"',  '"+materialid+"' , '"+comid+"', '"+kacComlid+"' , ");
-							    sbr2.append("  4, 0 ,2,0,1,0,0,0,0,0	 )"); 
-							    pe.getSqlList().add(sbr2); 
-							}
-						}   
-					}
-					
+					IRowSet rsCom = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, comsbrsql.toString());
+					if(rsCom!=null && rsCom.size() > 0){
+						while(rsCom.next()){
+							String comid = rsCom.getObject("FID").toString();
+							
+							String kacComlid = "";
+							if(rsCom.getObject("KID") != null && "".equals(rsCom.getObject("KID").toString()) ){
+								kacComlid = rsCom.getObject("KID").toString();
+							} 
+							 
+							String compinComid  = BOSUuid.create("D431F8BB").toString();
+							StringBuffer sbr2  = new StringBuffer(" INSERT INTO T_BD_MaterialCompanyInfo ( fid,FCREATORID ,FCREATETIME ,FLASTUPDATEUSERID ,FLASTUPDATETIME ,FCONTROLUNITID ,  FMATERIALID , FCOMPANYID ,FKACLASSID , ");
+						    sbr2.append(" FACCOUNTTYPE  , FSTANDARDCOST  ,FEFFECTEDSTATUS ,FCALCULATETYPE , FSTATUS ,FCREATECOBYORDER ,FISLOT   ,FISASSISTPROPERTY ,FISPROJECT ,FISTRACKNUMBER  ) ");
+						    sbr2.append(" values('"+compinComid+"','"+userId+"',sysdate,'"+userId+"',sysdate,'"+cityid+"',  '"+materialid+"' , '"+comid+"', '"+kacComlid+"' , ");
+						    sbr2.append("  4, 0 ,2,0,1,0,0,0,0,0	 )"); 
+						    pe.getSqlList().add(sbr2); 
+						}
+					}   
 				}
+				
 			}
-		} catch (BOSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
-		  
-		 
-	    
-		
-		
+		} 
 		return pe;
 	}
 
@@ -303,6 +305,7 @@ public class MaterialUntil {
 			} catch (EASBizException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				error = error+  e.getMessage()+";"; flag = false;
 			}
 			
 			
@@ -319,6 +322,7 @@ public class MaterialUntil {
 			} catch (EASBizException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				error = error+  e.getMessage()+";"; flag = false;
 			}
 			
 			if (dataMap.get("fSaleUnit")== null || "".equals(dataMap.get("fSaleUnit").toString()) ) { 
@@ -333,6 +337,7 @@ public class MaterialUntil {
 			} catch (EASBizException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				error = error+  e.getMessage()+";"; flag = false;
 			}
 			try {
 				
@@ -470,7 +475,14 @@ public class MaterialUntil {
 					} 
 				}
 				//财务资料   单独处理
-				pe = setAllCtrlComOrgs(ctx,kaclass,pk.toString() ,pe);
+				try {
+					pe = setAllCtrlComOrgs(ctx,kaclass,pk.toString() ,pe);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					error = error+e1.getMessage()+";";
+					pool.shutdown(); 
+				}
 				   
 			
 				if(pe.getSqlList().size()>0){

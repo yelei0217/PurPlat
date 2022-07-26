@@ -237,6 +237,63 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 		return loginfo;
 	}
 
+	
+	
+	@Override
+	protected void _DoMaterialJson(Context ctx, String data)
+			throws BOSException {
+		// TODO Auto-generated method stub
+		super._DoMaterialJson(ctx, data);
+		StringBuffer ids = new StringBuffer();
+		ids= ids.append("'");
+		try {
+			String sql = " /*dialect*/select  fid ,cfdatebasetype TYPE , cfmessage  MESSAGE    from  CT_CUS_PurPlatSyncdbLog where  cfstatus = 0 and  cfdatebasetype = 6 and  nvl(CFSendCount,0) = 0  and  cfIsSync = 0 ";
+			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
+			  
+			Map<String, String> typemap = new  HashMap<String, String>();
+			Map<String, String> msgmap = new  HashMap<String, String>();
+			
+			
+			if(rs!=null && rs.size() > 0){
+				while(rs.next()){	 
+					String fid = rs.getString("FID");
+					String type = rs.getString("TYPE");
+					String message = rs.getString("MESSAGE");
+					typemap.put(fid, type);
+					msgmap.put(fid, message);
+					ids= ids.append(fid+"',"); 
+				}  
+			}
+			
+			if(ids.length() > 1 ){
+				ids = new StringBuffer().append( ids.substring(0, ids.length()-1) );
+				String upsql = " update CT_CUS_PurPlatSyncdbLog set cfIsSync = 1 where  fid in ("+ids+") ";
+				com.kingdee.eas.custom.util.DBUtil.execute(ctx,upsql);
+				
+				for(Map.Entry<String, String> entry : typemap.entrySet()){
+				    String id = entry.getKey();
+				    String type = entry.getValue(); 
+				    if(type.equals("6") && null !=msgmap.get(id) && !"".equals(msgmap.get(id).toString())){//ŒÔ¡œ
+				    	String msgjson = msgmap.get(id);
+				    	
+				    	MaterialUntil  ma = new MaterialUntil();
+				    	ma.doCreateMaterial(ctx , msgjson);
+				    }
+				    
+				} 
+				String upEndsql = " update CT_CUS_PurPlatSyncdbLog set cfIsSync = 0 where  fid in ("+ids+") ";
+				com.kingdee.eas.custom.util.DBUtil.execute(ctx,upEndsql);
+				
+			}
+			
+			
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 	@Override
 	protected void _DoErrorJon(Context ctx, String data) throws BOSException {
 		// TODO Auto-generated method stub
@@ -244,7 +301,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 		StringBuffer ids = new StringBuffer();
 		ids= ids.append("'");
 		try {
-			String sql = " /*dialect*/select  fid ,cfdatebasetype TYPE , cfmessage  MESSAGE    from  CT_CUS_PurPlatSyncdbLog where  cfstatus = 0 and  cfdatebasetype = 6 and  nvl(CFSendCount,0) < 4  and  cfIsSync = 0 ";
+			String sql = " /*dialect*/select  fid ,cfdatebasetype TYPE , cfmessage  MESSAGE    from  CT_CUS_PurPlatSyncdbLog where  cfstatus = 0 and  cfdatebasetype != 6 and  nvl(CFSendCount,0) < 4  and  cfIsSync = 0 ";
 			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
 			  
 			Map<String, String> typemap = new  HashMap<String, String>();

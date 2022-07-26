@@ -17,4 +17,5 @@ public interface ISyncDataEASFacade extends IBizCtrl
     public void syncDateByType(int type, String data, int newOrDele, String name, String number) throws BOSException;
     public void DoErrorJon(String data) throws BOSException;
     public String materialSyncFun(String data) throws BOSException;
+    public void DoMaterialJson(String data) throws BOSException;
 }

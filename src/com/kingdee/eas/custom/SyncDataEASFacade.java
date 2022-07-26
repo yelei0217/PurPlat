@@ -77,4 +77,17 @@ public class SyncDataEASFacade extends AbstractBizCtrl implements ISyncDataEASFa
             throw new EJBRemoteException(err);
         }
     }
+    /**
+     *单独处理物料的json-User defined method
+     *@param data data
+     */
+    public void DoMaterialJson(String data) throws BOSException
+    {
+        try {
+            getController().DoMaterialJson(getContext(), data);
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
 }

@@ -297,7 +297,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 	@Override
 	protected void _DoErrorJon(Context ctx, String data) throws BOSException {
 		// TODO Auto-generated method stub
-		super._DoErrorJon(ctx, data);
+		//_DoMaterialJson(ctx, data);
 		StringBuffer ids = new StringBuffer();
 		ids= ids.append("'");
 		try {

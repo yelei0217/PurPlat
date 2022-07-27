@@ -53,7 +53,7 @@ public class MaterialUntil {
 
 	public String doCreateMaterial(Context ctx, String data) throws BOSException{
 		
-		//data = "{\"msgId\":\"pkKBgt311111\",\"operType\":0,\"reqCount\":1,\"reqTime\":\"20220715121020\",\"data\":[{\"fNumber\":\"CSqq009\",\"fName\":\"测试物料001\",\"fModel\":\"型号\",\"fMaterialGroup\":\"W1\",\"fArtNo\":\"fArtNo\",\"fBrand\":\"fBrand\",\"fCreateTime\":\"2022-07-20\",\"fUpdateTime\":\"2022-07-20\",\"fKAClass\":\"erjg\",\"fBaseUnit\":\"G01\",\"fInvUnit\":\"G04\",\"fPurUnit\":\"G04\",\"fSaleUnit\":\"G04\"}]}";
+		//data = "{\"msgId\":\"pkKBgt311111\",\"operType\":0,\"reqCount\":1,\"reqTime\":\"20220715121020\",\"data\":[{\"fNumber\":\"CSqq012\",\"fName\":\"测试物料012\",\"fModel\":\"型号\",\"fMaterialGroup\":\"W1\",\"fArtNo\":\"fArtNo\",\"fBrand\":\"fBrand\",\"fCreateTime\":\"2022-07-20\",\"fUpdateTime\":\"2022-07-20\",\"fKAClass\":\"erjg\",\"fBaseUnit\":\"G01\",\"fInvUnit\":\"G04\",\"fPurUnit\":\"G04\",\"fSaleUnit\":\"G04\"}]}";
 		Map map = (Map) JSONObject.parse(data);
 		String operType = map.get("operType").toString(); 
 		String msgid = map.get("msgId").toString(); 
@@ -144,7 +144,7 @@ public class MaterialUntil {
 			while(rs.next()){
 				String cityid = rs.getObject("CID").toString();
 				String kaclid = "";
-				if(rs.getObject("LID") != null && "".equals(rs.getObject("LID").toString()) ){
+				if(rs.getObject("LID") != null && !"".equals(rs.getObject("LID").toString()) ){
 					kaclid = rs.getObject("LID").toString();
 				} 
 				
@@ -160,7 +160,7 @@ public class MaterialUntil {
 					StringBuffer comsbrsql = new  StringBuffer(); 
 					comsbrsql.append(" /*dialect*/select c1.fid  FID , kacl.FID KID from t_org_company c1   \r\n"); 
 					comsbrsql.append(" left join T_BD_KAClassfication kacl on kacl.fnumber = '"+kaclass+"' and  kacl.FCURRENCYCOMPANY  = c1.fid  \r\n"); 
-					comsbrsql.append(" where c1.fcontrolunitid = '"+cityid+"' and    \r\n"); 
+					comsbrsql.append(" where c1.fcontrolunitid = '"+cityid+"'   and   c1.fid !='"+cityid+"'  and    \r\n"); 
 					comsbrsql.append(" not exists (   \r\n"); 
 					comsbrsql.append(" select 1 from T_BD_MaterialCompanyInfo mc2     \r\n"); 
 					comsbrsql.append(" inner join t_org_company org2 on org2.fid = mc2.FCompanyID    \r\n"); 
@@ -173,7 +173,7 @@ public class MaterialUntil {
 							String comid = rsCom.getObject("FID").toString();
 							
 							String kacComlid = "";
-							if(rsCom.getObject("KID") != null && "".equals(rsCom.getObject("KID").toString()) ){
+							if(rsCom.getObject("KID") != null && !"".equals(rsCom.getObject("KID").toString()) ){
 								kacComlid = rsCom.getObject("KID").toString();
 							} 
 							 
@@ -731,7 +731,7 @@ public class MaterialUntil {
 		  if(ope.equals("purchase")){
 			  //采购资料
 			  sbr.append("select fid from t_org_company c1 \r\n");
-			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and \r\n");
+			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"'   and   c1.fid !='"+ctrlId+"' and \r\n");
 			  sbr.append("not exists ( \r\n");
 			  sbr.append("select 1 from T_BD_MaterialPurchasing mc2  \r\n");
 			  sbr.append("inner join t_org_company org2 on org2.fid = mc2.FOrgUnit  \r\n");
@@ -740,7 +740,7 @@ public class MaterialUntil {
 		  }else if(ope.equals("company")){
 			  //财务资料   这个单独处理 不走此查询
 			  sbr.append("select fid from t_org_company c1 \r\n");
-			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and \r\n");
+			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and   c1.fid !='"+ctrlId+"'  and \r\n");
 			  sbr.append("not exists ( \r\n");
 			  sbr.append("select 1 from T_BD_MaterialCompanyInfo mc2  \r\n");
 			  sbr.append("inner join t_org_company org2 on org2.fid = mc2.FCompanyID  \r\n");
@@ -749,7 +749,7 @@ public class MaterialUntil {
 		  }else if(ope.equals("sales")){
 			  //销售资料
 			  sbr.append("select fid from t_org_company c1 \r\n");
-			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and \r\n");
+			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and   c1.fid !='"+ctrlId+"'  and \r\n");
 			  sbr.append("not exists ( \r\n");
 			  sbr.append("select 1 from T_BD_MaterialSales mc2  \r\n");
 			  sbr.append("inner join t_org_company org2 on org2.fid = mc2.FOrgUnit  \r\n");
@@ -758,7 +758,7 @@ public class MaterialUntil {
 		  }else if(ope.equals("inven")){
 			  //库存资料
 			  sbr.append("select fid from t_org_company c1 \r\n");
-			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and \r\n");
+			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and   c1.fid !='"+ctrlId+"'  and \r\n");
 			  sbr.append("not exists ( \r\n");
 			  sbr.append("select 1 from T_BD_MaterialInventory mc2  \r\n");
 			  sbr.append("inner join t_org_company org2 on org2.fid = mc2.FOrgUnit  \r\n");
@@ -767,7 +767,7 @@ public class MaterialUntil {
 		  }else if(ope.equals("cost")){
 			  //成本资料
 			  sbr.append("select fid from t_org_company c1 \r\n");
-			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and \r\n");
+			  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"'  and   c1.fid !='"+ctrlId+"'  and \r\n");
 			  sbr.append("not exists ( \r\n");
 			  sbr.append("select 1 from T_BD_MaterialCost mc2  \r\n");
 			  sbr.append("inner join t_org_company org2 on org2.fid = mc2.FOrgUnit  \r\n");
@@ -775,7 +775,7 @@ public class MaterialUntil {
 			  sbr.append("and mc2.FMaterialID='"+materialid+"' )  \r\n"); 
 		  }else if(ope.equals("data")){  
 	    		 sbr.append("select fid from t_org_company c1 ");
-				  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and  ");
+				  sbr.append("where c1.fcontrolunitid = '"+ctrlId+"' and   c1.fid !='"+ctrlId+"'  and  ");
 				  sbr.append("not exists ( ");
 				  sbr.append("select 1 from T_BD_DataBaseDAssign mc2   ");
 				  sbr.append("inner join t_org_company org2 on org2.fid = mc2.fcontrolunitid   ");

@@ -1,0 +1,2007 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityObject xmlns="com.kingdee.bos.metadata">
+    <package>com.kingdee.eas.custom.app</package>
+    <name>PurPlatSyncBusLog</name>
+    <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].alias</alias>
+    <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].description</description>
+    <userDefined>true</userDefined>
+    <bosType>1D353876</bosType>
+    <stereoType>false</stereoType>
+    <businessImplName>com.kingdee.eas.custom.PurPlatSyncBusLog</businessImplName>
+    <businessControllerName>com.kingdee.eas.custom.app.PurPlatSyncBusLogController</businessControllerName>
+    <accessLevel>public</accessLevel>
+    <subClassingMode>normal</subClassingMode>
+    <methods>
+        <method>
+            <name>getValue</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].description</description>
+            <innerID>7291aa50-5737-4cf6-a75c-0e6cd4568647</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectValue</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>pk</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[pk].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[pk].description</description>
+                    <direction>in</direction>
+                    <dataType>com.kingdee.bos.dao.IObjectPK</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getValue</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].description</description>
+            <innerID>cebcdab6-dcb0-4c2b-b560-fe93b2540848</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectValue</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>pk</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[pk].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[pk].description</description>
+                    <direction>in</direction>
+                    <dataType>com.kingdee.bos.dao.IObjectPK</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+                <parameter>
+                    <name>selector</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[selector].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[selector].description</description>
+                    <direction>in</direction>
+                    <dataType>com.kingdee.bos.metadata.entity.SelectorItemCollection</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getValue</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].description</description>
+            <innerID>4834d29a-5480-4c48-84c6-4446af405c8b</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectValue</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>oql</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[oql].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[oql].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getCollection</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].description</description>
+            <innerID>f4dcec56-3431-4c2f-9fea-e5fe58dcc2ab</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectCollection</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getCollection</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].description</description>
+            <innerID>ac08c60e-9980-49fa-aae6-52d4c6842e0f</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectCollection</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>view</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].parameters.parameter[view].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].parameters.parameter[view].description</description>
+                    <direction>in</direction>
+                    <dataType>com.kingdee.bos.metadata.entity.EntityViewInfo</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getCollection</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].description</description>
+            <innerID>25feb28f-6b92-46e6-89df-5e30b2b65609</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectCollection</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>oql</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].parameters.parameter[oql].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].parameters.parameter[oql].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+    </methods>
+    <isAbstract>false</isAbstract>
+    <bizUnitPK>com.kingdee.eas.custom.PurPlatSyncBusLog</bizUnitPK>
+    <baseEntity>
+        <key name="package" value="com.kingdee.eas.framework.app" />
+        <key name="name" value="DataBase" />
+    </baseEntity>
+    <table>
+        <key name="package" value="com.kingdee.eas.custom.app" />
+        <key name="name" value="CT_CUS_PurPlatSyncBusLog" />
+    </table>
+    <properties>
+        <ownProperty>
+            <name>dateBaseType</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>Enum</dataType>
+            <metadataRef>com.kingdee.eas.custom.app.DateBasetype</metadataRef>
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>80</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFDateBaseType" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>status</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>Boolean</dataType>
+            <metadataRef />
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>1</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFStatus" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>version</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>String</dataType>
+            <metadataRef />
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>100</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFVersion" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>updatetime</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>Time</dataType>
+            <metadataRef />
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>8</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFUpdatetime" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>updateDate</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>Date</dataType>
+            <metadataRef />
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>8</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFUpdateDate" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>processType</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>Enum</dataType>
+            <metadataRef>com.kingdee.eas.custom.app.DateBaseProcessType</metadataRef>
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>80</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFProcessType" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>Message</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>String</dataType>
+            <metadataRef />
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>2000</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFMessage" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>Respond</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>String</dataType>
+            <metadataRef />
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>2000</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFRespond" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>SendCount</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>Integer</dataType>
+            <metadataRef />
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>4</length>
+            <precision>10</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFSendCount" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>errorMessage</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>String</dataType>
+            <metadataRef />
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>255</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFErrorMessage" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>isSync</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>Boolean</dataType>
+            <metadataRef />
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>1</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFIsSync" />
+            </mappingField>
+        </ownProperty>
+    </properties>
+    <logicalKey>
+        <name>id</name>
+        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].logicalKey[id].alias</alias>
+        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].logicalKey[id].description</description>
+        <keyClass>com.kingdee.bos.dao.IObjectPK</keyClass>
+        <userDefined>true</userDefined>
+        <keyProperties>
+            <baseProperty>
+                <key name="name" value="id" />
+            </baseProperty>
+        </keyProperties>
+    </logicalKey>
+    <events>
+        <event>
+            <name>receiveTodoEvent</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].description</description>
+            <userDefined>true</userDefined>
+            <eventMethods>
+                <eventMethod>
+                    <name>280d5853-f48e-44da-9ae0-7297cde0c404</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].description</description>
+                    <facadeRef>
+                        <key name="package" value="com.kingdee.eas.custom.app" />
+                        <key name="name" value="BussinessToWeaverFacade" />
+                    </facadeRef>
+                    <facadeMethodRef>
+                        <key name="name" value="receiveTodo" />
+                        <key name="innerID" value="280d5853-f48e-44da-9ae0-7297cde0c404" />
+                    </facadeMethodRef>
+                    <parameterMappings>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>5a469a36-4d6b-4d42-b647-db99df9a004cevfp</formalParameterInnerID>
+                            <actualParameterIndex>0</actualParameterIndex>
+                            <isBOPK>true</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>54ba489e-c996-4371-90a9-aa027569c14fevfp</formalParameterInnerID>
+                            <actualParameterIndex>1</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>ff659602-4d1a-4cf7-b357-d98a4c47b809evfp</formalParameterInnerID>
+                            <actualParameterIndex>2</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>83913d9c-ba86-4bbb-b5f8-84a3971fc72fevfp</formalParameterInnerID>
+                            <actualParameterIndex>3</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>3b1d756d-0ae8-42df-860a-950da0fd6950evfp</formalParameterInnerID>
+                            <actualParameterIndex>4</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>e16cd473-6532-49a1-a2e6-ef504e3ede7cevfp</formalParameterInnerID>
+                            <actualParameterIndex>5</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>24673aac-c3ba-4755-98ae-06b55714823bevfp</formalParameterInnerID>
+                            <actualParameterIndex>6</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>b8bcdf9c-74ff-4302-b4d1-d9e8bf33fac6evfp</formalParameterInnerID>
+                            <actualParameterIndex>7</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                    </parameterMappings>
+                </eventMethod>
+            </eventMethods>
+            <formalParameters>
+                <formalParameter>
+                    <innerID>5a469a36-4d6b-4d42-b647-db99df9a004cevfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>flowid</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[flowid].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[flowid].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>54ba489e-c996-4371-90a9-aa027569c14fevfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>requestname</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[requestname].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[requestname].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>ff659602-4d1a-4cf7-b357-d98a4c47b809evfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>workflowname</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[workflowname].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[workflowname].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>83913d9c-ba86-4bbb-b5f8-84a3971fc72fevfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>nodename</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[nodename].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[nodename].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>3b1d756d-0ae8-42df-860a-950da0fd6950evfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>creator</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[creator].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[creator].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>e16cd473-6532-49a1-a2e6-ef504e3ede7cevfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>createdatetime</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[createdatetime].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[createdatetime].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>24673aac-c3ba-4755-98ae-06b55714823bevfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>receiver</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[receiver].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[receiver].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>b8bcdf9c-74ff-4302-b4d1-d9e8bf33fac6evfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>receivedatetime</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[receivedatetime].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[receivedatetime].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+            </formalParameters>
+        </event>
+        <event>
+            <name>processDoneEvent</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].description</description>
+            <userDefined>true</userDefined>
+            <eventMethods>
+                <eventMethod>
+                    <name>36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].description</description>
+                    <facadeRef>
+                        <key name="package" value="com.kingdee.eas.custom.app" />
+                        <key name="name" value="BussinessToWeaverFacade" />
+                    </facadeRef>
+                    <facadeMethodRef>
+                        <key name="name" value="processDone" />
+                        <key name="innerID" value="36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f" />
+                    </facadeMethodRef>
+                    <parameterMappings>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>eec97c4f-e962-4fda-ba6f-8714ccf8a5d8evfp</formalParameterInnerID>
+                            <actualParameterIndex>0</actualParameterIndex>
+                            <isBOPK>true</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>e8f371bd-418e-458f-b765-fc1b4bda9350evfp</formalParameterInnerID>
+                            <actualParameterIndex>1</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>674e7d8c-28f7-4558-befc-81aae9f040afevfp</formalParameterInnerID>
+                            <actualParameterIndex>2</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>3d165c0f-7730-4643-924f-f3f9effb0a34evfp</formalParameterInnerID>
+                            <actualParameterIndex>3</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>75ca9682-708c-471d-a773-e11578d36a41evfp</formalParameterInnerID>
+                            <actualParameterIndex>4</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                    </parameterMappings>
+                </eventMethod>
+            </eventMethods>
+            <formalParameters>
+                <formalParameter>
+                    <innerID>eec97c4f-e962-4fda-ba6f-8714ccf8a5d8evfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>flowid</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[flowid].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[flowid].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>e8f371bd-418e-458f-b765-fc1b4bda9350evfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>requestname</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[requestname].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[requestname].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>674e7d8c-28f7-4558-befc-81aae9f040afevfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>workflowname</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[workflowname].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[workflowname].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>3d165c0f-7730-4643-924f-f3f9effb0a34evfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>nodename</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[nodename].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[nodename].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>75ca9682-708c-471d-a773-e11578d36a41evfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>receiver</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[receiver].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[receiver].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+            </formalParameters>
+        </event>
+        <event>
+            <name>processOverEvent</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].description</description>
+            <userDefined>true</userDefined>
+            <eventMethods>
+                <eventMethod>
+                    <name>865062c3-fd8e-43b0-890e-fa18d4cfa94f</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].description</description>
+                    <facadeRef>
+                        <key name="package" value="com.kingdee.eas.custom.app" />
+                        <key name="name" value="BussinessToWeaverFacade" />
+                    </facadeRef>
+                    <facadeMethodRef>
+                        <key name="name" value="processOver" />
+                        <key name="innerID" value="865062c3-fd8e-43b0-890e-fa18d4cfa94f" />
+                    </facadeMethodRef>
+                    <parameterMappings>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>5d6e12a3-f576-4957-9f62-ea4c66d66567evfp</formalParameterInnerID>
+                            <actualParameterIndex>0</actualParameterIndex>
+                            <isBOPK>true</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>84c0b2d4-8a7f-4010-968c-0efd425acf2fevfp</formalParameterInnerID>
+                            <actualParameterIndex>1</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>8dcb6ef5-e204-4994-a3ee-66efe46ddba0evfp</formalParameterInnerID>
+                            <actualParameterIndex>2</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>c797628f-69c4-4d44-ad7c-126290af0c60evfp</formalParameterInnerID>
+                            <actualParameterIndex>3</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>6eabc06b-9255-4b68-800a-087957f188bbevfp</formalParameterInnerID>
+                            <actualParameterIndex>4</actualParameterIndex>
+                            <isBOPK>false</isBOPK>
+                        </parameterMapping>
+                    </parameterMappings>
+                </eventMethod>
+            </eventMethods>
+            <formalParameters>
+                <formalParameter>
+                    <innerID>5d6e12a3-f576-4957-9f62-ea4c66d66567evfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>flowid</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[flowid].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[flowid].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>84c0b2d4-8a7f-4010-968c-0efd425acf2fevfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>requestname</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[requestname].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[requestname].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>8dcb6ef5-e204-4994-a3ee-66efe46ddba0evfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>workflowname</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[workflowname].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[workflowname].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>c797628f-69c4-4d44-ad7c-126290af0c60evfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>nodename</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[nodename].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[nodename].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+                <formalParameter>
+                    <innerID>6eabc06b-9255-4b68-800a-087957f188bbevfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>receiver</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[receiver].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[receiver].description</description>
+                        <direction>in</direction>
+                        <dataType>String</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PurPlatSyncBusLog</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+            </formalParameters>
+        </event>
+    </events>
+    <resource>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="业务单据同步记录" />
+            <lang locale="zh_TW" value="基礎資料同步記錄" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="單級基礎資料範本" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="处理待办事件" />
+            <lang locale="zh_TW" value="處理待辦事件" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="处理待办流程（变为已办）" />
+            <lang locale="zh_TW" value="處理待辦流程（變為已辦）" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].parameterMappings.parameterMappingalias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].eventMethods.eventMethod[36a3a7da-61f5-4a1b-96b9-a0b1c0911d4f].parameterMappings.parameterMappingdescription">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[flowid].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="流程任务id" />
+            <lang locale="zh_TW" value="流程任務id" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[flowid].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[nodename].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="步骤名称" />
+            <lang locale="zh_TW" value="步驟名稱" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[nodename].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[receiver].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="接收人" />
+            <lang locale="zh_TW" value="接收人" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[receiver].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[requestname].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="标题" />
+            <lang locale="zh_TW" value="標題" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[requestname].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[workflowname].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="流程类型名称" />
+            <lang locale="zh_TW" value="流程類型名稱" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processDoneEvent].formalParameters.formalParameter.parameter[workflowname].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="处理办结事件" />
+            <lang locale="zh_TW" value="處理辦結事件" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="处理办结流程（变为办结）" />
+            <lang locale="zh_TW" value="處理辦結流程（變為辦結）" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].parameterMappings.parameterMappingalias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].eventMethods.eventMethod[865062c3-fd8e-43b0-890e-fa18d4cfa94f].parameterMappings.parameterMappingdescription">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[flowid].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="流程任务id" />
+            <lang locale="zh_TW" value="流程任務id" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[flowid].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[nodename].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="步骤名称" />
+            <lang locale="zh_TW" value="步驟名稱" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[nodename].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[receiver].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="接收人" />
+            <lang locale="zh_TW" value="接收人" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[receiver].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[requestname].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="标题" />
+            <lang locale="zh_TW" value="標題" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[requestname].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[workflowname].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="流程类型名称" />
+            <lang locale="zh_TW" value="流程類型名稱" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[processOverEvent].formalParameters.formalParameter.parameter[workflowname].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="接收待办事件" />
+            <lang locale="zh_TW" value="接收待辦事件" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="接收待办事件" />
+            <lang locale="zh_TW" value="接收待辦事件" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingalias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].eventMethods.eventMethod[280d5853-f48e-44da-9ae0-7297cde0c404].parameterMappings.parameterMappingdescription">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[createdatetime].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="创建日期时间" />
+            <lang locale="zh_TW" value="創建日期時間" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[createdatetime].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="创建日期时间" />
+            <lang locale="zh_TW" value="創建日期時間" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[creator].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="创建人" />
+            <lang locale="zh_TW" value="創建人" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[creator].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="创建人" />
+            <lang locale="zh_TW" value="創建人" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[flowid].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="流程任务id" />
+            <lang locale="zh_TW" value="流程任務id" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[flowid].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[nodename].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="步骤名称" />
+            <lang locale="zh_TW" value="步驟名稱" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[nodename].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="步骤名称（节点名称）" />
+            <lang locale="zh_TW" value="步驟名稱（節點名稱）" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[receivedatetime].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="接收日期时间" />
+            <lang locale="zh_TW" value="接收日期時間" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[receivedatetime].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="接收日期时间" />
+            <lang locale="zh_TW" value="接收日期時間" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[receiver].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="接收人" />
+            <lang locale="zh_TW" value="接收人" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[receiver].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="接收人" />
+            <lang locale="zh_TW" value="接收人" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[requestname].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="标题" />
+            <lang locale="zh_TW" value="標題" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[requestname].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[workflowname].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="流程类型名称" />
+            <lang locale="zh_TW" value="流程類型名稱" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].events.event[receiveTodoEvent].formalParameters.formalParameter.parameter[workflowname].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].extendedProperty.OrgType">
+            <lang locale="en_US" value="NONE" />
+            <lang locale="zh_CN" value="NONE" />
+            <lang locale="zh_TW" value="NONE" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].extendedProperty.codingRuleEnabled">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].extendedProperty.defaultDisplayField">
+            <lang locale="en_US" value="name" />
+            <lang locale="zh_CN" value="name" />
+            <lang locale="zh_TW" value="name" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].extendedProperty.defaultF7Query">
+            <lang locale="en_US" value="com.kingdee.eas.custom.app.PurPlatSyncBusLogQuery" />
+            <lang locale="zh_CN" value="com.kingdee.eas.custom.app.PurPlatSyncBusLogQuery" />
+            <lang locale="zh_TW" value="com.kingdee.eas.custom.app.PurPlatSyncBusLogQuery" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].extendedProperty.editUI">
+            <lang locale="en_US" value="com.kingdee.eas.custom.client.PurPlatSyncBusLogEditUI" />
+            <lang locale="zh_CN" value="com.kingdee.eas.custom.client.PurPlatSyncBusLogEditUI" />
+            <lang locale="zh_TW" value="com.kingdee.eas.custom.client.PurPlatSyncBusLogEditUI" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].extendedProperty.isParamObject">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].extendedProperty.isSimpleEntity">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].extendedProperty.listUI">
+            <lang locale="en_US" value="com.kingdee.eas.custom.client.PurPlatSyncBusLogListUI" />
+            <lang locale="zh_CN" value="com.kingdee.eas.custom.client.PurPlatSyncBusLogListUI" />
+            <lang locale="zh_TW" value="com.kingdee.eas.custom.client.PurPlatSyncBusLogListUI" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].logicalKey[id].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].logicalKey[id].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].alias">
+            <lang locale="en_US" value="getCollection" />
+            <lang locale="zh_CN" value="取集合" />
+            <lang locale="zh_TW" value="取集合" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].parameters.parameter[oql].alias">
+            <lang locale="en_US" value="getCollection" />
+            <lang locale="zh_CN" value="取集合" />
+            <lang locale="zh_TW" value="取集合" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].parameters.parameter[oql].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].parameters.parameter[view].alias">
+            <lang locale="en_US" value="getCollection" />
+            <lang locale="zh_CN" value="取集合" />
+            <lang locale="zh_TW" value="取集合" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getCollection].parameters.parameter[view].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].alias">
+            <lang locale="en_US" value="getValue" />
+            <lang locale="zh_CN" value="取值" />
+            <lang locale="zh_TW" value="取值" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[oql].alias">
+            <lang locale="en_US" value="getValue" />
+            <lang locale="zh_CN" value="取值" />
+            <lang locale="zh_TW" value="取值" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[oql].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[pk].alias">
+            <lang locale="en_US" value="getValue" />
+            <lang locale="zh_CN" value="取值" />
+            <lang locale="zh_TW" value="取值" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[pk].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[selector].alias">
+            <lang locale="en_US" value="getValue" />
+            <lang locale="zh_CN" value="取值" />
+            <lang locale="zh_TW" value="取值" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].methods.method[getValue].parameters.parameter[selector].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="信息" />
+            <lang locale="zh_TW" value="信息" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="信息" />
+            <lang locale="zh_TW" value="信息" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].extendedProperty.bizDataType">
+            <lang locale="en_US" value="STRING" />
+            <lang locale="zh_CN" value="STRING" />
+            <lang locale="zh_TW" value="STRING" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Message].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="响应信息" />
+            <lang locale="zh_TW" value="回應信息" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="异常信息" />
+            <lang locale="zh_TW" value="異常信息" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].extendedProperty.bizDataType">
+            <lang locale="en_US" value="STRING" />
+            <lang locale="zh_CN" value="STRING" />
+            <lang locale="zh_TW" value="STRING" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[Respond].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="请求次数" />
+            <lang locale="zh_TW" value="請求次數" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="请求次数" />
+            <lang locale="zh_TW" value="請求次數" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].extendedProperty.bizDataType">
+            <lang locale="en_US" value="INTEGER" />
+            <lang locale="zh_CN" value="INTEGER" />
+            <lang locale="zh_TW" value="INTEGER" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[SendCount].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="数据类型" />
+            <lang locale="zh_TW" value="數據類型" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="orgUnit" />
+            <lang locale="zh_TW" value="orgUnit" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="数据类型" />
+            <lang locale="zh_TW" value="數據類型" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].extendedProperty.bizDataType">
+            <lang locale="en_US" value="ENUM" />
+            <lang locale="zh_CN" value="ENUM" />
+            <lang locale="zh_TW" value="ENUM" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].extendedProperty.defaultValue">
+            <lang locale="en_US" value="orgUnit" />
+            <lang locale="zh_CN" value="orgUnit" />
+            <lang locale="zh_TW" value="orgUnit" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[dateBaseType].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="失败信息" />
+            <lang locale="zh_TW" value="失敗信息" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="失败信息" />
+            <lang locale="zh_TW" value="失敗信息" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].extendedProperty.bizDataType">
+            <lang locale="en_US" value="STRING" />
+            <lang locale="zh_CN" value="STRING" />
+            <lang locale="zh_TW" value="STRING" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[errorMessage].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="是否正在同步" />
+            <lang locale="zh_TW" value="是否正在同步" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="是否正在同步" />
+            <lang locale="zh_TW" value="是否正在同步" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="是否正在同步" />
+            <lang locale="zh_TW" value="是否正在同步" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].extendedProperty.bizDataType">
+            <lang locale="en_US" value="BOOLEAN" />
+            <lang locale="zh_CN" value="BOOLEAN" />
+            <lang locale="zh_TW" value="BOOLEAN" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[isSync].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="处理类型" />
+            <lang locale="zh_TW" value="處理類型" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="Update" />
+            <lang locale="zh_TW" value="Update" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="处理类型" />
+            <lang locale="zh_TW" value="處理類型" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].extendedProperty.bizDataType">
+            <lang locale="en_US" value="ENUM" />
+            <lang locale="zh_CN" value="ENUM" />
+            <lang locale="zh_TW" value="ENUM" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].extendedProperty.defaultValue">
+            <lang locale="en_US" value="Update" />
+            <lang locale="zh_CN" value="Update" />
+            <lang locale="zh_TW" value="Update" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[processType].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="同步状态" />
+            <lang locale="zh_TW" value="同步狀態" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="同步状态" />
+            <lang locale="zh_TW" value="同步狀態" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="同步状态" />
+            <lang locale="zh_TW" value="同步狀態" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].extendedProperty.bizDataType">
+            <lang locale="en_US" value="BOOLEAN" />
+            <lang locale="zh_CN" value="BOOLEAN" />
+            <lang locale="zh_TW" value="BOOLEAN" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[status].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="更新日期" />
+            <lang locale="zh_TW" value="更新日期" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="更新日期" />
+            <lang locale="zh_TW" value="更新日期" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].extendedProperty.bizDataType">
+            <lang locale="en_US" value="DATE" />
+            <lang locale="zh_CN" value="DATE" />
+            <lang locale="zh_TW" value="DATE" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updateDate].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="同步时间" />
+            <lang locale="zh_TW" value="同步時間" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="同步时间" />
+            <lang locale="zh_TW" value="同步時間" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].extendedProperty.bizDataType">
+            <lang locale="en_US" value="TIME" />
+            <lang locale="zh_CN" value="TIME" />
+            <lang locale="zh_TW" value="TIME" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[updatetime].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="版本" />
+            <lang locale="zh_TW" value="版本" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="版本" />
+            <lang locale="zh_TW" value="版本" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].extendedProperty.bizDataType">
+            <lang locale="en_US" value="STRING" />
+            <lang locale="zh_CN" value="STRING" />
+            <lang locale="zh_TW" value="STRING" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PurPlatSyncBusLog].properties.ownProperty[version].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+    </resource>
+</entityObject>
+

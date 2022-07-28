@@ -526,19 +526,32 @@ public class MaterialUntil {
 				error = error+ "物料编码不能为空;";  
 				continue;
 			} 
-			if (dataMap.get("fid")== null || "".equals(dataMap.get("fid").toString()) ) { 
+			/*if (dataMap.get("fid")== null || "".equals(dataMap.get("fid").toString()) ) { 
 				error = error+ "物料编码不能为空;";  
 				continue;
-			} 
+			} */
 			String  number  = dataMap.get("fNumber").toString() ;
 			try {
 				if (  imbiz.exists("where number = '"+number+"'") ) { 
-					//imbiz.freeze("");
-					imbiz.unapprove(new ObjectUuidPK(BOSUuid.read(dataMap.get("fid").toString())));
+					//imbiz.freeze(""); 
+					EntityViewInfo view = new EntityViewInfo();
+					view.getSelector().add(new SelectorItemInfo("number"));
+					try {
+						view.setFilter(new FilterInfo(number));
+					} catch (ParserException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						error = error+e1.getMessage();
+					}
+					MaterialInfo material = imbiz.getMaterialCollection(view).get(0); 
+					imbiz.unapprove(new ObjectUuidPK(material.getId()));
+				}else{
+					error = error+"此物料编码"+dataMap.get("fNumber")+"不存在;";
 				}
 			} catch (EASBizException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				error = error+e1.getMessage();
 			}
 		}
 		return error;

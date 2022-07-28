@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployObjects>
+    <deployObject>
+        <type>facade</type>
+        <name>SyncDataEASFacade</name>
+        <package>com.kingdee.eas.custom.app</package>
+        <deployMethods>
+            <deployMethod id="68728a16-208a-4c3f-b266-fb2457f3ccf6" />
+            <deployMethod id="d359caef-7a73-4414-b451-a338eb8b0aad" />
+            <deployMethod id="3137f617-0d1f-4d45-a551-1e5895818966" />
+            <deployMethod id="bed676fe-acc0-41c6-8066-c0e02aad0e07" />
+        </deployMethods>
+    </deployObject>
+</deployObjects>
+

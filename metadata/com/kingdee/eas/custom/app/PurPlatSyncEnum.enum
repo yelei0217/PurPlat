@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bizEnum xmlns="com.kingdee.bos.metadata">
+    <package>com.kingdee.eas.custom.app</package>
+    <name>PurPlatSyncEnum</name>
+    <alias>bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].alias</alias>
+    <description>bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].description</description>
+    <userDefined>true</userDefined>
+    <className>com.kingdee.eas.custom.app.PurPlatSyncEnum</className>
+    <enumDataType>STRING</enumDataType>
+    <enumValues>
+        <enumValue>
+            <name>SUCCESS</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[SUCCESS].alias</alias>
+            <userDefined>true</userDefined>
+            <value>200</value>
+        </enumValue>
+        <enumValue>
+            <name>JSON_ERROR</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[JSON_ERROR].alias</alias>
+            <userDefined>true</userDefined>
+            <value>-1</value>
+        </enumValue>
+        <enumValue>
+            <name>EXCEPTION_SERVER</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[EXCEPTION_SERVER].alias</alias>
+            <userDefined>true</userDefined>
+            <value>-2</value>
+        </enumValue>
+        <enumValue>
+            <name>EXCEPTION_NET</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[EXCEPTION_NET].alias</alias>
+            <userDefined>true</userDefined>
+            <value>-3</value>
+        </enumValue>
+        <enumValue>
+            <name>EXISTS_BILL</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[EXISTS_BILL].alias</alias>
+            <userDefined>true</userDefined>
+            <value>-4</value>
+        </enumValue>
+        <enumValue>
+            <name>FIELD_NULL</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[FIELD_NULL].alias</alias>
+            <userDefined>true</userDefined>
+            <value>-5</value>
+        </enumValue>
+    </enumValues>
+    <resource>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="采购平台同步枚举" />
+            <lang locale="zh_HK" value="採購平臺同步枚舉" />
+            <lang locale="zh_TW" value="採購平臺同步枚舉" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="采购平台同步枚举" />
+            <lang locale="zh_HK" value="採購平臺同步枚舉" />
+            <lang locale="zh_TW" value="採購平臺同步枚舉" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[EXCEPTION_NET].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="网络异常" />
+            <lang locale="zh_HK" value="網路異常" />
+            <lang locale="zh_TW" value="網路異常" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[EXCEPTION_SERVER].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="服务端异常" />
+            <lang locale="zh_HK" value="服務端異常" />
+            <lang locale="zh_TW" value="服務端異常" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[EXISTS_BILL].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="业务单据已存在" />
+            <lang locale="zh_HK" value="業務單據已存在" />
+            <lang locale="zh_TW" value="業務單據已存在" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[FIELD_NULL].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="参数为空" />
+            <lang locale="zh_HK" value="參數為空" />
+            <lang locale="zh_TW" value="參數為空" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[JSON_ERROR].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="JSON格式解析异常" />
+            <lang locale="zh_HK" value="JSON格式解析異常" />
+            <lang locale="zh_TW" value="JSON格式解析異常" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[SUCCESS].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="操作成功" />
+            <lang locale="zh_HK" value="操作成功" />
+            <lang locale="zh_TW" value="操作成功" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].extendedProperty.userDefined">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+    </resource>
+</bizEnum>
+

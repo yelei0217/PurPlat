@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facade xmlns="com.kingdee.bos.metadata">
+    <package>com.kingdee.eas.custom.app</package>
+    <name>SyncBill2EASFacade</name>
+    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].alias</alias>
+    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].description</description>
+    <userDefined>true</userDefined>
+    <bosType>D8347086</bosType>
+    <stereoType>false</stereoType>
+    <businessImplName>com.kingdee.eas.custom.SyncBill2EASFacade</businessImplName>
+    <businessControllerName>com.kingdee.eas.custom.app.SyncBill2EASFacadeController</businessControllerName>
+    <accessLevel>public</accessLevel>
+    <subClassingMode>normal</subClassingMode>
+    <methods>
+        <method>
+            <name>savePurOrder</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurOrder].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurOrder].description</description>
+            <innerID>16179292-3ed3-4710-b047-9c172ab2094f</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurOrder].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurOrder].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>saveSaleOrder</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleOrder].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleOrder].description</description>
+            <innerID>f05a077f-c2e1-4fa0-b004-11682658f270</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleOrder].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleOrder].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>savePurInWare</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInWare].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInWare].description</description>
+            <innerID>1eb41427-0d37-4cc3-8b6a-45ce2364727f</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInWare].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInWare].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>saveSaleIss</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleIss].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleIss].description</description>
+            <innerID>98031fa4-b012-480b-9e44-3933f98a9187</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleIss].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleIss].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>purOrderCloseRow</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[purOrderCloseRow].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[purOrderCloseRow].description</description>
+            <innerID>c42bb6c6-02ac-4f0d-9747-e8d0d3cc4507</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[purOrderCloseRow].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[purOrderCloseRow].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>saleOrderCloseRow</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saleOrderCloseRow].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saleOrderCloseRow].description</description>
+            <innerID>b049f778-1e47-4c4a-93b2-17382d1c7265</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saleOrderCloseRow].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saleOrderCloseRow].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>saveOtherPurIn</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherPurIn].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherPurIn].description</description>
+            <innerID>b453ff00-889c-496b-8a62-674dce4f1a8d</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherPurIn].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherPurIn].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>saveOtherSaleIss</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherSaleIss].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherSaleIss].description</description>
+            <innerID>4c51797a-2b52-4778-a567-a803fb322f18</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherSaleIss].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherSaleIss].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>saveApOtherBill</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveApOtherBill].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveApOtherBill].description</description>
+            <innerID>b6436cbe-a27c-40e4-911d-76d67607d071</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveApOtherBill].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveApOtherBill].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>savePaymentBill</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePaymentBill].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePaymentBill].description</description>
+            <innerID>a8d36f80-69a8-4378-bfad-3e166a566f8d</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePaymentBill].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePaymentBill].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>saveArOtherBill</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveArOtherBill].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveArOtherBill].description</description>
+            <innerID>39ffdf16-6552-41d1-9e91-cf9709232877</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveArOtherBill].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveArOtherBill].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>saveReceiveBill</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveReceiveBill].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveReceiveBill].description</description>
+            <innerID>8e5cefc3-4618-4abc-965f-822abae06c90</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveReceiveBill].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveReceiveBill].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>saveCostAdjus</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveCostAdjus].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveCostAdjus].description</description>
+            <innerID>b6de361a-f023-4ab0-8ee5-9c8b3853a537</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveCostAdjus].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveCostAdjus].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>savePurInCGW</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInCGW].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInCGW].description</description>
+            <innerID>3a2c69f6-8edf-4076-abb6-13ce6f45c3d8</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInCGW].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInCGW].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+    </methods>
+    <resource>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="同步业务单据功能" />
+            <lang locale="zh_HK" value="同步業務單據功能" />
+            <lang locale="zh_TW" value="同步業務單據功能" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="集采平台b2b和his调用功能，同步业务单据到eas系统" />
+            <lang locale="zh_HK" value="集采平臺b2b和his調用功能，同步業務單據到eas系統" />
+            <lang locale="zh_TW" value="集采平臺b2b和his調用功能，同步業務單據到eas系統" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].extendedProperty.userDefined">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[purOrderCloseRow].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="采购订单行关闭" />
+            <lang locale="zh_HK" value="採購訂單行關閉" />
+            <lang locale="zh_TW" value="採購訂單行關閉" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[purOrderCloseRow].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="采购订单行关闭" />
+            <lang locale="zh_HK" value="採購訂單行關閉" />
+            <lang locale="zh_TW" value="採購訂單行關閉" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[purOrderCloseRow].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[purOrderCloseRow].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saleOrderCloseRow].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="销售订单行关闭" />
+            <lang locale="zh_HK" value="銷售訂單行關閉" />
+            <lang locale="zh_TW" value="銷售訂單行關閉" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saleOrderCloseRow].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saleOrderCloseRow].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saleOrderCloseRow].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveApOtherBill].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="应付单保存" />
+            <lang locale="zh_HK" value="應付單保存" />
+            <lang locale="zh_TW" value="應付單保存" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveApOtherBill].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="应付单同步接口" />
+            <lang locale="zh_HK" value="應付單同步介面" />
+            <lang locale="zh_TW" value="應付單同步介面" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveApOtherBill].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveApOtherBill].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveArOtherBill].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="应收单保存" />
+            <lang locale="zh_HK" value="應收單保存" />
+            <lang locale="zh_TW" value="應收單保存" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveArOtherBill].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="应收单同步接口" />
+            <lang locale="zh_HK" value="應收單同步介面" />
+            <lang locale="zh_TW" value="應收單同步介面" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveArOtherBill].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveArOtherBill].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveCostAdjus].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="成本调整单保存" />
+            <lang locale="zh_HK" value="成本調整單保存" />
+            <lang locale="zh_TW" value="成本調整單保存" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveCostAdjus].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="成本调整单同步接口" />
+            <lang locale="zh_HK" value="成本調整單同步介面" />
+            <lang locale="zh_TW" value="成本調整單同步介面" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveCostAdjus].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveCostAdjus].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherPurIn].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="其他入库单保存" />
+            <lang locale="zh_HK" value="其他入庫單保存" />
+            <lang locale="zh_TW" value="其他入庫單保存" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherPurIn].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="其他入库单同步接口" />
+            <lang locale="zh_HK" value="其他入庫單同步介面" />
+            <lang locale="zh_TW" value="其他入庫單同步介面" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherPurIn].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherPurIn].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherSaleIss].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="其他出库单保存" />
+            <lang locale="zh_HK" value="其他出庫單保存" />
+            <lang locale="zh_TW" value="其他出庫單保存" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherSaleIss].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="其他出库单同步接口" />
+            <lang locale="zh_HK" value="其他出庫單同步介面" />
+            <lang locale="zh_TW" value="其他出庫單同步介面" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherSaleIss].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveOtherSaleIss].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePaymentBill].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="付款单保存" />
+            <lang locale="zh_HK" value="付款單保存" />
+            <lang locale="zh_TW" value="付款單保存" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePaymentBill].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="付款单同步接口" />
+            <lang locale="zh_HK" value="付款單同步介面" />
+            <lang locale="zh_TW" value="付款單同步介面" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePaymentBill].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePaymentBill].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInCGW].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="采购入库单成果物保存" />
+            <lang locale="zh_HK" value="採購入庫單成果物保存" />
+            <lang locale="zh_TW" value="採購入庫單成果物保存" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInCGW].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="采购入库单成果物新增同步接口" />
+            <lang locale="zh_HK" value="採購入庫單成果物新增同步介面" />
+            <lang locale="zh_TW" value="採購入庫單成果物新增同步介面" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInCGW].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInCGW].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInWare].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="采购入库保存" />
+            <lang locale="zh_HK" value="採購入庫保存" />
+            <lang locale="zh_TW" value="採購入庫保存" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInWare].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="采购入库单同步接口" />
+            <lang locale="zh_HK" value="採購入庫單同步介面" />
+            <lang locale="zh_TW" value="採購入庫單同步介面" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInWare].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurInWare].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurOrder].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="采购订单保存" />
+            <lang locale="zh_HK" value="採購訂單保存" />
+            <lang locale="zh_TW" value="採購訂單保存" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurOrder].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="采购订单保存接口" />
+            <lang locale="zh_HK" value="採購訂單保存介面" />
+            <lang locale="zh_TW" value="採購訂單保存介面" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurOrder].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[savePurOrder].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveReceiveBill].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="收款单保存" />
+            <lang locale="zh_HK" value="收款單保存" />
+            <lang locale="zh_TW" value="收款單保存" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveReceiveBill].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="收款单同步接口" />
+            <lang locale="zh_HK" value="收款單同步介面" />
+            <lang locale="zh_TW" value="收款單同步介面" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveReceiveBill].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveReceiveBill].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleIss].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="销售出库保存" />
+            <lang locale="zh_HK" value="銷售出庫保存" />
+            <lang locale="zh_TW" value="銷售出庫保存" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleIss].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="销售出库单同步接口" />
+            <lang locale="zh_HK" value="銷售出庫單同步介面" />
+            <lang locale="zh_TW" value="銷售出庫單同步介面" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleIss].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleIss].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleOrder].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="销售订单保存" />
+            <lang locale="zh_HK" value="銷售訂單保存" />
+            <lang locale="zh_TW" value="銷售訂單保存" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleOrder].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="销售订单同步接口" />
+            <lang locale="zh_HK" value="銷售訂單同步介面" />
+            <lang locale="zh_TW" value="銷售訂單同步介面" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleOrder].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="传入json参数" />
+            <lang locale="zh_HK" value="傳入json參數" />
+            <lang locale="zh_TW" value="傳入json參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleOrder].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+    </resource>
+</facade>
+

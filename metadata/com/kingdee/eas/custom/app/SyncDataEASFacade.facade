@@ -156,9 +156,9 @@
     <resource>
         <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].alias">
             <lang locale="en_US" value="null" />
-            <lang locale="zh_CN" value="null" />
-            <lang locale="zh_HK" value="null" />
-            <lang locale="zh_TW" value="null" />
+            <lang locale="zh_CN" value="同步基础资料功能" />
+            <lang locale="zh_HK" value="同步基礎資料功能" />
+            <lang locale="zh_TW" value="同步基礎資料功能" />
         </rs>
         <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].description">
             <lang locale="en_US" value="null" />

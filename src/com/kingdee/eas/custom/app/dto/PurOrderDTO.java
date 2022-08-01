@@ -1,10 +1,16 @@
 package com.kingdee.eas.custom.app.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-public class PurOrderDTO {
+public class PurOrderDTO implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6134640840085828492L;
+	
 	private String	id ;
 	private String	fnumber ;
 	private Date	fbizdate ;
@@ -16,8 +22,8 @@ public class PurOrderDTO {
 	private BigDecimal	ftotaltax ;
 	private BigDecimal	ftotaltaxamount ;
 	private String	fcreatorid ;
-	private Date	fcreatetime ;
-	
+//	private Date	fcreatetime ;
+
 	private List<PurOrderDetailDTO> details;
 
 	public String getId() {
@@ -108,13 +114,13 @@ public class PurOrderDTO {
 		this.fcreatorid = fcreatorid;
 	}
 
-	public Date getFcreatetime() {
-		return fcreatetime;
-	}
-
-	public void setFcreatetime(Date fcreatetime) {
-		this.fcreatetime = fcreatetime;
-	}
+//	public Date getFcreatetime() {
+//		return fcreatetime;
+//	}
+//
+//	public void setFcreatetime(Date fcreatetime) {
+//		this.fcreatetime = fcreatetime;
+//	}
 
 	public List<PurOrderDetailDTO> getDetails() {
 		return details;

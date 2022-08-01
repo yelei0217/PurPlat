@@ -5,11 +5,13 @@ import java.util.Date;
 
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
+import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.PurPlatSyncBusLogFactory;
 import com.kingdee.eas.custom.PurPlatSyncBusLogInfo;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
+import com.kingdee.eas.util.app.DbUtil;
 
 public class PurPlatSyncBusLogUtil {
 	
@@ -26,7 +28,8 @@ public class PurPlatSyncBusLogUtil {
 	 * @param respond
 	 * @param errMsg
 	 */
-	public static void insertLog(Context ctx, DateBaseProcessType processType,DateBasetype baseType,String name,String number,String request,String respond,String errMsg){
+	public static IObjectPK insertLog(Context ctx, DateBaseProcessType processType,DateBasetype baseType,String name,String number,String request,String respond,String errMsg){
+		IObjectPK logPk = null;
 		try {
 			PurPlatSyncBusLogInfo loginfo=new PurPlatSyncBusLogInfo();
 			//Calendar cal=Calendar.getInstance();
@@ -43,12 +46,31 @@ public class PurPlatSyncBusLogUtil {
  			loginfo.setMessage(request); // 请求信息
 			loginfo.setRespond(respond);  //相应信息
 			loginfo.setErrorMessage(errMsg); //异常信息
-			PurPlatSyncBusLogFactory.getLocalInstance(ctx).save(loginfo);
+			logPk = PurPlatSyncBusLogFactory.getLocalInstance(ctx).save(loginfo);
 		} catch (EASBizException e) {
  			e.printStackTrace();
 		} catch (BOSException e) {
  			e.printStackTrace();
 		}
+		return logPk;
 	} 
+	
+	/**
+	 * 修改 生成单据
+	 * @param fid
+	 * @param respond
+	 * @param errMsg
+	 */
+	public static void updateGenBillStatus(Context ctx,String fid,String status,String respond,String errMsg){
+		if(fid !=null && !"".equals(fid) && status !=null && !"".equals(status) && respond !=null && !"".equals(respond) && errMsg !=null && !"".equals(errMsg)){
+			try {
+				String sql = " update CT_CUS_PurPlatSyncBusLog set CFStatus ="+status+", CFRespond = '"+respond+"' ,CFErrorMessage ='"+errMsg+"' where fid = '"+ fid + "' ";
+				DbUtil.execute(ctx, sql);
+			} catch (BOSException e) {
+	 			e.printStackTrace();
+			}
+		}
+		
+	}
 	
 }

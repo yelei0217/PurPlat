@@ -1,11 +1,17 @@
 package com.kingdee.eas.custom.app.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class PurInDTO {
+public class PurInDTO  implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7305464449348809424L;
+	
 	private String	fid ;
 	private String	fnumber ;
 	private Date	fbizdate ;

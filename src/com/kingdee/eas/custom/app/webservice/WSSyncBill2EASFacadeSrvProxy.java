@@ -24,108 +24,9 @@ import com.kingdee.bos.BOSObjectFactory;
 
 public class WSSyncBill2EASFacadeSrvProxy { 
 
-    public void savePurOrder( String jsonStr ) throws WSInvokeException {
-        try {
-            getController().savePurOrder(
-            jsonStr
-            );
-        }
-        catch( Throwable e ) {
-            throw new WSInvokeException( e ) ;
-        }
-    }
-
-    public void savePaymentBill( String jsonStr ) throws WSInvokeException {
-        try {
-            getController().savePaymentBill(
-            jsonStr
-            );
-        }
-        catch( Throwable e ) {
-            throw new WSInvokeException( e ) ;
-        }
-    }
-
-    public void saveOtherSaleIss( String jsonStr ) throws WSInvokeException {
-        try {
-            getController().saveOtherSaleIss(
-            jsonStr
-            );
-        }
-        catch( Throwable e ) {
-            throw new WSInvokeException( e ) ;
-        }
-    }
-
-    public void savePurInCGW( String jsonStr ) throws WSInvokeException {
-        try {
-            getController().savePurInCGW(
-            jsonStr
-            );
-        }
-        catch( Throwable e ) {
-            throw new WSInvokeException( e ) ;
-        }
-    }
-
-    public void saveCostAdjus( String jsonStr ) throws WSInvokeException {
-        try {
-            getController().saveCostAdjus(
-            jsonStr
-            );
-        }
-        catch( Throwable e ) {
-            throw new WSInvokeException( e ) ;
-        }
-    }
-
-    public void saveSaleIss( String jsonStr ) throws WSInvokeException {
-        try {
-            getController().saveSaleIss(
-            jsonStr
-            );
-        }
-        catch( Throwable e ) {
-            throw new WSInvokeException( e ) ;
-        }
-    }
-
-    public void saveOtherPurIn( String jsonStr ) throws WSInvokeException {
-        try {
-            getController().saveOtherPurIn(
-            jsonStr
-            );
-        }
-        catch( Throwable e ) {
-            throw new WSInvokeException( e ) ;
-        }
-    }
-
     public void saveReceiveBill( String jsonStr ) throws WSInvokeException {
         try {
             getController().saveReceiveBill(
-            jsonStr
-            );
-        }
-        catch( Throwable e ) {
-            throw new WSInvokeException( e ) ;
-        }
-    }
-
-    public void saveApOtherBill( String jsonStr ) throws WSInvokeException {
-        try {
-            getController().saveApOtherBill(
-            jsonStr
-            );
-        }
-        catch( Throwable e ) {
-            throw new WSInvokeException( e ) ;
-        }
-    }
-
-    public void savePurInWare( String jsonStr ) throws WSInvokeException {
-        try {
-            getController().savePurInWare(
             jsonStr
             );
         }
@@ -156,9 +57,75 @@ public class WSSyncBill2EASFacadeSrvProxy {
         }
     }
 
-    public void saveSaleOrder( String jsonStr ) throws WSInvokeException {
+    public void saveCostAdjus( String jsonStr ) throws WSInvokeException {
         try {
-            getController().saveSaleOrder(
+            getController().saveCostAdjus(
+            jsonStr
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void savePurOrder( String jsonStr ) throws WSInvokeException {
+        try {
+            getController().savePurOrder(
+            jsonStr
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void saveOtherSaleIss( String jsonStr ) throws WSInvokeException {
+        try {
+            getController().saveOtherSaleIss(
+            jsonStr
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void savePaymentBill( String jsonStr ) throws WSInvokeException {
+        try {
+            getController().savePaymentBill(
+            jsonStr
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void saveSaleIss( String jsonStr ) throws WSInvokeException {
+        try {
+            getController().saveSaleIss(
+            jsonStr
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void saveApOtherBill( String jsonStr ) throws WSInvokeException {
+        try {
+            getController().saveApOtherBill(
+            jsonStr
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void savePurInWare( String jsonStr ) throws WSInvokeException {
+        try {
+            getController().savePurInWare(
             jsonStr
             );
         }
@@ -170,6 +137,39 @@ public class WSSyncBill2EASFacadeSrvProxy {
     public void saleOrderCloseRow( String jsonStr ) throws WSInvokeException {
         try {
             getController().saleOrderCloseRow(
+            jsonStr
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void savePurInCGW( String jsonStr ) throws WSInvokeException {
+        try {
+            getController().savePurInCGW(
+            jsonStr
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void saveOtherPurIn( String jsonStr ) throws WSInvokeException {
+        try {
+            getController().saveOtherPurIn(
+            jsonStr
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void saveSaleOrder( String jsonStr ) throws WSInvokeException {
+        try {
+            getController().saveSaleOrder(
             jsonStr
             );
         }

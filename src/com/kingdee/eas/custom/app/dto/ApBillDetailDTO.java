@@ -1,5 +1,7 @@
 package com.kingdee.eas.custom.app.dto;
 
-public class ApBillDetailDTO {
+import java.io.Serializable;
+
+public class ApBillDetailDTO  implements Serializable{
 
 }

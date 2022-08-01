@@ -1,41 +1,73 @@
 package com.kingdee.eas.custom.app.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class PurInDetailDTO {
+public class PurInDetailDTO  implements Serializable{
 
-	private String	id;
-	private String	fseq;
-	private String	fsourcebillid;
-	private String	fsourcebillnumber;
-	private String	fsourcebillentryid;
-	private Integer	fsourcebillentryseq;
-	private String	fmaterialid;
-	private String	funitid;
-	private String	fbaseunitid;
-	private BigDecimal	fassociateqty;
-	private String	fstorageorgunitid;
-	private String	fcompanyorgunitid;
-	private String	fwarehouseid;
-	private String	fstockerid;
-	private BigDecimal	fqty;
-	private BigDecimal	fbaseqty;
-	private BigDecimal	fprice;
-	private BigDecimal	famount;
-	private BigDecimal	funitactualcost;
-	private BigDecimal	factualcost;
-	private Boolean	fispresent;
-	private BigDecimal	ftaxrate;
-	private BigDecimal	ftax;
-	private BigDecimal	flocaltax;
-	private BigDecimal	flocalprice;
-	private BigDecimal	flocalamount;
-	private Date	fmfg;
-	private Date	fexp;
-	private BigDecimal	ftaxprice;
-	private String	fremark;
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1515961271241495249L;
+	
+	private String id ;
+	private String fseq ;
+	private String fsourcebillid ;
+	private String fsourcebillnumber ;
+	private String fsourcebillentryid ;
+	private int fsourcebillentryseq ;
+	private String fmaterialid ;
+	private String funitid ;
+	private String fbaseunitid ;
+	private BigDecimal fassociateqty ;
+	private String fwarehouseid ;
+	private String fstockerid ;
+	private BigDecimal fqty ;
+	private BigDecimal fbaseqty ;
+	private BigDecimal fprice ;
+	private BigDecimal famount ;
+	//private BigDecimal funitactualcost ;
+	//private BigDecimal factualcost ;
+	private boolean fispresent ;
+	private String fparentid ;
+	private BigDecimal ftaxrate ;
+	private BigDecimal ftax ;
+	private BigDecimal flocaltax ;
+	private BigDecimal flocalprice ;
+	private BigDecimal flocalamount ;
+	private Date fmfg ;
+	private Date fexp ;
+	private String fremark ;
+	private BigDecimal ftaxprice ;
+	private BigDecimal ftaxamount ;
+	private BigDecimal factualtaxprice ;
+	
+	public String getFparentid() {
+		return fparentid;
+	}
+	public void setFparentid(String fparentid) {
+		this.fparentid = fparentid;
+	}
+	public BigDecimal getFactualtaxprice() {
+		return factualtaxprice;
+	}
+	public void setFactualtaxprice(BigDecimal factualtaxprice) {
+		this.factualtaxprice = factualtaxprice;
+	}
+	public void setFsourcebillentryseq(int fsourcebillentryseq) {
+		this.fsourcebillentryseq = fsourcebillentryseq;
+	}
+	public void setFispresent(boolean fispresent) {
+		this.fispresent = fispresent;
+	}
+	public BigDecimal getFtaxamount() {
+		return ftaxamount;
+	}
+	public void setFtaxamount(BigDecimal ftaxamount) {
+		this.ftaxamount = ftaxamount;
+	}
 	public String getId() {
 		return id;
 	}
@@ -96,18 +128,7 @@ public class PurInDetailDTO {
 	public void setFassociateqty(BigDecimal fassociateqty) {
 		this.fassociateqty = fassociateqty;
 	}
-	public String getFstorageorgunitid() {
-		return fstorageorgunitid;
-	}
-	public void setFstorageorgunitid(String fstorageorgunitid) {
-		this.fstorageorgunitid = fstorageorgunitid;
-	}
-	public String getFcompanyorgunitid() {
-		return fcompanyorgunitid;
-	}
-	public void setFcompanyorgunitid(String fcompanyorgunitid) {
-		this.fcompanyorgunitid = fcompanyorgunitid;
-	}
+ 
 	public String getFwarehouseid() {
 		return fwarehouseid;
 	}
@@ -144,18 +165,18 @@ public class PurInDetailDTO {
 	public void setFamount(BigDecimal famount) {
 		this.famount = famount;
 	}
-	public BigDecimal getFunitactualcost() {
-		return funitactualcost;
-	}
-	public void setFunitactualcost(BigDecimal funitactualcost) {
-		this.funitactualcost = funitactualcost;
-	}
-	public BigDecimal getFactualcost() {
-		return factualcost;
-	}
-	public void setFactualcost(BigDecimal factualcost) {
-		this.factualcost = factualcost;
-	}
+//	public BigDecimal getFunitactualcost() {
+//		return funitactualcost;
+//	}
+//	public void setFunitactualcost(BigDecimal funitactualcost) {
+//		this.funitactualcost = funitactualcost;
+//	}
+//	public BigDecimal getFactualcost() {
+//		return factualcost;
+//	}
+//	public void setFactualcost(BigDecimal factualcost) {
+//		this.factualcost = factualcost;
+//	}
 	public Boolean getFispresent() {
 		return fispresent;
 	}

@@ -1,6 +1,8 @@
 package com.kingdee.eas.custom.app.dto;
 
-public class ResponseDTO<T> {
+import java.io.Serializable;
+
+public class ResponseDTO<T>  implements Serializable{
 
 	public ResponseDTO() {
 		super();

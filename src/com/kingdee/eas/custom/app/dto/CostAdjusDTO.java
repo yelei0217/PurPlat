@@ -1,5 +1,7 @@
 package com.kingdee.eas.custom.app.dto;
 
-public class CostAdjusDTO {
+import java.io.Serializable;
+
+public class CostAdjusDTO  implements Serializable{
 
 }

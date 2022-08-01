@@ -1,5 +1,7 @@
 package com.kingdee.eas.custom.app.dto;
 
-public class OtherPurInDTO {
+import java.io.Serializable;
+
+public class OtherPurInDTO  implements Serializable{
 
 }

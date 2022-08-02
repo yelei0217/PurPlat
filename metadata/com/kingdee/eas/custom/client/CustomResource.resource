@@ -142,6 +142,11 @@
             <value>i18nResource[com.kingdee.eas.custom.client.CustomResource].resourceItems.resourceItem[PurPlatSyncBusLogQueryF7WindowTitle].value</value>
             <userDefined>true</userDefined>
         </resourceItem>
+        <resourceItem>
+            <name>CentreWareRaleQueryF7WindowTitle</name>
+            <value>i18nResource[com.kingdee.eas.custom.client.CustomResource].resourceItems.resourceItem[CentreWareRaleQueryF7WindowTitle].value</value>
+            <userDefined>true</userDefined>
+        </resourceItem>
     </resourceItems>
     <resource>
         <rs key="i18nResource[com.kingdee.eas.custom.client.CustomResource].alias">
@@ -179,6 +184,12 @@
             <lang locale="zh_CN" value="业务主数据分类" />
             <lang locale="zh_HK" value="業務主數據分類" />
             <lang locale="zh_TW" value="業務主數據分類" />
+        </rs>
+        <rs key="i18nResource[com.kingdee.eas.custom.client.CustomResource].resourceItems.resourceItem[CentreWareRaleQueryF7WindowTitle].value">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="中心仓门诊关系" />
+            <lang locale="zh_HK" value="中心倉門診關係" />
+            <lang locale="zh_TW" value="中心倉門診關係" />
         </rs>
         <rs key="i18nResource[com.kingdee.eas.custom.client.CustomResource].resourceItems.resourceItem[ChargeProDetQueryF7WindowTitle].value">
             <lang locale="en_US" value="null" />

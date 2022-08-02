@@ -15,7 +15,6 @@ import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 
 public class SaleOrderSupport {
 
-	
 	public static String verifyJsonStr(Context ctx,String jsonStr){
 		String result = null;
 		if(jsonStr != null && !"".equals(jsonStr)){

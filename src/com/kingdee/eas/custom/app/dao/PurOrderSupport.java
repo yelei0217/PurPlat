@@ -315,8 +315,4 @@ public class PurOrderSupport {
 		 return result;
 	}
 	
-	
-	 
-	
-	
 }

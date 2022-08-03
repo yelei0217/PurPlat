@@ -146,7 +146,7 @@ public class PurOrderSupport {
 		
 		for(PurOrderDetailDTO dvo : m.getDetails()){
 			String eid  = BOSUuid.create("26041CC5").toString();
-			StringBuffer sbr1 = new StringBuffer("insert into T_SM_PURORDERENTRY(FID,FMATERIALID,FUNITID,FBASESTATUS,FASSOCIATEQTY,FBASEUNITID,FREMARK,FISPRESENT,FDEMANDQTY,FQTY," +
+			StringBuffer sbr1 = new StringBuffer("insert into T_SM_PURORDERENTRY(FID,FSEQ,FMATERIALID,FUNITID,FBASESTATUS,FASSOCIATEQTY,FBASEUNITID,FREMARK,FISPRESENT,FDEMANDQTY,FQTY," +
 					"FSTORAGEORGUNITID,FCOMPANYORGUNITID,FASSISTQTY,FPRICE,FDISCOUNTRATE,FACTUALPRICE,FTAXRATE,FTAXPRICE,FACTUALTAXPRICE," +
 					"FAMOUNT,FLOCALAMOUNT,FTAX,FTAXAMOUNT,FDISCOUNTAMOUNT,FDELIVERYDATE,FRECEIVEOVERRATE,FRECEIVEOWINGRATE," +
 					"FDELIVERADVANCEDAY,FDELIVERDEFERRALDAY,FBASEQTY,FTOTALRECEIVEQTY,FTOTALRECEIPTQTY,FTOTALRETURNEDQTY,FTOTALINVOICEDQTY," +
@@ -166,9 +166,9 @@ public class PurOrderSupport {
 				isPresent = 1;
 			else
 				isPresent = 0;
-			sbr1.append("'").append(eid).append("','").append(dvo.getFmaterialid()).append("','").append(dvo.getFunitid()).append("',4,").append(dvo.getFqty()).append(",'").append(dvo.getFbaseunitid()).append("','").append(dvo.getFremark()).append("',").append(isPresent).append(",0,").append(dvo.getFqty());
+			sbr1.append("'").append(eid).append("',").append(dvo.getFseq()).append(",'").append(dvo.getFmaterialid()).append("','").append(dvo.getFunitid()).append("',4,").append(dvo.getFqty()).append(",'").append(dvo.getFbaseunitid()).append("','").append(dvo.getFremark()).append("',").append(isPresent).append(",0,").append(dvo.getFqty());
 			sbr1.append(",'").append( m.getFpurchaseorgunitid()).append("','").append( m.getFpurchaseorgunitid()).append("',0,").append(dvo.getFprice()).append(",0,").append(dvo.getFactualprice()).append(",").append(dvo.getFactualtaxprice()).append(",");
-			sbr1.append(dvo.getFamount()).append(",").append(dvo.getFlocalamount()).append(",").append(dvo.getFtaxamount()).append(",0,to_date('").append(deliveDateStr).append("','yyyy-MM-dd'),0,0,0,0,").append(dvo.getFbaseqty()).append(",0,0,0,0,0,0,0,'").append(sId).append("',");
+			sbr1.append(dvo.getFamount()).append(",").append(dvo.getFamount()).append(",").append(dvo.getFtaxamount()).append(",0,to_date('").append(deliveDateStr).append("','yyyy-MM-dd'),0,0,0,0,").append(dvo.getFbaseqty()).append(",0,0,0,0,0,0,0,'").append(sId).append("',");
 			sbr1.append("0,1,0,0,0,0,0,0,0,0,0,").append(dvo.getFqty()).append(",").append(dvo.getFqty()).append(",0,'00000000-0000-0000-0000-0000000000017C7DC4A3',10,'").append(mmp.get("name")).append("',1,0,0,0,0,0,0,0,'").append(mmp.get("gg")).append("',0,'");
 			sbr1.append(m.getFpurchaseorgunitid()).append("',to_date('").append(bizDateStr).append("','yyyy-MM-dd'),,'").append(mmp.get("pp")).append("','").append(mmp.get("hh")).append("','").append(mmp.get("xh")).append("','").append(mmp.get("gn")).append("') ");
 			pe.getSqlList().add(sbr1);
@@ -285,26 +285,14 @@ public class PurOrderSupport {
 						 result = result +"第"+j+1+"行 税额不能为空,";
 					}
 					 
-					if(dvo.getFlocaltax() == null){ 
-						 result = result +"第"+j+1+"行 本位币税额不能为空,";
-					}
-					 
 					if(dvo.getFamount()== null){ 
 						 result = result +"第"+j+1+"行 金额不能为空,";
-					}
-					
-					if(dvo.getFlocalamount()== null){ 
-						 result = result +"第"+j+1+"行 本位币金额不能为空,";
 					}
 					
 					if(dvo.getFtaxamount() == null){ 
 						 result = result +"第"+j+1+"行 价税合计不能为空,";
 					}
-					
-					if(dvo.getFlocaltaxamount() == null){ 
-						 result = result +"第"+j+1+"行 价税合计本位币不能为空,";
-					}
-					
+			 
 					if(dvo.getFdeliverydate() == null){ 
 						 result = result +"第"+j+1+"行 交货日期不能为空,";
 					}

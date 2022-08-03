@@ -83,7 +83,13 @@ public class PurPlatUtil {
 		    		 sql = " select count(1) C from T_BD_MeasureUnit where FNumber ='"+fid+"' and FGroupID ='CUYZGEtVTzqROJAmOrUCEBwqyGg=' ";
  		    	 }else if("USER".equals(oper)){
 		    		 sql = " select count(1) C T_PM_User where FPERSONID = '"+fid+"' ";
- 		    	 }
+ 		    	 }else if("CUS".equals(oper)){
+		    		 sql = " select count(1) C from T_BD_Customer where FId ='"+fid+"' and FUsedStatus =1 ";
+ 		    	 }else if("CUSC".equals(oper)){
+		    		   sql = " select count(1) C from T_BD_CustomerCompanyInfo where FCustomerID ='"+fid+"' and FComOrgID ='"+orgId+"' ";
+ 		    	 } else if("CUSS".equals(oper)){
+		    		 sql = " select count(1) C from T_BD_CustomerSaleInfo where FCustomerID ='"+fid+"' and FComOrgID ='"+orgId+"' ";
+ 		    	 }  
 		    	 
 		    	 if(VerifyUtil.notNull(oper) ){
 		    	      try {

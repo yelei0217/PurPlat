@@ -28,13 +28,13 @@ public class PurOrderDetailDTO implements Serializable{
 	private BigDecimal	ftaxprice ;
 	private BigDecimal	factualtaxprice ;
 	private BigDecimal	famount ;
-	private BigDecimal	flocalamount ;
+  //private BigDecimal	flocalamount ;
 	private BigDecimal	ftax ;
 	private BigDecimal	ftaxamount ;
 	private Date	fdeliverydate ;
 	private BigDecimal	fbaseqty ;
-	private BigDecimal	flocaltax ;
-	private BigDecimal	flocaltaxamount ;
+	//private BigDecimal	flocaltax ;
+	//private BigDecimal	flocaltaxamount ;
 
 	
 	public Integer getFseq() {
@@ -128,12 +128,12 @@ public class PurOrderDetailDTO implements Serializable{
 	public void setFamount(BigDecimal famount) {
 		this.famount = famount;
 	}
-	public BigDecimal getFlocalamount() {
-		return flocalamount;
-	}
-	public void setFlocalamount(BigDecimal flocalamount) {
-		this.flocalamount = flocalamount;
-	}
+//	public BigDecimal getFlocalamount() {
+//		return flocalamount;
+//	}
+//	public void setFlocalamount(BigDecimal flocalamount) {
+//		this.flocalamount = flocalamount;
+//	}
 	public BigDecimal getFtax() {
 		return ftax;
 	}
@@ -158,17 +158,17 @@ public class PurOrderDetailDTO implements Serializable{
 	public void setFbaseqty(BigDecimal fbaseqty) {
 		this.fbaseqty = fbaseqty;
 	}
-	public BigDecimal getFlocaltax() {
-		return flocaltax;
-	}
-	public void setFlocaltax(BigDecimal flocaltax) {
-		this.flocaltax = flocaltax;
-	}
-	public BigDecimal getFlocaltaxamount() {
-		return flocaltaxamount;
-	}
-	public void setFlocaltaxamount(BigDecimal flocaltaxamount) {
-		this.flocaltaxamount = flocaltaxamount;
-	}
+//	public BigDecimal getFlocaltax() {
+//		return flocaltax;
+//	}
+//	public void setFlocaltax(BigDecimal flocaltax) {
+//		this.flocaltax = flocaltax;
+//	}
+//	public BigDecimal getFlocaltaxamount() {
+//		return flocaltaxamount;
+//	}
+//	public void setFlocaltaxamount(BigDecimal flocaltaxamount) {
+//		this.flocaltaxamount = flocaltaxamount;
+//	}
 	
 }

@@ -32,6 +32,23 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 		 String res =  SaleOrderSupport.syncBill(ctx, jsonStr);
 		 logger.info("do savePurOrder method cost :" + this.timer.msValue());
 		 return res;	}
+
+
+	@Override
+	protected String _purOrderCloseRow(Context ctx, String jsonStr)
+			throws BOSException {
+		// TODO Auto-generated method stub
+		return super._purOrderCloseRow(ctx, jsonStr);
+	}
+
+
+	@Override
+	protected String _saleOrderCloseRow(Context ctx, String jsonStr)
+			throws BOSException {
+		 String res =  SaleOrderSupport.doCloseRow(ctx, jsonStr);
+		 logger.info("do _saleOrderCloseRow method cost :" + this.timer.msValue());
+		 return res;	
+	}
 	
 	
 	

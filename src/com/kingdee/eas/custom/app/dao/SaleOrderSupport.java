@@ -1,7 +1,12 @@
 package com.kingdee.eas.custom.app.dao;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -12,6 +17,7 @@ import com.google.gson.JsonParser;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
+import com.kingdee.bos.dao.ormapping.ObjectStringPK;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
 import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.eas.basedata.framework.app.ParallelSqlExecutor;
@@ -26,6 +32,10 @@ import com.kingdee.eas.custom.app.dto.SaleOrderDTO;
 import com.kingdee.eas.custom.app.dto.SaleOrderDetailDTO;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
+import com.kingdee.eas.scm.sd.sale.ISaleOrderEntry;
+import com.kingdee.eas.scm.sd.sale.SaleOrderEntryFactory;
+import com.kingdee.eas.util.app.DbUtil;
+import com.kingdee.jdbc.rowset.IRowSet;
 
 public class SaleOrderSupport {
 
@@ -206,7 +216,7 @@ public class SaleOrderSupport {
 	    		" FEXCHANGERATE,FPAYMENTTYPEID,FSETTLEMENTTYPEID,FPREPAYMENT,FPREPAYMENTRATE,FSALEORGUNITID,FSALEPERSONID,FADMINORGUNITID," +
 	    		" FTOTALAMOUNT,FTOTALTAX,FTOTALTAXAMOUNT,FPRERECEIVED,FUNPRERECEIVEDAMOUNT,FSENDADDRESS,FISSYSBILL,FCONVERTMODE,FLOCALTOTALAMOUNT," +
 	    		" FLOCALTOTALTAXAMOUNT,FCOMPANYORGUNITID,FISINTAX,FVERSION,FOLDSTATUS,FISCENTRALBALANCE,FISREVERSE,FBEENPAIDPREPAYMENT," +
-	    		" FISSQUAREBALANCE,FISMATCHEDPROMOTION,FISENTIRESINGLEDISCOUNT,FORIGINALDISCOUNTAMOUNT ) values ( ");
+	    		" FISSQUAREBALANCE,FISMATCHEDPROMOTION,FISENTIRESINGLEDISCOUNT,FORIGINALDISCOUNTAMOUNT,CFMsgId ) values ( ");
 		
 	    String sId = BOSUuid.create("C48A423A").toString();
 	    String userId = PurPlatUtil.getUserIdByPersonId(ctx, m.getFcreatorid());
@@ -234,7 +244,7 @@ public class SaleOrderSupport {
 		sbr.append(m.getFordercustomerid()).append("','").append(m.getFpurchaseorgunitid()).append("','").append(deliverTYpeId).append("',0,'").append(currencyId).append("',1,'").append(paymentTypeId).append("','").append(settlementTypeId).append("'");
 		sbr.append(",0,0,'").append(m.getFpurchaseorgunitid()).append("','jbYAAAAB7DOA733t','").append(m.getFadminorgunitid()).append("',").append(m.getFtotalamount()).append(",").append(m.getFtotaltax()).append(",").append(m.getFtotaltaxamount());
 		sbr.append(",0,0,'").append(m.getFsendaddress()).append("',0,0,").append(m.getFtotalamount()).append(",").append(m.getFtotaltaxamount());
-		sbr.append(",'").append( m.getFpurchaseorgunitid()).append("',").append(isInTax).append(",0,0,0,0,0,0,0,0,0 ) ");
+		sbr.append(",'").append( m.getFpurchaseorgunitid()).append("',").append(isInTax).append(",0,0,0,0,0,0,0,0,0,'").append(m.getId()).append("') ");
 		pe.getSqlList().add(sbr);
 		
 		for(SaleOrderDetailDTO dvo : m.getDetails()){
@@ -250,7 +260,7 @@ public class SaleOrderSupport {
 					" FARCLOSEDSTATUS,FTOTALPRODUCTQTY,FTOTALBASEPRODUCTQTY,FTOTALUNPRODUCTQTY,FTOTALBASEUNPRODUCTQTY,FMATCHEDAMOUNT,FLOCKASSISTQTY,FCHEAPRATE," +
 					" FRETURNPLANDELIVERYQTY,FRETURNPLANDELIVERYBASEQTY,FSALEORGUNITID,FBIZDATE,FPRICESOURCETYPE,FISMRPCAL,FPROMOTIONSOURCEGROUP,FPROSTORAGEORGUNITID," +
 					" FSUPPLYMODE,FTOTALTRANSFERQTY,FTOTALTRANSFERBASEQTY,FTOTALUNTRANSFERQTY,FTOTALUNTRANSFERBASEQTY,CFPINPAI,CFHUOHAO," +
-					" FINVOICEREQQTY,FINVOICEREQBASEQTY,FUNINVOICEREQQTY,FUNINVOICEREQBASEQTY,FINVOICEREQAMOUNT,FINVOICEREQAMOUNTLOCAL,FUNINVOICEREQAMOUNT,FUNINVOICEREQAMOUNTLOCAL ) values (");
+					" FINVOICEREQQTY,FINVOICEREQBASEQTY,FUNINVOICEREQQTY,FUNINVOICEREQBASEQTY,FINVOICEREQAMOUNT,FINVOICEREQAMOUNTLOCAL,FUNINVOICEREQAMOUNT,FUNINVOICEREQAMOUNTLOCAL,CFMsgId  ) values (");
 		
 			String deliveDateStr =  dvo.getFdeliverydate();
 			String sendDateStr =   dvo.getFsenddate();
@@ -270,7 +280,7 @@ public class SaleOrderSupport {
 			sbr1.append(",0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,'").append(m.getFordercustomerid()).append("','").append(m.getFordercustomerid()).append("','").append(m.getFordercustomerid()).append("',");
 			sbr1.append("0,0,0,").append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",0,0,0,0,0,'").append(m.getFpurchaseorgunitid()).append("',to_date('").append(bizDateStr).append("','yyyy-MM-dd'),-1,0,0,'");
 			sbr1.append(m.getFpurchaseorgunitid()).append("',0,0,0,0,0,'").append(mmp.get("pp")).append("','").append(mmp.get("hh")).append("',0,0,");
-			sbr1.append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",0,0,").append(dvo.getFtaxamount()).append(",").append(dvo.getFtaxamount()).append(" )");
+			sbr1.append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",0,0,").append(dvo.getFtaxamount()).append(",").append(dvo.getFtaxamount()).append(",'").append(m.getId()).append("' ) ");
 			pe.getSqlList().add(sbr1);
 		}
 	  
@@ -288,5 +298,104 @@ public class SaleOrderSupport {
 		     pool.shutdown(); 
 		 
 	}
+	
+	
+	public static String doCloseRow(Context ctx,String jsonStr){
+		String result ="";
+		if(jsonStr != null && !"".equals(jsonStr)){
+		    System.out.println("************************json SaleOrderSupport  doCloseRow  begin****************************");
+		    System.out.println("#####################jsonStr################=" + jsonStr);
+		    System.out.println("************************json SaleOrderSupport  doCloseRow  end****************************");
+
+			DateBaseProcessType processType = DateBaseProcessType.AddNew;
+			DateBasetype baseType = DateBasetype.GZB_LZ_SO_CR;
+			String msgId = "";
+			String busCode ="";
+			String reqTime ="";
+			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
+			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+			Gson gson = new Gson();
+			JsonElement modelJE = returnData.get("data"); // 请求参数data
+			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+
+				msgId = msgIdJE.getAsString() ;
+				busCode = busCodeJE.getAsString() ;
+				reqTime = reqTimeJE.getAsString() ;
+				if(modelJE.getAsJsonObject() !=null && modelJE.getAsJsonObject().get("id") !=null && !"".equals(modelJE.getAsJsonObject().get("id").getAsString())&&
+					modelJE.getAsJsonObject().get("eids") !=null && !"".equals(modelJE.getAsJsonObject().get("eids").getAsString()))
+				{
+					try {
+						// 记录日志
+						IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+reqTime, jsonStr, "", "");
+						String id = modelJE.getAsJsonObject().get("id").getAsString();
+						String eids = modelJE.getAsJsonObject().get("eids").getAsString();
+
+						 String[] esStr = eids.split(",");
+						 Set<String> entryIds = new HashSet();
+						    int j = esStr.length;
+						    for (int i = 0; i < j ; i++)
+						    {
+						      String s = esStr[i];
+						      if ((s != null) && (!"".equals(s))) {
+						        entryIds.add(s);
+						      }
+						    }
+						    StringBuffer sbr1 = new StringBuffer("");
+						      for (String s : entryIds)
+						      {
+						        sbr1.append("'").append(s).append("',");
+						      }
+						      if (sbr1.length() > 1) {
+						        eids = sbr1.substring(0, sbr1.length() - 1);
+						      }  
+
+						      ISaleOrderEntry ibize = SaleOrderEntryFactory.getLocalInstance(ctx);
+						      StringBuffer sbr = new StringBuffer("/*dialect*/ select distinct FID,FBaseStatus from T_SD_SALEORDERENTRY where FPARENTID in ( select FID from T_SD_SALEORDER where CFMsgId  ='").append(id).append("'");
+						      sbr.append(") and CFMsgId in (").append(eids).append(")");
+						      IRowSet rs = DbUtil.executeQuery(ctx, sbr.toString());
+						      List<String> reasonLists = new ArrayList();
+						      List<IObjectPK> pkLists = new ArrayList();
+						      if ((rs != null) && (rs.size() > 0))
+						      {
+						        while (rs.next()) {
+						          if ((rs.getObject("FID") != null) && (!"".equals(rs.getObject("FID").toString())) && 
+						            (rs.getObject("FBaseStatus") != null) && (!"".equals(rs.getObject("FBaseStatus").toString()))) {
+						              if ("4".equals(rs.getObject("FBaseStatus").toString()))
+						              {
+						                pkLists.add(new ObjectStringPK(rs.getObject("FID").toString()));
+						                reasonLists.add("B2B行关闭操作");
+						              }
+						          }
+						        }
+						        if ((pkLists != null) && (pkLists.size() > 0))
+						        {
+						          IObjectPK[] pks = (IObjectPK[])pkLists.toArray(new IObjectPK[pkLists.size()]);
+						          String[] reasons = (String[])reasonLists.toArray(new String[reasonLists.size()]);
+						          ibize.handClose(pks, reasons);
+						        }
+						        result ="success";
+						      }
+						      else
+						      {
+						    	  result ="单据未找到";
+						      }
+					} catch (EASBizException e) {
+ 						e.printStackTrace();
+					} catch (BOSException e) {
+ 						e.printStackTrace();
+					} catch (SQLException e) {
+ 						e.printStackTrace();
+					}
+			              
+				}
+			}
+		}
+		return result ;
+	}
+	
 	
 }

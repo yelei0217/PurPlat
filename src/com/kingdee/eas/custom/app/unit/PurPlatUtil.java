@@ -46,6 +46,8 @@ public class PurPlatUtil {
 	    	 String tableName ="";
 	    	 if("GZ_LZ_PO".equals(busCode)||"DZ_MZ_PO".equals(busCode)){
 	    		 tableName =" T_SM_PurOrder ";
+	    	 }else if("GZ_LZ_SO".equals(busCode)||"DZ_MZ_SO".equals(busCode)){
+	    		 tableName =" T_SD_SALEORDER ";
 	    	 }
 	        try {
 	    		String sql = " select count(1) C from "+tableName+" where CFMsgId = '"+msgId+"' ";
@@ -88,7 +90,7 @@ public class PurPlatUtil {
  		    	 }else if("CUSC".equals(oper)){
 		    		   sql = " select count(1) C from T_BD_CustomerCompanyInfo where FCustomerID ='"+fid+"' and FComOrgID ='"+orgId+"' ";
  		    	 } else if("CUSS".equals(oper)){
-		    		 sql = " select count(1) C from T_BD_CustomerSaleInfo where FCustomerID ='"+fid+"' and FComOrgID ='"+orgId+"' ";
+		    		 sql = " select count(1) C from T_BD_CustomerSaleInfo where FCustomerID ='"+fid+"' and FSaleOrgID ='"+orgId+"' ";
  		    	 }  
 		    	 
 		    	 if(VerifyUtil.notNull(oper) ){

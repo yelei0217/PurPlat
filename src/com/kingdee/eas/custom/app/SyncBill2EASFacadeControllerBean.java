@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.eas.custom.app.dao.PurOrderSupport;
+import com.kingdee.eas.custom.app.dao.SaleOrderSupport;
 import com.kingdee.util.LowTimer;
 
 public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacadeControllerBean
@@ -23,5 +24,15 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 		 logger.info("do savePurOrder method cost :" + this.timer.msValue());
 		 return res;
 	}
+
+
+	@Override
+	protected String _saveSaleOrder(Context ctx, String jsonStr)
+			throws BOSException {
+		 String res =  SaleOrderSupport.syncBill(ctx, jsonStr);
+		 logger.info("do savePurOrder method cost :" + this.timer.msValue());
+		 return res;	}
+	
+	
 	
 }

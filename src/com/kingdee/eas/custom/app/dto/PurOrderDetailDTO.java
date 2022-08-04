@@ -31,7 +31,7 @@ public class PurOrderDetailDTO implements Serializable{
   //private BigDecimal	flocalamount ;
 	private BigDecimal	ftax ;
 	private BigDecimal	ftaxamount ;
-	private Date	fdeliverydate ;
+	private String	fdeliverydate ;
 	private BigDecimal	fbaseqty ;
 	//private BigDecimal	flocaltax ;
 	//private BigDecimal	flocaltaxamount ;
@@ -146,10 +146,10 @@ public class PurOrderDetailDTO implements Serializable{
 	public void setFtaxamount(BigDecimal ftaxamount) {
 		this.ftaxamount = ftaxamount;
 	}
-	public Date getFdeliverydate() {
+	public String getFdeliverydate() {
 		return fdeliverydate;
 	}
-	public void setFdeliverydate(Date fdeliverydate) {
+	public void setFdeliverydate(String fdeliverydate) {
 		this.fdeliverydate = fdeliverydate;
 	}
 	public BigDecimal getFbaseqty() {

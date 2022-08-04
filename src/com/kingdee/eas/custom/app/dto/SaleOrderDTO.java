@@ -15,7 +15,7 @@ public class SaleOrderDTO  implements Serializable{
 	
 	private String  id;
 	private String  fnumber;
-	private Date    fbizdate;
+	private String    fbizdate;
 	private String  fordercustomerid;
 	private String  fpurchaseorgunitid;
 	private String  fadminorgunitid;
@@ -46,10 +46,10 @@ public class SaleOrderDTO  implements Serializable{
 	public void setFnumber(String fnumber) {
 		this.fnumber = fnumber;
 	}
-	public Date getFbizdate() {
+	public String getFbizdate() {
 		return fbizdate;
 	}
-	public void setFbizdate(Date fbizdate) {
+	public void setFbizdate(String fbizdate) {
 		this.fbizdate = fbizdate;
 	}
 	public String getFordercustomerid() {

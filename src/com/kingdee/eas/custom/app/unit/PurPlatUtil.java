@@ -67,7 +67,7 @@ public class PurPlatUtil {
 	
 	public static boolean judgeExists(Context ctx,String oper,String orgId,String fid){
 		  boolean flag = false;
-		    if (VerifyUtil.notNull(oper) && VerifyUtil.notNull(orgId) && VerifyUtil.notNull( fid) ) {
+		    if (VerifyUtil.notNull(oper) && VerifyUtil.notNull( fid) ) {
 		    	String sql = "";
 		    	 if("SC".equals(oper)){
  		    		   sql = " select count(1) C from T_BD_SupplierCompanyInfo where FSupplierID ='"+fid+"' and FComOrgID ='"+orgId+"' ";
@@ -78,7 +78,7 @@ public class PurPlatUtil {
  		    	 } else if("M".equals(oper)){
 		    		 sql = " select count(1) C from T_BD_Material where FId ='"+fid+"' and FStatus =1 ";
  		    	 } else if("MP".equals(oper)){
-		    		 sql = " select count(1) C from T_BD_MaterialPurchasing where FMaterialID ='"+fid+"' and FOrgUnit '"+orgId+"' ";
+		    		 sql = " select count(1) C from T_BD_MaterialPurchasing where FMaterialID ='"+fid+"' and FOrgUnit = '"+orgId+"' ";
  		    	 }else if("UNIT".equals(oper)){
 		    		 sql = " select count(1) C from T_BD_MeasureUnit where FNumber ='"+fid+"' and FGroupID ='CUYZGEtVTzqROJAmOrUCEBwqyGg=' ";
  		    	 }else if("USER".equals(oper)){
@@ -167,6 +167,26 @@ public class PurPlatUtil {
 		return userId;
 	}
 	
+	
+	
+	public static String getMeasureUnitFIdByFNumber(Context ctx,String number){
+		String fid ="";
+		if(VerifyUtil.notNull(number) ){
+			String	 sql = " select FID from T_BD_MeasureUnit where FNumber ='"+number+"' and FGroupID ='CUYZGEtVTzqROJAmOrUCEBwqyGg=' ";
+			     try {
+			         IRowSet rs = DbUtil.executeQuery(ctx, sql);
+			         if (rs.next() &&  rs.getObject("FID") != null && !"".equals(rs.getObject("FID").toString())) 
+			        	 fid = rs.getObject("FID").toString();
+			       }
+			       catch (BOSException e) {
+			         e.printStackTrace();
+			       } catch (SQLException e) {
+			         e.printStackTrace();
+			       } 
+		}
+		
+		return fid ;
+	}
 	
 	/**
 	 *  通过 采购组织ID 获取 采购组织对应的控制单元ID

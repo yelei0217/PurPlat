@@ -24,154 +24,140 @@ import com.kingdee.bos.BOSObjectFactory;
 
 public class WSSyncBill2EASFacadeSrvProxy { 
 
-    public void saveReceiveBill( String jsonStr ) throws WSInvokeException {
+    public String savePaymentBill( String jsonStr ) throws WSInvokeException {
         try {
-            getController().saveReceiveBill(
-            jsonStr
-            );
+            return getController().savePaymentBill(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void purOrderCloseRow( String jsonStr ) throws WSInvokeException {
+    public String savePurOrder( String jsonStr ) throws WSInvokeException {
         try {
-            getController().purOrderCloseRow(
-            jsonStr
-            );
+            return getController().savePurOrder(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void saveArOtherBill( String jsonStr ) throws WSInvokeException {
+    public String saveSaleIss( String jsonStr ) throws WSInvokeException {
         try {
-            getController().saveArOtherBill(
-            jsonStr
-            );
+            return getController().saveSaleIss(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void saveCostAdjus( String jsonStr ) throws WSInvokeException {
+    public String saveOtherPurIn( String jsonStr ) throws WSInvokeException {
         try {
-            getController().saveCostAdjus(
-            jsonStr
-            );
+            return getController().saveOtherPurIn(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void savePurOrder( String jsonStr ) throws WSInvokeException {
+    public String savePurInCGW( String jsonStr ) throws WSInvokeException {
         try {
-            getController().savePurOrder(
-            jsonStr
-            );
+            return getController().savePurInCGW(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void saveOtherSaleIss( String jsonStr ) throws WSInvokeException {
+    public String purOrderCloseRow( String jsonStr ) throws WSInvokeException {
         try {
-            getController().saveOtherSaleIss(
-            jsonStr
-            );
+            return getController().purOrderCloseRow(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void savePaymentBill( String jsonStr ) throws WSInvokeException {
+    public String saveSaleOrder( String jsonStr ) throws WSInvokeException {
         try {
-            getController().savePaymentBill(
-            jsonStr
-            );
+            return getController().saveSaleOrder(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void saveSaleIss( String jsonStr ) throws WSInvokeException {
+    public String saveReceiveBill( String jsonStr ) throws WSInvokeException {
         try {
-            getController().saveSaleIss(
-            jsonStr
-            );
+            return getController().saveReceiveBill(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void saveApOtherBill( String jsonStr ) throws WSInvokeException {
+    public String savePurInWare( String jsonStr ) throws WSInvokeException {
         try {
-            getController().saveApOtherBill(
-            jsonStr
-            );
+            return getController().savePurInWare(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void savePurInWare( String jsonStr ) throws WSInvokeException {
+    public String saleOrderCloseRow( String jsonStr ) throws WSInvokeException {
         try {
-            getController().savePurInWare(
-            jsonStr
-            );
+            return getController().saleOrderCloseRow(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void saleOrderCloseRow( String jsonStr ) throws WSInvokeException {
+    public String saveApOtherBill( String jsonStr ) throws WSInvokeException {
         try {
-            getController().saleOrderCloseRow(
-            jsonStr
-            );
+            return getController().saveApOtherBill(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void savePurInCGW( String jsonStr ) throws WSInvokeException {
+    public String saveArOtherBill( String jsonStr ) throws WSInvokeException {
         try {
-            getController().savePurInCGW(
-            jsonStr
-            );
+            return getController().saveArOtherBill(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void saveOtherPurIn( String jsonStr ) throws WSInvokeException {
+    public String saveOtherSaleIss( String jsonStr ) throws WSInvokeException {
         try {
-            getController().saveOtherPurIn(
-            jsonStr
-            );
+            return getController().saveOtherSaleIss(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;
         }
     }
 
-    public void saveSaleOrder( String jsonStr ) throws WSInvokeException {
+    public String saveCostAdjus( String jsonStr ) throws WSInvokeException {
         try {
-            getController().saveSaleOrder(
-            jsonStr
-            );
+            return getController().saveCostAdjus(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;

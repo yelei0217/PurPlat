@@ -36,11 +36,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *采购订单保存接口-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void savePurOrder(String jsonStr) throws BOSException
+    public String savePurOrder(String jsonStr) throws BOSException
     {
         try {
-            getController().savePurOrder(getContext(), jsonStr);
+            return getController().savePurOrder(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -49,11 +50,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *销售订单同步接口-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void saveSaleOrder(String jsonStr) throws BOSException
+    public String saveSaleOrder(String jsonStr) throws BOSException
     {
         try {
-            getController().saveSaleOrder(getContext(), jsonStr);
+            return getController().saveSaleOrder(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -62,11 +64,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *采购入库单同步接口-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void savePurInWare(String jsonStr) throws BOSException
+    public String savePurInWare(String jsonStr) throws BOSException
     {
         try {
-            getController().savePurInWare(getContext(), jsonStr);
+            return getController().savePurInWare(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -75,11 +78,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *销售出库单同步接口-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void saveSaleIss(String jsonStr) throws BOSException
+    public String saveSaleIss(String jsonStr) throws BOSException
     {
         try {
-            getController().saveSaleIss(getContext(), jsonStr);
+            return getController().saveSaleIss(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -88,11 +92,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *采购订单行关闭-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void purOrderCloseRow(String jsonStr) throws BOSException
+    public String purOrderCloseRow(String jsonStr) throws BOSException
     {
         try {
-            getController().purOrderCloseRow(getContext(), jsonStr);
+            return getController().purOrderCloseRow(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -101,11 +106,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *销售订单行关闭-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void saleOrderCloseRow(String jsonStr) throws BOSException
+    public String saleOrderCloseRow(String jsonStr) throws BOSException
     {
         try {
-            getController().saleOrderCloseRow(getContext(), jsonStr);
+            return getController().saleOrderCloseRow(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -114,11 +120,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *其他入库单同步接口-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void saveOtherPurIn(String jsonStr) throws BOSException
+    public String saveOtherPurIn(String jsonStr) throws BOSException
     {
         try {
-            getController().saveOtherPurIn(getContext(), jsonStr);
+            return getController().saveOtherPurIn(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -127,11 +134,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *其他出库单同步接口-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void saveOtherSaleIss(String jsonStr) throws BOSException
+    public String saveOtherSaleIss(String jsonStr) throws BOSException
     {
         try {
-            getController().saveOtherSaleIss(getContext(), jsonStr);
+            return getController().saveOtherSaleIss(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -140,11 +148,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *应付单同步接口-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void saveApOtherBill(String jsonStr) throws BOSException
+    public String saveApOtherBill(String jsonStr) throws BOSException
     {
         try {
-            getController().saveApOtherBill(getContext(), jsonStr);
+            return getController().saveApOtherBill(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -153,11 +162,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *付款单同步接口-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void savePaymentBill(String jsonStr) throws BOSException
+    public String savePaymentBill(String jsonStr) throws BOSException
     {
         try {
-            getController().savePaymentBill(getContext(), jsonStr);
+            return getController().savePaymentBill(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -166,11 +176,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *应收单同步接口-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void saveArOtherBill(String jsonStr) throws BOSException
+    public String saveArOtherBill(String jsonStr) throws BOSException
     {
         try {
-            getController().saveArOtherBill(getContext(), jsonStr);
+            return getController().saveArOtherBill(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -179,11 +190,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *收款单同步接口-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void saveReceiveBill(String jsonStr) throws BOSException
+    public String saveReceiveBill(String jsonStr) throws BOSException
     {
         try {
-            getController().saveReceiveBill(getContext(), jsonStr);
+            return getController().saveReceiveBill(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -192,11 +204,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *成本调整单同步接口-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void saveCostAdjus(String jsonStr) throws BOSException
+    public String saveCostAdjus(String jsonStr) throws BOSException
     {
         try {
-            getController().saveCostAdjus(getContext(), jsonStr);
+            return getController().saveCostAdjus(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);
@@ -205,11 +218,12 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
     /**
      *采购入库单成果物新增同步接口-User defined method
      *@param jsonStr 传入json参数
+     *@return
      */
-    public void savePurInCGW(String jsonStr) throws BOSException
+    public String savePurInCGW(String jsonStr) throws BOSException
     {
         try {
-            getController().savePurInCGW(getContext(), jsonStr);
+            return getController().savePurInCGW(getContext(), jsonStr);
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);

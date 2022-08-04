@@ -20,7 +20,7 @@
             <innerID>16179292-3ed3-4710-b047-9c172ab2094f</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -46,7 +46,7 @@
             <innerID>f05a077f-c2e1-4fa0-b004-11682658f270</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -72,7 +72,7 @@
             <innerID>1eb41427-0d37-4cc3-8b6a-45ce2364727f</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -98,7 +98,7 @@
             <innerID>98031fa4-b012-480b-9e44-3933f98a9187</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -124,7 +124,7 @@
             <innerID>c42bb6c6-02ac-4f0d-9747-e8d0d3cc4507</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -150,7 +150,7 @@
             <innerID>b049f778-1e47-4c4a-93b2-17382d1c7265</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -176,7 +176,7 @@
             <innerID>b453ff00-889c-496b-8a62-674dce4f1a8d</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -202,7 +202,7 @@
             <innerID>4c51797a-2b52-4778-a567-a803fb322f18</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -228,7 +228,7 @@
             <innerID>b6436cbe-a27c-40e4-911d-76d67607d071</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -254,7 +254,7 @@
             <innerID>a8d36f80-69a8-4378-bfad-3e166a566f8d</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -280,7 +280,7 @@
             <innerID>39ffdf16-6552-41d1-9e91-cf9709232877</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -306,7 +306,7 @@
             <innerID>8e5cefc3-4618-4abc-965f-822abae06c90</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -332,7 +332,7 @@
             <innerID>b6de361a-f023-4ab0-8ee5-9c8b3853a537</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>
@@ -358,7 +358,7 @@
             <innerID>3a2c69f6-8edf-4076-abb6-13ce6f45c3d8</innerID>
             <accessLevel>public</accessLevel>
             <subClassingMode>normal</subClassingMode>
-            <returnValueType />
+            <returnValueType>String</returnValueType>
             <metadataRef />
             <transactionAttribute>Supports</transactionAttribute>
             <userDefined>true</userDefined>

@@ -17,18 +17,18 @@ import com.kingdee.bos.framework.ejb.BizController;
 
 public interface SyncBill2EASFacadeController extends BizController
 {
-    public void savePurOrder(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void saveSaleOrder(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void savePurInWare(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void saveSaleIss(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void purOrderCloseRow(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void saleOrderCloseRow(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void saveOtherPurIn(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void saveOtherSaleIss(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void saveApOtherBill(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void savePaymentBill(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void saveArOtherBill(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void saveReceiveBill(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void saveCostAdjus(Context ctx, String jsonStr) throws BOSException, RemoteException;
-    public void savePurInCGW(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String savePurOrder(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String saveSaleOrder(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String savePurInWare(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String saveSaleIss(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String purOrderCloseRow(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String saleOrderCloseRow(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String saveOtherPurIn(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String saveOtherSaleIss(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String saveApOtherBill(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String savePaymentBill(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String saveArOtherBill(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String saveReceiveBill(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String saveCostAdjus(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String savePurInCGW(Context ctx, String jsonStr) throws BOSException, RemoteException;
 }

@@ -27,16 +27,16 @@ public class SaleOrderDetailDTO  implements Serializable{
 	private BigDecimal      famount;
 	private BigDecimal      ftax;
 	private BigDecimal      ftaxamount;
-	private Date    fdeliverydate;
-	private Date fsenddate;
+	private String    fdeliverydate;
+	private String 	fsenddate;
 	private BigDecimal      fbaseqty;
 	private String  fremark;
 	
 	
-	public Date getFsenddate() {
+	public String getFsenddate() {
 		return fsenddate;
 	}
-	public void setFsenddate(Date fsenddate) {
+	public void setFsenddate(String fsenddate) {
 		this.fsenddate = fsenddate;
 	}
 	public String getId() {
@@ -135,10 +135,10 @@ public class SaleOrderDetailDTO  implements Serializable{
 	public void setFtaxamount(BigDecimal ftaxamount) {
 		this.ftaxamount = ftaxamount;
 	}
-	public Date getFdeliverydate() {
+	public String getFdeliverydate() {
 		return fdeliverydate;
 	}
-	public void setFdeliverydate(Date fdeliverydate) {
+	public void setFdeliverydate(String fdeliverydate) {
 		this.fdeliverydate = fdeliverydate;
 	}
 	public BigDecimal getFbaseqty() {

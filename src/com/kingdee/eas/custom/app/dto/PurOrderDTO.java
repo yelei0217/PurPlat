@@ -13,7 +13,7 @@ public class PurOrderDTO implements Serializable{
 	
 	private String	id ;
 	private String	fnumber ;
-	private Date	fbizdate ;
+	private String	fbizdate ;
 	private String	fpurchaseorgunitid ;
 	private String	fpurchasepersonid ;
 	private String	fsupplierid ;
@@ -42,11 +42,11 @@ public class PurOrderDTO implements Serializable{
 		this.fnumber = fnumber;
 	}
 
-	public Date getFbizdate() {
+	public String getFbizdate() {
 		return fbizdate;
 	}
 
-	public void setFbizdate(Date fbizdate) {
+	public void setFbizdate(String fbizdate) {
 		this.fbizdate = fbizdate;
 	}
 

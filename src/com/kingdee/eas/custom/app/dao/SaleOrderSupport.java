@@ -181,6 +181,9 @@ public class SaleOrderSupport {
 					if(dvo.getFdeliverydate() == null){ 
 						 result = result +"第"+j+1+"行 交货日期不能为空,";
 					}
+					if(dvo.getFsenddate() == null){ 
+						 result = result +"第"+j+1+"行 发货日期不能为空,";
+					}
 				 }
 			} else 
 				result = result +"至少有一条明细行的数据,";

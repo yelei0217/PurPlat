@@ -112,7 +112,7 @@ public class PurOrderSupport {
 		sbr.append("FEXCHANGERATE,FPREPAYMENTRATE,FPREPAYMENT,FPREPAID,FSUPPLIERCONFIRM,FINVOICEDAMOUNT,FPAIDAMOUNT,FISINNERSALE,FADMINORGUNITID," );
 		sbr.append("FTOTALAMOUNT,FTOTALTAX,FTOTALTAXAMOUNT,FUNPREPAIDAMOUNT,FISSYSBILL,FCONVERTMODE,FLOCALTOTALAMOUNT,FLOCALTOTALTAXAMOUNT," );
 		sbr.append("FSTORAGEORGUNITID,FISCENTRALBALANCE,FCOMPANYORGUNITID,FISINTAX,FISQUICKEN,FVERSION,FISPRICEINTAX,FISMATCHED,FISAPPROVEDMATERIAL,");
-		sbr.append(	"FISNETORDER,FISRECALINNERPRICE,FPRICESOURCE,FMATCHINVAMOUNT,FINVOICEMATCH,FCHANGETYPE ) values ( ");
+		sbr.append(	"FISNETORDER,FISRECALINNERPRICE,FPRICESOURCE,FMATCHINVAMOUNT,FINVOICEMATCH,FCHANGETYPE,CFMsgId ) values ( ");
 		String sId = BOSUuid.create("3171BFAD").toString();
 		String userId = PurPlatUtil.getUserIdByPersonId(ctx, m.getFcreatorid());
 
@@ -135,7 +135,7 @@ public class PurOrderSupport {
 		sbr.append(userId).append("',sysdate,4,'").append(bizTypeId).append("','").append(billTypeId).append("',").append(bizDateStr.substring(0, 4)).append(",").append(Integer.parseInt(bizDateStr.substring(5,7))).append(",'");
 		sbr.append(m.getFpurchaseorgunitid()).append("','").append(m.getFpurchasepersonid()).append("','").append(m.getFsupplierid()).append("',0,'").append(paymentTypeId).append("','").append(settlementTypeId).append("','").append(currencyId).append("',");
 		sbr.append("1,0,0,0,0,0,0,0,'").append(m.getFadminorgunitid()).append("',").append(m.getFtotalamount()).append(",").append(m.getFtotaltax()).append(",").append(m.getFtotaltaxamount()).append(",0,0,0,").append(m.getFtotalamount()).append(",").append(m.getFtotaltaxamount());
-		sbr.append(",'").append( m.getFpurchaseorgunitid()).append("',0,'").append(m.getFpurchaseorgunitid()).append("',").append(isInTax).append(",0,0,1,0,0,0,1,1,0,0,0 ) ");
+		sbr.append(",'").append( m.getFpurchaseorgunitid()).append("',0,'").append(m.getFpurchaseorgunitid()).append("',").append(isInTax).append(",0,0,1,0,0,0,1,1,0,0,0 ,'").append(m.getId()).append("') ");
 		pe.getSqlList().add(sbr);
 		
 		for(PurOrderDetailDTO dvo : m.getDetails()){
@@ -149,7 +149,7 @@ public class PurOrderSupport {
 					"FLOCALTAX,FLOCALTAXAMOUNT,FSALEORDERNUMBER,FPREPAIDAMOUNT,FREQUESTORGUNITID,FREQUESTCOMPANYORGUNITID,FISREQUESTTORECEIVED,FTOTALMOVEQTY,FTOTALINVOICEDAMT," +
 					"FPREPAYMENT,FPRERECEIVED,FUNPRERECEIVEDAM,FVERSION,FCANINVMOVEQTY,FUNORDEREDQTY,FISBETWEENCOMPANYREC,FROWTYPEID,FDESTINATIONTYPE,FMATERIALNAME,FISREQCOMEQLRECCOM," +
 					"FPLANRECEIVEQTY,FTOTALSUPPLYSTOCKQTY,FTOTALCANCELLEDSTOCKQTY,FTOTALSUPPLYSTOCKBASEQTY,FTOTALPREPAYAMT,FTOTALREQPAYAMT,FISREQPREPAYGTPREPAY,FNONUMMATERIALMODEL," +
-					"FMATCHEDAMOUNT,FPURCHASEORGUNITID,FBIZDATE,FUSEADMINORGUNITID,CFPINPAI,CFHUOHAO,CFXINGHAO,CFWULIAOLEIBIE ) values (");
+					"FMATCHEDAMOUNT,FPURCHASEORGUNITID,FBIZDATE,FUSEADMINORGUNITID,CFPINPAI,CFHUOHAO,CFXINGHAO,CFWULIAOLEIBIE,CFMsgId ) values (");
 			
 			String deliveDateStr = dvo.getFdeliverydate();
 			Map<String,String> mmp = PurPlatUtil.getMaterialInfoByMId(ctx, dvo.getFmaterialid());
@@ -165,7 +165,7 @@ public class PurOrderSupport {
 			sbr1.append("to_date('").append(deliveDateStr).append("','yyyy-MM-dd'),0,0,0,0,").append(dvo.getFbaseqty()).append(",0,0,0,0,0,0,0,'").append(sId).append("',0,1,0,0,0,0,0,0,0,0,0,").append(dvo.getFtax()).append(",").append(dvo.getFtaxamount()).append(",0,0,'");
 			sbr1.append(m.getFpurchaseorgunitid()).append("','").append(m.getFpurchaseorgunitid()).append("',1,0,0,0,0,0,0,").append(dvo.getFqty()).append(",").append(dvo.getFqty()).append(",0,'").append(rowType).append("',10,'");
 			sbr1.append(mmp.get("name")).append("',1,0,0,0,0,0,0,0,'").append(mmp.get("gg")).append("',0,'").append(m.getFpurchaseorgunitid()).append("',to_date('").append(bizDateStr).append("','yyyy-MM-dd'),'");
-			sbr1.append(m.getFadminorgunitid()).append("','").append(mmp.get("pp")).append("','").append(mmp.get("hh")).append("','").append(mmp.get("xh")).append("','").append(mmp.get("gn")).append("') ");
+			sbr1.append(m.getFadminorgunitid()).append("','").append(mmp.get("pp")).append("','").append(mmp.get("hh")).append("','").append(mmp.get("xh")).append("','").append(mmp.get("gn")).append("','").append(dvo.getId()).append("' ) ");;
 			pe.getSqlList().add(sbr1);
 		}
 	  

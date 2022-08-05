@@ -3,8 +3,12 @@ package com.kingdee.eas.custom.app.dao;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -15,6 +19,7 @@ import com.google.gson.JsonParser;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
+import com.kingdee.bos.dao.ormapping.ObjectStringPK;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
 import com.kingdee.bos.metadata.entity.FilterInfo;
 import com.kingdee.bos.metadata.entity.FilterItemInfo;
@@ -33,8 +38,12 @@ import com.kingdee.eas.custom.app.dto.PurOrderDetailDTO;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.custom.util.VerifyUtil;
+import com.kingdee.eas.scm.sd.sale.ISaleOrderEntry;
 import com.kingdee.eas.scm.sd.sale.SaleOrder;
+import com.kingdee.eas.scm.sd.sale.SaleOrderEntryFactory;
 import com.kingdee.eas.scm.sd.sale.SaleOrderInfo;
+import com.kingdee.eas.scm.sm.pur.IPurOrderEntry;
+import com.kingdee.eas.scm.sm.pur.PurOrderEntryFactory;
 import com.kingdee.eas.util.app.DbUtil;
 import com.kingdee.jdbc.rowset.IRowSet;
 import com.kingdee.util.LowTimer;
@@ -47,7 +56,6 @@ import java.util.concurrent.Executors;
  *
  */
 public class PurOrderSupport {
-	
 	
 	//private LowTimer timer = new LowTimer();
 	//private static Logger logger = Logger.getLogger("com.kingdee.eas.custom.app.IncomeCostMatchFacadeControllerBean");
@@ -297,5 +305,100 @@ public class PurOrderSupport {
 			 
 		 return result;
 	}
-	
+	public static String doCloseRow(Context ctx,String jsonStr){
+		String result ="";
+		if(jsonStr != null && !"".equals(jsonStr)){
+		    System.out.println("************************json PurOrderSupport  doCloseRow  begin****************************");
+		    System.out.println("#####################jsonStr################=" + jsonStr);
+		    System.out.println("************************json PurOrderSupport  doCloseRow  end****************************");
+
+			DateBaseProcessType processType = DateBaseProcessType.AddNew;
+			DateBasetype baseType = DateBasetype.GZB_LZ_PO_CR;
+			String msgId = "";
+			String busCode ="";
+			String reqTime ="";
+			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
+			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+			Gson gson = new Gson();
+			JsonElement modelJE = returnData.get("data"); // 请求参数data
+			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+
+				msgId = msgIdJE.getAsString() ;
+				busCode = busCodeJE.getAsString() ;
+				reqTime = reqTimeJE.getAsString() ;
+				if(modelJE.getAsJsonObject() !=null && modelJE.getAsJsonObject().get("id") !=null && !"".equals(modelJE.getAsJsonObject().get("id").getAsString())&&
+					modelJE.getAsJsonObject().get("eids") !=null && !"".equals(modelJE.getAsJsonObject().get("eids").getAsString()))
+				{
+					try {
+						// 记录日志
+						IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+reqTime, jsonStr, "", "");
+						String id = modelJE.getAsJsonObject().get("id").getAsString();
+						String eids = modelJE.getAsJsonObject().get("eids").getAsString();
+
+						 String[] esStr = eids.split(",");
+						 Set<String> entryIds = new HashSet();
+						    int j = esStr.length;
+						    for (int i = 0; i < j ; i++)
+						    {
+						      String s = esStr[i];
+						      if ((s != null) && (!"".equals(s))) {
+						        entryIds.add(s);
+						      }
+						    }
+						    StringBuffer sbr1 = new StringBuffer("");
+						      for (String s : entryIds)
+						      {
+						        sbr1.append("'").append(s).append("',");
+						      }
+						      if (sbr1.length() > 1) {
+						        eids = sbr1.substring(0, sbr1.length() - 1);
+						      }  
+
+						      IPurOrderEntry ibize = PurOrderEntryFactory.getLocalInstance(ctx);
+						      StringBuffer sbr = new StringBuffer("/*dialect*/ select distinct FID,FBaseStatus from T_SM_PURORDERENTRY where FPARENTID in ( select FID from T_SM_PURORDER where CFMsgId  ='").append(id).append("'");
+						      sbr.append(") and CFMsgId in (").append(eids).append(")");
+						      IRowSet rs = DbUtil.executeQuery(ctx, sbr.toString());
+						      List<String> reasonLists = new ArrayList();
+						      List<IObjectPK> pkLists = new ArrayList();
+						      if ((rs != null) && (rs.size() > 0))
+						      {
+						        while (rs.next()) {
+						          if ((rs.getObject("FID") != null) && (!"".equals(rs.getObject("FID").toString())) && 
+						            (rs.getObject("FBaseStatus") != null) && (!"".equals(rs.getObject("FBaseStatus").toString()))) {
+						              if ("4".equals(rs.getObject("FBaseStatus").toString()))
+						              {
+						                pkLists.add(new ObjectStringPK(rs.getObject("FID").toString()));
+						                reasonLists.add("B2B行关闭操作");
+						              }
+						          }
+						        }
+						        if ((pkLists != null) && (pkLists.size() > 0))
+						        {
+						          IObjectPK[] pks = (IObjectPK[])pkLists.toArray(new IObjectPK[pkLists.size()]);
+						          String[] reasons = (String[])reasonLists.toArray(new String[reasonLists.size()]);
+						          ibize.handClose(pks, reasons);
+						        }
+						        result ="success";
+						      }
+						      else
+						      {
+						    	  result ="单据未找到";
+						      }
+					} catch (EASBizException e) {
+ 						e.printStackTrace();
+					} catch (BOSException e) {
+ 						e.printStackTrace();
+					} catch (SQLException e) {
+ 						e.printStackTrace();
+					}
+			              
+				}
+			}
+		}
+		return result ;
+	}
 }

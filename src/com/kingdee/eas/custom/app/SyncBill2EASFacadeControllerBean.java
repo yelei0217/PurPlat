@@ -51,5 +51,11 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	}
 	
 	
-	
+	@Override
+	public String purOrderCloseRow(Context ctx, String jsonStr)
+			throws BOSException {
+		 String res =  PurOrderSupport.doCloseRow(ctx, jsonStr);
+		 logger.info("do purOrderCloseRow method cost :" + this.timer.msValue());
+		 return res;	
+ 	}
 }

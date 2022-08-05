@@ -30,15 +30,16 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected String _saveSaleOrder(Context ctx, String jsonStr)
 			throws BOSException {
 		 String res =  SaleOrderSupport.syncBill(ctx, jsonStr);
-		 logger.info("do savePurOrder method cost :" + this.timer.msValue());
+		 logger.info("do _saveSaleOrder method cost :" + this.timer.msValue());
 		 return res;	}
 
 
 	@Override
 	protected String _purOrderCloseRow(Context ctx, String jsonStr)
 			throws BOSException {
-		// TODO Auto-generated method stub
-		return super._purOrderCloseRow(ctx, jsonStr);
+		 String res =  PurOrderSupport.doCloseRow(ctx, jsonStr);
+		 logger.info("do _purOrderCloseRow doCloseRow method cost :" + this.timer.msValue());
+		 return res;	
 	}
 
 
@@ -46,16 +47,9 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected String _saleOrderCloseRow(Context ctx, String jsonStr)
 			throws BOSException {
 		 String res =  SaleOrderSupport.doCloseRow(ctx, jsonStr);
-		 logger.info("do _saleOrderCloseRow method cost :" + this.timer.msValue());
+		 logger.info("do _saleOrderCloseRow doCloseRow method cost :" + this.timer.msValue());
 		 return res;	
 	}
 	
-	
-	@Override
-	public String purOrderCloseRow(Context ctx, String jsonStr)
-			throws BOSException {
-		 String res =  PurOrderSupport.doCloseRow(ctx, jsonStr);
-		 logger.info("do purOrderCloseRow method cost :" + this.timer.msValue());
-		 return res;	
- 	}
+ 
 }

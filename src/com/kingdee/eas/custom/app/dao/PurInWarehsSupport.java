@@ -7,6 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
@@ -34,22 +38,86 @@ import com.kingdee.eas.basedata.scm.im.inv.InvUpdateTypeInfo;
 import com.kingdee.eas.basedata.scm.im.inv.WarehouseFactory;
 import com.kingdee.eas.basedata.scm.im.inv.WarehouseInfo;
 import com.kingdee.eas.common.EASBizException;
+import com.kingdee.eas.custom.app.DateBaseProcessType;
+import com.kingdee.eas.custom.app.DateBasetype;
+import com.kingdee.eas.custom.app.PurPlatSyncEnum;
 import com.kingdee.eas.custom.app.dto.PurInDTO;
 import com.kingdee.eas.custom.app.dto.PurInDetailDTO;
-import com.kingdee.eas.custom.app.dto.PurOrderDTO;
-import com.kingdee.eas.custom.app.dto.PurOrderDetailDTO;
 import com.kingdee.eas.custom.app.unit.AppUnit;
+import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.custom.util.VerifyUtil;
 import com.kingdee.eas.scm.common.PurchaseTypeEnum;
+import com.kingdee.eas.scm.im.inv.IPurInWarehsBill;
+import com.kingdee.eas.scm.im.inv.PurInWarehsBillFactory;
 import com.kingdee.eas.scm.im.inv.PurInWarehsBillInfo;
 import com.kingdee.eas.scm.im.inv.PurInWarehsEntryInfo;
 import com.kingdee.eas.scm.ws.app.importbill.ScmbillImportUtils;
 import com.kingdee.eas.util.app.ContextUtil;
+import com.kingdee.eas.util.app.DbUtil;
 
 public class PurInWarehsSupport {
 
-	
+	public static String doSync(Context ctx,String jsonStr){
+		String result = null;
+		if(jsonStr != null && !"".equals(jsonStr)){
+		    System.out.println("************************json begin****************************");
+		    System.out.println("#####################jsonStr################=" + jsonStr);
+			DateBaseProcessType processType = DateBaseProcessType.AddNew;
+			DateBasetype baseType = DateBasetype.B2B_GZ_LZ_PI;
+			String msgId = "";
+			String busCode ="";
+			String reqTime ="";
+			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
+			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+			Gson gson = new Gson();
+			JsonElement modelJE = returnData.get("data"); // 请求参数data
+			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+				msgId = msgIdJE.getAsString() ;
+				busCode = busCodeJE.getAsString() ;
+				reqTime = reqTimeJE.getAsString() ;
+				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+reqTime, jsonStr, "", "");
+				try {
+					PurInDTO m = gson.fromJson(modelJE, PurInDTO.class);
+					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+						result = judgeModel(ctx,m);
+						if("".equals(result))
+						{
+ 							PurInWarehsBillInfo info = createPurBillInfo(ctx, m,busCode, msgId);
+							IPurInWarehsBill ibiz = PurInWarehsBillFactory.getLocalInstance(ctx);
+							IObjectPK pk = ibiz.save(info);
+							
+							ibiz.submit(pk.toString());
+							
+							String fromID = info.getEntry().get(0).getSourceBillId();
+							if(fromID !=null && !"".equals(fromID)){
+							   String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
+					    		" values(newbosid('59302EC6'),'3171BFAD','783061E3','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','5iUfG0tUSoalSLeGmOHURwRRIsQ=','0')";
+							     DbUtil.execute(ctx,sql);
+							}
+						    
+							result = "success";
+						}
+					}else
+						result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
+				} catch (BOSException e) {
+		 			e.printStackTrace();
+					result = PurPlatSyncEnum.EXCEPTION_SERVER.getAlias();
+				} catch (EASBizException e) {
+					result = PurPlatSyncEnum.EXCEPTION_SERVER.getAlias();
+					e.printStackTrace();
+				}
+			}else
+				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+		}else
+			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+
+		return result ;		
+	}
 	/**
 	 * 校验 实体是否正确
 	 * @param ctx
@@ -216,7 +284,7 @@ public class PurInWarehsSupport {
     
     info.setCreator(ContextUtil.getCurrentUserInfo(ctx));
     info.setCreateTime(new Timestamp(new Date().getTime()));
-    SimpleDateFormat formmat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    SimpleDateFormat formmat = new SimpleDateFormat("yyyy-MM-dd");
 //    Date dateItem = new Date();
 //    try {
 //		dateItem = formmat.parse(bizDate);
@@ -262,7 +330,7 @@ public class PurInWarehsSupport {
     // InvUpdateTypeInfo invUpdateType = InvUpdateTypeFactory.getLocalInstance(ctx).getInvUpdateTypeInfo("where number ='" + invUpdateTypenumber + "' ");
     BillTypeInfo sourceBillTypeInfo = new BillTypeInfo();
     sourceBillTypeInfo.setId(BOSUuid.read("510b6503-0105-1000-e000-010bc0a812fd463ED552"));
-    info.setSourceBillType(sourceBillTypeInfo);
+//    info.setSourceBillType(sourceBillTypeInfo);
     
     info.put("yisheng", person);
     info.put("HisReqID", msgId);
@@ -302,13 +370,13 @@ public class PurInWarehsSupport {
         Map<String,String> orderEmp = PurPlatUtil.getPurOrderEntryMapByMsgId(ctx,m.getFpurchaseorgunitid(),entry.getFsourcebillentryid());
         if(orderEmp !=null && orderEmp.size() > 0){
         	entryInfo.setSourceBillEntryId(orderEmp.get("id"));
-        	entryInfo.setSourceBillEntryId(orderEmp.get("seq"));
+        	entryInfo.setSourceBillEntrySeq(Integer.parseInt(orderEmp.get("seq")));
         }
+        
         Map<String,String> ordermp = PurPlatUtil.getPurOrderMapByNumber(ctx,m.getFpurchaseorgunitid(),entry.getFsourcebillnumber());
-
         if(ordermp !=null && orderEmp.size() > 0){
-            entryInfo.setSourceBillId(entry.getFsourcebillnumber());
-            entryInfo.setSourceBillNumber(orderEmp.get("number"));
+            entryInfo.setSourceBillId(ordermp.get("id"));
+            entryInfo.setSourceBillNumber(ordermp.get("number"));
         }
         entryInfo.setSourceBillType(sourceBillTypeInfo);
         totalAmount = totalAmount.add(entry.getFamount());
@@ -330,10 +398,10 @@ public class PurInWarehsSupport {
     IObjectPK pk = new ObjectUuidPK(BOSUuid.read(dvo.getFmaterialid()));
     material = imaterial.getMaterialInfo(pk);
     
-    pk = new ObjectUuidPK(BOSUuid.read(dvo.getFunitid()));
+    pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
     MeasureUnitInfo unitInfo = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitInfo(pk);
     
-    pk = new ObjectUuidPK(BOSUuid.read(dvo.getFbaseunitid()));
+    pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
     MeasureUnitInfo baseUnitInfo = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitInfo(pk);
     
     pk = new ObjectUuidPK(BOSUuid.read(dvo.getFwarehouseid()));

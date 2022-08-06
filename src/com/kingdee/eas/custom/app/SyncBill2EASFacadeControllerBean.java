@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.workflow.metas.SAProcessDATASyncFacadeControllerBean;
+import com.kingdee.eas.custom.app.dao.PurInWarehsSupport;
 import com.kingdee.eas.custom.app.dao.PurOrderSupport;
 import com.kingdee.eas.custom.app.dao.SaleOrderSupport;
 import com.kingdee.eas.framework.bireport.bimanager.ws.engine.domain.Axis2Exception;
@@ -52,6 +53,26 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 		 logger.info("do _saleOrderCloseRow doCloseRow method cost :" + this.timer.msValue());
 		 return res;	
 	}
+
+
+	@Override
+	protected String _savePurInWare(Context ctx, String jsonStr)
+			throws BOSException {
+		 String res =  PurInWarehsSupport.doSync(ctx, jsonStr);
+		 logger.info("do _saleOrderCloseRow doCloseRow method cost :" + this.timer.msValue());
+		 return res;	
+	}
+
+
+	@Override
+	protected String _saveSaleIss(Context ctx, String jsonStr)
+			throws BOSException {
+		 String res =  SaleOrderSupport.doCloseRow(ctx, jsonStr);
+		 logger.info("do _saleOrderCloseRow _saveSaleIss method cost :" + this.timer.msValue());
+		 return res;	
+	}
+	
+	
 	
  
 }

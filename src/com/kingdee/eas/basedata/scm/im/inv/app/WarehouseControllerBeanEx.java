@@ -36,14 +36,14 @@ public class WarehouseControllerBeanEx extends WarehouseControllerBean{
 	}
 
 	@Override
-	protected IObjectPK _submit(Context arg0, IObjectValue arg1)
+	protected IObjectPK _submit(Context ctx, IObjectValue model)
 			throws BOSException, EASBizException {
 		// TODO Auto-generated method stub
 		Boolean isNew = false;
-		if(arg1.get("ID") ==  null){
+		if(model.get("ID") ==  null){
 			isNew = true;
 		}
-		IObjectPK  id = super._submit(arg0, arg1);
+		IObjectPK  id = super._submit(ctx, model);
 		if(isNew){
 			HashMap<String, String> map = new HashMap<String, String>(); 
 			String sql  = " /*dialect*/ select wah.fid fId , wah.fnumber fNumber, wah.fname_l2 fName ,admin.fid fOrgtid,admin.fnumber fOrgNumber, admin.fname_l2 fOrgName, "+
@@ -52,7 +52,8 @@ public class WarehouseControllerBeanEx extends WarehouseControllerBean{
 			  "	inner join  T_PM_User  cuser on cuser.fid=wah.FCREATORID  "+ 
 			  " where wah.fid = '"+id.toString()+"' ";  
 			
-			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(arg0,sql);
+			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
+ 
 			if(rs!=null && rs.size() > 0){
 				try {
 					while(rs.next()){	  
@@ -86,8 +87,8 @@ public class WarehouseControllerBeanEx extends WarehouseControllerBean{
 			 }  
 			if(map.size() >0){
 				String datajsonStr = JSONObject.toJSONString(map);
-				ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(arg0);
-				is.syncDateByType( 5 , datajsonStr , 0 , map.get("fname") ,map.get("fnumber") );
+				ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
+				is.syncDateByType( 5 , datajsonStr , 0 ,model.get("name").toString() ,model.get("number").toString() );
 			}
 		}
 		return id;

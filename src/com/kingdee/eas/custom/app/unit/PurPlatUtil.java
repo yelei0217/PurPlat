@@ -48,6 +48,8 @@ public class PurPlatUtil {
 	    		 tableName =" T_SM_PurOrder ";
 	    	 }else if("GZ_LZ_SO".equals(busCode)||"DZ_MZ_SO".equals(busCode)){
 	    		 tableName =" T_SD_SALEORDER ";
+	    	 }else if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)){
+	    		 tableName =" T_IM_PurInWarehsBill ";
 	    	 }
 	        try {
 	    		String sql = " select count(1) C from "+tableName+" where CFMsgId = '"+msgId+"' ";

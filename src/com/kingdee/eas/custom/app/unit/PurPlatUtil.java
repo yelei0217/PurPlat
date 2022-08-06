@@ -91,7 +91,11 @@ public class PurPlatUtil {
 		    		   sql = " select count(1) C from T_BD_CustomerCompanyInfo where FCustomerID ='"+fid+"' and FComOrgID ='"+orgId+"' ";
  		    	 } else if("CUSS".equals(oper)){
 		    		 sql = " select count(1) C from T_BD_CustomerSaleInfo where FCustomerID ='"+fid+"' and FSaleOrgID ='"+orgId+"' ";
- 		    	 }  
+ 		    	 } else if("PurOrder".equals(oper)){
+		    		 sql = " select count(1) C from T_SM_PurOrder where FNumber ='"+fid+"' and FPurchaseOrgUnitID ='"+orgId+"' ";
+ 		    	 }   else if("PurOrderEntry".equals(oper)){
+		    		 sql = " select count(1) C from T_SM_PurOrderEntry where CFMsgId ='"+fid+"' and FStorageOrgUnitID ='"+orgId+"' ";
+ 		    	 }    
 		    	 
 		    	 if(VerifyUtil.notNull(oper) ){
 		    	      try {
@@ -248,6 +252,65 @@ public class PurPlatUtil {
 			        	 
 			         }
  			       }
+			       catch (BOSException e) {
+			         e.printStackTrace();
+			       } catch (SQLException e) {
+			         e.printStackTrace();
+			       } 
+			 
+		}
+		return mp;
+	}
+	
+	
+	/**
+	 *  通过 采购组织ID 获取 采购组织对应的控制单元ID
+	 * @param ctx
+	 * @param purOrgId
+	 * @return
+	 */
+	public static Map<String,String> getPurOrderEntryMapByMsgId(Context ctx,String orgId,String mId){
+		 Map<String,String> mp = null ;
+ 		if(VerifyUtil.notNull(mId) ){
+ 			mp = new HashMap<String,String>();
+ 			String  sql = " select FID,FSEQ from T_SM_PurOrderEntry where CFMsgId ='"+mId+"' and FStorageOrgUnitID ='"+orgId+"' ";
+
+			     try {
+			         IRowSet rs = DbUtil.executeQuery(ctx, sql);
+			         if (rs.next()){
+			        	 if(rs.getObject("FID")!=null &&!"".equals(rs.getObject("FID").toString()))
+			        		 mp.put("id", rs.getObject("FID").toString());
+			        	  
+			        	 if(rs.getObject("FSEQ")!=null &&!"".equals(rs.getObject("FSEQ").toString()))
+			        		 mp.put("seq", rs.getObject("FSEQ").toString()); 
+			         }
+ 			       }
+			       catch (BOSException e) {
+			         e.printStackTrace();
+			       } catch (SQLException e) {
+			         e.printStackTrace();
+			       } 
+			 
+		}
+		return mp;
+	}
+	
+	
+	public static Map<String,String> getPurOrderMapByNumber(Context ctx,String orgId,String mId){
+		 Map<String,String> mp = null ;
+		if(VerifyUtil.notNull(mId) ){
+			mp = new HashMap<String,String>();
+			String  sql = " select FID,FNUMBER from T_SM_PurOrder where FNumber ='"+mId+"' and FPurchaseOrgUnitID ='"+orgId+"' ";
+			     try {
+			         IRowSet rs = DbUtil.executeQuery(ctx, sql);
+			         if (rs.next()){
+			        	 if(rs.getObject("FID")!=null &&!"".equals(rs.getObject("FID").toString()))
+			        		 mp.put("id", rs.getObject("FID").toString());
+			        	  
+			        	 if(rs.getObject("FNUMBER")!=null &&!"".equals(rs.getObject("FNUMBER").toString()))
+			        		 mp.put("number", rs.getObject("FNUMBER").toString()); 
+			         }
+			       }
 			       catch (BOSException e) {
 			         e.printStackTrace();
 			       } catch (SQLException e) {

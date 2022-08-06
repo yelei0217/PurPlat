@@ -4,8 +4,10 @@ import org.apache.log4j.Logger;
 
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
+import com.kingdee.bos.workflow.metas.SAProcessDATASyncFacadeControllerBean;
 import com.kingdee.eas.custom.app.dao.PurOrderSupport;
 import com.kingdee.eas.custom.app.dao.SaleOrderSupport;
+import com.kingdee.eas.framework.bireport.bimanager.ws.engine.domain.Axis2Exception;
 import com.kingdee.util.LowTimer;
 
 public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacadeControllerBean

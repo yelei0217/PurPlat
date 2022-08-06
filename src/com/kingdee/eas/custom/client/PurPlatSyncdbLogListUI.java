@@ -53,9 +53,11 @@ public class PurPlatSyncdbLogListUI extends AbstractPurPlatSyncdbLogListUI
 //    	String jsonStr ="{\"msgId\":\"111111\",\"busCode\":\"GZB_LZ_SO_CR\",\"reqTime\":\"202208041736120\",\"data\":{\"id\":\"1111\",\"eids\":\"111-111\"}}"; 
 //    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().saleOrderCloseRow(jsonStr);
     	
-    	String jsonStr ="{\"msgId\":\"111111\",\"busCode\":\"GZB_LZ_PO_CR\",\"reqTime\":\"202208041736120\",\"data\":{\"id\":\"1111\",\"eids\":\"111-111\"}}"; 
-    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().purOrderCloseRow(jsonStr);
+//    	String jsonStr ="{\"msgId\":\"111111\",\"busCode\":\"GZB_LZ_PO_CR\",\"reqTime\":\"202208041736120\",\"data\":{\"id\":\"1111\",\"eids\":\"111-111\"}}"; 
+//    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().purOrderCloseRow(jsonStr);
     	
+    	String jsonStr = "{\"msgId\":\"202208051644123\",\"busCode\":\"GZ_LZ_PO\",\"reqTime\":\"202208051644123\",\"data\":{\"id\":\"202208051644123\",\"fnumber\":\"202208051644123\",\"fbizdate\":\"2022-08-05\",\"fpurchaseorgunitid\":\"kO6+E1zaSbKzTzLMtI+csMznrtQ=\",\"fpurchasepersonid\":\"Lt2bG2FWRzy0+1V/cUTJFIDvfe0=\",\"fsupplierid\":\"ZrYAxLT6RbCTmHETKr1WijfGffw=\",\"fadminorgunitid\":\"jbYAAAWC4L/M567U\",\"ftotalamount\":172.41,\"ftotaltax\":27.59,\"ftotaltaxamount\":200,\"fcreatorid\":\"\",\"details\":[{\"id\":\"202208051644123-1\",\"fseq\":\"1\",\"fmaterialid\":\"YblhcM4pQOutUg5b4WEyC0QJ5/A=\",\"funitid\":\"G01\",\"fassociateqty\":\"2\",\"fbaseunitid\":\"G01\",\"fremark\":\"ccss\",\"fispresent\":false,\"fqty\":2,\"fprice\":86.206897,\"factualprice\":86.206897,\"ftaxrate\":16,\"ftaxprice\":100,\"factualtaxprice\":100,\"famount\":172.41,\"ftax\":27.59,\"ftaxamount\":200,\"fdeliverydate\":\"2022-08-05\",\"fbaseqty\":2}]}}";
+    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().savePurOrder(jsonStr);
     	
     	System.out.println("fsf"+result);
     }

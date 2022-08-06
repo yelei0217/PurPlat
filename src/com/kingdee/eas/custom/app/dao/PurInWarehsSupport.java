@@ -2,8 +2,10 @@ package com.kingdee.eas.custom.app.dao;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
@@ -19,6 +21,7 @@ import com.kingdee.eas.basedata.master.material.MaterialFactory;
 import com.kingdee.eas.basedata.master.material.MaterialInfo;
 import com.kingdee.eas.basedata.org.CompanyOrgUnitInfo;
 import com.kingdee.eas.basedata.org.CtrlUnitInfo;
+import com.kingdee.eas.basedata.org.PurchaseOrgUnitFactory;
 import com.kingdee.eas.basedata.org.PurchaseOrgUnitInfo;
 import com.kingdee.eas.basedata.org.StorageOrgUnitFactory;
 import com.kingdee.eas.basedata.org.StorageOrgUnitInfo;
@@ -33,7 +36,10 @@ import com.kingdee.eas.basedata.scm.im.inv.WarehouseInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.dto.PurInDTO;
 import com.kingdee.eas.custom.app.dto.PurInDetailDTO;
+import com.kingdee.eas.custom.app.dto.PurOrderDTO;
+import com.kingdee.eas.custom.app.dto.PurOrderDetailDTO;
 import com.kingdee.eas.custom.app.unit.AppUnit;
+import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.custom.util.VerifyUtil;
 import com.kingdee.eas.scm.common.PurchaseTypeEnum;
 import com.kingdee.eas.scm.im.inv.PurInWarehsBillInfo;
@@ -43,6 +49,130 @@ import com.kingdee.eas.util.app.ContextUtil;
 
 public class PurInWarehsSupport {
 
+	
+	/**
+	 * 校验 实体是否正确
+	 * @param ctx
+	 * @param m
+	 * @return
+	 */
+	private static String judgeModel(Context ctx,PurInDTO m ){
+		 String result = "";
+		 //组织是否存在
+		 if(m.getFpurchaseorgunitid() != null && !"".equals(m.getFpurchaseorgunitid()) ){
+			 IObjectPK orgPK = new  ObjectUuidPK(m.getFpurchaseorgunitid());
+			try {
+				if(!PurchaseOrgUnitFactory.getLocalInstance(ctx).exists(orgPK))
+					result = result +"采购组织不存在,";
+			} catch (EASBizException e) {
+ 				e.printStackTrace();
+			} catch (BOSException e) {
+ 				e.printStackTrace();
+			}
+			 
+		 }else{
+			 result = result +"采购组织不能为空,";
+		 }
+		 
+		 if(m.getFnumber() !=null && !"".equals(m.getFnumber())){
+			 // B2B单号存在是否需要判断
+			 
+		 }else
+			 result = result +"单价编号不能为空,";
+		 
+		 
+		 if(m.getFbizdate() == null || "".equals(m.getFbizdate()))
+			 result = result +"业务日期不能为空,";
+			
+		 if(m.getFsupplierid() == null || "".equals(m.getFsupplierid()))
+			 result = result +"供应商不能为空,";
+		 else{
+			if(PurPlatUtil.judgeExists(ctx, "S", "", m.getFsupplierid())){
+				if(!PurPlatUtil.judgeExists(ctx, "SP",m.getFpurchaseorgunitid()  , m.getFsupplierid()))
+					 result = result +"供应商未分配当前组织,";
+				}else
+					 result = result +"供应商不存在,";
+		  }
+			
+			 if(m.getFtotaltaxamount() == null || m.getFtotaltax() == null || m.getFtotalamount() == null)
+				 result = result +"价税合计、金额、税额 都不允许为空,";
+			 else{
+				 if(m.getFtotaltaxamount().compareTo( m.getFtotaltax().add(m.getFtotalamount() )) != 0)
+					 result = result +"价税合计等于金额加税额的合计,";
+		  }
+			 
+			if(m.getDetails() !=null && m.getDetails().size() > 0 ){	 
+				 for(PurInDetailDTO dvo : m.getDetails()){
+					 int j = 0 ; 
+					 if(dvo.getFmaterialid() ==null || "".equals(dvo.getFmaterialid())){
+						 result = result +"第"+j+1+"行物料ID不能为空,";
+					 }else{
+						 if(PurPlatUtil.judgeExists(ctx, "M", "",dvo.getFmaterialid())){
+							 if(!PurPlatUtil.judgeExists(ctx, "MP",m.getFpurchaseorgunitid()  , dvo.getFmaterialid()))
+								 result = result +"第"+j+1+"物料未分配当前组织,";
+						 }else
+							 result = result +"第"+j+1+"行 物料ID不存在,";
+					 }
+					 
+					 if(dvo.getFunitid() ==null || "".equals(dvo.getFunitid()) ){
+						 result = result +"第"+j+1+"行计量单位不能为空,";
+					 }else{
+						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFunitid())) 
+							 result = result +"第"+j+1+"行 计量单位"+dvo.getFunitid()+"不存在,";
+					 }
+					 
+					 if(dvo.getFbaseunitid() ==null || "".equals(dvo.getFbaseunitid()) ){
+						 result = result +"第"+j+1+"行基本计量单位不能为空,";
+					 }else{
+						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFbaseunitid())) 
+							 result = result +"第"+j+1+"行 基本计量单位"+dvo.getFbaseunitid()+"不存在,";
+					 }
+					 
+					if(dvo.getFqty() ==null || dvo.getFbaseqty() == null){ 
+						 result = result +"第"+j+1+"行 订货数量、基本数量不能为空,";
+					}
+					 
+					if(dvo.getFprice()==null || dvo.getFactualprice() == null || dvo.getFtaxprice() == null || dvo.getFactualtaxprice() == null){ 
+						 result = result +"第"+j+1+"行 单价、实际单价、含税单价、实际含税单价 不能为空,";
+					}
+					
+					if(dvo.getFtaxrate() == null){ 
+						 result = result +"第"+j+1+"行 税率不能为空,";
+					}
+					if(dvo.getFtax() == null){ 
+						 result = result +"第"+j+1+"行 税额不能为空,";
+					}
+					 
+					if(dvo.getFamount()== null){ 
+						 result = result +"第"+j+1+"行 金额不能为空,";
+					}
+					
+					if(dvo.getFtaxamount() == null){ 
+						 result = result +"第"+j+1+"行 价税合计不能为空,";
+					}
+					
+					 if(dvo.getFsourcebillnumber() ==null || "".equals(dvo.getFsourcebillnumber())){
+						 result = result +"第"+j+1+"订单编码不能为空,";
+					 }else{
+						 if(!PurPlatUtil.judgeExists(ctx, "PurOrder", m.getFpurchaseorgunitid(),dvo.getFsourcebillnumber())) 
+							 result = result +"第"+j+1+"行 订单编码"+dvo.getFsourcebillnumber()+"不存在,";
+					 }
+					 
+					 if(dvo.getFsourcebillentryid() ==null || "".equals(dvo.getFsourcebillentryid())){
+						 result = result +"第"+j+1+"订单明细行ID不能为空,";
+					 }else{
+						 if(!PurPlatUtil.judgeExists(ctx, "PurOrderEntry", m.getFpurchaseorgunitid(),dvo.getFsourcebillentryid())) 
+							 result = result +"第"+j+1+"行 订单明细行ID"+dvo.getFsourcebillentryid()+"不存在,";
+					 }
+				 
+				 }
+			} else 
+				result = result +"至少有一条明细行的数据,";
+			 
+		 return result;
+	}
+	
+	
 	private static PurInWarehsBillInfo createPurBillInfo(Context ctx, PurInDTO m,String busCode,String msgId)
     throws EASBizException, BOSException
   {
@@ -65,7 +195,7 @@ public class PurInWarehsSupport {
 //      transactiontypenumber = "002";
 //      defQty = new BigDecimal(-1);
 //    }
-    ObjectUuidPK orgPK = new ObjectUuidPK(m.getFstorageorgunitid());
+    ObjectUuidPK orgPK = new ObjectUuidPK(m.getFpurchaseorgunitid());
     StorageOrgUnitInfo storageorginfo = StorageOrgUnitFactory.getLocalInstance(ctx).getStorageOrgUnitInfo(orgPK);
     CompanyOrgUnitInfo xmcompany = ScmbillImportUtils.getCompanyInfo(ctx, storageorginfo, 4);
 
@@ -82,7 +212,7 @@ public class PurInWarehsSupport {
     info.setBillType(billtype);
     
     PurchaseOrgUnitInfo purchaseorginfo = new PurchaseOrgUnitInfo();
-    purchaseorginfo.setId(BOSUuid.read(m.getFstorageorgunitid()));
+    purchaseorginfo.setId(BOSUuid.read(m.getFpurchaseorgunitid()));
     
     info.setCreator(ContextUtil.getCurrentUserInfo(ctx));
     info.setCreateTime(new Timestamp(new Date().getTime()));
@@ -93,7 +223,13 @@ public class PurInWarehsSupport {
 //	} catch (ParseException e) {
 // 		e.printStackTrace();
 //	}
-    info.setBizDate(m.getFbizdate());
+	//String bizDateStr = m.getFbizdate();
+	 
+    try {
+		info.setBizDate(formmat.parse(m.getFbizdate()));
+	} catch (ParseException e) {
+ 		e.printStackTrace();
+	}
     CurrencyInfo currency = new CurrencyInfo();
     currency.setId(BOSUuid.read("dfd38d11-00fd-1000-e000-1ebdc0a8100dDEB58FDC"));
     info.setCurrency(currency);
@@ -162,6 +298,19 @@ public class PurInWarehsSupport {
       //  entryInfo.setInvUpdateType(invUpdateType);
         entryInfo.setBalanceSupplier(supplierInfo);
         entryInfo.setPurchaseOrgUnit(purchaseorginfo);
+        
+        Map<String,String> orderEmp = PurPlatUtil.getPurOrderEntryMapByMsgId(ctx,m.getFpurchaseorgunitid(),entry.getFsourcebillentryid());
+        if(orderEmp !=null && orderEmp.size() > 0){
+        	entryInfo.setSourceBillEntryId(orderEmp.get("id"));
+        	entryInfo.setSourceBillEntryId(orderEmp.get("seq"));
+        }
+        Map<String,String> ordermp = PurPlatUtil.getPurOrderMapByNumber(ctx,m.getFpurchaseorgunitid(),entry.getFsourcebillnumber());
+
+        if(ordermp !=null && orderEmp.size() > 0){
+            entryInfo.setSourceBillId(entry.getFsourcebillnumber());
+            entryInfo.setSourceBillNumber(orderEmp.get("number"));
+        }
+        entryInfo.setSourceBillType(sourceBillTypeInfo);
         totalAmount = totalAmount.add(entry.getFamount());
         info.getEntries().addObject(entryInfo);
        
@@ -213,7 +362,7 @@ public class PurInWarehsSupport {
     //entryInfo.setStandardCost(BigDecimal.ZERO);
     entryInfo.setTax(BigDecimal.ZERO);
     entryInfo.setAmount(dvo.getFamount());
-    entryInfo.setLocalAmount(dvo.getFlocalamount());
+    entryInfo.setLocalAmount(dvo.getFamount());
     entryInfo.setWrittenOffAmount(dvo.getFamount());
     
     entryInfo.setTaxPrice(dvo.getFtaxprice());
@@ -237,6 +386,8 @@ public class PurInWarehsSupport {
 //    entryInfo.put("huanzheID", entry.getPatientId());
 //    entryInfo.put("huanzhemingcheng", entry.getPatientName());
     
+    
+  
     return entryInfo;
   }
   

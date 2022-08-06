@@ -13,11 +13,8 @@ public class PurOrderDetailDTO implements Serializable{
 	
 	private String	id ;
 	private Integer fseq;
-//	private String	fcreatorid ;
-//	private Date	fcreatetime ;
 	private String	fmaterialid ;
 	private String	funitid ;
-	private BigDecimal	fassociateqty ;
 	private String	fbaseunitid ;
 	private String	fremark ;
 	private Boolean	fispresent ;
@@ -28,14 +25,10 @@ public class PurOrderDetailDTO implements Serializable{
 	private BigDecimal	ftaxprice ;
 	private BigDecimal	factualtaxprice ;
 	private BigDecimal	famount ;
-  //private BigDecimal	flocalamount ;
-	private BigDecimal	ftax ;
+ 	private BigDecimal	ftax ;
 	private BigDecimal	ftaxamount ;
 	private String	fdeliverydate ;
 	private BigDecimal	fbaseqty ;
-	//private BigDecimal	flocaltax ;
-	//private BigDecimal	flocaltaxamount ;
-
 	
 	public Integer getFseq() {
 		return fseq;
@@ -62,12 +55,12 @@ public class PurOrderDetailDTO implements Serializable{
 	public void setFunitid(String funitid) {
 		this.funitid = funitid;
 	}
-	public BigDecimal getFassociateqty() {
-		return fassociateqty;
-	}
-	public void setFassociateqty(BigDecimal fassociateqty) {
-		this.fassociateqty = fassociateqty;
-	}
+//	public BigDecimal getFassociateqty() {
+//		return fassociateqty;
+//	}
+//	public void setFassociateqty(BigDecimal fassociateqty) {
+//		this.fassociateqty = fassociateqty;
+//	}
 	public String getFbaseunitid() {
 		return fbaseunitid;
 	}

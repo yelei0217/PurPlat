@@ -12,26 +12,53 @@ public class PurInDTO  implements Serializable{
 	 */
 	private static final long serialVersionUID = 7305464449348809424L;
 	
-	private String	fid ;
+	private String	id ;
 	private String	fnumber ;
-	private Date	fbizdate ;
-	private String	fstorageorgunitid ;
+	private String	fbizdate ;
+	private String	fpurchaseorgunitid ;
 	private String	fstockerid ;
 	private BigDecimal	ftotalqty ;
 	private BigDecimal	ftotalamount ;
+ 	private BigDecimal	ftotaltax ;
+	private BigDecimal	ftotaltaxamount ;
 	private String	fsupplierid ;
 	private String	fcreatorid ;
-	private Date	fcreatetime ;
-	
+ 	
 	private List<PurInDetailDTO> details ;
-
-	public String getFid() {
-		return fid;
+	
+	public BigDecimal getFtotaltax() {
+		return ftotaltax;
 	}
 
-	public void setFid(String fid) {
-		this.fid = fid;
+	public void setFtotaltax(BigDecimal ftotaltax) {
+		this.ftotaltax = ftotaltax;
 	}
+
+	public BigDecimal getFtotaltaxamount() {
+		return ftotaltaxamount;
+	}
+
+	public void setFtotaltaxamount(BigDecimal ftotaltaxamount) {
+		this.ftotaltaxamount = ftotaltaxamount;
+	}
+
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getFbizdate() {
+		return fbizdate;
+	}
+
+	public void setFbizdate(String fbizdate) {
+		this.fbizdate = fbizdate;
+	}
+
 
 	public String getFnumber() {
 		return fnumber;
@@ -41,20 +68,12 @@ public class PurInDTO  implements Serializable{
 		this.fnumber = fnumber;
 	}
 
-	public Date getFbizdate() {
-		return fbizdate;
+	public String getFpurchaseorgunitid() {
+		return fpurchaseorgunitid;
 	}
 
-	public void setFbizdate(Date fbizdate) {
-		this.fbizdate = fbizdate;
-	}
-
-	public String getFstorageorgunitid() {
-		return fstorageorgunitid;
-	}
-
-	public void setFstorageorgunitid(String fstorageorgunitid) {
-		this.fstorageorgunitid = fstorageorgunitid;
+	public void setFpurchaseorgunitid(String fpurchaseorgunitid) {
+		this.fpurchaseorgunitid = fpurchaseorgunitid;
 	}
 
 	public String getFstockerid() {
@@ -97,13 +116,6 @@ public class PurInDTO  implements Serializable{
 		this.fcreatorid = fcreatorid;
 	}
 
-	public Date getFcreatetime() {
-		return fcreatetime;
-	}
-
-	public void setFcreatetime(Date fcreatetime) {
-		this.fcreatetime = fcreatetime;
-	}
 
 	public List<PurInDetailDTO> getDetails() {
 		return details;

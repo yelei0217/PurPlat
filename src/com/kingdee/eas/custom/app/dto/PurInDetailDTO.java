@@ -19,55 +19,25 @@ public class PurInDetailDTO  implements Serializable{
 	private String fsourcebillentryid ;
 	private int fsourcebillentryseq ;
 	private String fmaterialid ;
-	private String funitid ;
-	private String fbaseunitid ;
-	private BigDecimal fassociateqty ;
+ 	private String	funitid ;
+	private String	fbaseunitid ;
 	private String fwarehouseid ;
 	private String fstockerid ;
-	private BigDecimal fqty ;
-	private BigDecimal fbaseqty ;
-	private BigDecimal fprice ;
-	private BigDecimal famount ;
-	//private BigDecimal funitactualcost ;
-	//private BigDecimal factualcost ;
-	private boolean fispresent ;
+	private Boolean	fispresent ;
 	private String fparentid ;
-	private BigDecimal ftaxrate ;
-	private BigDecimal ftax ;
-	private BigDecimal flocaltax ;
-	private BigDecimal flocalprice ;
-	private BigDecimal flocalamount ;
-	private Date fmfg ;
-	private Date fexp ;
+	private BigDecimal	fqty ;
+	private BigDecimal	fprice ;
+	private BigDecimal	factualprice ;
+	private BigDecimal	ftaxrate ;
+	private BigDecimal	ftaxprice ;
+	private BigDecimal	factualtaxprice ;
+	private BigDecimal	famount ;
+ 	private BigDecimal	ftax ;
+	private BigDecimal	ftaxamount ;
+	private BigDecimal	fbaseqty ;
+	private String fmfg ;
+	private String fexp ;
 	private String fremark ;
-	private BigDecimal ftaxprice ;
-	private BigDecimal ftaxamount ;
-	private BigDecimal factualtaxprice ;
-	
-	public String getFparentid() {
-		return fparentid;
-	}
-	public void setFparentid(String fparentid) {
-		this.fparentid = fparentid;
-	}
-	public BigDecimal getFactualtaxprice() {
-		return factualtaxprice;
-	}
-	public void setFactualtaxprice(BigDecimal factualtaxprice) {
-		this.factualtaxprice = factualtaxprice;
-	}
-	public void setFsourcebillentryseq(int fsourcebillentryseq) {
-		this.fsourcebillentryseq = fsourcebillentryseq;
-	}
-	public void setFispresent(boolean fispresent) {
-		this.fispresent = fispresent;
-	}
-	public BigDecimal getFtaxamount() {
-		return ftaxamount;
-	}
-	public void setFtaxamount(BigDecimal ftaxamount) {
-		this.ftaxamount = ftaxamount;
-	}
 	public String getId() {
 		return id;
 	}
@@ -98,10 +68,10 @@ public class PurInDetailDTO  implements Serializable{
 	public void setFsourcebillentryid(String fsourcebillentryid) {
 		this.fsourcebillentryid = fsourcebillentryid;
 	}
-	public Integer getFsourcebillentryseq() {
+	public int getFsourcebillentryseq() {
 		return fsourcebillentryseq;
 	}
-	public void setFsourcebillentryseq(Integer fsourcebillentryseq) {
+	public void setFsourcebillentryseq(int fsourcebillentryseq) {
 		this.fsourcebillentryseq = fsourcebillentryseq;
 	}
 	public String getFmaterialid() {
@@ -122,13 +92,6 @@ public class PurInDetailDTO  implements Serializable{
 	public void setFbaseunitid(String fbaseunitid) {
 		this.fbaseunitid = fbaseunitid;
 	}
-	public BigDecimal getFassociateqty() {
-		return fassociateqty;
-	}
-	public void setFassociateqty(BigDecimal fassociateqty) {
-		this.fassociateqty = fassociateqty;
-	}
- 
 	public String getFwarehouseid() {
 		return fwarehouseid;
 	}
@@ -141,17 +104,23 @@ public class PurInDetailDTO  implements Serializable{
 	public void setFstockerid(String fstockerid) {
 		this.fstockerid = fstockerid;
 	}
+	public Boolean getFispresent() {
+		return fispresent;
+	}
+	public void setFispresent(Boolean fispresent) {
+		this.fispresent = fispresent;
+	}
+	public String getFparentid() {
+		return fparentid;
+	}
+	public void setFparentid(String fparentid) {
+		this.fparentid = fparentid;
+	}
 	public BigDecimal getFqty() {
 		return fqty;
 	}
 	public void setFqty(BigDecimal fqty) {
 		this.fqty = fqty;
-	}
-	public BigDecimal getFbaseqty() {
-		return fbaseqty;
-	}
-	public void setFbaseqty(BigDecimal fbaseqty) {
-		this.fbaseqty = fbaseqty;
 	}
 	public BigDecimal getFprice() {
 		return fprice;
@@ -159,29 +128,11 @@ public class PurInDetailDTO  implements Serializable{
 	public void setFprice(BigDecimal fprice) {
 		this.fprice = fprice;
 	}
-	public BigDecimal getFamount() {
-		return famount;
+	public BigDecimal getFactualprice() {
+		return factualprice;
 	}
-	public void setFamount(BigDecimal famount) {
-		this.famount = famount;
-	}
-//	public BigDecimal getFunitactualcost() {
-//		return funitactualcost;
-//	}
-//	public void setFunitactualcost(BigDecimal funitactualcost) {
-//		this.funitactualcost = funitactualcost;
-//	}
-//	public BigDecimal getFactualcost() {
-//		return factualcost;
-//	}
-//	public void setFactualcost(BigDecimal factualcost) {
-//		this.factualcost = factualcost;
-//	}
-	public Boolean getFispresent() {
-		return fispresent;
-	}
-	public void setFispresent(Boolean fispresent) {
-		this.fispresent = fispresent;
+	public void setFactualprice(BigDecimal factualprice) {
+		this.factualprice = factualprice;
 	}
 	public BigDecimal getFtaxrate() {
 		return ftaxrate;
@@ -189,47 +140,53 @@ public class PurInDetailDTO  implements Serializable{
 	public void setFtaxrate(BigDecimal ftaxrate) {
 		this.ftaxrate = ftaxrate;
 	}
+	public BigDecimal getFtaxprice() {
+		return ftaxprice;
+	}
+	public void setFtaxprice(BigDecimal ftaxprice) {
+		this.ftaxprice = ftaxprice;
+	}
+	public BigDecimal getFactualtaxprice() {
+		return factualtaxprice;
+	}
+	public void setFactualtaxprice(BigDecimal factualtaxprice) {
+		this.factualtaxprice = factualtaxprice;
+	}
+	public BigDecimal getFamount() {
+		return famount;
+	}
+	public void setFamount(BigDecimal famount) {
+		this.famount = famount;
+	}
 	public BigDecimal getFtax() {
 		return ftax;
 	}
 	public void setFtax(BigDecimal ftax) {
 		this.ftax = ftax;
 	}
-	public BigDecimal getFlocaltax() {
-		return flocaltax;
+	public BigDecimal getFtaxamount() {
+		return ftaxamount;
 	}
-	public void setFlocaltax(BigDecimal flocaltax) {
-		this.flocaltax = flocaltax;
+	public void setFtaxamount(BigDecimal ftaxamount) {
+		this.ftaxamount = ftaxamount;
 	}
-	public BigDecimal getFlocalprice() {
-		return flocalprice;
+	public BigDecimal getFbaseqty() {
+		return fbaseqty;
 	}
-	public void setFlocalprice(BigDecimal flocalprice) {
-		this.flocalprice = flocalprice;
+	public void setFbaseqty(BigDecimal fbaseqty) {
+		this.fbaseqty = fbaseqty;
 	}
-	public BigDecimal getFlocalamount() {
-		return flocalamount;
-	}
-	public void setFlocalamount(BigDecimal flocalamount) {
-		this.flocalamount = flocalamount;
-	}
-	public Date getFmfg() {
+	public String getFmfg() {
 		return fmfg;
 	}
-	public void setFmfg(Date fmfg) {
+	public void setFmfg(String fmfg) {
 		this.fmfg = fmfg;
 	}
-	public Date getFexp() {
+	public String getFexp() {
 		return fexp;
 	}
-	public void setFexp(Date fexp) {
+	public void setFexp(String fexp) {
 		this.fexp = fexp;
-	}
-	public BigDecimal getFtaxprice() {
-		return ftaxprice;
-	}
-	public void setFtaxprice(BigDecimal ftaxprice) {
-		this.ftaxprice = ftaxprice;
 	}
 	public String getFremark() {
 		return fremark;

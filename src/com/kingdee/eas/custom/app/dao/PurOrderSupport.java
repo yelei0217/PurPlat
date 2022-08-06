@@ -305,6 +305,14 @@ public class PurOrderSupport {
 			 
 		 return result;
 	}
+	
+	
+	/**
+	 *  ÐÐ¹Ø±Õ
+	 * @param ctx
+	 * @param jsonStr
+	 * @return
+	 */
 	public static String doCloseRow(Context ctx,String jsonStr){
 		String result ="";
 		if(jsonStr != null && !"".equals(jsonStr)){
@@ -401,4 +409,5 @@ public class PurOrderSupport {
 		}
 		return result ;
 	}
+
 }

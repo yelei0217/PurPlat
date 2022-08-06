@@ -22,8 +22,7 @@ public class PurOrderDTO implements Serializable{
 	private BigDecimal	ftotaltax ;
 	private BigDecimal	ftotaltaxamount ;
 	private String	fcreatorid ;
-//	private Date	fcreatetime ;
-
+ 
 	private List<PurOrderDetailDTO> details;
 
 	public String getId() {

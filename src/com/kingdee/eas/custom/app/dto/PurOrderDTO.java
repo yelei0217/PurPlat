@@ -14,7 +14,7 @@ public class PurOrderDTO implements Serializable{
 	private String	id ;
 	private String	fnumber ;
 	private String	fbizdate ;
-	private String	fpurchaseorgunitid ;
+	private String	fstorageorgunitid ;
 	private String	fpurchasepersonid ;
 	private String	fsupplierid ;
 	private String	fadminorgunitid ;
@@ -49,12 +49,12 @@ public class PurOrderDTO implements Serializable{
 		this.fbizdate = fbizdate;
 	}
 
-	public String getFpurchaseorgunitid() {
-		return fpurchaseorgunitid;
+	public String getFstorageorgunitid() {
+		return fstorageorgunitid;
 	}
 
-	public void setFpurchaseorgunitid(String fpurchaseorgunitid) {
-		this.fpurchaseorgunitid = fpurchaseorgunitid;
+	public void setFstorageorgunitid(String fstorageorgunitid) {
+		this.fstorageorgunitid = fstorageorgunitid;
 	}
 
 	public String getFpurchasepersonid() {

@@ -96,11 +96,11 @@ public class SaleOrderSupport {
 	private static String judgeModel(Context ctx,SaleOrderDTO m ){
 		 String result = "";
 		 //组织是否存在
-		 if(m.getFpurchaseorgunitid() != null && !"".equals(m.getFpurchaseorgunitid()) ){
-			 IObjectPK orgPK = new  ObjectUuidPK(m.getFpurchaseorgunitid());
+		 if(m.getFstorageorgunitid() != null && !"".equals(m.getFstorageorgunitid()) ){
+			 IObjectPK orgPK = new  ObjectUuidPK(m.getFstorageorgunitid());
 			try {
 				if(!PurchaseOrgUnitFactory.getLocalInstance(ctx).exists(orgPK))
-					result = result +"采购组织不存在,";
+					result = result +"库存组织不存在,";
 			} catch (EASBizException e) {
  				e.printStackTrace();
 			} catch (BOSException e) {
@@ -108,7 +108,7 @@ public class SaleOrderSupport {
 			}
 			 
 		 }else{
-			 result = result +"采购组织不能为空,";
+			 result = result +"库存组织不能为空,";
 		 }
 		 
 		 if(m.getFnumber() !=null && !"".equals(m.getFnumber())){
@@ -125,7 +125,7 @@ public class SaleOrderSupport {
 			 result = result +"客户不能为空,";
 		 else{
 			if(PurPlatUtil.judgeExists(ctx, "CUS", "", m.getFordercustomerid())){
-				if(!PurPlatUtil.judgeExists(ctx, "CUSS",m.getFpurchaseorgunitid(), m.getFordercustomerid()))
+				if(!PurPlatUtil.judgeExists(ctx, "CUSS",m.getFstorageorgunitid(), m.getFordercustomerid()))
 					 result = result +"客户未分配当前组织,";
 				}else
 					 result = result +"客户不存在,";
@@ -145,7 +145,7 @@ public class SaleOrderSupport {
 						 result = result +"第"+j+1+"行物料ID不能为空,";
 					 }else{
 						 if(PurPlatUtil.judgeExists(ctx, "M", "",dvo.getFmaterialid())){
-							 if(!PurPlatUtil.judgeExists(ctx, "MP",m.getFpurchaseorgunitid()  , dvo.getFmaterialid()))
+							 if(!PurPlatUtil.judgeExists(ctx, "MP",m.getFstorageorgunitid()  , dvo.getFmaterialid()))
 								 result = result +"第"+j+1+"物料未分配当前组织,";
 						 }else
 							 result = result +"第"+j+1+"行 物料ID不存在,";
@@ -238,13 +238,13 @@ public class SaleOrderSupport {
 		//String bizDate = m.getFbizdate().
 		String bizDateStr = m.getFbizdate();
 		sbr.append("'").append(sId).append("','").append(userId).append("',sysdate,'").append(userId).append("',sysdate,'").append(userId).append("',sysdate,'");
-		String ctrlOrgId = PurPlatUtil.getCtrlOrgId(ctx, "PUR", m.getFpurchaseorgunitid()); //控制单元
+		String ctrlOrgId = PurPlatUtil.getCtrlOrgId(ctx, "PUR", m.getFstorageorgunitid()); //控制单元
 		sbr.append(ctrlOrgId).append("','").append(m.getFnumber()).append("',to_date('").append(bizDateStr).append("','yyyy-MM-dd'),'").append(m.getFdescription()).append("',0,'");
 		sbr.append(userId).append("',sysdate,4,'").append(bizTypeId).append("','").append(billTypeId).append("','").append(bizDateStr.substring(0, 4)).append("','").append(Integer.parseInt(bizDateStr.substring(5,7))).append("',0,'");
-		sbr.append(m.getFordercustomerid()).append("','").append(m.getFpurchaseorgunitid()).append("','").append(deliverTYpeId).append("',0,'").append(currencyId).append("',1,'").append(paymentTypeId).append("','").append(settlementTypeId).append("'");
-		sbr.append(",0,0,'").append(m.getFpurchaseorgunitid()).append("','jbYAAAAB7DOA733t','").append(m.getFadminorgunitid()).append("',").append(m.getFtotalamount()).append(",").append(m.getFtotaltax()).append(",").append(m.getFtotaltaxamount());
+		sbr.append(m.getFordercustomerid()).append("','").append(m.getFstorageorgunitid()).append("','").append(deliverTYpeId).append("',0,'").append(currencyId).append("',1,'").append(paymentTypeId).append("','").append(settlementTypeId).append("'");
+		sbr.append(",0,0,'").append(m.getFstorageorgunitid()).append("','jbYAAAAB7DOA733t','").append(m.getFadminorgunitid()).append("',").append(m.getFtotalamount()).append(",").append(m.getFtotaltax()).append(",").append(m.getFtotaltaxamount());
 		sbr.append(",0,0,'").append(m.getFsendaddress()).append("',0,0,").append(m.getFtotalamount()).append(",").append(m.getFtotaltaxamount());
-		sbr.append(",'").append( m.getFpurchaseorgunitid()).append("',").append(isInTax).append(",0,0,0,0,0,0,0,0,0,'").append(m.getId()).append("') ");
+		sbr.append(",'").append( m.getFstorageorgunitid()).append("',").append(isInTax).append(",0,0,0,0,0,0,0,0,0,'").append(m.getId()).append("') ");
 		pe.getSqlList().add(sbr);
 		
 		for(SaleOrderDetailDTO dvo : m.getDetails()){
@@ -275,11 +275,11 @@ public class SaleOrderSupport {
 			sbr1.append(dvo.getFqty()).append(",'").append(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFbaseunitid())).append("','").append(dvo.getFremark()).append("',").append(isPresent).append(",").append(dvo.getFbaseqty()).append(",").append(dvo.getFqty());
 			sbr1.append(",").append(dvo.getFprice()).append(",").append(dvo.getFtaxprice()).append(",-1,0,0,0,").append(dvo.getFamount()).append(",").append(dvo.getFamount()).append(",");
 			sbr1.append(dvo.getFactualprice()).append(",").append(dvo.getFactualtaxprice()).append(",").append(dvo.getFtaxrate()).append(",").append(dvo.getFtax()).append(",").append(dvo.getFtaxamount()).append(",");
-			sbr1.append("to_date('").append(sendDateStr).append("','yyyy-MM-dd')").append(",to_date('").append(deliveDateStr).append("','yyyy-MM-dd'),'").append(m.getFpurchaseorgunitid()).append("','").append(m.getFpurchaseorgunitid()).append("',0,0,0,0,0,0,0,0,0,'").append(sId).append("',0,0,0,0,");
+			sbr1.append("to_date('").append(sendDateStr).append("','yyyy-MM-dd')").append(",to_date('").append(deliveDateStr).append("','yyyy-MM-dd'),'").append(m.getFstorageorgunitid()).append("','").append(m.getFstorageorgunitid()).append("',0,0,0,0,0,0,0,0,0,'").append(sId).append("',0,0,0,0,");
 			sbr1.append(dvo.getFqty()).append(",").append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",").append(dvo.getFqty()).append(",0,0,0,").append(dvo.getFtax()).append(",").append(dvo.getFtaxamount()).append(",0,0,").append(dvo.getFqty());
 			sbr1.append(",0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,'").append(m.getFordercustomerid()).append("','").append(m.getFordercustomerid()).append("','").append(m.getFordercustomerid()).append("',");
-			sbr1.append("0,0,0,").append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",0,0,0,0,0,'").append(m.getFpurchaseorgunitid()).append("',to_date('").append(bizDateStr).append("','yyyy-MM-dd'),-1,0,0,'");
-			sbr1.append(m.getFpurchaseorgunitid()).append("',0,0,0,0,0,'").append(mmp.get("pp")).append("','").append(mmp.get("hh")).append("',0,0,");
+			sbr1.append("0,0,0,").append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",0,0,0,0,0,'").append(m.getFstorageorgunitid()).append("',to_date('").append(bizDateStr).append("','yyyy-MM-dd'),-1,0,0,'");
+			sbr1.append(m.getFstorageorgunitid()).append("',0,0,0,0,0,'").append(mmp.get("pp")).append("','").append(mmp.get("hh")).append("',0,0,");
 			sbr1.append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",0,0,").append(dvo.getFtaxamount()).append(",").append(dvo.getFtaxamount()).append(",'").append(dvo.getId()).append("' ) ");
 			pe.getSqlList().add(sbr1);
 		}

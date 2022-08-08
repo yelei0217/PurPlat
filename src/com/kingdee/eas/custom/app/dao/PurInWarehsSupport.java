@@ -87,7 +87,7 @@ public class PurInWarehsSupport {
 						result = judgeModel(ctx,m);
 						if("".equals(result))
 						{
- 							PurInWarehsBillInfo info = createPurBillInfo(ctx, m,busCode, msgId);
+ 							PurInWarehsBillInfo info = createPurBillInfo(ctx, m);
 							IPurInWarehsBill ibiz = PurInWarehsBillFactory.getLocalInstance(ctx);
 							IObjectPK pk = ibiz.save(info);
 							
@@ -241,7 +241,7 @@ public class PurInWarehsSupport {
 	}
 	
 	
-	private static PurInWarehsBillInfo createPurBillInfo(Context ctx, PurInDTO m,String busCode,String msgId)
+	private static PurInWarehsBillInfo createPurBillInfo(Context ctx, PurInDTO m)
     throws EASBizException, BOSException
   {
     PurInWarehsBillInfo info = new PurInWarehsBillInfo();
@@ -326,14 +326,13 @@ public class PurInWarehsSupport {
 
     	//TransactionTypeFactory.getLocalInstance(ctx).getTransactionTypeInfo("where number = '" + transactiontypenumber + "'");
     
-    
     // InvUpdateTypeInfo invUpdateType = InvUpdateTypeFactory.getLocalInstance(ctx).getInvUpdateTypeInfo("where number ='" + invUpdateTypenumber + "' ");
     BillTypeInfo sourceBillTypeInfo = new BillTypeInfo();
     sourceBillTypeInfo.setId(BOSUuid.read("510b6503-0105-1000-e000-010bc0a812fd463ED552"));
 //    info.setSourceBillType(sourceBillTypeInfo);
     
     info.put("yisheng", person);
-    info.put("HisReqID", msgId);
+    //info.put("HisReqID", msgId);
     info.put("HISdanjubianma", m.getFnumber());
     BigDecimal totalAmount = new BigDecimal(0);
     
@@ -367,13 +366,13 @@ public class PurInWarehsSupport {
         entryInfo.setBalanceSupplier(supplierInfo);
         entryInfo.setPurchaseOrgUnit(purchaseorginfo);
         
-        Map<String,String> orderEmp = PurPlatUtil.getPurOrderEntryMapByMsgId(ctx,m.getFpurchaseorgunitid(),entry.getFsourcebillentryid());
+        Map<String,String> orderEmp = PurPlatUtil.getOrderEntryMapByMsgId(ctx,m.getFpurchaseorgunitid(),entry.getFsourcebillentryid(),"P");
         if(orderEmp !=null && orderEmp.size() > 0){
         	entryInfo.setSourceBillEntryId(orderEmp.get("id"));
         	entryInfo.setSourceBillEntrySeq(Integer.parseInt(orderEmp.get("seq")));
         }
         
-        Map<String,String> ordermp = PurPlatUtil.getPurOrderMapByNumber(ctx,m.getFpurchaseorgunitid(),entry.getFsourcebillnumber());
+        Map<String,String> ordermp = PurPlatUtil.getOrderMapByNumber(ctx,m.getFpurchaseorgunitid(),entry.getFsourcebillnumber(),"P");
         if(ordermp !=null && orderEmp.size() > 0){
             entryInfo.setSourceBillId(ordermp.get("id"));
             entryInfo.setSourceBillNumber(ordermp.get("number"));
@@ -454,8 +453,6 @@ public class PurInWarehsSupport {
 //    entryInfo.put("huanzheID", entry.getPatientId());
 //    entryInfo.put("huanzhemingcheng", entry.getPatientName());
     
-    
-  
     return entryInfo;
   }
   

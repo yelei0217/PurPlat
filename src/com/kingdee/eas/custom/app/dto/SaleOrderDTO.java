@@ -17,7 +17,7 @@ public class SaleOrderDTO  implements Serializable{
 	private String  fnumber;
 	private String    fbizdate;
 	private String  fordercustomerid;
-	private String  fpurchaseorgunitid;
+	private String  fstorageorgunitid;
 	private String  fadminorgunitid;
 	private BigDecimal  ftotalamount;
 	private BigDecimal  ftotaltax;
@@ -58,11 +58,12 @@ public class SaleOrderDTO  implements Serializable{
 	public void setFordercustomerid(String fordercustomerid) {
 		this.fordercustomerid = fordercustomerid;
 	}
-	public String getFpurchaseorgunitid() {
-		return fpurchaseorgunitid;
+ 
+	public String getFstorageorgunitid() {
+		return fstorageorgunitid;
 	}
-	public void setFpurchaseorgunitid(String fpurchaseorgunitid) {
-		this.fpurchaseorgunitid = fpurchaseorgunitid;
+	public void setFstorageorgunitid(String fstorageorgunitid) {
+		this.fstorageorgunitid = fstorageorgunitid;
 	}
 	public String getFadminorgunitid() {
 		return fadminorgunitid;

@@ -50,6 +50,8 @@ public class PurPlatUtil {
 	    		 tableName =" T_SD_SALEORDER ";
 	    	 }else if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)){
 	    		 tableName =" T_IM_PurInWarehsBill ";
+	    	 }else if("GZ_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)){
+	    		 tableName =" T_IM_SaleIssueBill ";
 	    	 }
 	        try {
 	    		String sql = " select count(1) C from "+tableName+" where CFMsgId = '"+msgId+"' ";
@@ -271,11 +273,17 @@ public class PurPlatUtil {
 	 * @param purOrgId
 	 * @return
 	 */
-	public static Map<String,String> getPurOrderEntryMapByMsgId(Context ctx,String orgId,String mId){
+	public static Map<String,String> getOrderEntryMapByMsgId(Context ctx,String orgId,String mId,String oper){
 		 Map<String,String> mp = null ;
- 		if(VerifyUtil.notNull(mId) ){
+ 		if(VerifyUtil.notNull(mId) && VerifyUtil.notNull(orgId) && VerifyUtil.notNull(oper) ){
+ 			 String tableName ="";
+	    	 if("P".endsWith(oper)){
+	    		 tableName =" T_SM_PurOrderEntry ";
+	    	 }else if("S".equals(oper)){
+	    		 tableName =" T_SD_SaleOrderEntry ";
+	    	 }
  			mp = new HashMap<String,String>();
- 			String  sql = " select FID,FSEQ from T_SM_PurOrderEntry where CFMsgId ='"+mId+"' and FStorageOrgUnitID ='"+orgId+"' ";
+ 			String  sql = " select FID,FSEQ from "+tableName+" where CFMsgId ='"+mId+"' and FCompanyOrgUnitID ='"+orgId+"' ";
 
 			     try {
 			         IRowSet rs = DbUtil.executeQuery(ctx, sql);
@@ -292,17 +300,23 @@ public class PurPlatUtil {
 			       } catch (SQLException e) {
 			         e.printStackTrace();
 			       } 
-			 
 		}
 		return mp;
 	}
 	
 	
-	public static Map<String,String> getPurOrderMapByNumber(Context ctx,String orgId,String mId){
+	public static Map<String,String> getOrderMapByNumber(Context ctx,String orgId,String mId,String oper){
 		 Map<String,String> mp = null ;
-		if(VerifyUtil.notNull(mId) ){
+	 		if(VerifyUtil.notNull(mId) && VerifyUtil.notNull(orgId) && VerifyUtil.notNull(oper) ){
 			mp = new HashMap<String,String>();
-			String  sql = " select FID,FNUMBER from T_SM_PurOrder where FNumber ='"+mId+"' and FPurchaseOrgUnitID ='"+orgId+"' ";
+			 String tableName ="";
+	    	 if("P".endsWith(oper)){
+	    		 tableName =" T_SM_PurOrder ";
+	    	 }else if("S".equals(oper)){
+	    		 tableName =" T_SD_SaleOrder ";
+	    	 }
+	    	 
+			String  sql = " select FID,FNUMBER from "+tableName+" where FNumber ='"+mId+"' and FCompanyOrgUnitID ='"+orgId+"' ";
 			     try {
 			         IRowSet rs = DbUtil.executeQuery(ctx, sql);
 			         if (rs.next()){
@@ -318,7 +332,6 @@ public class PurPlatUtil {
 			       } catch (SQLException e) {
 			         e.printStackTrace();
 			       } 
-			 
 		}
 		return mp;
 	}

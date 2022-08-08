@@ -2,29 +2,32 @@ package com.kingdee.eas.custom.app.dao;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
-import com.kingdee.bos.metadata.entity.EntityViewInfo;
-import com.kingdee.bos.metadata.entity.FilterInfo;
-import com.kingdee.bos.metadata.entity.FilterItemInfo;
-import com.kingdee.bos.metadata.query.util.CompareType;
 import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.eas.basedata.assistant.ConvertModeEnum;
 import com.kingdee.eas.basedata.assistant.CurrencyInfo;
+import com.kingdee.eas.basedata.assistant.MeasureUnitFactory;
+import com.kingdee.eas.basedata.assistant.MeasureUnitInfo;
 import com.kingdee.eas.basedata.assistant.PaymentTypeInfo;
-import com.kingdee.eas.basedata.master.cssp.CustomerFactory;
 import com.kingdee.eas.basedata.master.cssp.CustomerInfo;
 import com.kingdee.eas.basedata.master.material.IMaterial;
 import com.kingdee.eas.basedata.master.material.MaterialFactory;
 import com.kingdee.eas.basedata.master.material.MaterialInfo;
 import com.kingdee.eas.basedata.org.CompanyOrgUnitInfo;
 import com.kingdee.eas.basedata.org.CtrlUnitInfo;
+import com.kingdee.eas.basedata.org.PurchaseOrgUnitFactory;
 import com.kingdee.eas.basedata.org.SaleOrgUnitInfo;
 import com.kingdee.eas.basedata.org.StorageOrgUnitFactory;
 import com.kingdee.eas.basedata.org.StorageOrgUnitInfo;
@@ -33,34 +36,198 @@ import com.kingdee.eas.basedata.scm.common.BizTypeInfo;
 import com.kingdee.eas.basedata.scm.common.TransactionTypeInfo;
 import com.kingdee.eas.basedata.scm.im.inv.IWarehouse;
 import com.kingdee.eas.basedata.scm.im.inv.InvUpdateTypeInfo;
-import com.kingdee.eas.basedata.scm.im.inv.WarehouseCollection;
 import com.kingdee.eas.basedata.scm.im.inv.WarehouseFactory;
 import com.kingdee.eas.basedata.scm.im.inv.WarehouseInfo;
 import com.kingdee.eas.common.EASBizException;
-import com.kingdee.eas.custom.FreeItemFactory;
-import com.kingdee.eas.custom.FreeItemInfo;
-import com.kingdee.eas.custom.app.unit.AppUnit;
-import com.kingdee.eas.custom.entity.ProcessIPOEntity;
-import com.kingdee.eas.custom.entity.ProcessIPOModel;
-import com.kingdee.eas.custom.util.VerifyUtil;
+import com.kingdee.eas.custom.app.DateBaseProcessType;
+import com.kingdee.eas.custom.app.DateBasetype;
+import com.kingdee.eas.custom.app.PurPlatSyncEnum;
+import com.kingdee.eas.custom.app.dto.SaleIssDTO;
+import com.kingdee.eas.custom.app.dto.SaleIssDetailDTO;
+import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
+import com.kingdee.eas.custom.app.unit.PurPlatUtil;
+import com.kingdee.eas.scm.im.inv.ISaleIssueBill;
+import com.kingdee.eas.scm.im.inv.SaleIssueBillFactory;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillInfo;
 import com.kingdee.eas.scm.im.inv.SaleIssueEntryInfo;
 import com.kingdee.eas.scm.ws.app.importbill.ScmbillImportUtils;
 import com.kingdee.eas.util.app.ContextUtil;
+import com.kingdee.eas.util.app.DbUtil;
 
 public class SaleIssueSupport {
 
+	public static String doSync(Context ctx,String jsonStr){
+		String result = null;
+		if(jsonStr != null && !"".equals(jsonStr)){
+		    System.out.println("************************json begin****************************");
+		    System.out.println("#####################jsonStr################=" + jsonStr);
+			DateBaseProcessType processType = DateBaseProcessType.AddNew;
+			DateBasetype baseType = DateBasetype.B2B_GZ_LZ_SS;
+			String msgId = "";
+			String busCode ="";
+			String reqTime ="";
+			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
+			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+			Gson gson = new Gson();
+			JsonElement modelJE = returnData.get("data"); // 请求参数data
+			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+				msgId = msgIdJE.getAsString() ;
+				busCode = busCodeJE.getAsString() ;
+				reqTime = reqTimeJE.getAsString() ;
+				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+reqTime, jsonStr, "", "");
+				try {
+					SaleIssDTO m = gson.fromJson(modelJE, SaleIssDTO.class);
+					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+						result = judgeModel(ctx,m);
+						if("".equals(result))
+						{
+							SaleIssueBillInfo info = createSaleBillInfo(ctx, m);
+							ISaleIssueBill ibiz =SaleIssueBillFactory.getLocalInstance(ctx);
+							IObjectPK pk = ibiz.save(info);
+							ibiz.submit(pk.toString());
+							String fromID = info.getEntry().get(0).getSourceBillId();
+							if(fromID !=null && !"".equals(fromID)){
+							   String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
+					    		" values(newbosid('59302EC6'),'C48A423A','CC3E933B','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','6a7669e6-0108-1000-e000-2136c0a812fd045122C4','0')";
+							     DbUtil.execute(ctx,sql);
+							}
+							result = "success";
+						}
+					}else
+						result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
+				} catch (BOSException e) {
+		 			e.printStackTrace();
+					result = PurPlatSyncEnum.EXCEPTION_SERVER.getAlias();
+				} catch (EASBizException e) {
+					result = PurPlatSyncEnum.EXCEPTION_SERVER.getAlias();
+					e.printStackTrace();
+				}
+			}else
+				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+		}else
+			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+
+		return result ;		
+	}
 	
-	 public static SaleIssueBillInfo createSaleBillInfo(Context ctx, ProcessIPOModel m)
+	/**
+	 * 校验 实体是否正确
+	 * @param ctx
+	 * @param m
+	 * @return
+	 */
+	private static String judgeModel(Context ctx,SaleIssDTO m ){
+		 String result = "";
+		 //组织是否存在
+		 if(m.getFstorageorgunitid() != null && !"".equals(m.getFstorageorgunitid()) ){
+			 IObjectPK orgPK = new  ObjectUuidPK(m.getFstorageorgunitid());
+			try {
+				if(!PurchaseOrgUnitFactory.getLocalInstance(ctx).exists(orgPK))
+					result = result +"库存组织不存在,";
+			} catch (EASBizException e) {
+ 				e.printStackTrace();
+			} catch (BOSException e) {
+ 				e.printStackTrace();
+			}
+			 
+		 }else{
+			 result = result +"库存组织不能为空,";
+		 }
+		 
+		 if(m.getFnumber() !=null && !"".equals(m.getFnumber())){
+			 // B2B单号存在是否需要判断
+			 
+		 }else
+			 result = result +"单价编号不能为空,";
+		 
+		 
+		 if(m.getFbizdate() == null || "".equals(m.getFbizdate()))
+			 result = result +"业务日期不能为空,";
+			
+		 if(m.getFcustomerid() == null || "".equals(m.getFcustomerid()))
+			 result = result +"客户不能为空,";
+		 else{
+			if(PurPlatUtil.judgeExists(ctx, "CUS", "", m.getFcustomerid())){
+				if(!PurPlatUtil.judgeExists(ctx, "CUSS",m.getFstorageorgunitid(), m.getFcustomerid()))
+					 result = result +"客户未分配当前组织,";
+				}else
+					 result = result +"客户不存在,";
+		  }
+			
+			 if(m.getFtotaltaxamount() == null || m.getFtotaltax() == null || m.getFtotalamount() == null)
+				 result = result +"价税合计、金额、税额 都不允许为空,";
+			 else{
+				 if(m.getFtotaltaxamount().compareTo( m.getFtotaltax().add(m.getFtotalamount() )) != 0)
+					 result = result +"价税合计等于金额加税额的合计,";
+		  }
+			 
+			if(m.getDetails() !=null && m.getDetails().size() > 0 ){	 
+				 for(SaleIssDetailDTO dvo : m.getDetails()){
+					 int j = 0 ; 
+					 if(dvo.getFmaterialid() ==null || "".equals(dvo.getFmaterialid())){
+						 result = result +"第"+j+1+"行物料ID不能为空,";
+					 }else{
+						 if(PurPlatUtil.judgeExists(ctx, "M", "",dvo.getFmaterialid())){
+							 if(!PurPlatUtil.judgeExists(ctx, "MP",m.getFstorageorgunitid()  , dvo.getFmaterialid()))
+								 result = result +"第"+j+1+"物料未分配当前组织,";
+						 }else
+							 result = result +"第"+j+1+"行 物料ID不存在,";
+					 }
+					 
+					 if(dvo.getFunitid() ==null || "".equals(dvo.getFunitid()) ){
+						 result = result +"第"+j+1+"行计量单位不能为空,";
+					 }else{
+						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFunitid())) 
+							 result = result +"第"+j+1+"行 计量单位"+dvo.getFunitid()+"不存在,";
+					 }
+					 
+					 if(dvo.getFbaseunitid() ==null || "".equals(dvo.getFbaseunitid()) ){
+						 result = result +"第"+j+1+"行基本计量单位不能为空,";
+					 }else{
+						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFbaseunitid())) 
+							 result = result +"第"+j+1+"行 基本计量单位"+dvo.getFbaseunitid()+"不存在,";
+					 }
+					 
+					if(dvo.getFqty() ==null || dvo.getFbaseqty() == null){ 
+						 result = result +"第"+j+1+"行 订货数量、基本数量不能为空,";
+					}
+					 
+					if(dvo.getFprice()==null || dvo.getFactualprice() == null || dvo.getFtaxprice() == null || dvo.getFactualtaxprice() == null){ 
+						 result = result +"第"+j+1+"行 单价、实际单价、含税单价、实际含税单价 不能为空,";
+					}
+					
+					if(dvo.getFtaxrate() == null){ 
+						 result = result +"第"+j+1+"行 税率不能为空,";
+					}
+					if(dvo.getFtax() == null){ 
+						 result = result +"第"+j+1+"行 税额不能为空,";
+					}
+					 
+					if(dvo.getFamount()== null){ 
+						 result = result +"第"+j+1+"行 金额不能为空,";
+					}
+					
+					if(dvo.getFtaxamount() == null){ 
+						 result = result +"第"+j+1+"行 价税合计不能为空,";
+					}
+			 
+				 }
+			} else 
+				result = result +"至少有一条明细行的数据,";
+			 
+		 return result;
+	}
+	 
+	private static SaleIssueBillInfo createSaleBillInfo(Context ctx, SaleIssDTO m)
 	    throws BOSException, EASBizException
 	  {
-	    String biztypenumber = "210";
-	    String transactiontypenumber = "010";
-	    String invUpdateTypenumber = "002";
-	    BigDecimal defQty = new BigDecimal(1);
 	   
 	    SaleIssueBillInfo info = new SaleIssueBillInfo();
-	    ObjectUuidPK orgPK = new ObjectUuidPK(m.getClinic());
+	    ObjectUuidPK orgPK = new ObjectUuidPK(m.getFstorageorgunitid());
 	    
 	    StorageOrgUnitInfo storageorginfo = StorageOrgUnitFactory.getLocalInstance(ctx).getStorageOrgUnitInfo(orgPK);
 	    CompanyOrgUnitInfo xmcompany = ScmbillImportUtils.getCompanyInfo(ctx, storageorginfo, 4);
@@ -76,22 +243,19 @@ public class SaleIssueSupport {
 	    info.setBillType(billtype);
 	    
 	    SaleOrgUnitInfo saleOrgInfo = new SaleOrgUnitInfo();
-	    saleOrgInfo.setId(BOSUuid.read(m.getClinic()));
+	    saleOrgInfo.setId(BOSUuid.read(m.getFstorageorgunitid()));
 	    
 	    info.setCreator(ContextUtil.getCurrentUserInfo(ctx));
 	    info.setCreateTime(new Timestamp(new Date().getTime()));
 	    
-	    SimpleDateFormat formmat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//	    Date bizDate = new Date();
-//	    try
-//	    {
-//	      bizDate = formmat.parse(ProcessRollUnit.getPeriodLastDayByPeriodNumber(ctx, m.getPeriod()));
-//	    }
-//	    catch (ParseException e)
-//	    {
-//	      e.printStackTrace();
-//	    }
-	   // info.setBizDate(bizDate);
+	    SimpleDateFormat formmat = new SimpleDateFormat("yyyy-MM-dd");
+	    Date bizDate = new Date();
+	    try {
+			bizDate = formmat.parse(m.getFbizdate());
+		} catch (ParseException e) {
+ 			e.printStackTrace();
+		}
+	    info.setBizDate(bizDate);
 	    
 	    PaymentTypeInfo paymenttypeinfo = new PaymentTypeInfo();
 	    paymenttypeinfo.setId(BOSUuid.read("91f078d7-fb90-4827-83e2-3538237b67a06BCA0AB5"));
@@ -102,192 +266,123 @@ public class SaleIssueSupport {
 	    info.setCurrency(currency);
 	    info.setExchangeRate(new BigDecimal("1.00"));
 	    
-	    EntityViewInfo viewInfoCustomer = new EntityViewInfo();
-	    FilterInfo filterCustomer = new FilterInfo();
-	    filterCustomer.getFilterItems().add(new FilterItemInfo("name", "", CompareType.EQUALS));
-	    viewInfoCustomer.setFilter(filterCustomer);
-	    CustomerInfo customerInfo = CustomerFactory.getLocalInstance(ctx).getCustomerCollection(viewInfoCustomer).get(0);
+	    CustomerInfo customerInfo = new CustomerInfo();
+	    customerInfo.setId(BOSUuid.read(m.getFcustomerid()));
 	    info.setCustomer(customerInfo);
 	    
-//	    PersonInfo person = AppUnit.getNullPersonInfoByHisID(ctx, m.getDoctor());
-//	    if ((person != null) && (VerifyUtil.notNull(person.getId().toString()))) {
-//	      info.setStocker(person);
-//	    }
-	    EntityViewInfo viewInfo1 = new EntityViewInfo();
-	    FilterInfo filter1 = new FilterInfo();
-	    filter1.getFilterItems().add(new FilterItemInfo("name", "%", CompareType.LIKE));
-	    filter1.getFilterItems().add(new FilterItemInfo("storageorg.id", m.getClinic(), CompareType.EQUALS));
-	    viewInfo1.setFilter(filter1);
-	    IWarehouse iwarehouse = WarehouseFactory.getLocalInstance(ctx);
-	    WarehouseCollection collection1 = iwarehouse.getWarehouseCollection(viewInfo1);
-	    
-	    WarehouseInfo warehouseinfo = collection1.get(0);
-	    
-//	    BizTypeInfo bizTypeinfo = BizTypeFactory.getLocalInstance(ctx).getBizTypeCollection("where number = '" + biztypenumber + "'").get(0);
-//	    info.setBizType(bizTypeinfo);
-//	    
-//	    TransactionTypeInfo transinfo = TransactionTypeFactory.getLocalInstance(ctx).getTransactionTypeInfo("where number = '" + transactiontypenumber + "'");
-//	    info.setTransactionType(transinfo);
-	    
 	    BizTypeInfo bizTypeinfo = new BizTypeInfo();
-	    bizTypeinfo.setId(BOSUuid.read("d8e80652-0106-1000-e000-04c5c0a812202407435C"));
+	    bizTypeinfo.setId(BOSUuid.read("d8e80652-010e-1000-e000-04c5c0a812202407435C")); //普通销售
 	    info.setBizType(bizTypeinfo);
 	    
 	    TransactionTypeInfo transinfo = new TransactionTypeInfo();
-	    transinfo.setId(BOSUuid.read("DawAAAAPoACwCNyn"));
+	    transinfo.setId(BOSUuid.read("DawAAAAPoAywCNyn"));//普通销售出库
 	    info.setTransactionType(transinfo);
-	    	    
-	    BigDecimal totalAmount = new BigDecimal(0);
-	    int isCollpur = m.getIsCollPur();
-	    for (ProcessIPOEntity entry : m.getEntitys())
+	    
+	    BillTypeInfo sourceBillTypeInfo = new BillTypeInfo();
+	    sourceBillTypeInfo.setId(BOSUuid.read("510b6503-0105-1000-e000-0113c0a812fd463ED552"));
+	    
+	    
+	   // BigDecimal totalAmount = new BigDecimal(0);
+	    for (SaleIssDetailDTO entry : m.getDetails())
 	    {
-	      if (entry.getQty() != null) {
-	        defQty = entry.getQty();
-	      }
-	      if (isCollpur == 1)
-	      {
-	        if (AppUnit.isExistsHisMaterial(ctx, entry.getMaterial()))
-	        {
-	          Map<String, String> materialMap = AppUnit.getMaterialIDsByHISName(ctx, entry.getMaterial());
-	          String materialId = (String)materialMap.get("material");
-	          String designId = (String)materialMap.get("design");
-	          
-	          SaleIssueEntryInfo entryInfo = createSaleEntryInfo(ctx, entry, defQty, entry.getMaterialAmount(), materialId, "iscoll");
-	          entryInfo.setStorageOrgUnit(storageorginfo);
-	          entryInfo.setCompanyOrgUnit(xmcompany);
-	          entryInfo.setBizDate(info.getBizDate());
-	          entryInfo.setWarehouse(warehouseinfo);
-	        //  entryInfo.setInvUpdateType(invUpdateType);
-	          entryInfo.setBalanceCustomer(customerInfo);
-	          entryInfo.setSaleOrgUnit(saleOrgInfo);
-	          if (VerifyUtil.notNull(m.getIscgjz())) {
-	            entryInfo.put("iscgjz", m.getIscgjz());
-	          }
-	          if ((designId != null) && (!"".equals(designId)))
-	          {
-	            SaleIssueEntryInfo entryInfo1 = createSaleEntryInfo(ctx, entry, defQty, entry.getDesignAmount(), designId, "iscoll");
-	            entryInfo1.setStorageOrgUnit(storageorginfo);
-	            entryInfo1.setCompanyOrgUnit(xmcompany);
-	            entryInfo1.setBizDate(info.getBizDate());
-	            entryInfo1.setWarehouse(warehouseinfo);
-	        //    entryInfo1.setInvUpdateType(invUpdateType);
-	            entryInfo1.setBalanceCustomer(customerInfo);
-	            entryInfo1.setSaleOrgUnit(saleOrgInfo);
-	            if (VerifyUtil.notNull(m.getIscgjz())) {
-	              entryInfo1.put("iscgjz", m.getIscgjz());
-	            }
-	            info.getEntries().addObject(entryInfo1);
-	          }
-	          totalAmount = totalAmount.add(entry.getAmount());
-	          info.getEntries().addObject(entryInfo);
-	        }
-	      }
-	      else
-	      {
-	        SaleIssueEntryInfo entryInfo = createSaleEntryInfo(ctx, entry, defQty, entry.getAmount(), entry.getMaterial(), "");
+	        SaleIssueEntryInfo entryInfo = createSaleEntryInfo(ctx, entry);
 	        entryInfo.setStorageOrgUnit(storageorginfo);
 	        entryInfo.setCompanyOrgUnit(xmcompany);
 	        entryInfo.setBizDate(info.getBizDate());
-	        entryInfo.setWarehouse(warehouseinfo);
+	      //  entryInfo.setWarehouse(warehouseinfo);
 	      //  entryInfo.setInvUpdateType(invUpdateType);
 	        entryInfo.setBalanceCustomer(customerInfo);
 	        entryInfo.setSaleOrgUnit(saleOrgInfo);
-	        if (VerifyUtil.notNull(m.getIscgjz())) {
-	          entryInfo.put("iscgjz", m.getIscgjz());
+	        //totalAmount = totalAmount.add(entry.getAmount());
+	        
+	        Map<String,String> orderEmp = PurPlatUtil.getOrderEntryMapByMsgId(ctx,m.getFstorageorgunitid(),entry.getFsourcebillentryid(),"S");
+	        if(orderEmp !=null && orderEmp.size() > 0){
+	        	entryInfo.setSourceBillEntryId(orderEmp.get("id"));
+	        	entryInfo.setSourceBillEntrySeq(Integer.parseInt(orderEmp.get("seq")));
 	        }
-	        totalAmount = totalAmount.add(entry.getAmount());
+	        
+	        Map<String,String> ordermp = PurPlatUtil.getOrderMapByNumber(ctx,m.getFstorageorgunitid(),entry.getFsourcebillnumber(),"S");
+	        if(ordermp !=null && orderEmp.size() > 0){
+	            entryInfo.setSourceBillId(ordermp.get("id"));
+	            entryInfo.setSourceBillNumber(ordermp.get("number"));
+	        }
+	        entryInfo.setSourceBillType(sourceBillTypeInfo);
 	        info.getEntries().addObject(entryInfo);
 	      }
-	    }
-	    info.setTotalAmount(totalAmount);
-	    info.setTotalLocalAmount(totalAmount);
-	    info.put("yisheng", "");
-	    info.put("HisReqID", m.getId());
-	    info.put("HISdanjubianma", m.getNumber());
- 	    info.put("saleid", m.getSaleid());
-	    if ((m.getIsyxjz() != null) && (!"".equals(m.getIsyxjz()))) {
-	      info.put("isyxjz", m.getIsyxjz());
-	    }
+	     
+	    info.setTotalAmount(m.getFtotalamount());
+	    info.setTotalLocalAmount(m.getFtotalamount());
+	    
+//	    info.put("yisheng", "");
+//	    info.put("HisReqID", m.getId());
+//	    info.put("HISdanjubianma", m.getNumber());
+// 	    info.put("saleid", m.getSaleid());
+	 
 	    return info;
 	  }
 	  
-	  private static SaleIssueEntryInfo createSaleEntryInfo(Context ctx, ProcessIPOEntity entry, BigDecimal qty, BigDecimal amount, String materialName, String oper)
+	private static SaleIssueEntryInfo createSaleEntryInfo(Context ctx, SaleIssDetailDTO dvo )
 	    throws EASBizException, BOSException
 	  {
 	    IMaterial imaterial = MaterialFactory.getLocalInstance(ctx);
+ 	    SaleIssueEntryInfo entryInfo = new SaleIssueEntryInfo();
+
 	    MaterialInfo material = null;
-	    BigDecimal price = amount;
-	    if ((oper != null) && ("iscoll".equals(oper)))
-	    {
-	      IObjectPK pk = new ObjectUuidPK(BOSUuid.read(materialName));
-	      material = imaterial.getMaterialInfo(pk);
-	      price = amount.divide(qty);
-	    }
-	    else
-	    {
-	      EntityViewInfo viewInfo = new EntityViewInfo();
-	      FilterInfo filter = new FilterInfo();
-	      filter.getFilterItems().add(new FilterItemInfo("number", materialName, CompareType.EQUALS));
-	      viewInfo.setFilter(filter);
-	      material = imaterial.getMaterialCollection(viewInfo).get(0);
-	    }
-	    SaleIssueEntryInfo entryInfo = new SaleIssueEntryInfo();
-	    entryInfo.setMaterial(material);
-	    entryInfo.setBaseUnit(material.getBaseUnit());
-	    entryInfo.setUnit(material.getBaseUnit());
+	    IObjectPK pk = new ObjectUuidPK(BOSUuid.read(dvo.getFmaterialid()));
+	    material = imaterial.getMaterialInfo(pk);
 	    
-	    entryInfo.setQty(qty);
-	    entryInfo.setBaseQty(qty);
-	    entryInfo.setAssociateQty(qty);
-	    entryInfo.setUnWriteOffQty(qty);
-	    entryInfo.setUnWriteOffBaseQty(qty);
-	    entryInfo.setUnReturnedBaseQty(qty);
-	    entryInfo.setUndeliverQty(qty);
-	    entryInfo.setUndeliverBaseQty(BigDecimal.ZERO);
-	    entryInfo.setUnInQty(qty);
-	    entryInfo.setUnInBaseQty(qty);
-	    entryInfo.setUnitStandardCost(BigDecimal.ZERO);
-	    entryInfo.setStandardCost(BigDecimal.ZERO);
-	    entryInfo.setTax(BigDecimal.ZERO);
+	    pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
+	    MeasureUnitInfo unitInfo = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitInfo(pk);
 	    
-	    entryInfo.setAmount(amount);
-	    entryInfo.setLocalAmount(amount);
-	    entryInfo.setWrittenOffAmount(amount);
-	    entryInfo.setNonTaxAmount(amount);
+	    pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
+	    MeasureUnitInfo baseUnitInfo = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitInfo(pk);
 	    
-	    entryInfo.setSalePrice(price);
-	    entryInfo.setPrice(price);
-	    entryInfo.setTaxPrice(price);
-	    entryInfo.setActualPrice(price);
-	    
-	    entryInfo.put("yawei", entry.getToothPosition());
-	    entryInfo.put("huohao", material.get("huohao"));
-	    entryInfo.put("pinpai", material.get("pinpai"));
-	    entryInfo.put("huanzheID", entry.getPatientId());
-	    entryInfo.put("huanzhemingcheng", entry.getPatientName());
-	    
-	    entryInfo.put("saleentryid", entry.getSaleentryid());
-	    entryInfo.put("hismingxiID", entry.getId());
-	    FreeItemInfo freeItemInfo = null;
-	    if (VerifyUtil.notNull(entry.getEasChargeItemDetail()))
-	    {
-	      freeItemInfo = FreeItemFactory.getLocalInstance(ctx).getFreeItemInfo(new ObjectUuidPK(entry.getEasChargeItemDetail()));
-	      entryInfo.put("eassfxm", freeItemInfo.getId().toString());
-	    }
-	    entryInfo.put("hisFirstItem", entry.getFirstCategoryId());
-	    entryInfo.put("hisFirstItemName", entry.getFirstCategoryName());
-	    entryInfo.put("hisChargeItem", entry.getSecondCategoryId());
-	    entryInfo.put("hisChargeItemName", entry.getSecondCategoryName());
-	    entryInfo.put("hissfxmid", entry.getHisChargeItemDetail());
-	    entryInfo.put("hissfxm", entry.getHisChargeItem());
-	    
+	    pk = new ObjectUuidPK(BOSUuid.read(dvo.getFwarehouseid()));
+	    IWarehouse iwarehouse = WarehouseFactory.getLocalInstance(ctx);
+	    WarehouseInfo warehouseinfo = iwarehouse.getWarehouseInfo(pk);
+	    entryInfo.setWarehouse(warehouseinfo);
 	    
 	    InvUpdateTypeInfo invUpdateType = new InvUpdateTypeInfo();
 	    invUpdateType.setId(BOSUuid.read("8r0AAAAEaOjC73rf"));
 	    entryInfo.setInvUpdateType(invUpdateType);
 	    
+	    entryInfo.setMaterial(material);
+	    entryInfo.setBaseUnit(baseUnitInfo);
+	    entryInfo.setUnit(unitInfo);
+	    entryInfo.setQty(dvo.getFqty());
+	    entryInfo.setBaseQty(dvo.getFbaseqty());
+	    entryInfo.setAssociateQty(BigDecimal.ZERO);
+	    entryInfo.setWrittenOffQty(dvo.getFqty());
+	    entryInfo.setWrittenOffBaseQty(dvo.getFbaseqty());
+	    entryInfo.setUnWriteOffQty(BigDecimal.ZERO);
+	    entryInfo.setUnWriteOffBaseQty(BigDecimal.ZERO);
+	    entryInfo.setUnReturnedBaseQty(BigDecimal.ZERO);
+//	    entryInfo.setCanDirectReqBaseQty(BigDecimal.ZERO);
+//	    entryInfo.setCanDirectReqQty(BigDecimal.ZERO);
+	    entryInfo.setAssistQty(BigDecimal.ZERO);
+	    //entryInfo.setStandardCost(BigDecimal.ZERO);
+	    entryInfo.setTax(BigDecimal.ZERO);
+	    entryInfo.setAmount(dvo.getFamount());
+	    entryInfo.setLocalAmount(dvo.getFamount());
+	    entryInfo.setWrittenOffAmount(dvo.getFamount());
 	    
+	    entryInfo.setTaxPrice(dvo.getFtaxprice());
+	    entryInfo.setPrice(dvo.getFprice());
+	    entryInfo.setActualPrice(dvo.getFtaxprice());
+//	    entryInfo.setActualTaxPrice(dvo.getFtaxprice());
+//	    entryInfo.setTaxAmount(dvo.getFtaxamount());
+//	    entryInfo.setLocalTaxAmount(dvo.getFtaxamount());
+	    entryInfo.setUnWriteOffAmount(dvo.getFamount());
+	    entryInfo.setUnitStandardCost(dvo.getFprice());
+	    entryInfo.setStandardCost(dvo.getFamount());
 	    
+	    entryInfo.setUnitActualCost(dvo.getFprice());
+	    entryInfo.setActualCost(dvo.getFamount());
+//	    entryInfo.setUnitPurchaseCost(dvo.getFprice());
+//	    entryInfo.setPurchaseCost(dvo.getFamount());
+	 
+	    entryInfo.put("huohao", material.get("huohao"));
+	    entryInfo.put("pinpai", material.get("pinpai"));
 	    
 	    return entryInfo;
 	  }

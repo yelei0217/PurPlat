@@ -84,20 +84,20 @@ public class PurInWarehsSupport {
 				try {
 					PurInDTO m = gson.fromJson(modelJE, PurInDTO.class);
 					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-						result = judgeModel(ctx,m);
+						result = judgeModel(ctx,m,busCode);
 						if("".equals(result))
 						{
- 							PurInWarehsBillInfo info = createPurBillInfo(ctx, m);
+ 							PurInWarehsBillInfo info = createPurBillInfo(ctx, m,busCode);
 							IPurInWarehsBill ibiz = PurInWarehsBillFactory.getLocalInstance(ctx);
 							IObjectPK pk = ibiz.save(info);
-							
 							ibiz.submit(pk.toString());
-							
-							String fromID = info.getEntry().get(0).getSourceBillId();
-							if(fromID !=null && !"".equals(fromID)){
-							   String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
-					    		" values(newbosid('59302EC6'),'3171BFAD','783061E3','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','5iUfG0tUSoalSLeGmOHURwRRIsQ=','0')";
-							     DbUtil.execute(ctx,sql);
+							if(!busCode.contains("VMI")){
+								String fromID = info.getEntry().get(0).getSourceBillId();
+								if(fromID !=null && !"".equals(fromID)){
+								   String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
+						    		" values(newbosid('59302EC6'),'3171BFAD','783061E3','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','5iUfG0tUSoalSLeGmOHURwRRIsQ=','0')";
+								     DbUtil.execute(ctx,sql);
+								}
 							}
 						    
 							result = "success";
@@ -124,11 +124,11 @@ public class PurInWarehsSupport {
 	 * @param m
 	 * @return
 	 */
-	private static String judgeModel(Context ctx,PurInDTO m ){
+	private static String judgeModel(Context ctx,PurInDTO m,String busCode ){
 		 String result = "";
 		 //组织是否存在
-		 if(m.getFpurchaseorgunitid() != null && !"".equals(m.getFpurchaseorgunitid()) ){
-			 IObjectPK orgPK = new  ObjectUuidPK(m.getFpurchaseorgunitid());
+		 if(m.getFstorageorgunitid() != null && !"".equals(m.getFstorageorgunitid()) ){
+			 IObjectPK orgPK = new  ObjectUuidPK(m.getFstorageorgunitid());
 			try {
 				if(!PurchaseOrgUnitFactory.getLocalInstance(ctx).exists(orgPK))
 					result = result +"采购组织不存在,";
@@ -156,7 +156,7 @@ public class PurInWarehsSupport {
 			 result = result +"供应商不能为空,";
 		 else{
 			if(PurPlatUtil.judgeExists(ctx, "S", "", m.getFsupplierid())){
-				if(!PurPlatUtil.judgeExists(ctx, "SP",m.getFpurchaseorgunitid()  , m.getFsupplierid()))
+				if(!PurPlatUtil.judgeExists(ctx, "SP",m.getFstorageorgunitid()  , m.getFsupplierid()))
 					 result = result +"供应商未分配当前组织,";
 				}else
 					 result = result +"供应商不存在,";
@@ -176,7 +176,7 @@ public class PurInWarehsSupport {
 						 result = result +"第"+j+1+"行物料ID不能为空,";
 					 }else{
 						 if(PurPlatUtil.judgeExists(ctx, "M", "",dvo.getFmaterialid())){
-							 if(!PurPlatUtil.judgeExists(ctx, "MP",m.getFpurchaseorgunitid()  , dvo.getFmaterialid()))
+							 if(!PurPlatUtil.judgeExists(ctx, "MP",m.getFstorageorgunitid()  , dvo.getFmaterialid()))
 								 result = result +"第"+j+1+"物料未分配当前组织,";
 						 }else
 							 result = result +"第"+j+1+"行 物料ID不存在,";
@@ -218,20 +218,21 @@ public class PurInWarehsSupport {
 					if(dvo.getFtaxamount() == null){ 
 						 result = result +"第"+j+1+"行 价税合计不能为空,";
 					}
-					
-					 if(dvo.getFsourcebillnumber() ==null || "".equals(dvo.getFsourcebillnumber())){
-						 result = result +"第"+j+1+"订单编码不能为空,";
-					 }else{
-						 if(!PurPlatUtil.judgeExists(ctx, "PurOrder", m.getFpurchaseorgunitid(),dvo.getFsourcebillnumber())) 
-							 result = result +"第"+j+1+"行 订单编码"+dvo.getFsourcebillnumber()+"不存在,";
-					 }
-					 
-					 if(dvo.getFsourcebillentryid() ==null || "".equals(dvo.getFsourcebillentryid())){
-						 result = result +"第"+j+1+"订单明细行ID不能为空,";
-					 }else{
-						 if(!PurPlatUtil.judgeExists(ctx, "PurOrderEntry", m.getFpurchaseorgunitid(),dvo.getFsourcebillentryid())) 
-							 result = result +"第"+j+1+"行 订单明细行ID"+dvo.getFsourcebillentryid()+"不存在,";
-					 }
+					if(!busCode.contains("VMI")){
+						 if(dvo.getFsourcebillnumber() ==null || "".equals(dvo.getFsourcebillnumber())){
+							 result = result +"第"+j+1+"订单编码不能为空,";
+						 }else{
+							 if(!PurPlatUtil.judgeExists(ctx, "PurOrder", m.getFstorageorgunitid(),dvo.getFsourcebillnumber())) 
+								 result = result +"第"+j+1+"行 订单编码"+dvo.getFsourcebillnumber()+"不存在,";
+						 }
+						 
+						 if(dvo.getFsourcebillentryid() ==null || "".equals(dvo.getFsourcebillentryid())){
+							 result = result +"第"+j+1+"订单明细行ID不能为空,";
+						 }else{
+							 if(!PurPlatUtil.judgeExists(ctx, "PurOrderEntry", m.getFstorageorgunitid(),dvo.getFsourcebillentryid())) 
+								 result = result +"第"+j+1+"行 订单明细行ID"+dvo.getFsourcebillentryid()+"不存在,";
+						 }
+					}
 				 
 				 }
 			} else 
@@ -241,57 +242,53 @@ public class PurInWarehsSupport {
 	}
 	
 	
-	private static PurInWarehsBillInfo createPurBillInfo(Context ctx, PurInDTO m)
+	private static PurInWarehsBillInfo createPurBillInfo(Context ctx, PurInDTO m,String busCode)
     throws EASBizException, BOSException
   {
     PurInWarehsBillInfo info = new PurInWarehsBillInfo();
-    String biztypenumber = "110";
-    String invUpdateTypenumber = "001";
-    String transactiontypenumber = "001";
-    BigDecimal defQty = new BigDecimal(1);
-//    if ("standard".equals(m.getBillType()))
-//    {
-//      biztypenumber = "110";
-//      invUpdateTypenumber = "001";
-//      transactiontypenumber = "001";
-//      defQty = new BigDecimal(1);
-//    }
-//    else if ("rollback".equals(m.getBillType()))
-//    {
-//      biztypenumber = "111";
-//      invUpdateTypenumber = "001";
-//      transactiontypenumber = "002";
-//      defQty = new BigDecimal(-1);
-//    }
-    ObjectUuidPK orgPK = new ObjectUuidPK(m.getFpurchaseorgunitid());
+
+
+    ObjectUuidPK orgPK = new ObjectUuidPK(m.getFstorageorgunitid());
     StorageOrgUnitInfo storageorginfo = StorageOrgUnitFactory.getLocalInstance(ctx).getStorageOrgUnitInfo(orgPK);
     CompanyOrgUnitInfo xmcompany = ScmbillImportUtils.getCompanyInfo(ctx, storageorginfo, 4);
 
+	String billtypeId = "";//单据类型
+	String sourceBilltypeId = "";//来源单据类型
+	String biztypeId = "";//业务类型
+	String transinfoId ="";//事务类型
 
+	if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"SO_LZ_PI".equals(busCode)
+			||"ZZ_GX_LZ_PI".equals(busCode)||"ZZ_YC_LZ_PI".equals(busCode)||"ZZ_YC_MZ_PI".equals(busCode)||
+			"YX_MZ_PI".equals(busCode)||"YX_LZ_PI".equals(busCode)||"YC_PI".equals(busCode)||"DZ_MZ_PI".equals(busCode)){
+		 billtypeId = "50957179-0105-1000-e000-015fc0a812fd463ED552";//单据类型
+		 sourceBilltypeId = "510b6503-0105-1000-e000-010bc0a812fd463ED552";//来源单据类型
+		 biztypeId = "d8e80652-0106-1000-e000-04c5c0a812202407435C";//业务类型
+		 transinfoId ="DawAAAAPoACwCNyn";//事务类型
+		
+	}else if("VMI_MZ_PI".equals(busCode)||"VMI_U_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)){
+		 billtypeId = "50957179-0105-1000-e000-015fc0a812fd463ED552";//单据类型
+		 sourceBilltypeId = "";//来源单据类型
+		 biztypeId = "LAdiD6Y5Sim6q6bmixITqSQHQ1w=";//业务类型
+		 transinfoId ="CeUAAAAIdB+wCNyn";//事务类型
+	}
+	
+	
     CtrlUnitInfo cuInfo = storageorginfo.getCU();
     info.setCU(cuInfo);
     info.setStorageOrgUnit(storageorginfo);
-    info.setPurchaseType(PurchaseTypeEnum.PURCHASE);
-    
-  //  String bizDate = ProcessRollUnit.getPeriodLastDayByPeriodNumber(ctx, m.getPeriod());
+    info.setPurchaseType(PurchaseTypeEnum.PURCHASE); 
     
     BillTypeInfo billtype = new BillTypeInfo();
-    billtype.setId(BOSUuid.read("50957179-0105-1000-e000-015fc0a812fd463ED552"));
+    billtype.setId(BOSUuid.read(billtypeId));
     info.setBillType(billtype);
     
     PurchaseOrgUnitInfo purchaseorginfo = new PurchaseOrgUnitInfo();
-    purchaseorginfo.setId(BOSUuid.read(m.getFpurchaseorgunitid()));
+    purchaseorginfo.setId(BOSUuid.read(m.getFstorageorgunitid()));
     
     info.setCreator(ContextUtil.getCurrentUserInfo(ctx));
     info.setCreateTime(new Timestamp(new Date().getTime()));
     SimpleDateFormat formmat = new SimpleDateFormat("yyyy-MM-dd");
-//    Date dateItem = new Date();
-//    try {
-//		dateItem = formmat.parse(bizDate);
-//	} catch (ParseException e) {
-// 		e.printStackTrace();
-//	}
-	//String bizDateStr = m.getFbizdate();
+
 	 
     try {
 		info.setBizDate(formmat.parse(m.getFbizdate()));
@@ -307,32 +304,23 @@ public class PurInWarehsSupport {
     if ((person != null) && (VerifyUtil.notNull(person.getId().toString()))) {
       info.setStocker(person);
     }
-//    EntityViewInfo viewInfo1 = new EntityViewInfo();
-//    FilterInfo filter1 = new FilterInfo();
-//    filter1.getFilterItems().add(new FilterItemInfo("name", "%", CompareType.LIKE));
-//    filter1.getFilterItems().add(new FilterItemInfo("storageorg.id", m.getFstorageorgunitid(), CompareType.EQUALS));
-//    viewInfo1.setFilter(filter1);
- 
+
+
     
     BizTypeInfo bizTypeinfo = new BizTypeInfo();
-    bizTypeinfo.setId(BOSUuid.read("d8e80652-0106-1000-e000-04c5c0a812202407435C"));
+    bizTypeinfo.setId(BOSUuid.read(biztypeId));
     info.setBizType(bizTypeinfo);
-
-    	//BizTypeFactory.getLocalInstance(ctx).getBizTypeCollection("where number = '" + biztypenumber + "'").get(0);
     
     TransactionTypeInfo transinfo = new TransactionTypeInfo();
-    transinfo.setId(BOSUuid.read("DawAAAAPoACwCNyn"));
+    transinfo.setId(BOSUuid.read(transinfoId));
     info.setTransactionType(transinfo);
-
-    	//TransactionTypeFactory.getLocalInstance(ctx).getTransactionTypeInfo("where number = '" + transactiontypenumber + "'");
+    BillTypeInfo sourceBillTypeInfo =null;
+    if(sourceBilltypeId!=null && !"".equals(sourceBilltypeId)){
+    	sourceBillTypeInfo = new BillTypeInfo();
+        sourceBillTypeInfo.setId(BOSUuid.read(sourceBilltypeId));
+    }
     
-    // InvUpdateTypeInfo invUpdateType = InvUpdateTypeFactory.getLocalInstance(ctx).getInvUpdateTypeInfo("where number ='" + invUpdateTypenumber + "' ");
-    BillTypeInfo sourceBillTypeInfo = new BillTypeInfo();
-    sourceBillTypeInfo.setId(BOSUuid.read("510b6503-0105-1000-e000-010bc0a812fd463ED552"));
-//    info.setSourceBillType(sourceBillTypeInfo);
-    
-    info.put("yisheng", person);
-    //info.put("HisReqID", msgId);
+     info.put("yisheng", person);
     info.put("HISdanjubianma", m.getFnumber());
     BigDecimal totalAmount = new BigDecimal(0);
     
@@ -356,28 +344,29 @@ public class PurInWarehsSupport {
   //  BigDecimal qty = new BigDecimal(1);
     for (PurInDetailDTO entry : m.getDetails())
     {
-        PurInWarehsEntryInfo entryInfo = createPurEntryInfo(ctx, entry);
+        PurInWarehsEntryInfo entryInfo = createPurEntryInfo(ctx, entry,busCode);
         entryInfo.setStorageOrgUnit(storageorginfo);
         entryInfo.setCompanyOrgUnit(xmcompany);
         entryInfo.setBizDate(info.getBizDate());
-      //  entryInfo.setWarehouse(warehouseinfo);
-        entryInfo.setReceiveStorageOrgUnit(storageorginfo);
-      //  entryInfo.setInvUpdateType(invUpdateType);
-        entryInfo.setBalanceSupplier(supplierInfo);
+         entryInfo.setReceiveStorageOrgUnit(storageorginfo);
+         entryInfo.setBalanceSupplier(supplierInfo);
         entryInfo.setPurchaseOrgUnit(purchaseorginfo);
         
-        Map<String,String> orderEmp = PurPlatUtil.getOrderEntryMapByMsgId(ctx,m.getFpurchaseorgunitid(),entry.getFsourcebillentryid(),"P");
-        if(orderEmp !=null && orderEmp.size() > 0){
-        	entryInfo.setSourceBillEntryId(orderEmp.get("id"));
-        	entryInfo.setSourceBillEntrySeq(Integer.parseInt(orderEmp.get("seq")));
+        if(sourceBilltypeId!=null && !"".equals(sourceBilltypeId)){
+            Map<String,String> orderEmp = PurPlatUtil.getOrderEntryMapByMsgId(ctx,m.getFstorageorgunitid(),entry.getFsourcebillentryid(),"P");
+            if(orderEmp !=null && orderEmp.size() > 0){
+            	entryInfo.setSourceBillEntryId(orderEmp.get("id"));
+            	entryInfo.setSourceBillEntrySeq(Integer.parseInt(orderEmp.get("seq")));
+            }
+            
+            Map<String,String> ordermp = PurPlatUtil.getOrderMapByNumber(ctx,m.getFstorageorgunitid(),entry.getFsourcebillnumber(),"P");
+            if(ordermp !=null && orderEmp.size() > 0){
+                entryInfo.setSourceBillId(ordermp.get("id"));
+                entryInfo.setSourceBillNumber(ordermp.get("number"));
+            }
+        	  entryInfo.setSourceBillType(sourceBillTypeInfo);
         }
-        
-        Map<String,String> ordermp = PurPlatUtil.getOrderMapByNumber(ctx,m.getFpurchaseorgunitid(),entry.getFsourcebillnumber(),"P");
-        if(ordermp !=null && orderEmp.size() > 0){
-            entryInfo.setSourceBillId(ordermp.get("id"));
-            entryInfo.setSourceBillNumber(ordermp.get("number"));
-        }
-        entryInfo.setSourceBillType(sourceBillTypeInfo);
+      
         totalAmount = totalAmount.add(entry.getFamount());
         info.getEntries().addObject(entryInfo);
        
@@ -387,7 +376,7 @@ public class PurInWarehsSupport {
     return info;
   }
   
-  private static PurInWarehsEntryInfo createPurEntryInfo(Context ctx, PurInDetailDTO dvo)
+  private static PurInWarehsEntryInfo createPurEntryInfo(Context ctx, PurInDetailDTO dvo,String busCode)
     throws BOSException, EASBizException
   {
     PurInWarehsEntryInfo entryInfo = new PurInWarehsEntryInfo();
@@ -408,8 +397,19 @@ public class PurInWarehsSupport {
     WarehouseInfo warehouseinfo = iwarehouse.getWarehouseInfo(pk);
     entryInfo.setWarehouse(warehouseinfo);
     
+    String invUpdateTypeId = "8r0AAAAEaOjC73rf";
+    
+	if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"SO_LZ_PI".equals(busCode)
+			||"ZZ_GX_LZ_PI".equals(busCode)||"ZZ_YC_LZ_PI".equals(busCode)||"ZZ_YC_MZ_PI".equals(busCode)||
+			"YX_MZ_PI".equals(busCode)||"YX_LZ_PI".equals(busCode)||"YC_PI".equals(busCode)||"DZ_MZ_PI".equals(busCode)){
+			invUpdateTypeId = "8r0AAAAEaOjC73rf";
+		
+	}else if("VMI_MZ_PI".equals(busCode)||"VMI_U_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)){
+			invUpdateTypeId = "CeUAAAAIdBrC73rf";
+	}
+    
     InvUpdateTypeInfo invUpdateType = new InvUpdateTypeInfo();
-    invUpdateType.setId(BOSUuid.read("8r0AAAAEaOjC73rf"));
+    invUpdateType.setId(BOSUuid.read(invUpdateTypeId));
     entryInfo.setInvUpdateType(invUpdateType);
     
     entryInfo.setMaterial(material);

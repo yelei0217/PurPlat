@@ -48,7 +48,7 @@ public class PurPlatUtil {
 	    		 tableName =" T_SM_PurOrder ";
 	    	 }else if("GZ_LZ_SO".equals(busCode)||"DZ_MZ_SO".equals(busCode)){
 	    		 tableName =" T_SD_SALEORDER ";
-	    	 }else if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)){
+	    	 }else if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)){
 	    		 tableName =" T_IM_PurInWarehsBill ";
 	    	 }else if("GZ_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)){
 	    		 tableName =" T_IM_SaleIssueBill ";

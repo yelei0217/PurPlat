@@ -15,7 +15,7 @@ public class PurInDTO  implements Serializable{
 	private String	id ;
 	private String	fnumber ;
 	private String	fbizdate ;
-	private String	fpurchaseorgunitid ;
+	private String	fstorageorgunitid ;
 	private String	fstockerid ;
 	private BigDecimal	ftotalqty ;
 	private BigDecimal	ftotalamount ;
@@ -23,7 +23,16 @@ public class PurInDTO  implements Serializable{
 	private BigDecimal	ftotaltaxamount ;
 	private String	fsupplierid ;
 	private String	fcreatorid ;
- 	
+	
+	
+	public String getFstorageorgunitid() {
+		return fstorageorgunitid;
+	}
+
+	public void setFstorageorgunitid(String fstorageorgunitid) {
+		this.fstorageorgunitid = fstorageorgunitid;
+	}
+
 	private List<PurInDetailDTO> details ;
 	
 	public BigDecimal getFtotaltax() {
@@ -68,14 +77,7 @@ public class PurInDTO  implements Serializable{
 		this.fnumber = fnumber;
 	}
 
-	public String getFpurchaseorgunitid() {
-		return fpurchaseorgunitid;
-	}
-
-	public void setFpurchaseorgunitid(String fpurchaseorgunitid) {
-		this.fpurchaseorgunitid = fpurchaseorgunitid;
-	}
-
+ 
 	public String getFstockerid() {
 		return fstockerid;
 	}

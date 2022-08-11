@@ -257,6 +257,9 @@ public class PurInWarehsSupport {
 	String biztypeId = "";//业务类型
 	String transinfoId ="";//事务类型
 
+    BigDecimal factor = new BigDecimal(1);
+
+    
 	if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"SO_LZ_PI".equals(busCode)
 			||"ZZ_GX_LZ_PI".equals(busCode)||"ZZ_YC_LZ_PI".equals(busCode)||"ZZ_YC_MZ_PI".equals(busCode)||
 			"YX_MZ_PI".equals(busCode)||"YX_LZ_PI".equals(busCode)||"YC_PI".equals(busCode)||"DZ_MZ_PI".equals(busCode)){
@@ -264,12 +267,19 @@ public class PurInWarehsSupport {
 		 sourceBilltypeId = "510b6503-0105-1000-e000-010bc0a812fd463ED552";//来源单据类型
 		 biztypeId = "d8e80652-0106-1000-e000-04c5c0a812202407435C";//业务类型
 		 transinfoId ="DawAAAAPoACwCNyn";//事务类型
-		
+		 factor = new BigDecimal(1);
 	}else if("VMI_MZ_PI".equals(busCode)||"VMI_U_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)){
 		 billtypeId = "50957179-0105-1000-e000-015fc0a812fd463ED552";//单据类型
 		 sourceBilltypeId = "";//来源单据类型
 		 biztypeId = "LAdiD6Y5Sim6q6bmixITqSQHQ1w=";//业务类型
 		 transinfoId ="CeUAAAAIdB+wCNyn";//事务类型
+		 factor = new BigDecimal(1);
+	}else if("VMIB_MZ_PI".equals(busCode)){
+		 billtypeId = "50957179-0105-1000-e000-015fc0a812fd463ED552";//单据类型
+		 sourceBilltypeId = "";//来源单据类型
+		 biztypeId = "LAdiD6Y5Sim6q6bmixITqSQHQ1w=";//业务类型
+		 transinfoId ="CeUAAAAIdB+wCNyn";//事务类型
+		 factor = new BigDecimal(-1);
 	}
 	
 	
@@ -366,11 +376,12 @@ public class PurInWarehsSupport {
             }
         	  entryInfo.setSourceBillType(sourceBillTypeInfo);
         }
-      
+        
         totalAmount = totalAmount.add(entry.getFamount());
         info.getEntries().addObject(entryInfo);
        
     }
+    info.setTotalQty(m.getFtotalqty().multiply(factor));
     info.setTotalAmount(totalAmount);
     info.setTotalLocalAmount(totalAmount);
     return info;
@@ -398,14 +409,18 @@ public class PurInWarehsSupport {
     entryInfo.setWarehouse(warehouseinfo);
     
     String invUpdateTypeId = "8r0AAAAEaOjC73rf";
-    
+    BigDecimal factor = new BigDecimal(1);
 	if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"SO_LZ_PI".equals(busCode)
 			||"ZZ_GX_LZ_PI".equals(busCode)||"ZZ_YC_LZ_PI".equals(busCode)||"ZZ_YC_MZ_PI".equals(busCode)||
 			"YX_MZ_PI".equals(busCode)||"YX_LZ_PI".equals(busCode)||"YC_PI".equals(busCode)||"DZ_MZ_PI".equals(busCode)){
 			invUpdateTypeId = "8r0AAAAEaOjC73rf";
-		
+			factor = new BigDecimal(1);
 	}else if("VMI_MZ_PI".equals(busCode)||"VMI_U_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)){
 			invUpdateTypeId = "CeUAAAAIdBrC73rf";
+			factor = new BigDecimal(1);
+	}else if("VMIB_MZ_PI".equals(busCode)){
+		invUpdateTypeId = "CeUAAAAIdBrC73rf";
+		factor = new BigDecimal(-1);
 	}
     
     InvUpdateTypeInfo invUpdateType = new InvUpdateTypeInfo();
@@ -415,13 +430,15 @@ public class PurInWarehsSupport {
     entryInfo.setMaterial(material);
     entryInfo.setBaseUnit(baseUnitInfo);
     entryInfo.setUnit(unitInfo);
-    entryInfo.setQty(dvo.getFqty());
-    entryInfo.setBaseQty(dvo.getFbaseqty());
+    entryInfo.setQty(dvo.getFqty().multiply(factor));
+    entryInfo.setBaseQty(dvo.getFbaseqty().multiply(factor));
     entryInfo.setAssociateQty(BigDecimal.ZERO);
     entryInfo.setWrittenOffQty(dvo.getFqty());
     entryInfo.setWrittenOffBaseQty(dvo.getFbaseqty());
-    entryInfo.setUnWriteOffQty(BigDecimal.ZERO);
-    entryInfo.setUnWriteOffBaseQty(BigDecimal.ZERO);
+    entryInfo.setUnWriteOffQty(dvo.getFqty().multiply(factor));
+    entryInfo.setUnWriteOffBaseQty(dvo.getFbaseqty().multiply(factor));
+    entryInfo.setUnVmiSettleBaseQty(dvo.getFqty().multiply(factor));
+    
     entryInfo.setUnReturnedBaseQty(BigDecimal.ZERO);
     entryInfo.setCanDirectReqBaseQty(BigDecimal.ZERO);
     entryInfo.setCanDirectReqQty(BigDecimal.ZERO);

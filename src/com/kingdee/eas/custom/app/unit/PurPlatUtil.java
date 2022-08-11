@@ -50,7 +50,7 @@ public class PurPlatUtil {
 	    		 tableName =" T_SD_SALEORDER ";
 	    	 }else if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)){
 	    		 tableName =" T_IM_PurInWarehsBill ";
-	    	 }else if("GZ_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)){
+	    	 }else if("GZ_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMIB_LZ_SS".equals(busCode)){
 	    		 tableName =" T_IM_SaleIssueBill ";
 	    	 }
 	        try {

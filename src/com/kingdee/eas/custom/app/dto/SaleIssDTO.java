@@ -23,7 +23,8 @@ public class SaleIssDTO  implements Serializable{
 	private String  fsendaddress;
 	private String  fdescription;
 	private String  fcreatorid;
-	
+	private String	fsupplierid ;
+
 	private List<SaleIssDetailDTO> details;
 
 	
@@ -32,6 +33,14 @@ public class SaleIssDTO  implements Serializable{
 	}
 	public void setDetails(List<SaleIssDetailDTO> details) {
 		this.details = details;
+	}
+	
+	
+	public String getFsupplierid() {
+		return fsupplierid;
+	}
+	public void setFsupplierid(String fsupplierid) {
+		this.fsupplierid = fsupplierid;
 	}
 	public String getId() {
 		return id;

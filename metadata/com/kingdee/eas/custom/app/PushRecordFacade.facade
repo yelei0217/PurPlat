@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facade xmlns="com.kingdee.bos.metadata">
+    <package>com.kingdee.eas.custom.app</package>
+    <name>PushRecordFacade</name>
+    <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].alias</alias>
+    <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].description</description>
+    <userDefined>true</userDefined>
+    <bosType>1C9F64CA</bosType>
+    <stereoType>false</stereoType>
+    <businessImplName>com.kingdee.eas.custom.PushRecordFacade</businessImplName>
+    <businessControllerName>com.kingdee.eas.custom.app.PushRecordFacadeController</businessControllerName>
+    <accessLevel>public</accessLevel>
+    <subClassingMode>normal</subClassingMode>
+    <methods>
+        <method>
+            <name>generPurOrder</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[generPurOrder].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[generPurOrder].description</description>
+            <innerID>2abca07b-1f42-4d5b-9b27-6a8007036245</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>generPurInBIll</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[generPurInBIll].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[generPurInBIll].description</description>
+            <innerID>841232da-68c9-4a15-a87e-643dbc32e2f4</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>matchAoutIssueTask</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[matchAoutIssueTask].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[matchAoutIssueTask].description</description>
+            <innerID>622db534-7556-4120-a39b-7d95fefa9bdf</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>generSaleIssueBill</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[generSaleIssueBill].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[generSaleIssueBill].description</description>
+            <innerID>8e264aa1-d91d-43b5-bde6-39b8eece3503</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>syncSaleOrder</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[syncSaleOrder].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[syncSaleOrder].description</description>
+            <innerID>f96389cd-df10-4bf3-a329-c96553ec1b3e</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>cancelPrice</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[cancelPrice].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[cancelPrice].description</description>
+            <innerID>ff41f9b8-03e0-43a4-b73a-3afa3f5d4ed0</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>noCommonPush</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[noCommonPush].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[noCommonPush].description</description>
+            <innerID>9b7cff6e-29be-4ede-8b12-1b360f835035</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>noCommonInitData</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[noCommonInitData].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[noCommonInitData].description</description>
+            <innerID>ad704e78-9a1a-4a5b-b5c2-7a1143b7422d</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+    </methods>
+    <resource>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推记录功能" />
+            <lang locale="zh_HK" value="下推記錄功能" />
+            <lang locale="zh_TW" value="下推記錄功能" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推记录功能" />
+            <lang locale="zh_HK" value="下推記錄功能" />
+            <lang locale="zh_TW" value="下推記錄功能" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].extendedProperty.userDefined">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[cancelPrice].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="取消划扣" />
+            <lang locale="zh_HK" value="取消劃扣" />
+            <lang locale="zh_TW" value="取消劃扣" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[cancelPrice].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[generPurInBIll].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推生成采购入库单" />
+            <lang locale="zh_HK" value="下推生成採購入庫單" />
+            <lang locale="zh_TW" value="下推生成採購入庫單" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[generPurInBIll].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="采购订单下推生成采购入库单" />
+            <lang locale="zh_HK" value="採購訂單下推生成採購入庫單" />
+            <lang locale="zh_TW" value="採購訂單下推生成採購入庫單" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[generPurOrder].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推生成采购订单" />
+            <lang locale="zh_HK" value="下推生成採購訂單" />
+            <lang locale="zh_TW" value="下推生成採購訂單" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[generPurOrder].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="采购申请单下推生成采购订单" />
+            <lang locale="zh_HK" value="採購申請單下推生成採購訂單" />
+            <lang locale="zh_TW" value="採購申請單下推生成採購訂單" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[generSaleIssueBill].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推生成销售出库单" />
+            <lang locale="zh_HK" value="下推生成銷售出庫單" />
+            <lang locale="zh_TW" value="下推生成銷售出庫單" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[generSaleIssueBill].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="销售订单自动下推销售出库单" />
+            <lang locale="zh_HK" value="銷售訂單自動下推銷售出庫單" />
+            <lang locale="zh_TW" value="銷售訂單自動下推銷售出庫單" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[matchAoutIssueTask].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="匹配自动出库任务" />
+            <lang locale="zh_HK" value="匹配自動出庫任務" />
+            <lang locale="zh_TW" value="匹配自動出庫任務" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[matchAoutIssueTask].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="匹配需要自动出的定时任务" />
+            <lang locale="zh_HK" value="匹配需要自動出的定時任務" />
+            <lang locale="zh_TW" value="匹配需要自動出的定時任務" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[noCommonInitData].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="非普通加工单初始化" />
+            <lang locale="zh_HK" value="非普通加工單初始化" />
+            <lang locale="zh_TW" value="非普通加工單初始化" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[noCommonInitData].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[noCommonPush].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="非普通加工单回滚" />
+            <lang locale="zh_HK" value="非普通加工單回滾" />
+            <lang locale="zh_TW" value="非普通加工單回滾" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[noCommonPush].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[syncSaleOrder].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="同步销售订单" />
+            <lang locale="zh_HK" value="同步銷售訂單" />
+            <lang locale="zh_TW" value="同步銷售訂單" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[syncSaleOrder].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="同步销售订单-技加工" />
+            <lang locale="zh_HK" value="同步銷售訂單-技加工" />
+            <lang locale="zh_TW" value="同步銷售訂單-技加工" />
+        </rs>
+    </resource>
+</facade>
+

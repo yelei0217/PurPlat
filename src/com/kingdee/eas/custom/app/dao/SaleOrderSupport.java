@@ -21,11 +21,15 @@ import com.kingdee.bos.dao.ormapping.ObjectStringPK;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
 import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.eas.basedata.framework.app.ParallelSqlExecutor;
+import com.kingdee.eas.basedata.org.CtrlUnitInfo;
 import com.kingdee.eas.basedata.org.PurchaseOrgUnitFactory;
 import com.kingdee.eas.common.EASBizException;
+import com.kingdee.eas.custom.PushRecordFactory;
+import com.kingdee.eas.custom.PushRecordInfo;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
 import com.kingdee.eas.custom.app.PurPlatSyncEnum;
+import com.kingdee.eas.custom.app.PushStatusEnum;
 import com.kingdee.eas.custom.app.dto.PurOrderDTO;
 import com.kingdee.eas.custom.app.dto.PurOrderDetailDTO;
 import com.kingdee.eas.custom.app.dto.SaleOrderDTO;
@@ -68,7 +72,7 @@ public class SaleOrderSupport {
 			SaleOrderDTO m = gson.fromJson(modelJE, SaleOrderDTO.class);
 			// 判断msgId 是否存在SaleOrderDTO
 			if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-				result = judgeModel(ctx,m);
+				result = judgeModel(ctx,m,busCode);
 				if("".equals(result))
 				{
 					doInsertBill(ctx,m,busCode);
@@ -93,7 +97,7 @@ public class SaleOrderSupport {
 	 * @param m
 	 * @return
 	 */
-	private static String judgeModel(Context ctx,SaleOrderDTO m ){
+	private static String judgeModel(Context ctx,SaleOrderDTO m,String busCode ){
 		 String result = "";
 		 //组织是否存在
 		 if(m.getFstorageorgunitid() != null && !"".equals(m.getFstorageorgunitid()) ){
@@ -106,17 +110,13 @@ public class SaleOrderSupport {
 			} catch (BOSException e) {
  				e.printStackTrace();
 			}
-			 
 		 }else{
 			 result = result +"库存组织不能为空,";
 		 }
 		 
-		 if(m.getFnumber() !=null && !"".equals(m.getFnumber())){
+		 if(m.getFnumber() ==null || "".equals(m.getFnumber()))
 			 // B2B单号存在是否需要判断
-			 
-		 }else
 			 result = result +"单价编号不能为空,";
-		 
 		 
 		 if(m.getFbizdate() == null || "".equals(m.getFbizdate()))
 			 result = result +"业务日期不能为空,";
@@ -151,6 +151,14 @@ public class SaleOrderSupport {
 							 result = result +"第"+j+1+"行 物料ID不存在,";
 					 }
 					 
+					 if("CGZ_U_MZ_SO".equals(busCode)){
+						 if(dvo.getFwarehouseid() ==null || "".equals(dvo.getFwarehouseid()))
+							 result = result +"第"+j+1+"行仓库ID不能为空,";
+						 else{
+	 						if(!PurPlatUtil.judgeExists(ctx, "Warehouse",m.getFstorageorgunitid(), dvo.getFwarehouseid()))
+								 result = result +"第"+j+1+"行仓库ID不存在,";
+						 } 
+					 }
 					 if(dvo.getFunitid() ==null || "".equals(dvo.getFunitid()) ){
 						 result = result +"第"+j+1+"行计量单位不能为空,";
 					 }else{
@@ -260,7 +268,7 @@ public class SaleOrderSupport {
 					" FARCLOSEDSTATUS,FTOTALPRODUCTQTY,FTOTALBASEPRODUCTQTY,FTOTALUNPRODUCTQTY,FTOTALBASEUNPRODUCTQTY,FMATCHEDAMOUNT,FLOCKASSISTQTY,FCHEAPRATE," +
 					" FRETURNPLANDELIVERYQTY,FRETURNPLANDELIVERYBASEQTY,FSALEORGUNITID,FBIZDATE,FPRICESOURCETYPE,FISMRPCAL,FPROMOTIONSOURCEGROUP,FPROSTORAGEORGUNITID," +
 					" FSUPPLYMODE,FTOTALTRANSFERQTY,FTOTALTRANSFERBASEQTY,FTOTALUNTRANSFERQTY,FTOTALUNTRANSFERBASEQTY,CFPINPAI,CFHUOHAO," +
-					" FINVOICEREQQTY,FINVOICEREQBASEQTY,FUNINVOICEREQQTY,FUNINVOICEREQBASEQTY,FINVOICEREQAMOUNT,FINVOICEREQAMOUNTLOCAL,FUNINVOICEREQAMOUNT,FUNINVOICEREQAMOUNTLOCAL,CFMsgId  ) values (");
+					" FINVOICEREQQTY,FINVOICEREQBASEQTY,FUNINVOICEREQQTY,FUNINVOICEREQBASEQTY,FINVOICEREQAMOUNT,FINVOICEREQAMOUNTLOCAL,FUNINVOICEREQAMOUNT,FUNINVOICEREQAMOUNTLOCAL,CFMsgId,FWarehouseID  ) values (");
 		
 			String deliveDateStr =  dvo.getFdeliverydate();
 			String sendDateStr =   dvo.getFsenddate();
@@ -280,7 +288,7 @@ public class SaleOrderSupport {
 			sbr1.append(",0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,'").append(m.getFordercustomerid()).append("','").append(m.getFordercustomerid()).append("','").append(m.getFordercustomerid()).append("',");
 			sbr1.append("0,0,0,").append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",0,0,0,0,0,'").append(m.getFstorageorgunitid()).append("',to_date('").append(bizDateStr).append("','yyyy-MM-dd'),-1,0,0,'");
 			sbr1.append(m.getFstorageorgunitid()).append("',0,0,0,0,0,'").append(mmp.get("pp")).append("','").append(mmp.get("hh")).append("',0,0,");
-			sbr1.append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",0,0,").append(dvo.getFtaxamount()).append(",").append(dvo.getFtaxamount()).append(",'").append(dvo.getId()).append("' ) ");
+			sbr1.append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",0,0,").append(dvo.getFtaxamount()).append(",").append(dvo.getFtaxamount()).append(",'").append(dvo.getId()).append("','").append(dvo.getFwarehouseid()).append("' )");
 			pe.getSqlList().add(sbr1);
 		}
 	  
@@ -288,6 +296,21 @@ public class SaleOrderSupport {
 			try {
 				pe.executeUpdate(ctx); 
 				pool.shutdown(); 
+				
+				if("CGZ_U_MZ_SO".equals(busCode)){
+					PushRecordInfo rInfo = new PushRecordInfo();
+					rInfo.setNumber(m.getId());
+					rInfo.setName(sId);
+					rInfo.setDescription(m.getFnumber());
+					rInfo.setDateBaseType(DateBasetype.CGZ_U_MZ_SO);
+					rInfo.setProcessType(DateBaseProcessType.GOrder);
+					rInfo.setPushStatus(PushStatusEnum.unDo);
+					CtrlUnitInfo control = new CtrlUnitInfo();
+					control.setId(BOSUuid.read(ctrlOrgId));
+					rInfo.setCU(control);
+					PushRecordFactory.getLocalInstance(ctx).addnew(rInfo); 
+				}
+				
 			} catch (EASBizException e) { 
 				e.printStackTrace();
 				pool.shutdown(); 

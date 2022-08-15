@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityObject xmlns="com.kingdee.bos.metadata">
+    <package>com.kingdee.eas.custom.app</package>
+    <name>PushRecord</name>
+    <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].alias</alias>
+    <description>entityObject[com.kingdee.eas.custom.app.PushRecord].description</description>
+    <userDefined>true</userDefined>
+    <bosType>F6221410</bosType>
+    <stereoType>false</stereoType>
+    <businessImplName>com.kingdee.eas.custom.PushRecord</businessImplName>
+    <businessControllerName>com.kingdee.eas.custom.app.PushRecordController</businessControllerName>
+    <accessLevel>public</accessLevel>
+    <subClassingMode>normal</subClassingMode>
+    <methods>
+        <method>
+            <name>getValue</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].description</description>
+            <innerID>8bdfa38f-66c8-4234-8946-d60a89a19756</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectValue</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.PushRecord</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>pk</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[pk].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[pk].description</description>
+                    <direction>in</direction>
+                    <dataType>com.kingdee.bos.dao.IObjectPK</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getValue</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].description</description>
+            <innerID>7b7c9863-49d8-48e5-908f-a25834befe97</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectValue</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.PushRecord</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>pk</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[pk].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[pk].description</description>
+                    <direction>in</direction>
+                    <dataType>com.kingdee.bos.dao.IObjectPK</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+                <parameter>
+                    <name>selector</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[selector].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[selector].description</description>
+                    <direction>in</direction>
+                    <dataType>com.kingdee.bos.metadata.entity.SelectorItemCollection</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getValue</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].description</description>
+            <innerID>4aacb5d5-80cd-44be-ba3d-bb33dfe5099c</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectValue</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.PushRecord</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>oql</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[oql].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[oql].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getCollection</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].description</description>
+            <innerID>363c9173-5a00-45cd-8eef-7d1187776aa2</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectCollection</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.PushRecord</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getCollection</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].description</description>
+            <innerID>a9717182-2e47-4c97-bc53-db5a941bc198</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectCollection</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.PushRecord</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>view</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].parameters.parameter[view].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].parameters.parameter[view].description</description>
+                    <direction>in</direction>
+                    <dataType>com.kingdee.bos.metadata.entity.EntityViewInfo</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getCollection</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].description</description>
+            <innerID>3c416d06-f131-42d4-ac9b-37f7346c544c</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectCollection</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.PushRecord</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>oql</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].parameters.parameter[oql].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].parameters.parameter[oql].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>generPurOrder</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurOrder].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurOrder].description</description>
+            <innerID>3872ba83-59ac-4a1f-a0c6-883876cf6526</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>model</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurOrder].parameters.parameter[model].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurOrder].parameters.parameter[model].description</description>
+                    <direction>in</direction>
+                    <dataType>ObjectValue</dataType>
+                    <metadataRef>com.kingdee.eas.custom.app.PushRecord</metadataRef>
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>generPurInBIll</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurInBIll].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurInBIll].description</description>
+            <innerID>135302b5-688b-490b-ae5e-99e886cae2cd</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>model</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurInBIll].parameters.parameter[model].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurInBIll].parameters.parameter[model].description</description>
+                    <direction>in</direction>
+                    <dataType>ObjectValue</dataType>
+                    <metadataRef>com.kingdee.eas.custom.app.PushRecord</metadataRef>
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+    </methods>
+    <isAbstract>false</isAbstract>
+    <bizUnitPK>com.kingdee.eas.custom.PushRecord</bizUnitPK>
+    <baseEntity>
+        <key name="package" value="com.kingdee.eas.framework.app" />
+        <key name="name" value="DataBase" />
+    </baseEntity>
+    <table>
+        <key name="package" value="com.kingdee.eas.custom.app" />
+        <key name="name" value="CT_CUS_PushRecord" />
+    </table>
+    <properties>
+        <ownProperty>
+            <name>processType</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>Enum</dataType>
+            <metadataRef>com.kingdee.eas.custom.app.DateBaseProcessType</metadataRef>
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>80</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFProcessType" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>dateBaseType</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>Enum</dataType>
+            <metadataRef>com.kingdee.eas.custom.app.DateBasetype</metadataRef>
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>80</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFDateBaseType" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>PushStatus</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>Enum</dataType>
+            <metadataRef>com.kingdee.eas.custom.app.PushStatusEnum</metadataRef>
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>80</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFPushStatus" />
+            </mappingField>
+        </ownProperty>
+    </properties>
+    <logicalKey>
+        <name>id</name>
+        <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].logicalKey[id].alias</alias>
+        <description>entityObject[com.kingdee.eas.custom.app.PushRecord].logicalKey[id].description</description>
+        <keyClass>com.kingdee.bos.dao.IObjectPK</keyClass>
+        <userDefined>true</userDefined>
+        <keyProperties>
+            <baseProperty>
+                <key name="name" value="id" />
+            </baseProperty>
+        </keyProperties>
+    </logicalKey>
+    <events>
+        <event>
+            <name>generPurOrderEvent</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].description</description>
+            <userDefined>true</userDefined>
+            <eventMethods>
+                <eventMethod>
+                    <name>3872ba83-59ac-4a1f-a0c6-883876cf6526</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].eventMethods.eventMethod[3872ba83-59ac-4a1f-a0c6-883876cf6526].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].eventMethods.eventMethod[3872ba83-59ac-4a1f-a0c6-883876cf6526].description</description>
+                    <entityMethodRef>
+                        <key name="name" value="generPurOrder" />
+                        <key name="innerID" value="3872ba83-59ac-4a1f-a0c6-883876cf6526" />
+                    </entityMethodRef>
+                    <parameterMappings>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].eventMethods.eventMethod[3872ba83-59ac-4a1f-a0c6-883876cf6526].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].eventMethods.eventMethod[3872ba83-59ac-4a1f-a0c6-883876cf6526].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>329113bf-28c6-4ea1-a01e-82f998e98325evfp</formalParameterInnerID>
+                            <actualParameterIndex>0</actualParameterIndex>
+                            <isBOPK>true</isBOPK>
+                        </parameterMapping>
+                    </parameterMappings>
+                </eventMethod>
+            </eventMethods>
+            <formalParameters>
+                <formalParameter>
+                    <innerID>329113bf-28c6-4ea1-a01e-82f998e98325evfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>model</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].formalParameters.formalParameter.parameter[model].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].formalParameters.formalParameter.parameter[model].description</description>
+                        <direction>in</direction>
+                        <dataType>ObjectValue</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PushRecord</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+            </formalParameters>
+        </event>
+        <event>
+            <name>generPurInBIllEvent</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].description</description>
+            <userDefined>true</userDefined>
+            <eventMethods>
+                <eventMethod>
+                    <name>135302b5-688b-490b-ae5e-99e886cae2cd</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].eventMethods.eventMethod[135302b5-688b-490b-ae5e-99e886cae2cd].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].eventMethods.eventMethod[135302b5-688b-490b-ae5e-99e886cae2cd].description</description>
+                    <entityMethodRef>
+                        <key name="name" value="generPurInBIll" />
+                        <key name="innerID" value="135302b5-688b-490b-ae5e-99e886cae2cd" />
+                    </entityMethodRef>
+                    <parameterMappings>
+                        <parameterMapping>
+                            <name />
+                            <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].eventMethods.eventMethod[135302b5-688b-490b-ae5e-99e886cae2cd].parameterMappings.parameterMappingalias</alias>
+                            <description>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].eventMethods.eventMethod[135302b5-688b-490b-ae5e-99e886cae2cd].parameterMappings.parameterMappingdescription</description>
+                            <formalParameterInnerID>1d2acb74-8b73-4228-ab1a-31ec851a8ed4evfp</formalParameterInnerID>
+                            <actualParameterIndex>0</actualParameterIndex>
+                            <isBOPK>true</isBOPK>
+                        </parameterMapping>
+                    </parameterMappings>
+                </eventMethod>
+            </eventMethods>
+            <formalParameters>
+                <formalParameter>
+                    <innerID>1d2acb74-8b73-4228-ab1a-31ec851a8ed4evfp</innerID>
+                    <userDefined>true</userDefined>
+                    <parameter>
+                        <name>model</name>
+                        <alias>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].formalParameters.formalParameter.parameter[model].alias</alias>
+                        <description>entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].formalParameters.formalParameter.parameter[model].description</description>
+                        <direction>in</direction>
+                        <dataType>ObjectValue</dataType>
+                        <metadataRef>com.kingdee.eas.custom.app.PushRecord</metadataRef>
+                        <userDefined>true</userDefined>
+                    </parameter>
+                </formalParameter>
+            </formalParameters>
+        </event>
+    </events>
+    <resource>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推记录" />
+            <lang locale="zh_HK" value="下推記錄" />
+            <lang locale="zh_TW" value="下推記錄" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="單級基礎資料範本" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="生成采购入库单事件" />
+            <lang locale="zh_HK" value="生成採購入庫單事件" />
+            <lang locale="zh_TW" value="生成採購入庫單事件" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].eventMethods.eventMethod[135302b5-688b-490b-ae5e-99e886cae2cd].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].eventMethods.eventMethod[135302b5-688b-490b-ae5e-99e886cae2cd].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].eventMethods.eventMethod[135302b5-688b-490b-ae5e-99e886cae2cd].parameterMappings.parameterMappingalias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].eventMethods.eventMethod[135302b5-688b-490b-ae5e-99e886cae2cd].parameterMappings.parameterMappingdescription">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].formalParameters.formalParameter.parameter[model].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurInBIllEvent].formalParameters.formalParameter.parameter[model].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="生成采购订单事件" />
+            <lang locale="zh_HK" value="生成採購訂單事件" />
+            <lang locale="zh_TW" value="生成採購訂單事件" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].eventMethods.eventMethod[3872ba83-59ac-4a1f-a0c6-883876cf6526].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].eventMethods.eventMethod[3872ba83-59ac-4a1f-a0c6-883876cf6526].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].eventMethods.eventMethod[3872ba83-59ac-4a1f-a0c6-883876cf6526].parameterMappings.parameterMappingalias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].eventMethods.eventMethod[3872ba83-59ac-4a1f-a0c6-883876cf6526].parameterMappings.parameterMappingdescription">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].formalParameters.formalParameter.parameter[model].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].events.event[generPurOrderEvent].formalParameters.formalParameter.parameter[model].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].extendedProperty.OrgType">
+            <lang locale="en_US" value="NONE" />
+            <lang locale="zh_CN" value="NONE" />
+            <lang locale="zh_TW" value="NONE" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].extendedProperty.codingRuleEnabled">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].extendedProperty.controllerBeanEx">
+            <lang locale="en_US" value="com.kingdee.eas.custom.app.PushRecordControllerBeanEx" />
+            <lang locale="zh_CN" value="com.kingdee.eas.custom.app.PushRecordControllerBeanEx" />
+            <lang locale="zh_TW" value="com.kingdee.eas.custom.app.PushRecordControllerBeanEx" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].extendedProperty.defaultDisplayField">
+            <lang locale="en_US" value="name" />
+            <lang locale="zh_CN" value="name" />
+            <lang locale="zh_TW" value="name" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].extendedProperty.defaultF7Query">
+            <lang locale="en_US" value="com.kingdee.eas.custom.app.PushRecordQuery" />
+            <lang locale="zh_CN" value="com.kingdee.eas.custom.app.PushRecordQuery" />
+            <lang locale="zh_TW" value="com.kingdee.eas.custom.app.PushRecordQuery" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].extendedProperty.editUI">
+            <lang locale="en_US" value="com.kingdee.eas.custom.client.PushRecordEditUI" />
+            <lang locale="zh_CN" value="com.kingdee.eas.custom.client.PushRecordEditUI" />
+            <lang locale="zh_TW" value="com.kingdee.eas.custom.client.PushRecordEditUI" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].extendedProperty.isParamObject">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].extendedProperty.isSimpleEntity">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].extendedProperty.listUI">
+            <lang locale="en_US" value="com.kingdee.eas.custom.client.PushRecordListUI" />
+            <lang locale="zh_CN" value="com.kingdee.eas.custom.client.PushRecordListUI" />
+            <lang locale="zh_TW" value="com.kingdee.eas.custom.client.PushRecordListUI" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].logicalKey[id].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].logicalKey[id].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurInBIll].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="生成采购入库单" />
+            <lang locale="zh_HK" value="生成採購入庫單" />
+            <lang locale="zh_TW" value="生成採購入庫單" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurInBIll].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurInBIll].parameters.parameter[model].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurInBIll].parameters.parameter[model].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurOrder].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="生成采购订单" />
+            <lang locale="zh_HK" value="生成採購訂單" />
+            <lang locale="zh_TW" value="生成採購訂單" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurOrder].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurOrder].parameters.parameter[model].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[generPurOrder].parameters.parameter[model].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].alias">
+            <lang locale="en_US" value="getCollection" />
+            <lang locale="zh_CN" value="取集合" />
+            <lang locale="zh_HK" value="取集合" />
+            <lang locale="zh_TW" value="取集合" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].parameters.parameter[oql].alias">
+            <lang locale="en_US" value="getCollection" />
+            <lang locale="zh_CN" value="取集合" />
+            <lang locale="zh_HK" value="取集合" />
+            <lang locale="zh_TW" value="取集合" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].parameters.parameter[oql].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].parameters.parameter[view].alias">
+            <lang locale="en_US" value="getCollection" />
+            <lang locale="zh_CN" value="取集合" />
+            <lang locale="zh_HK" value="取集合" />
+            <lang locale="zh_TW" value="取集合" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getCollection].parameters.parameter[view].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].alias">
+            <lang locale="en_US" value="getValue" />
+            <lang locale="zh_CN" value="取值" />
+            <lang locale="zh_HK" value="取值" />
+            <lang locale="zh_TW" value="取值" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[oql].alias">
+            <lang locale="en_US" value="getValue" />
+            <lang locale="zh_CN" value="取值" />
+            <lang locale="zh_HK" value="取值" />
+            <lang locale="zh_TW" value="取值" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[oql].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[pk].alias">
+            <lang locale="en_US" value="getValue" />
+            <lang locale="zh_CN" value="取值" />
+            <lang locale="zh_HK" value="取值" />
+            <lang locale="zh_TW" value="取值" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[pk].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[selector].alias">
+            <lang locale="en_US" value="getValue" />
+            <lang locale="zh_CN" value="取值" />
+            <lang locale="zh_HK" value="取值" />
+            <lang locale="zh_TW" value="取值" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].methods.method[getValue].parameters.parameter[selector].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推状态" />
+            <lang locale="zh_HK" value="下推狀態" />
+            <lang locale="zh_TW" value="下推狀態" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="unDo" />
+            <lang locale="zh_HK" value="unDo" />
+            <lang locale="zh_TW" value="unDo" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推状态" />
+            <lang locale="zh_HK" value="下推狀態" />
+            <lang locale="zh_TW" value="下推狀態" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].extendedProperty.bizDataType">
+            <lang locale="en_US" value="ENUM" />
+            <lang locale="zh_CN" value="ENUM" />
+            <lang locale="zh_TW" value="ENUM" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].extendedProperty.defaultValue">
+            <lang locale="en_US" value="unDo" />
+            <lang locale="zh_CN" value="unDo" />
+            <lang locale="zh_TW" value="unDo" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[PushStatus].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="数据类型" />
+            <lang locale="zh_HK" value="數據類型" />
+            <lang locale="zh_TW" value="數據類型" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="orgUnit" />
+            <lang locale="zh_HK" value="orgUnit" />
+            <lang locale="zh_TW" value="orgUnit" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="数据类型" />
+            <lang locale="zh_HK" value="數據類型" />
+            <lang locale="zh_TW" value="數據類型" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].extendedProperty.bizDataType">
+            <lang locale="en_US" value="ENUM" />
+            <lang locale="zh_CN" value="ENUM" />
+            <lang locale="zh_TW" value="ENUM" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].extendedProperty.defaultValue">
+            <lang locale="en_US" value="orgUnit" />
+            <lang locale="zh_CN" value="orgUnit" />
+            <lang locale="zh_TW" value="orgUnit" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[dateBaseType].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="处理类型" />
+            <lang locale="zh_HK" value="處理類型" />
+            <lang locale="zh_TW" value="處理類型" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="Update" />
+            <lang locale="zh_HK" value="Update" />
+            <lang locale="zh_TW" value="Update" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="处理类型" />
+            <lang locale="zh_HK" value="處理類型" />
+            <lang locale="zh_TW" value="處理類型" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].extendedProperty.bizDataType">
+            <lang locale="en_US" value="ENUM" />
+            <lang locale="zh_CN" value="ENUM" />
+            <lang locale="zh_TW" value="ENUM" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].extendedProperty.defaultValue">
+            <lang locale="en_US" value="Update" />
+            <lang locale="zh_CN" value="Update" />
+            <lang locale="zh_TW" value="Update" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].extendedProperty.isForMapping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.PushRecord].properties.ownProperty[processType].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+    </resource>
+</entityObject>
+

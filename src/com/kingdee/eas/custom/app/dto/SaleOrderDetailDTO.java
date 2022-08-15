@@ -32,7 +32,14 @@ public class SaleOrderDetailDTO  implements Serializable{
 	private BigDecimal      fbaseqty;
 	private String  fremark;
 	
+	private String fwarehouseid ;//高值出库 类型需要使用 CGZ_U_MZ_SO
 	
+	public String getFwarehouseid() {
+		return fwarehouseid;
+	}
+	public void setFwarehouseid(String fwarehouseid) {
+		this.fwarehouseid = fwarehouseid;
+	}
 	public String getFsenddate() {
 		return fsenddate;
 	}

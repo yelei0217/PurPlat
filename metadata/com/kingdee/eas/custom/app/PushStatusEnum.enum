@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bizEnum xmlns="com.kingdee.bos.metadata">
+    <package>com.kingdee.eas.custom.app</package>
+    <name>PushStatusEnum</name>
+    <alias>bizEnum[com.kingdee.eas.custom.app.PushStatusEnum].alias</alias>
+    <description>bizEnum[com.kingdee.eas.custom.app.PushStatusEnum].description</description>
+    <userDefined>true</userDefined>
+    <className>com.kingdee.eas.custom.app.PushStatusEnum</className>
+    <enumDataType>STRING</enumDataType>
+    <enumValues>
+        <enumValue>
+            <name>unDo</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.PushStatusEnum].enumValues.enumValue[unDo].alias</alias>
+            <userDefined>true</userDefined>
+            <value>0</value>
+        </enumValue>
+        <enumValue>
+            <name>doSuccess</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.PushStatusEnum].enumValues.enumValue[doSuccess].alias</alias>
+            <userDefined>true</userDefined>
+            <value>1</value>
+        </enumValue>
+        <enumValue>
+            <name>doFail</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.PushStatusEnum].enumValues.enumValue[doFail].alias</alias>
+            <userDefined>true</userDefined>
+            <value>-1</value>
+        </enumValue>
+    </enumValues>
+    <resource>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PushStatusEnum].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推状态" />
+            <lang locale="zh_HK" value="下推狀態" />
+            <lang locale="zh_TW" value="下推狀態" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PushStatusEnum].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推状态" />
+            <lang locale="zh_HK" value="下推狀態" />
+            <lang locale="zh_TW" value="下推狀態" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PushStatusEnum].enumValues.enumValue[doFail].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推失败" />
+            <lang locale="zh_HK" value="下推失敗" />
+            <lang locale="zh_TW" value="下推失敗" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PushStatusEnum].enumValues.enumValue[doSuccess].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推成功" />
+            <lang locale="zh_HK" value="下推成功" />
+            <lang locale="zh_TW" value="下推成功" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PushStatusEnum].enumValues.enumValue[unDo].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="未下推" />
+            <lang locale="zh_HK" value="未下推" />
+            <lang locale="zh_TW" value="未下推" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PushStatusEnum].extendedProperty.userDefined">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+    </resource>
+</bizEnum>
+

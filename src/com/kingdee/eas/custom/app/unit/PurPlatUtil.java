@@ -46,7 +46,7 @@ public class PurPlatUtil {
 	    	 String tableName ="";
 	    	 if("GZ_LZ_PO".equals(busCode)||"DZ_MZ_PO".equals(busCode)){
 	    		 tableName =" T_SM_PurOrder ";
-	    	 }else if("GZ_LZ_SO".equals(busCode)||"DZ_MZ_SO".equals(busCode)){
+	    	 }else if("GZ_LZ_SO".equals(busCode)||"DZ_MZ_SO".equals(busCode)||"CGZ_U_MZ_SO".equals(busCode)){
 	    		 tableName =" T_SD_SALEORDER ";
 	    	 }else if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)){
 	    		 tableName =" T_IM_PurInWarehsBill ";
@@ -99,7 +99,9 @@ public class PurPlatUtil {
 		    		 sql = " select count(1) C from T_SM_PurOrder where FNumber ='"+fid+"' and FPurchaseOrgUnitID ='"+orgId+"' ";
  		    	 }   else if("PurOrderEntry".equals(oper)){
 		    		 sql = " select count(1) C from T_SM_PurOrderEntry where CFMsgId ='"+fid+"' and FStorageOrgUnitID ='"+orgId+"' ";
- 		    	 }    
+ 		    	 } else if("Warehouse".equals(oper)){
+		    		 sql = " select count(1) C from T_DB_WAREHOUSE where FID ='"+fid+"' and FstorageOrgID ='"+orgId+"' ";
+ 		    	 }      
 		    	 
 		    	 if(VerifyUtil.notNull(oper) ){
 		    	      try {
@@ -336,6 +338,31 @@ public class PurPlatUtil {
 		return mp;
 	}
 	
-	
+	/**
+	 * 根据下推规则名称获取 下推规则ID
+	 * @param ctx
+	 * @param fname
+	 * @return
+	 */
+	public static String getMappIdByFName(Context ctx,String fname){
+		String mappId ="";
+		if(fname !=null && !"".equals(fname)){
+ 	 		  String sql = "select FID from T_BOT_Mapping where FName='"+fname+"'"; 
+			  try {
+				  IRowSet rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx, sql);
+				  if(rs!=null){
+					  while(rs.next()){
+						  if( rs.getObject("FID")!=null && !"".equals( rs.getObject("FID").toString()))
+							  mappId = rs.getObject("FID").toString();
+					  }
+				  }
+			} catch (BOSException e) {
+	 			e.printStackTrace();
+			} catch (SQLException e) {
+	 			e.printStackTrace();
+			} 
+		}
+		return mappId;
+	}
 	
 }

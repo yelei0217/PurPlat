@@ -194,6 +194,13 @@ public class SaleIssueSupport {
 							 result = result +"第"+j+1+"行 物料ID不存在,";
 					 }
 					 
+					 if(dvo.getFwarehouseid() ==null || "".equals(dvo.getFwarehouseid())){
+						 result = result +"第"+j+1+"行仓库ID不能为空,";
+					 }else{
+ 						if(!PurPlatUtil.judgeExists(ctx, "Warehouse",m.getFstorageorgunitid(), dvo.getFwarehouseid()))
+							 result = result +"第"+j+1+"行仓库ID不存在,";
+					 } 
+					 
 					 if(dvo.getFunitid() ==null || "".equals(dvo.getFunitid()) ){
 						 result = result +"第"+j+1+"行计量单位不能为空,";
 					 }else{

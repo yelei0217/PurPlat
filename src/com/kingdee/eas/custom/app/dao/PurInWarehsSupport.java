@@ -277,8 +277,8 @@ public class PurInWarehsSupport {
 	}else if("VMIB_MZ_PI".equals(busCode)){
 		 billtypeId = "50957179-0105-1000-e000-015fc0a812fd463ED552";//单据类型
 		 sourceBilltypeId = "";//来源单据类型
-		 biztypeId = "LAdiD6Y5Sim6q6bmixITqSQHQ1w=";//业务类型
-		 transinfoId ="CeUAAAAIdB+wCNyn";//事务类型
+		 biztypeId = "3IS1Qaa0R32+3JPxlVZg5iQHQ1w=";//业务类型
+		 transinfoId ="CeUAAAAMEoywCNyn";//事务类型
 		 factor = new BigDecimal(-1);
 	}
 	
@@ -382,8 +382,10 @@ public class PurInWarehsSupport {
        
     }
     info.setTotalQty(m.getFtotalqty().multiply(factor));
-    info.setTotalAmount(totalAmount);
-    info.setTotalLocalAmount(totalAmount);
+    if(!busCode.contains("VMI")){
+	    info.setTotalAmount(totalAmount);
+	    info.setTotalLocalAmount(totalAmount);
+    }
     return info;
   }
   
@@ -422,7 +424,7 @@ public class PurInWarehsSupport {
 		invUpdateTypeId = "CeUAAAAIdBrC73rf";
 		factor = new BigDecimal(-1);
 	}
-    
+      
     InvUpdateTypeInfo invUpdateType = new InvUpdateTypeInfo();
     invUpdateType.setId(BOSUuid.read(invUpdateTypeId));
     entryInfo.setInvUpdateType(invUpdateType);
@@ -444,27 +446,26 @@ public class PurInWarehsSupport {
     entryInfo.setCanDirectReqQty(BigDecimal.ZERO);
     entryInfo.setAssistQty(BigDecimal.ZERO);
     //entryInfo.setStandardCost(BigDecimal.ZERO);
-    entryInfo.setTax(BigDecimal.ZERO);
-    entryInfo.setAmount(dvo.getFamount());
-    entryInfo.setLocalAmount(dvo.getFamount());
-    entryInfo.setWrittenOffAmount(dvo.getFamount());
-    
-    entryInfo.setTaxPrice(dvo.getFtaxprice());
-    entryInfo.setPrice(dvo.getFprice());
-    entryInfo.setActualPrice(dvo.getFtaxprice());
-    entryInfo.setActualTaxPrice(dvo.getFtaxprice());
-    
-    entryInfo.setTaxAmount(dvo.getFtaxamount());
-    entryInfo.setLocalTaxAmount(dvo.getFtaxamount());
-    entryInfo.setUnWriteOffAmount(dvo.getFamount());
-    entryInfo.setUnitStandardCost(dvo.getFprice());
-    entryInfo.setStandardCost(dvo.getFamount());
-    
-    entryInfo.setUnitActualCost(dvo.getFprice());
-    entryInfo.setActualCost(dvo.getFamount());
-    entryInfo.setUnitPurchaseCost(dvo.getFprice());
-    entryInfo.setPurchaseCost(dvo.getFamount());
- 
+   if(!busCode.contains("VMI")){
+	    entryInfo.setTax(BigDecimal.ZERO);
+	    entryInfo.setAmount(dvo.getFamount());
+	    entryInfo.setLocalAmount(dvo.getFamount());
+	    entryInfo.setWrittenOffAmount(dvo.getFamount());
+	    entryInfo.setTaxPrice(dvo.getFtaxprice());
+	    entryInfo.setPrice(dvo.getFprice());
+	    entryInfo.setActualPrice(dvo.getFtaxprice());
+	    entryInfo.setActualTaxPrice(dvo.getFtaxprice());
+	    entryInfo.setTaxAmount(dvo.getFtaxamount());
+	    entryInfo.setLocalTaxAmount(dvo.getFtaxamount());
+	    entryInfo.setUnWriteOffAmount(dvo.getFamount());
+	    entryInfo.setUnitStandardCost(dvo.getFprice());
+	    entryInfo.setStandardCost(dvo.getFamount());
+	    entryInfo.setUnitActualCost(dvo.getFprice());
+	    entryInfo.setActualCost(dvo.getFamount());
+	    entryInfo.setUnitPurchaseCost(dvo.getFprice());
+	    entryInfo.setPurchaseCost(dvo.getFamount());
+   }
+
     entryInfo.put("huohao", material.get("huohao"));
     entryInfo.put("pinpai", material.get("pinpai"));
 //    entryInfo.put("huanzheID", entry.getPatientId());

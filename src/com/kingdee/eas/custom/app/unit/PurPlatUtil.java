@@ -44,13 +44,18 @@ public class PurPlatUtil {
 	     boolean flag = false;
 	     if (VerifyUtil.notNull(msgId) && VerifyUtil.notNull(busCode) ) {
 	    	 String tableName ="";
-	    	 if("GZ_LZ_PO".equals(busCode)||"DZ_MZ_PO".equals(busCode)){
+	    	 if("GZ_LZ_PO".equals(busCode)||"GZ_MZ_PO".equals(busCode)||"ZZ_YC_LZ_PO".equals(busCode)||"DZ_MZ_PO".equals(busCode)||"ZZ_YC_MZ_PO".equals(busCode)||"SO_LZ_PO".equals(busCode)){
 	    		 tableName =" T_SM_PurOrder ";
-	    	 }else if("GZ_LZ_SO".equals(busCode)||"DZ_MZ_SO".equals(busCode)||"CGZ_U_MZ_SO".equals(busCode)){
+	    	 }else if("GZ_LZ_SO".equals(busCode)||"CGZ_U_MZ_SO".equals(busCode)||"DZ_MZ_SO".equals(busCode)||"CGZ_U_MZ_SO".equals(busCode)||"VMI_U_MZ_SO".equals(busCode)
+	    			 ||"ZZ_YC_LZ_SO".equals(busCode)||"ZZ_YC_MZ_SO".equals(busCode)||"SO_LZ_SO".equals(busCode)||"SOB_LZ_SO".equals(busCode)){
 	    		 tableName =" T_SD_SALEORDER ";
-	    	 }else if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)||"VMIB_MZ_PI".equals(busCode)){
+	    	 }else if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)||"VMIB_MZ_PI".equals(busCode)||"DZ_MZ_PI".equals(busCode)
+	    			 ||"VMI2C_LZ_PI".equals(busCode)||"VMI2CB_LZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)
+	    			 ||"YC_PI".equals(busCode)||"YX_MZ_PI".equals(busCode)||"ZZ_YC_MZ_PI".equals(busCode)){
 	    		 tableName =" T_IM_PurInWarehsBill ";
-	    	 }else if("GZ_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMIB_LZ_SS".equals(busCode)){
+	    	 }else if("GZ_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMIB_LZ_SS".equals(busCode)||"SO_LZ_SS".equals(busCode)
+	    			 ||"CGZ_U_MZ_SS".equals(busCode)||"CDZ_U_MZ_SS".equals(busCode)||"VMI_U_MZ_SS_VMI".equals(busCode)||"VMI_U_MZ_SS".equals(busCode)
+	    			 ||"VMI_U_LZ_SS".equals(busCode)||"YX_LZ_SS".equals(busCode)||"YX_MZ_SS".equals(busCode)||"ZZ_YC_LZ_SS".equals(busCode)||"ZZ_YC_MZ_SS".equals(busCode)){
 	    		 tableName =" T_IM_SaleIssueBill ";
 	    	 }
 	        try {

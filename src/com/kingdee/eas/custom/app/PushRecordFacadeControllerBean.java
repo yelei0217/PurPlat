@@ -29,6 +29,7 @@ import com.kingdee.bos.dao.IObjectCollection;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
 import com.kingdee.bos.service.ServiceContext;
 import com.kingdee.bos.service.IServiceContext;
+import com.kingdee.eas.basedata.scm.im.inv.InvUpdateTypeInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.IPushRecord;
 import com.kingdee.eas.custom.PushRecordCollection;
@@ -42,9 +43,12 @@ import com.kingdee.eas.scm.common.BillBaseStatusEnum;
 import com.kingdee.eas.scm.im.inv.ISaleIssueBill;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillFactory;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillInfo;
+import com.kingdee.eas.scm.im.inv.SaleIssueEntryCollection;
+import com.kingdee.eas.scm.im.inv.SaleIssueEntryInfo;
 import com.kingdee.eas.scm.sd.sale.ISaleOrder;
 import com.kingdee.eas.scm.sd.sale.SaleOrderFactory;
 import com.kingdee.eas.scm.sd.sale.SaleOrderInfo;
+import com.kingdee.eas.util.app.DbUtil;
 import com.kingdee.util.UuidException;
 
 
@@ -63,9 +67,11 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 		IPushRecord ibiz = PushRecordFactory.getLocalInstance(ctx);
 	 	EntityViewInfo view = new EntityViewInfo();
 	 	FilterInfo filter = new FilterInfo();
-	 	filter.getFilterItems().add(new FilterItemInfo("processType", DateBaseProcessType.GOrder,CompareType.EQUALS)); // 
-	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType", DateBasetype.CGZ_U_MZ_SO,CompareType.EQUALS)); // 
+	 	filter.getFilterItems().add(new FilterItemInfo("processType", DateBaseProcessType.GOrder,CompareType.EQUALS)); //
 	 	filter.getFilterItems().add(new FilterItemInfo("PushStatus", PushStatusEnum.unDo,CompareType.EQUALS)); // 
+	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType", DateBasetype.CGZ_U_MZ_SO,CompareType.EQUALS)); // 
+	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType", DateBasetype.VMI_U_MZ_SO,CompareType.EQUALS)); // 
+	    filter.setMaskString("#0 and #1 and (#2 or #3)");
 	 	view.setFilter(filter);
 	 	try {
 			PushRecordCollection coll= ibiz.getPushRecordCollection(view);
@@ -90,10 +96,17 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 							String botpId = PurPlatUtil.getMappIdByFName(ctx,"INM-004"); // 销售订单下推销售出库
 						 	if(botpId!=null && !"".equals(botpId) && saleOrderInfo.getBaseStatus() == BillBaseStatusEnum.AUDITED){
 						 		sourceColl.add(saleOrderInfo);
- 						 		List<IObjectPK> pks = AppUnit.botp(ctx, "CC3E933B", sourceColl, botpId);
+ 						 		//List<IObjectPK> pks = AppUnit.botp(ctx, "CC3E933B", sourceColl, botpId);
+ 						 		List<IObjectPK> pks = AppUnit.botpSave(ctx, "CC3E933B", sourceColl, botpId);
 						 		sourceColl.clear();
 						 		if(pks !=null && pks.size() >0){
- 						 			SaleIssueBillInfo saleIssInfo = iSaleIssue.getSaleIssueBillInfo(pks.get(0));
+						 			// 如果类型未  VMI_U_MZ_SO 需要修改明细行的更改类型
+									SaleIssueBillInfo saleIssInfo = iSaleIssue.getSaleIssueBillInfo(pks.get(0));
+									if(pushInfo.getDateBaseType() == DateBasetype.VMI_U_MZ_SO){
+										updateSaleIssInvType(ctx,pks.get(0).toString());
+									}
+									iSaleIssue.submit(saleIssInfo);
+									
 						 			pushInfo.setPushStatus(PushStatusEnum.doSuccess);
 						 			pushInfo.setDescription(saleOrderInfo.getNumber()+"--"+saleIssInfo.getNumber());
 								}else
@@ -117,6 +130,17 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 		} 
 	}
     
+	private void updateSaleIssInvType(Context ctx,String fid){
+		if(fid != null && !"".equals(fid)){
+			   String sql = "update T_IM_SaleIssueEntry set FInvUpdateTypeID ='CeUAAAAIdBvC73rf' where FParentID ='"+fid+"'";
+			   try {
+				DbUtil.execute(ctx,sql);
+			} catch (BOSException e) {
+ 				e.printStackTrace();
+			}
+		}
+	
+	}
 	
     
 }

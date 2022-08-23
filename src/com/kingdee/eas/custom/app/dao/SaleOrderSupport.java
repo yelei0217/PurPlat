@@ -311,6 +311,20 @@ public class SaleOrderSupport {
 					PushRecordFactory.getLocalInstance(ctx).addnew(rInfo); 
 				}
 				
+				if("VMI_U_MZ_SO".equals(busCode)){
+					PushRecordInfo rInfo = new PushRecordInfo();
+					rInfo.setNumber(m.getId());
+					rInfo.setName(sId);
+					rInfo.setDescription(m.getFnumber());
+					rInfo.setDateBaseType(DateBasetype.VMI_U_MZ_SO);
+					rInfo.setProcessType(DateBaseProcessType.GOrder);
+					rInfo.setPushStatus(PushStatusEnum.unDo);
+					CtrlUnitInfo control = new CtrlUnitInfo();
+					control.setId(BOSUuid.read(ctrlOrgId));
+					rInfo.setCU(control);
+					PushRecordFactory.getLocalInstance(ctx).addnew(rInfo); 
+				}
+				
 			} catch (EASBizException e) { 
 				e.printStackTrace();
 				pool.shutdown(); 

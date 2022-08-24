@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bizEnum xmlns="com.kingdee.bos.metadata">
+    <package>com.kingdee.eas.custom.app</package>
+    <name>DateBaseProcessType</name>
+    <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].alias</alias>
+    <description>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].description</description>
+    <userDefined>true</userDefined>
+    <className>com.kingdee.eas.custom.app.DateBaseProcessType</className>
+    <enumDataType>STRING</enumDataType>
+    <enumValues>
+        <enumValue>
+            <name>Update</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[Update].alias</alias>
+            <userDefined>true</userDefined>
+            <value>1</value>
+        </enumValue>
+        <enumValue>
+            <name>AddNew</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[AddNew].alias</alias>
+            <userDefined>true</userDefined>
+            <value>2</value>
+        </enumValue>
+        <enumValue>
+            <name>SealUp</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[SealUp].alias</alias>
+            <userDefined>true</userDefined>
+            <value>3</value>
+        </enumValue>
+        <enumValue>
+            <name>UnSealUp</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[UnSealUp].alias</alias>
+            <userDefined>true</userDefined>
+            <value>4</value>
+        </enumValue>
+        <enumValue>
+            <name>DisAble</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[DisAble].alias</alias>
+            <userDefined>true</userDefined>
+            <value>5</value>
+        </enumValue>
+        <enumValue>
+            <name>ENABLE</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[ENABLE].alias</alias>
+            <userDefined>true</userDefined>
+            <value>6</value>
+        </enumValue>
+        <enumValue>
+            <name>DELETE</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[DELETE].alias</alias>
+            <userDefined>true</userDefined>
+            <value>7</value>
+        </enumValue>
+        <enumValue>
+            <name>RollBack</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[RollBack].alias</alias>
+            <userDefined>true</userDefined>
+            <value>8</value>
+        </enumValue>
+        <enumValue>
+            <name>Push</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[Push].alias</alias>
+            <userDefined>true</userDefined>
+            <value>9</value>
+        </enumValue>
+        <enumValue>
+            <name>GOrder</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GOrder].alias</alias>
+            <userDefined>true</userDefined>
+            <value>10</value>
+        </enumValue>
+        <enumValue>
+            <name>GPayment</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GPayment].alias</alias>
+            <userDefined>true</userDefined>
+            <value>11</value>
+        </enumValue>
+        <enumValue>
+            <name>GPurRe</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GPurRe].alias</alias>
+            <userDefined>true</userDefined>
+            <value>12</value>
+        </enumValue>
+        <enumValue>
+            <name>GLCM</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GLCM].alias</alias>
+            <userDefined>true</userDefined>
+            <value>13</value>
+        </enumValue>
+        <enumValue>
+            <name>CLCMBIll</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[CLCMBIll].alias</alias>
+            <userDefined>true</userDefined>
+            <value>14</value>
+        </enumValue>
+        <enumValue>
+            <name>CPurRec</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[CPurRec].alias</alias>
+            <userDefined>true</userDefined>
+            <value>15</value>
+        </enumValue>
+        <enumValue>
+            <name>GPurIn_MZ</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GPurIn_MZ].alias</alias>
+            <userDefined>true</userDefined>
+            <value>16</value>
+        </enumValue>
+        <enumValue>
+            <name>GSaleIss_MZ</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GSaleIss_MZ].alias</alias>
+            <userDefined>true</userDefined>
+            <value>17</value>
+        </enumValue>
+        <enumValue>
+            <name>GPurIn_LZ</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GPurIn_LZ].alias</alias>
+            <userDefined>true</userDefined>
+            <value>18</value>
+        </enumValue>
+        <enumValue>
+            <name>GSaleIss_LZ</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GSaleIss_LZ].alias</alias>
+            <userDefined>true</userDefined>
+            <value>19</value>
+        </enumValue>
+    </enumValues>
+    <resource>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="处理类型" />
+            <lang locale="zh_HK" value="處理類型" />
+            <lang locale="zh_TW" value="處理類型" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[AddNew].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="新增" />
+            <lang locale="zh_HK" value="新增" />
+            <lang locale="zh_TW" value="新增" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[CLCMBIll].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="创建-低值卡片领用" />
+            <lang locale="zh_HK" value="創建-低值卡片領用" />
+            <lang locale="zh_TW" value="創建-低值卡片領用" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[CPurRec].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="生成-采购申请" />
+            <lang locale="zh_HK" value="生成-採購申請" />
+            <lang locale="zh_TW" value="生成-採購申請" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[DELETE].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="删除" />
+            <lang locale="zh_HK" value="刪除" />
+            <lang locale="zh_TW" value="刪除" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[DisAble].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="禁用" />
+            <lang locale="zh_HK" value="禁用" />
+            <lang locale="zh_TW" value="禁用" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[ENABLE].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="启用" />
+            <lang locale="zh_HK" value="啟用" />
+            <lang locale="zh_TW" value="啟用" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GLCM].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推-低值卡片" />
+            <lang locale="zh_HK" value="下推-低值卡片" />
+            <lang locale="zh_TW" value="下推-低值卡片" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GOrder].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推-采购订单" />
+            <lang locale="zh_HK" value="下推-採購訂單" />
+            <lang locale="zh_TW" value="下推-採購訂單" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GPayment].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推-付款单" />
+            <lang locale="zh_HK" value="下推-付款單" />
+            <lang locale="zh_TW" value="下推-付款單" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GPurIn_LZ].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="生成采购入库-栗喆" />
+            <lang locale="zh_HK" value="生成採購入庫-栗喆" />
+            <lang locale="zh_TW" value="生成採購入庫-栗喆" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GPurIn_MZ].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="生成采购入库-门诊" />
+            <lang locale="zh_HK" value="生成採購入庫-門診" />
+            <lang locale="zh_TW" value="生成採購入庫-門診" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GPurRe].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推-采购收货" />
+            <lang locale="zh_HK" value="下推-採購收貨" />
+            <lang locale="zh_TW" value="下推-採購收貨" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GSaleIss_LZ].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="生成销售出库-栗喆" />
+            <lang locale="zh_HK" value="生成銷售出庫-栗喆" />
+            <lang locale="zh_TW" value="生成銷售出庫-栗喆" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GSaleIss_MZ].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="生成销售出库-门诊" />
+            <lang locale="zh_HK" value="生成銷售出庫-門診" />
+            <lang locale="zh_TW" value="生成銷售出庫-門診" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[Push].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推" />
+            <lang locale="zh_HK" value="下推" />
+            <lang locale="zh_TW" value="下推" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[RollBack].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="回滚" />
+            <lang locale="zh_HK" value="回滾" />
+            <lang locale="zh_TW" value="回滾" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[SealUp].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="封存" />
+            <lang locale="zh_HK" value="封存" />
+            <lang locale="zh_TW" value="封存" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[UnSealUp].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="反封存" />
+            <lang locale="zh_HK" value="反封存" />
+            <lang locale="zh_TW" value="反封存" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[Update].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="更新" />
+            <lang locale="zh_HK" value="更新" />
+            <lang locale="zh_TW" value="更新" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].extendedProperty.userDefined">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+    </resource>
+</bizEnum>
+

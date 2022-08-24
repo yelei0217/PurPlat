@@ -29,6 +29,7 @@ import com.kingdee.bos.dao.IObjectCollection;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
 import com.kingdee.bos.service.ServiceContext;
 import com.kingdee.bos.service.IServiceContext;
+import com.kingdee.eas.basedata.org.CtrlUnitInfo;
 import com.kingdee.eas.basedata.scm.im.inv.InvUpdateTypeInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.IPushRecord;
@@ -61,6 +62,33 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 	private static final long serialVersionUID = -2038896682094063859L;
 	
 	private static Logger logger = Logger.getLogger("com.kingdee.eas.custom.app.PushRecordFacadeControllerBean");
+
+	
+	
+	@Override
+	protected void _generPurInBIll(Context ctx) throws BOSException {
+		IPushRecord ibiz = PushRecordFactory.getLocalInstance(ctx);
+	 	EntityViewInfo view = new EntityViewInfo();
+	 	FilterInfo filter = new FilterInfo();
+	 	filter.getFilterItems().add(new FilterItemInfo("processType", DateBaseProcessType.GSaleIss_MZ,CompareType.EQUALS)); //
+	 	filter.getFilterItems().add(new FilterItemInfo("PushStatus", PushStatusEnum.unDo,CompareType.EQUALS)); // 
+	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType", DateBasetype.VMI_U_MZ_SS_VMI,CompareType.EQUALS)); // 
+ 	    filter.setMaskString("#0 and #1 and #2 ");
+	 	view.setFilter(filter);
+	 	
+	 	PushRecordCollection coll= ibiz.getPushRecordCollection(view);
+	 	if(coll !=null && coll.size() >0 ){
+	 		Iterator it = coll.iterator();
+	 		CoreBillBaseCollection sourceColl = new CoreBillBaseCollection();  
+	 		while(it.hasNext()){
+	 			PushRecordInfo pushInfo = (PushRecordInfo) it.next();
+				if(pushInfo.getName()!=null && !"".equals(pushInfo.getName())){
+					IObjectPK paramIObjectPK = new ObjectUuidPK(BOSUuid.read(pushInfo.getName())); 
+					
+				}	
+	 		}
+	 	}
+	}
 
 	@Override
 	protected void _generSaleIssueBill(Context ctx) throws BOSException {
@@ -105,8 +133,18 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 									if(pushInfo.getDateBaseType() == DateBasetype.VMI_U_MZ_SO){
 										updateSaleIssInvType(ctx,pks.get(0).toString());
 									}
-									iSaleIssue.submit(saleIssInfo);
-									
+									IObjectPK issPK = iSaleIssue.submit(saleIssInfo);
+									if(issPK != null && !"".equals(issPK.toString())){
+										PushRecordInfo rInfo = new PushRecordInfo();
+										rInfo.setNumber(saleIssInfo.getNumber());
+										rInfo.setName(issPK.toString());
+										//rInfo.setDescription(m.getFnumber());
+										rInfo.setDateBaseType(DateBasetype.VMI_U_MZ_SS_VMI);
+										rInfo.setProcessType(DateBaseProcessType.GSaleIss_MZ);
+										rInfo.setPushStatus(PushStatusEnum.unDo);
+										rInfo.setCU(saleIssInfo.getCU());
+										PushRecordFactory.getLocalInstance(ctx).addnew(rInfo); 
+									}
 						 			pushInfo.setPushStatus(PushStatusEnum.doSuccess);
 						 			pushInfo.setDescription(saleOrderInfo.getNumber()+"--"+saleIssInfo.getNumber());
 								}else

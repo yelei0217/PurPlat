@@ -122,6 +122,12 @@
             <userDefined>true</userDefined>
             <value>19</value>
         </enumValue>
+        <enumValue>
+            <name>GSaleIss</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GSaleIss].alias</alias>
+            <userDefined>true</userDefined>
+            <value>20</value>
+        </enumValue>
     </enumValues>
     <resource>
         <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].alias">
@@ -207,6 +213,12 @@
             <lang locale="zh_CN" value="下推-采购收货" />
             <lang locale="zh_HK" value="下推-採購收貨" />
             <lang locale="zh_TW" value="下推-採購收貨" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GSaleIss].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="下推-销售出库" />
+            <lang locale="zh_HK" value="下推-銷售出庫" />
+            <lang locale="zh_TW" value="下推-銷售出庫" />
         </rs>
         <rs key="bizEnum[com.kingdee.eas.custom.app.DateBaseProcessType].enumValues.enumValue[GSaleIss_LZ].alias">
             <lang locale="en_US" value="null" />

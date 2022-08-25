@@ -296,34 +296,23 @@ public class SaleOrderSupport {
 			try {
 				pe.executeUpdate(ctx); 
 				pool.shutdown(); 
-				
-				if("CGZ_U_MZ_SO".equals(busCode)){
-					PushRecordInfo rInfo = new PushRecordInfo();
-					rInfo.setNumber(m.getId());
-					rInfo.setName(sId);
-					rInfo.setDescription(m.getFnumber());
-					rInfo.setDateBaseType(DateBasetype.CGZ_U_MZ_SO);
-					rInfo.setProcessType(DateBaseProcessType.GOrder);
-					rInfo.setPushStatus(PushStatusEnum.unDo);
-					CtrlUnitInfo control = new CtrlUnitInfo();
-					control.setId(BOSUuid.read(ctrlOrgId));
-					rInfo.setCU(control);
-					PushRecordFactory.getLocalInstance(ctx).addnew(rInfo); 
-				}
-				
-				if("VMI_U_MZ_SO".equals(busCode)){
-					PushRecordInfo rInfo = new PushRecordInfo();
-					rInfo.setNumber(m.getId());
-					rInfo.setName(sId);
-					rInfo.setDescription(m.getFnumber());
-					rInfo.setDateBaseType(DateBasetype.VMI_U_MZ_SO);
-					rInfo.setProcessType(DateBaseProcessType.GOrder);
-					rInfo.setPushStatus(PushStatusEnum.unDo);
-					CtrlUnitInfo control = new CtrlUnitInfo();
-					control.setId(BOSUuid.read(ctrlOrgId));
-					rInfo.setCU(control);
-					PushRecordFactory.getLocalInstance(ctx).addnew(rInfo); 
-				}
+				DateBasetype dataseBaseType = DateBasetype.CGZ_U_MZ_SO;
+				if("CGZ_U_MZ_SO".equals(busCode)) 
+					 dataseBaseType = DateBasetype.CGZ_U_MZ_SO;
+				else if("VMI_U_MZ_SO".equals(busCode))
+					 dataseBaseType = DateBasetype.VMI_U_MZ_SO;
+
+				PushRecordInfo rInfo = new PushRecordInfo();
+				rInfo.setNumber(m.getId());
+				rInfo.setName(sId);
+				rInfo.setDescription(m.getFnumber());
+				rInfo.setDateBaseType(dataseBaseType);
+				rInfo.setProcessType(DateBaseProcessType.GSaleIss);
+				rInfo.setPushStatus(PushStatusEnum.unDo);
+				CtrlUnitInfo control = new CtrlUnitInfo();
+				control.setId(BOSUuid.read(ctrlOrgId));
+				rInfo.setCU(control);
+				PushRecordFactory.getLocalInstance(ctx).addnew(rInfo); 
 				
 			} catch (EASBizException e) { 
 				e.printStackTrace();

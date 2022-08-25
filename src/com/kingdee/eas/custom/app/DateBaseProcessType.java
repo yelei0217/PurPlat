@@ -32,6 +32,7 @@ public class DateBaseProcessType extends StringEnum
     public static final String GSALEISS_MZ_VALUE = "17";//alias=生成销售出库-门诊
     public static final String GPURIN_LZ_VALUE = "18";//alias=生成采购入库-栗喆
     public static final String GSALEISS_LZ_VALUE = "19";//alias=生成销售出库-栗喆
+    public static final String GSALEISS_VALUE = "20";//alias=下推-销售出库
 
     public static final DateBaseProcessType Update = new DateBaseProcessType("Update", UPDATE_VALUE);
     public static final DateBaseProcessType AddNew = new DateBaseProcessType("AddNew", ADDNEW_VALUE);
@@ -52,6 +53,7 @@ public class DateBaseProcessType extends StringEnum
     public static final DateBaseProcessType GSaleIss_MZ = new DateBaseProcessType("GSaleIss_MZ", GSALEISS_MZ_VALUE);
     public static final DateBaseProcessType GPurIn_LZ = new DateBaseProcessType("GPurIn_LZ", GPURIN_LZ_VALUE);
     public static final DateBaseProcessType GSaleIss_LZ = new DateBaseProcessType("GSaleIss_LZ", GSALEISS_LZ_VALUE);
+    public static final DateBaseProcessType GSaleIss = new DateBaseProcessType("GSaleIss", GSALEISS_VALUE);
 
     /**
      * construct function

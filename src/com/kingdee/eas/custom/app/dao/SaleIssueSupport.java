@@ -141,11 +141,8 @@ public class SaleIssueSupport {
 			 result = result +"库存组织不能为空,";
 		 }
 		 
-		 if(m.getFnumber() !=null && !"".equals(m.getFnumber())){
-			 // B2B单号存在是否需要判断
-			 
-		 }else
-			 result = result +"单价编号不能为空,";
+		 if(m.getFnumber() ==null || "".equals(m.getFnumber())) 
+			 result = result +"单据编号不能为空,";
 		 
 		 
 		 if(m.getFbizdate() == null || "".equals(m.getFbizdate()))

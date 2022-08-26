@@ -142,11 +142,8 @@ public class PurInWarehsSupport {
 			 result = result +"采购组织不能为空,";
 		 }
 		 
-		 if(m.getFnumber() !=null && !"".equals(m.getFnumber())){
-			 // B2B单号存在是否需要判断
-			 
-		 }else
-			 result = result +"单价编号不能为空,";
+		 if(m.getFnumber() ==null || "".equals(m.getFnumber())) 
+			 result = result +"单据编号不能为空,";
 		 
 		 
 		 if(m.getFbizdate() == null || "".equals(m.getFbizdate()))
@@ -167,7 +164,7 @@ public class PurInWarehsSupport {
 			 else{
 				 if(m.getFtotaltaxamount().compareTo( m.getFtotaltax().add(m.getFtotalamount() )) != 0)
 					 result = result +"价税合计等于金额加税额的合计,";
-		  }
+			 }
 			 
 			if(m.getDetails() !=null && m.getDetails().size() > 0 ){	 
 				 for(PurInDetailDTO dvo : m.getDetails()){

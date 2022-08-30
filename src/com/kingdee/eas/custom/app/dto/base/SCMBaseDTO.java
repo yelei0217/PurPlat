@@ -20,12 +20,34 @@ public class SCMBaseDTO implements Serializable{
 	private String  fadminorgunitid;
 	private BigDecimal  ftotalamount;
 	private BigDecimal  ftotaltax;
+	private BigDecimal  ftotalqty;
 	private BigDecimal  ftotaltaxamount;
 	private String  fsendaddress;
 	private String  fdescription;
 	private String  fcreatorid;
+	private String	fpurchasepersonid ;
+	private String	fstockerid;
 	private List<SCMBaseDetailDTO> details;
 	
+	public String getFpurchasepersonid() {
+		return fpurchasepersonid;
+	}
+	public void setFpurchasepersonid(String fpurchasepersonid) {
+		this.fpurchasepersonid = fpurchasepersonid;
+	}
+	
+	public BigDecimal getFtotalqty() {
+		return ftotalqty;
+	}
+	public void setFtotalqty(BigDecimal ftotalqty) {
+		this.ftotalqty = ftotalqty;
+	}
+	public String getFstockerid() {
+		return fstockerid;
+	}
+	public void setFstockerid(String fstockerid) {
+		this.fstockerid = fstockerid;
+	}
 	public String getId() {
 		return id;
 	}

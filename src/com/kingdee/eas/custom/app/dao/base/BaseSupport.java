@@ -13,7 +13,13 @@ import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
 import com.kingdee.eas.custom.app.PurPlatSyncEnum;
+import com.kingdee.eas.custom.app.dao.PurInWarehsSupport;
+import com.kingdee.eas.custom.app.dao.PurOrderSupport;
+import com.kingdee.eas.custom.app.dao.SaleIssueSupport;
 import com.kingdee.eas.custom.app.dao.SaleOrderSupport;
+import com.kingdee.eas.custom.app.dto.PurInDTO;
+import com.kingdee.eas.custom.app.dto.PurOrderDTO;
+import com.kingdee.eas.custom.app.dto.SaleIssDTO;
 import com.kingdee.eas.custom.app.dto.SaleOrderDTO;
 import com.kingdee.eas.custom.app.dto.SaleOrderDetailDTO;
 import com.kingdee.eas.custom.app.dto.base.SCMBaseDTO;
@@ -23,8 +29,59 @@ import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 
 public class BaseSupport {
 
-	
 	public static String syncBill(Context ctx,String jsonStr){
+		String result = null;
+		if(jsonStr != null && !"".equals(jsonStr)){
+		    System.out.println("************************json begin****************************");
+		    System.out.println("#####################jsonStr################=" + jsonStr);
+			DateBaseProcessType processType = DateBaseProcessType.AddNew;
+			DateBasetype baseType = DateBasetype.B2B_GZ_LZ_SS;
+			String msgId = "";
+			String busCode ="";
+			String reqTime ="";
+			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
+			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+			Gson gson = new Gson();
+			JsonElement modelJE = returnData.get("data"); // 请求参数data
+			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+				msgId = msgIdJE.getAsString() ;
+				busCode = busCodeJE.getAsString() ;
+				reqTime = reqTimeJE.getAsString() ;
+				 
+				baseType = DateBasetype.getEnum("62");
+				// 记录日志
+				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+				SCMBaseDTO m = gson.fromJson(modelJE, SCMBaseDTO.class);
+				// 判断msgId 是否存在SaleOrderDTO
+				if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+					result = judgeModel(ctx,m,busCode);
+					if("".equals(result))
+					{
+						if(busCode.contains("_SO"))
+							SaleOrderSupport.doInsertBill(ctx,m,busCode);
+						else if(busCode.contains("_PO"))
+							PurOrderSupport.doInsertBill(ctx, m,busCode);
+						else if(busCode.contains("_PI"))
+							PurInWarehsSupport.doInsertBill(ctx,m,busCode);
+						else if(busCode.contains("_SS"))
+							SaleIssueSupport.doInsertBill(ctx,m,busCode);
+						result = "success";
+					}
+				}else
+					result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
+			}else
+				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+		}else
+			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+		
+		return result;
+	}
+	
+	public static String judgeJsonStr(Context ctx,String jsonStr){
 		String result = null;
 		if(jsonStr != null && !"".equals(jsonStr)){
 		    System.out.println("************************json begin****************************");
@@ -51,15 +108,15 @@ public class BaseSupport {
 				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
 				SCMBaseDTO m = gson.fromJson(modelJE, SCMBaseDTO.class);
 				// 判断msgId 是否存在SaleOrderDTO
-				if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-					result = judgeModel(ctx,m,busCode);
-					if("".equals(result))
-					{
-					//	SaleOrderSupport.doInsertBill(ctx,m,busCode);
-						result = "success";
-					}
-				}else
-					result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
+//				if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+//					result = judgeModel(ctx,m,busCode);
+//					if("".equals(result))
+//					{
+//					//	SaleOrderSupport.doInsertBill(ctx,m,busCode);
+//						result = "success";
+//					}
+//				}else
+//					result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
 			}else
 				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
 		}else
@@ -98,16 +155,31 @@ public class BaseSupport {
 		 
 		 if(m.getFbizdate() == null || "".equals(m.getFbizdate()))
 			 result = result +"业务日期不能为空,";
-			
-		 if(m.getFcustomerid() == null || "".equals(m.getFcustomerid()))
-			 result = result +"客户不能为空,";
-		 else{
-			if(PurPlatUtil.judgeExists(ctx, "CUS", "", m.getFcustomerid())){
-				if(!PurPlatUtil.judgeExists(ctx, "CUSS",m.getFstorageorgunitid(), m.getFcustomerid()))
-					 result = result +"客户未分配当前组织,";
-				}else
-					 result = result +"客户不存在,";
-		  }
+		
+		 if(busCode.contains("_PO") || busCode.contains("_PI") )	{
+			 if(m.getFsupplierid() == null || "".equals(m.getFsupplierid()))
+				 result = result +"供应商不能为空,";
+				 else{
+					if(PurPlatUtil.judgeExists(ctx, "S", "", m.getFsupplierid())){
+						if(!PurPlatUtil.judgeExists(ctx, "SP",m.getFstorageorgunitid()  , m.getFsupplierid()))
+							 result = result +"供应商未分配当前组织,";
+						}else
+							 result = result +"供应商不存在,";
+				  }	
+		 }
+		 
+		 if(busCode.contains("_SO") || busCode.contains("_SS") )	{
+			 if(m.getFcustomerid() == null || "".equals(m.getFcustomerid()))
+				 result = result +"客户不能为空,";
+			 else{
+				if(PurPlatUtil.judgeExists(ctx, "CUS", "", m.getFcustomerid())){
+					if(!PurPlatUtil.judgeExists(ctx, "CUSS",m.getFstorageorgunitid(), m.getFcustomerid()))
+						 result = result +"客户未分配当前组织,";
+					}else
+						 result = result +"客户不存在,";
+			  }
+		 }
+		 
 			
 			 if(m.getFtotaltaxamount() == null || m.getFtotaltax() == null || m.getFtotalamount() == null)
 				 result = result +"价税合计、金额、税额 都不允许为空,";
@@ -173,13 +245,17 @@ public class BaseSupport {
 					if(dvo.getFtaxamount() == null){ 
 						 result = result +"第"+j+1+"行 价税合计不能为空,";
 					}
-			 
-					if(dvo.getFdeliverydate() == null){ 
-						 result = result +"第"+j+1+"行 交货日期不能为空,";
-					}
-					if(dvo.getFsenddate() == null){ 
-						 result = result +"第"+j+1+"行 发货日期不能为空,";
-					}
+					
+					  if(dvo.getFdeliverydate() == null){ 
+							 result = result +"第"+j+1+"行 交货日期不能为空,";
+						}
+					  
+				   if(busCode.contains("_SO") || busCode.contains("_SS") )	{
+						if(dvo.getFsenddate() == null){ 
+							 result = result +"第"+j+1+"行 发货日期不能为空,";
+						} 
+				   }
+ 
 				 }
 			} else 
 				result = result +"至少有一条明细行的数据,";

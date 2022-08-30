@@ -7,10 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
@@ -28,7 +24,6 @@ import com.kingdee.eas.basedata.master.material.MaterialFactory;
 import com.kingdee.eas.basedata.master.material.MaterialInfo;
 import com.kingdee.eas.basedata.org.CompanyOrgUnitInfo;
 import com.kingdee.eas.basedata.org.CtrlUnitInfo;
-import com.kingdee.eas.basedata.org.PurchaseOrgUnitFactory;
 import com.kingdee.eas.basedata.org.SaleOrgUnitInfo;
 import com.kingdee.eas.basedata.org.StorageOrgUnitFactory;
 import com.kingdee.eas.basedata.org.StorageOrgUnitInfo;
@@ -40,12 +35,10 @@ import com.kingdee.eas.basedata.scm.im.inv.InvUpdateTypeInfo;
 import com.kingdee.eas.basedata.scm.im.inv.WarehouseFactory;
 import com.kingdee.eas.basedata.scm.im.inv.WarehouseInfo;
 import com.kingdee.eas.common.EASBizException;
-import com.kingdee.eas.custom.app.DateBaseProcessType;
-import com.kingdee.eas.custom.app.DateBasetype;
-import com.kingdee.eas.custom.app.PurPlatSyncEnum;
 import com.kingdee.eas.custom.app.dto.SaleIssDTO;
 import com.kingdee.eas.custom.app.dto.SaleIssDetailDTO;
-import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
+import com.kingdee.eas.custom.app.dto.base.SCMBaseDTO;
+import com.kingdee.eas.custom.app.dto.base.SCMBaseDetailDTO;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.scm.im.inv.ISaleIssueBill;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillFactory;
@@ -57,192 +50,215 @@ import com.kingdee.eas.util.app.DbUtil;
 
 public class SaleIssueSupport {
 
-	public static String doSync(Context ctx,String jsonStr){
-		String result = null;
-		if(jsonStr != null && !"".equals(jsonStr)){
-		    System.out.println("************************json begin****************************");
-		    System.out.println("#####################jsonStr################=" + jsonStr);
-			DateBaseProcessType processType = DateBaseProcessType.AddNew;
-			DateBasetype baseType = DateBasetype.B2B_GZ_LZ_SS;
-			String msgId = "";
-			String busCode ="";
-			String reqTime ="";
-			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
-			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
-			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
-			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-			Gson gson = new Gson();
-			JsonElement modelJE = returnData.get("data"); // 请求参数data
-			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
-					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
-					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
-				msgId = msgIdJE.getAsString() ;
-				busCode = busCodeJE.getAsString() ;
-				reqTime = reqTimeJE.getAsString() ;
-				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+reqTime, jsonStr, "", "");
-				try {
-					SaleIssDTO m = gson.fromJson(modelJE, SaleIssDTO.class);
-					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-						result = judgeModel(ctx,m,busCode);
-						if("".equals(result))
-						{
-							SaleIssueBillInfo info = createSaleBillInfo(ctx,m,busCode);
-							ISaleIssueBill ibiz =SaleIssueBillFactory.getLocalInstance(ctx);
-							IObjectPK pk = ibiz.save(info);
-							ibiz.submit(pk.toString());
-							if(!busCode.contains("VMI")){
-								String fromID = info.getEntry().get(0).getSourceBillId();
-								if(fromID !=null && !"".equals(fromID)){
-								   String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
-						    		" values(newbosid('59302EC6'),'C48A423A','CC3E933B','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','6a7669e6-0108-1000-e000-2136c0a812fd045122C4','0')";
-								     DbUtil.execute(ctx,sql);
-								}
-							}
-							result = "success";
-						}
-					}else
-						result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
-				} catch (BOSException e) {
-		 			e.printStackTrace();
-					result = PurPlatSyncEnum.EXCEPTION_SERVER.getAlias();
-				} catch (EASBizException e) {
-					result = PurPlatSyncEnum.EXCEPTION_SERVER.getAlias();
-					e.printStackTrace();
-				}
-			}else
-				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
-		}else
-			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
-
-		return result ;		
-	}
+//	public static String doSync(Context ctx,String jsonStr){
+//		String result = null;
+//		if(jsonStr != null && !"".equals(jsonStr)){
+//		    System.out.println("************************json begin****************************");
+//		    System.out.println("#####################jsonStr################=" + jsonStr);
+//			DateBaseProcessType processType = DateBaseProcessType.AddNew;
+//			DateBasetype baseType = DateBasetype.B2B_GZ_LZ_SS;
+//			String msgId = "";
+//			String busCode ="";
+//			String reqTime ="";
+//			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
+//			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+//			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+//			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+//			Gson gson = new Gson();
+//			JsonElement modelJE = returnData.get("data"); // 请求参数data
+//			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+//					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+//					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+//				msgId = msgIdJE.getAsString() ;
+//				busCode = busCodeJE.getAsString() ;
+//				reqTime = reqTimeJE.getAsString() ;
+//				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+reqTime, jsonStr, "", "");
+//				try {
+//					SaleIssDTO m = gson.fromJson(modelJE, SaleIssDTO.class);
+//					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+//						result = judgeModel(ctx,m,busCode);
+//						if("".equals(result))
+//						{
+//							SaleIssueBillInfo info = createSaleBillInfo(ctx,m,busCode);
+//							ISaleIssueBill ibiz =SaleIssueBillFactory.getLocalInstance(ctx);
+//							IObjectPK pk = ibiz.save(info);
+//							ibiz.submit(pk.toString());
+//							if(!busCode.contains("VMI")){
+//								String fromID = info.getEntry().get(0).getSourceBillId();
+//								if(fromID !=null && !"".equals(fromID)){
+//								   String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
+//						    		" values(newbosid('59302EC6'),'C48A423A','CC3E933B','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','6a7669e6-0108-1000-e000-2136c0a812fd045122C4','0')";
+//								     DbUtil.execute(ctx,sql);
+//								}
+//							}
+//							result = "success";
+//						}
+//					}else
+//						result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
+//				} catch (BOSException e) {
+//		 			e.printStackTrace();
+//					result = PurPlatSyncEnum.EXCEPTION_SERVER.getAlias();
+//				} catch (EASBizException e) {
+//					result = PurPlatSyncEnum.EXCEPTION_SERVER.getAlias();
+//					e.printStackTrace();
+//				}
+//			}else
+//				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+//		}else
+//			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+//
+//		return result ;		
+//	}
+//	
+//	/**
+//	 * 校验 实体是否正确
+//	 * @param ctx
+//	 * @param m
+//	 * @return
+//	 */
+//	private static String judgeModel(Context ctx,SaleIssDTO m,String busCode ){
+//		 String result = "";
+//		 //组织是否存在
+//		 if(m.getFstorageorgunitid() != null && !"".equals(m.getFstorageorgunitid()) ){
+//			 IObjectPK orgPK = new  ObjectUuidPK(m.getFstorageorgunitid());
+//			try {
+//				if(!PurchaseOrgUnitFactory.getLocalInstance(ctx).exists(orgPK))
+//					result = result +"库存组织不存在,";
+//			} catch (EASBizException e) {
+// 				e.printStackTrace();
+//			} catch (BOSException e) {
+// 				e.printStackTrace();
+//			}
+//			 
+//		 }else{
+//			 result = result +"库存组织不能为空,";
+//		 }
+//		 
+//		 if(m.getFnumber() ==null || "".equals(m.getFnumber())) 
+//			 result = result +"单据编号不能为空,";
+//		 
+//		 
+//		 if(m.getFbizdate() == null || "".equals(m.getFbizdate()))
+//			 result = result +"业务日期不能为空,";
+//			
+//		 if(m.getFcustomerid() == null || "".equals(m.getFcustomerid()))
+//			 result = result +"客户不能为空,";
+//		 else{
+//			if(PurPlatUtil.judgeExists(ctx, "CUS", "", m.getFcustomerid())){
+//				if(!PurPlatUtil.judgeExists(ctx, "CUSS",m.getFstorageorgunitid(), m.getFcustomerid()))
+//					 result = result +"客户未分配当前组织,";
+//				}else
+//					 result = result +"客户不存在,";
+//		  }
+//		 
+//		 if(busCode.contains("VMI")){
+//			 if(m.getFsupplierid() == null || "".equals(m.getFsupplierid()))
+//				 result = result +"供应商不能为空,";
+//			 else{
+//				if(PurPlatUtil.judgeExists(ctx, "S", "", m.getFsupplierid())){
+//					if(!PurPlatUtil.judgeExists(ctx, "SP",m.getFstorageorgunitid()  , m.getFsupplierid()))
+//						 result = result +"供应商未分配当前组织,";
+//					}else
+//						 result = result +"供应商不存在,";
+//			  }
+//					  
+//		 }
+//			
+//			 if(m.getFtotaltaxamount() == null || m.getFtotaltax() == null || m.getFtotalamount() == null)
+//				 result = result +"价税合计、金额、税额 都不允许为空,";
+//			 else{
+//				 if(m.getFtotaltaxamount().compareTo( m.getFtotaltax().add(m.getFtotalamount() )) != 0)
+//					 result = result +"价税合计等于金额加税额的合计,";
+//		  }
+//			 
+//			if(m.getDetails() !=null && m.getDetails().size() > 0 ){	 
+//				 for(SaleIssDetailDTO dvo : m.getDetails()){
+//					 int j = 0 ; 
+//					 if(dvo.getFmaterialid() ==null || "".equals(dvo.getFmaterialid())){
+//						 result = result +"第"+j+1+"行物料ID不能为空,";
+//					 }else{
+//						 if(PurPlatUtil.judgeExists(ctx, "M", "",dvo.getFmaterialid())){
+//							 if(!PurPlatUtil.judgeExists(ctx, "MP",m.getFstorageorgunitid()  , dvo.getFmaterialid()))
+//								 result = result +"第"+j+1+"物料未分配当前组织,";
+//						 }else
+//							 result = result +"第"+j+1+"行 物料ID不存在,";
+//					 }
+//					 
+//					 if(dvo.getFwarehouseid() ==null || "".equals(dvo.getFwarehouseid())){
+//						 result = result +"第"+j+1+"行仓库ID不能为空,";
+//					 }else{
+// 						if(!PurPlatUtil.judgeExists(ctx, "Warehouse",m.getFstorageorgunitid(), dvo.getFwarehouseid()))
+//							 result = result +"第"+j+1+"行仓库ID不存在,";
+//					 } 
+//					 
+//					 if(dvo.getFunitid() ==null || "".equals(dvo.getFunitid()) ){
+//						 result = result +"第"+j+1+"行计量单位不能为空,";
+//					 }else{
+//						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFunitid())) 
+//							 result = result +"第"+j+1+"行 计量单位"+dvo.getFunitid()+"不存在,";
+//					 }
+//					 
+//					 if(dvo.getFbaseunitid() ==null || "".equals(dvo.getFbaseunitid()) ){
+//						 result = result +"第"+j+1+"行基本计量单位不能为空,";
+//					 }else{
+//						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFbaseunitid())) 
+//							 result = result +"第"+j+1+"行 基本计量单位"+dvo.getFbaseunitid()+"不存在,";
+//					 }
+//					 
+//					if(dvo.getFqty() ==null || dvo.getFbaseqty() == null){ 
+//						 result = result +"第"+j+1+"行 订货数量、基本数量不能为空,";
+//					}
+//					 
+//					if(dvo.getFprice()==null || dvo.getFactualprice() == null || dvo.getFtaxprice() == null || dvo.getFactualtaxprice() == null){ 
+//						 result = result +"第"+j+1+"行 单价、实际单价、含税单价、实际含税单价 不能为空,";
+//					}
+//					
+//					if(dvo.getFtaxrate() == null){ 
+//						 result = result +"第"+j+1+"行 税率不能为空,";
+//					}
+//					if(dvo.getFtax() == null){ 
+//						 result = result +"第"+j+1+"行 税额不能为空,";
+//					}
+//					 
+//					if(dvo.getFamount()== null){ 
+//						 result = result +"第"+j+1+"行 金额不能为空,";
+//					}
+//					
+//					if(dvo.getFtaxamount() == null){ 
+//						 result = result +"第"+j+1+"行 价税合计不能为空,";
+//					}
+//			 
+//				 }
+//			} else 
+//				result = result +"至少有一条明细行的数据,";
+//			 
+//		 return result;
+//	}
+ 	 
 	
-	/**
-	 * 校验 实体是否正确
-	 * @param ctx
-	 * @param m
-	 * @return
-	 */
-	private static String judgeModel(Context ctx,SaleIssDTO m,String busCode ){
-		 String result = "";
-		 //组织是否存在
-		 if(m.getFstorageorgunitid() != null && !"".equals(m.getFstorageorgunitid()) ){
-			 IObjectPK orgPK = new  ObjectUuidPK(m.getFstorageorgunitid());
-			try {
-				if(!PurchaseOrgUnitFactory.getLocalInstance(ctx).exists(orgPK))
-					result = result +"库存组织不存在,";
-			} catch (EASBizException e) {
- 				e.printStackTrace();
-			} catch (BOSException e) {
- 				e.printStackTrace();
+	public static void doInsertBill(Context ctx,SCMBaseDTO m,String busCode){
+		try {
+			SaleIssueBillInfo info = createSaleBillInfo(ctx,m,busCode);
+			ISaleIssueBill ibiz =SaleIssueBillFactory.getLocalInstance(ctx);
+			IObjectPK pk = ibiz.save(info);
+			ibiz.submit(pk.toString());
+			if(!busCode.contains("VMI")){
+				String fromID = info.getEntry().get(0).getSourceBillId();
+				if(fromID !=null && !"".equals(fromID)){
+				   String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
+		    		" values(newbosid('59302EC6'),'C48A423A','CC3E933B','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','6a7669e6-0108-1000-e000-2136c0a812fd045122C4','0')";
+				     DbUtil.execute(ctx,sql);
+				}
 			}
-			 
-		 }else{
-			 result = result +"库存组织不能为空,";
-		 }
-		 
-		 if(m.getFnumber() ==null || "".equals(m.getFnumber())) 
-			 result = result +"单据编号不能为空,";
-		 
-		 
-		 if(m.getFbizdate() == null || "".equals(m.getFbizdate()))
-			 result = result +"业务日期不能为空,";
-			
-		 if(m.getFcustomerid() == null || "".equals(m.getFcustomerid()))
-			 result = result +"客户不能为空,";
-		 else{
-			if(PurPlatUtil.judgeExists(ctx, "CUS", "", m.getFcustomerid())){
-				if(!PurPlatUtil.judgeExists(ctx, "CUSS",m.getFstorageorgunitid(), m.getFcustomerid()))
-					 result = result +"客户未分配当前组织,";
-				}else
-					 result = result +"客户不存在,";
-		  }
-		 
-		 if(busCode.contains("VMI")){
-			 if(m.getFsupplierid() == null || "".equals(m.getFsupplierid()))
-				 result = result +"供应商不能为空,";
-			 else{
-				if(PurPlatUtil.judgeExists(ctx, "S", "", m.getFsupplierid())){
-					if(!PurPlatUtil.judgeExists(ctx, "SP",m.getFstorageorgunitid()  , m.getFsupplierid()))
-						 result = result +"供应商未分配当前组织,";
-					}else
-						 result = result +"供应商不存在,";
-			  }
-					  
-		 }
-			
-			 if(m.getFtotaltaxamount() == null || m.getFtotaltax() == null || m.getFtotalamount() == null)
-				 result = result +"价税合计、金额、税额 都不允许为空,";
-			 else{
-				 if(m.getFtotaltaxamount().compareTo( m.getFtotaltax().add(m.getFtotalamount() )) != 0)
-					 result = result +"价税合计等于金额加税额的合计,";
-		  }
-			 
-			if(m.getDetails() !=null && m.getDetails().size() > 0 ){	 
-				 for(SaleIssDetailDTO dvo : m.getDetails()){
-					 int j = 0 ; 
-					 if(dvo.getFmaterialid() ==null || "".equals(dvo.getFmaterialid())){
-						 result = result +"第"+j+1+"行物料ID不能为空,";
-					 }else{
-						 if(PurPlatUtil.judgeExists(ctx, "M", "",dvo.getFmaterialid())){
-							 if(!PurPlatUtil.judgeExists(ctx, "MP",m.getFstorageorgunitid()  , dvo.getFmaterialid()))
-								 result = result +"第"+j+1+"物料未分配当前组织,";
-						 }else
-							 result = result +"第"+j+1+"行 物料ID不存在,";
-					 }
-					 
-					 if(dvo.getFwarehouseid() ==null || "".equals(dvo.getFwarehouseid())){
-						 result = result +"第"+j+1+"行仓库ID不能为空,";
-					 }else{
- 						if(!PurPlatUtil.judgeExists(ctx, "Warehouse",m.getFstorageorgunitid(), dvo.getFwarehouseid()))
-							 result = result +"第"+j+1+"行仓库ID不存在,";
-					 } 
-					 
-					 if(dvo.getFunitid() ==null || "".equals(dvo.getFunitid()) ){
-						 result = result +"第"+j+1+"行计量单位不能为空,";
-					 }else{
-						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFunitid())) 
-							 result = result +"第"+j+1+"行 计量单位"+dvo.getFunitid()+"不存在,";
-					 }
-					 
-					 if(dvo.getFbaseunitid() ==null || "".equals(dvo.getFbaseunitid()) ){
-						 result = result +"第"+j+1+"行基本计量单位不能为空,";
-					 }else{
-						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFbaseunitid())) 
-							 result = result +"第"+j+1+"行 基本计量单位"+dvo.getFbaseunitid()+"不存在,";
-					 }
-					 
-					if(dvo.getFqty() ==null || dvo.getFbaseqty() == null){ 
-						 result = result +"第"+j+1+"行 订货数量、基本数量不能为空,";
-					}
-					 
-					if(dvo.getFprice()==null || dvo.getFactualprice() == null || dvo.getFtaxprice() == null || dvo.getFactualtaxprice() == null){ 
-						 result = result +"第"+j+1+"行 单价、实际单价、含税单价、实际含税单价 不能为空,";
-					}
-					
-					if(dvo.getFtaxrate() == null){ 
-						 result = result +"第"+j+1+"行 税率不能为空,";
-					}
-					if(dvo.getFtax() == null){ 
-						 result = result +"第"+j+1+"行 税额不能为空,";
-					}
-					 
-					if(dvo.getFamount()== null){ 
-						 result = result +"第"+j+1+"行 金额不能为空,";
-					}
-					
-					if(dvo.getFtaxamount() == null){ 
-						 result = result +"第"+j+1+"行 价税合计不能为空,";
-					}
-			 
-				 }
-			} else 
-				result = result +"至少有一条明细行的数据,";
-			 
-		 return result;
+		} catch (EASBizException e) {
+ 		e.printStackTrace();
+	} catch (BOSException e) {
+		e.printStackTrace();
 	}
-	 
-	private static SaleIssueBillInfo createSaleBillInfo(Context ctx, SaleIssDTO m,String busCode )
+}
+	
+	
+	private static SaleIssueBillInfo createSaleBillInfo(Context ctx, SCMBaseDTO m,String busCode )
 	    throws BOSException, EASBizException
 	  {
 	   
@@ -335,7 +351,7 @@ public class SaleIssueSupport {
 	    }
 	    
 	   // BigDecimal totalAmount = new BigDecimal(0);
-	    for (SaleIssDetailDTO entry : m.getDetails())
+	    for (SCMBaseDetailDTO entry : m.getDetails())
 	    {
 	        SaleIssueEntryInfo entryInfo = createSaleEntryInfo(ctx,entry,busCode);
 	        entryInfo.setStorageOrgUnit(storageorginfo);
@@ -379,7 +395,7 @@ public class SaleIssueSupport {
 	    return info;
 	  }
 	  
-	private static SaleIssueEntryInfo createSaleEntryInfo(Context ctx, SaleIssDetailDTO dvo ,String busCode)
+	private static SaleIssueEntryInfo createSaleEntryInfo(Context ctx, SCMBaseDetailDTO dvo ,String busCode)
 	    throws EASBizException, BOSException
 	  {
 	    IMaterial imaterial = MaterialFactory.getLocalInstance(ctx);

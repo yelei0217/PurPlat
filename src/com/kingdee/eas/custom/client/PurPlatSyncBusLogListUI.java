@@ -100,9 +100,20 @@ public class PurPlatSyncBusLogListUI extends AbstractPurPlatSyncBusLogListUI
     	
  
     	  
-    	String jsonStr ="{\"msgId\":\"202208301845123\",\"busCode\":\"GZ_CK_LZ_CJ\",\"reqTime\":\"202208301845123\",\"data\":{\"id\":\"202208301845123\",\"fnumber\":\"202208301845123\",\"fbizdate\":\"2022-08-30\",\"fstorageorgunitid\":\"+dryvYY9QwWpQdJSTAHAesznrtQ=\",\"fadminorgunitid\":\"fo8U5I4cQBOrVQRR2ZMvHcznrtQ=\",\"ftotalamount\":172.41,\"ftotaltax\":27.59,\"ftotaltaxamount\":200,\"ftotalqty\":2,\"fcreatorid\":\"\",\"fsupplierid\":\"ZrYAxLT6RbCTmHETKr1WijfGffw=\",\"details\":[{\"id\":\"202208301845123-1\",\"fseq\":\"1\",\"fwarehouseid\":\"jbYAAAAF8SG76fiu\",\"fmaterialid\":\"YblhcM4pQOutUg5b4WEyC0QJ5/A=\",\"funitid\":\"G03\",\"fbaseunitid\":\"G03\",\"fremark\":\"ccss\",\"fispresent\":false,\"fprice\":86.206897,\"factualprice\":86.206897,\"ftaxprice\":100,\"factualtaxprice\":100,\"famount\":172.41,\"ftaxamount\":200,\"ftaxrate\":16,\"ftax\":27.59,\"fqty\":2,\"fbaseqty\":2}]}}"; 
-    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().saveCostAdjus(jsonStr);
-        System.out.println("saveCostAdjus"+result);
+//    	String jsonStr ="{\"msgId\":\"202208301845123\",\"busCode\":\"GZ_CK_LZ_CJ\",\"reqTime\":\"202208301845123\",\"data\":{\"id\":\"202208301845123\",\"fnumber\":\"202208301845123\",\"fbizdate\":\"2022-08-30\",\"fstorageorgunitid\":\"+dryvYY9QwWpQdJSTAHAesznrtQ=\",\"fadminorgunitid\":\"fo8U5I4cQBOrVQRR2ZMvHcznrtQ=\",\"ftotalamount\":172.41,\"ftotaltax\":27.59,\"ftotaltaxamount\":200,\"ftotalqty\":2,\"fcreatorid\":\"\",\"fsupplierid\":\"ZrYAxLT6RbCTmHETKr1WijfGffw=\",\"details\":[{\"id\":\"202208301845123-1\",\"fseq\":\"1\",\"fwarehouseid\":\"jbYAAAAF8SG76fiu\",\"fmaterialid\":\"YblhcM4pQOutUg5b4WEyC0QJ5/A=\",\"funitid\":\"G03\",\"fbaseunitid\":\"G03\",\"fremark\":\"ccss\",\"fispresent\":false,\"fprice\":86.206897,\"factualprice\":86.206897,\"ftaxprice\":100,\"factualtaxprice\":100,\"famount\":172.41,\"ftaxamount\":200,\"ftaxrate\":16,\"ftax\":27.59,\"fqty\":2,\"fbaseqty\":2}]}}"; 
+//    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().saveCostAdjus(jsonStr);
+//        System.out.println("saveCostAdjus"+result);
+   
+    
+//    	String jsonStr ="{\"msgId\":\"202208310028001\",\"busCode\":\"GZ_MZ_PO\",\"reqTime\":\"202208310028001\",\"data\":{\"id\":\"202208310028001\",\"fnumber\":\"202208310028001\",\"fbizdate\":\"2022-08-31\",\"fstorageorgunitid\":\"kO6+E1zaSbKzTzLMtI+csMznrtQ=\",\"fpurchasepersonid\":\"Lt2bG2FWRzy0+1V/cUTJFIDvfe0=\",\"fsupplierid\":\"ZrYAxLT6RbCTmHETKr1WijfGffw=\",\"fadminorgunitid\":\"jbYAAAWC4L/M567U\",\"ftotalamount\":172.41,\"ftotaltax\":27.59,\"ftotaltaxamount\":200,\"fcreatorid\":\"\",\"details\":[{\"id\":\"202208310028001-1\",\"fseq\":\"1\",\"fmaterialid\":\"YblhcM4pQOutUg5b4WEyC0QJ5/A=\",\"funitid\":\"G03\",\"fassociateqty\":\"2\",\"fbaseunitid\":\"G03\",\"fremark\":\"ccss\",\"fispresent\":false,\"fqty\":2,\"fprice\":86.206897,\"factualprice\":86.206897,\"ftaxrate\":16,\"ftaxprice\":100,\"factualtaxprice\":100,\"famount\":172.41,\"ftax\":27.59,\"ftaxamount\":200,\"fdeliverydate\":\"2022-08-31\",\"fbaseqty\":2}]}}";
+//    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().savePurOrder(jsonStr);
+//        System.out.println("savePurOrder"+result);
+	
+    	
+    	String jsonStr = "{\"msgId\":\"202208310030001\",\"busCode\":\"GZ_LZ_PI\",\"reqTime\":\"202208310030001\",\"data\":{\"id\":\"202208310030001\",\"fnumber\":\"202208310030001\",\"fbizdate\":\"2022-08-31\",\"fstorageorgunitid\":\"kO6+E1zaSbKzTzLMtI+csMznrtQ=\",\"fpurchasepersonid\":\"Lt2bG2FWRzy0+1V/cUTJFIDvfe0=\",\"fsupplierid\":\"ZrYAxLT6RbCTmHETKr1WijfGffw=\",\"fadminorgunitid\":\"jbYAAAWC4L/M567U\",\"ftotalamount\":172.41,\"ftotaltax\":27.59,\"ftotalqty\":2,\"ftotaltaxamount\":200,\"fcreatorid\":\"\",\"details\":[{\"id\":\"202208310030001-111\",\"fsourcebillid\":\"\",\"fsourcebillnumber\":\"202208310028001\",\"fsourcebillentryid\":\"202208310028001-1\",\"fsourcebillentryseq\":\"1\",\"fwarehouseid\":\"jbYAAAAGX9G76fiu\",\"fstockerid\":\"\",\"fseq\":\"1\",\"fmaterialid\":\"YblhcM4pQOutUg5b4WEyC0QJ5/A=\",\"funitid\":\"G03\",\"fassociateqty\":\"2\",\"fbaseunitid\":\"G03\",\"fremark\":\"ccss\",\"fispresent\":false,\"fqty\":2,\"fprice\":86.206897,\"factualprice\":86.206897,\"ftaxrate\":16,\"ftaxprice\":100,\"factualtaxprice\":100,\"famount\":172.41,\"ftax\":27.59,\"ftaxamount\":200,\"fdeliverydate\":\"2022-08-31\",\"fbaseqty\":2}]}}";
+    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().savePurInWare(jsonStr);
+        System.out.println("savePurInWare"+result);
+
     }
 
     /**

@@ -1,16 +1,13 @@
 package com.kingdee.eas.custom.app.dao;
 
-import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.log4j.Logger;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -20,35 +17,20 @@ import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.ormapping.ObjectStringPK;
-import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
-import com.kingdee.bos.metadata.entity.FilterInfo;
-import com.kingdee.bos.metadata.entity.FilterItemInfo;
-import com.kingdee.bos.metadata.query.util.CompareType;
 import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.eas.basedata.framework.app.ParallelSqlExecutor;
-import com.kingdee.eas.basedata.master.cssp.SupplierFactory;
-import com.kingdee.eas.basedata.org.PurchaseOrgUnitFactory;
-import com.kingdee.eas.basedata.org.PurchaseOrgUnitInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
-import com.kingdee.eas.custom.app.PurPlatSyncEnum;
 import com.kingdee.eas.custom.app.dto.PurOrderDTO;
-import com.kingdee.eas.custom.app.dto.PurOrderDetailDTO;
+import com.kingdee.eas.custom.app.dto.base.SCMBaseDTO;
+import com.kingdee.eas.custom.app.dto.base.SCMBaseDetailDTO;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
-import com.kingdee.eas.custom.util.VerifyUtil;
-import com.kingdee.eas.scm.sd.sale.ISaleOrderEntry;
-import com.kingdee.eas.scm.sd.sale.SaleOrder;
-import com.kingdee.eas.scm.sd.sale.SaleOrderEntryFactory;
-import com.kingdee.eas.scm.sd.sale.SaleOrderInfo;
 import com.kingdee.eas.scm.sm.pur.IPurOrderEntry;
 import com.kingdee.eas.scm.sm.pur.PurOrderEntryFactory;
 import com.kingdee.eas.util.app.DbUtil;
 import com.kingdee.jdbc.rowset.IRowSet;
-import com.kingdee.util.LowTimer;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  *  
@@ -60,58 +42,57 @@ public class PurOrderSupport {
 	//private LowTimer timer = new LowTimer();
 	//private static Logger logger = Logger.getLogger("com.kingdee.eas.custom.app.IncomeCostMatchFacadeControllerBean");
 	
-	public static String syncBill(Context ctx,String jsonStr){
-		String result = null;
-		if(jsonStr != null && !"".equals(jsonStr)){
-		    System.out.println("************************json begin****************************");
-		    System.out.println("#####################jsonStr################=" + jsonStr);
-			DateBaseProcessType processType = DateBaseProcessType.AddNew;
-			DateBasetype baseType = DateBasetype.B2B_GZ_LZ_PO;
-			String msgId = "";
-			String busCode ="";
-			String reqTime ="";
-			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
-			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
-			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
-			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-			Gson gson = new Gson();
-			JsonElement modelJE = returnData.get("data"); // 请求参数data
-			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
-					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
-					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
-
-				msgId = msgIdJE.getAsString() ;
-				busCode = busCodeJE.getAsString() ;
-				reqTime = reqTimeJE.getAsString() ;
-				
-			// 记录日志
-		//	IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+reqTime, jsonStr, "", "");
-			PurOrderDTO m = gson.fromJson(modelJE, PurOrderDTO.class);
-			// 判断msgId 是否存在
-			if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-				result = judgeModel(ctx,m);
-				if("".equals(result))
-				{
-					doInsertBill(ctx,m,busCode);
-					result = "success";
-				}
-			
-			}else
-				result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
-			}else
-				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
-		}else
-			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
-	    
-		return result;
-	}
-	
+//	public static String syncBill(Context ctx,String jsonStr){
+//		String result = null;
+//		if(jsonStr != null && !"".equals(jsonStr)){
+//		    System.out.println("************************json begin****************************");
+//		    System.out.println("#####################jsonStr################=" + jsonStr);
+//			DateBaseProcessType processType = DateBaseProcessType.AddNew;
+//			DateBasetype baseType = DateBasetype.B2B_GZ_LZ_PO;
+//			String msgId = "";
+//			String busCode ="";
+//			String reqTime ="";
+//			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
+//			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+//			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+//			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+//			Gson gson = new Gson();
+//			JsonElement modelJE = returnData.get("data"); // 请求参数data
+//			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+//					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+//					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+//
+//				msgId = msgIdJE.getAsString() ;
+//				busCode = busCodeJE.getAsString() ;
+//				reqTime = reqTimeJE.getAsString() ;
+//				
+//			// 记录日志
+//		//	IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+reqTime, jsonStr, "", "");
+//			PurOrderDTO m = gson.fromJson(modelJE, PurOrderDTO.class);
+//			// 判断msgId 是否存在
+//			if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+//				result = judgeModel(ctx,m);
+//				if("".equals(result))
+//				{
+//					doInsertBill(ctx,m,busCode);
+//					result = "success";
+//				}
+//			
+//			}else
+//				result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
+//			}else
+//				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+//		}else
+//			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+//	    
+//		return result;
+//	}
  
 	/**
 	 *  插入 eas表
 	 * @param ctx
 	 */
-	private static void doInsertBill(Context ctx,PurOrderDTO m,String busCode){
+	public static void doInsertBill(Context ctx,SCMBaseDTO m,String busCode){
 		ExecutorService pool = Executors.newFixedThreadPool(6);
 	    ParallelSqlExecutor pe = new ParallelSqlExecutor(pool); 
 	    StringBuffer sbr = new StringBuffer(" /*dialect*/ insert into T_SM_PurOrder (FID,FCREATORID,FCREATETIME,FMODIFIERID,FMODIFICATIONTIME,FLASTUPDATEUSERID,FLASTUPDATETIME,FCONTROLUNITID," );
@@ -146,7 +127,7 @@ public class PurOrderSupport {
 		sbr.append(",'").append( m.getFstorageorgunitid()).append("',0,'").append(m.getFstorageorgunitid()).append("',").append(isInTax).append(",0,0,1,0,0,0,1,1,0,0,0 ,'").append(m.getId()).append("') ");
 		pe.getSqlList().add(sbr);
 		
-		for(PurOrderDetailDTO dvo : m.getDetails()){
+		for(SCMBaseDetailDTO dvo : m.getDetails()){
 			String eid  = BOSUuid.create("26041CC5").toString();
 			StringBuffer sbr1 = new StringBuffer("/*dialect*/ insert into T_SM_PURORDERENTRY(FID,FSEQ,FMATERIALID,FUNITID,FBASESTATUS,FASSOCIATEQTY,FBASEUNITID,FREMARK,FISPRESENT,FDEMANDQTY,FQTY," +
 					"FSTORAGEORGUNITID,FCOMPANYORGUNITID,FASSISTQTY,FPRICE,FDISCOUNTRATE,FACTUALPRICE,FTAXRATE,FTAXPRICE,FACTUALTAXPRICE," +
@@ -195,113 +176,113 @@ public class PurOrderSupport {
 	
 	
 
-	
-	/**
-	 * 校验 实体是否正确
-	 * @param ctx
-	 * @param m
-	 * @return
-	 */
-	private static String judgeModel(Context ctx,PurOrderDTO m ){
-		 String result = "";
-		 //组织是否存在
-		 if(m.getFstorageorgunitid() != null && !"".equals(m.getFstorageorgunitid()) ){
-			 IObjectPK orgPK = new  ObjectUuidPK(m.getFstorageorgunitid());
-			try {
-				if(!PurchaseOrgUnitFactory.getLocalInstance(ctx).exists(orgPK))
-					result = result +"采购组织不存在,";
-			} catch (EASBizException e) {
- 				e.printStackTrace();
-			} catch (BOSException e) {
- 				e.printStackTrace();
-			}
-			 
-		 }else{
-			 result = result +"采购组织不能为空,";
-		 }
-		 
-		 if(m.getFnumber() ==null || "".equals(m.getFnumber())) 
-			 result = result +"单据编号不能为空,";
-		 
-		 if(m.getFbizdate() == null || "".equals(m.getFbizdate()))
-			 result = result +"业务日期不能为空,";
-			
-		 if(m.getFsupplierid() == null || "".equals(m.getFsupplierid()))
-			 result = result +"供应商不能为空,";
-		 else{
-			if(PurPlatUtil.judgeExists(ctx, "S", "", m.getFsupplierid())){
-				if(!PurPlatUtil.judgeExists(ctx, "SP",m.getFstorageorgunitid()  , m.getFsupplierid()))
-					 result = result +"供应商未分配当前组织,";
-				}else
-					 result = result +"供应商不存在,";
-		  }
-			
-			 if(m.getFtotaltaxamount() == null || m.getFtotaltax() == null || m.getFtotalamount() == null)
-				 result = result +"价税合计、金额、税额 都不允许为空,";
-			 else{
-				 if(m.getFtotaltaxamount().compareTo( m.getFtotaltax().add(m.getFtotalamount() )) != 0)
-					 result = result +"价税合计等于金额加税额的合计,";
-		  }
-			 
-			if(m.getDetails() !=null && m.getDetails().size() > 0 ){	 
-				 for(PurOrderDetailDTO dvo : m.getDetails()){
-					 int j = 0 ; 
-					 if(dvo.getFmaterialid() ==null || "".equals(dvo.getFmaterialid())){
-						 result = result +"第"+j+1+"行物料ID不能为空,";
-					 }else{
-						 if(PurPlatUtil.judgeExists(ctx, "M", "",dvo.getFmaterialid())){
-							 if(!PurPlatUtil.judgeExists(ctx, "MP",m.getFstorageorgunitid()  , dvo.getFmaterialid()))
-								 result = result +"第"+j+1+"物料未分配当前组织,";
-						 }else
-							 result = result +"第"+j+1+"行 物料ID不存在,";
-					 }
-					 
-					 if(dvo.getFunitid() ==null || "".equals(dvo.getFunitid()) ){
-						 result = result +"第"+j+1+"行计量单位不能为空,";
-					 }else{
-						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFunitid())) 
-							 result = result +"第"+j+1+"行 计量单位"+dvo.getFunitid()+"不存在,";
-					 }
-					 
-					 if(dvo.getFbaseunitid() ==null || "".equals(dvo.getFbaseunitid()) ){
-						 result = result +"第"+j+1+"行基本计量单位不能为空,";
-					 }else{
-						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFbaseunitid())) 
-							 result = result +"第"+j+1+"行 基本计量单位"+dvo.getFbaseunitid()+"不存在,";
-					 }
-					 
-					if(dvo.getFqty() ==null || dvo.getFbaseqty() == null){ 
-						 result = result +"第"+j+1+"行 订货数量、基本数量不能为空,";
-					}
-					 
-					if(dvo.getFprice()==null || dvo.getFactualprice() == null || dvo.getFtaxprice() == null || dvo.getFactualtaxprice() == null){ 
-						 result = result +"第"+j+1+"行 单价、实际单价、含税单价、实际含税单价 不能为空,";
-					}
-					
-					if(dvo.getFtaxrate() == null){ 
-						 result = result +"第"+j+1+"行 税率不能为空,";
-					}
-					if(dvo.getFtax() == null){ 
-						 result = result +"第"+j+1+"行 税额不能为空,";
-					}
-					 
-					if(dvo.getFamount()== null){ 
-						 result = result +"第"+j+1+"行 金额不能为空,";
-					}
-					
-					if(dvo.getFtaxamount() == null){ 
-						 result = result +"第"+j+1+"行 价税合计不能为空,";
-					}
-			 
-					if(dvo.getFdeliverydate() == null){ 
-						 result = result +"第"+j+1+"行 交货日期不能为空,";
-					}
-				 }
-			} else 
-				result = result +"至少有一条明细行的数据,";
-			 
-		 return result;
-	}
+//	
+//	/**
+//	 * 校验 实体是否正确
+//	 * @param ctx
+//	 * @param m
+//	 * @return
+//	 */
+//	private static String judgeModel(Context ctx,PurOrderDTO m ){
+//		 String result = "";
+//		 //组织是否存在
+//		 if(m.getFstorageorgunitid() != null && !"".equals(m.getFstorageorgunitid()) ){
+//			 IObjectPK orgPK = new  ObjectUuidPK(m.getFstorageorgunitid());
+//			try {
+//				if(!PurchaseOrgUnitFactory.getLocalInstance(ctx).exists(orgPK))
+//					result = result +"采购组织不存在,";
+//			} catch (EASBizException e) {
+// 				e.printStackTrace();
+//			} catch (BOSException e) {
+// 				e.printStackTrace();
+//			}
+//			 
+//		 }else{
+//			 result = result +"采购组织不能为空,";
+//		 }
+//		 
+//		 if(m.getFnumber() ==null || "".equals(m.getFnumber())) 
+//			 result = result +"单据编号不能为空,";
+//		 
+//		 if(m.getFbizdate() == null || "".equals(m.getFbizdate()))
+//			 result = result +"业务日期不能为空,";
+//			
+//		 if(m.getFsupplierid() == null || "".equals(m.getFsupplierid()))
+//			 result = result +"供应商不能为空,";
+//		 else{
+//			if(PurPlatUtil.judgeExists(ctx, "S", "", m.getFsupplierid())){
+//				if(!PurPlatUtil.judgeExists(ctx, "SP",m.getFstorageorgunitid()  , m.getFsupplierid()))
+//					 result = result +"供应商未分配当前组织,";
+//				}else
+//					 result = result +"供应商不存在,";
+//		  }
+//			
+//			 if(m.getFtotaltaxamount() == null || m.getFtotaltax() == null || m.getFtotalamount() == null)
+//				 result = result +"价税合计、金额、税额 都不允许为空,";
+//			 else{
+//				 if(m.getFtotaltaxamount().compareTo( m.getFtotaltax().add(m.getFtotalamount() )) != 0)
+//					 result = result +"价税合计等于金额加税额的合计,";
+//		  }
+//			 
+//			if(m.getDetails() !=null && m.getDetails().size() > 0 ){	 
+//				 for(PurOrderDetailDTO dvo : m.getDetails()){
+//					 int j = 0 ; 
+//					 if(dvo.getFmaterialid() ==null || "".equals(dvo.getFmaterialid())){
+//						 result = result +"第"+j+1+"行物料ID不能为空,";
+//					 }else{
+//						 if(PurPlatUtil.judgeExists(ctx, "M", "",dvo.getFmaterialid())){
+//							 if(!PurPlatUtil.judgeExists(ctx, "MP",m.getFstorageorgunitid()  , dvo.getFmaterialid()))
+//								 result = result +"第"+j+1+"物料未分配当前组织,";
+//						 }else
+//							 result = result +"第"+j+1+"行 物料ID不存在,";
+//					 }
+//					 
+//					 if(dvo.getFunitid() ==null || "".equals(dvo.getFunitid()) ){
+//						 result = result +"第"+j+1+"行计量单位不能为空,";
+//					 }else{
+//						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFunitid())) 
+//							 result = result +"第"+j+1+"行 计量单位"+dvo.getFunitid()+"不存在,";
+//					 }
+//					 
+//					 if(dvo.getFbaseunitid() ==null || "".equals(dvo.getFbaseunitid()) ){
+//						 result = result +"第"+j+1+"行基本计量单位不能为空,";
+//					 }else{
+//						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFbaseunitid())) 
+//							 result = result +"第"+j+1+"行 基本计量单位"+dvo.getFbaseunitid()+"不存在,";
+//					 }
+//					 
+//					if(dvo.getFqty() ==null || dvo.getFbaseqty() == null){ 
+//						 result = result +"第"+j+1+"行 订货数量、基本数量不能为空,";
+//					}
+//					 
+//					if(dvo.getFprice()==null || dvo.getFactualprice() == null || dvo.getFtaxprice() == null || dvo.getFactualtaxprice() == null){ 
+//						 result = result +"第"+j+1+"行 单价、实际单价、含税单价、实际含税单价 不能为空,";
+//					}
+//					
+//					if(dvo.getFtaxrate() == null){ 
+//						 result = result +"第"+j+1+"行 税率不能为空,";
+//					}
+//					if(dvo.getFtax() == null){ 
+//						 result = result +"第"+j+1+"行 税额不能为空,";
+//					}
+//					 
+//					if(dvo.getFamount()== null){ 
+//						 result = result +"第"+j+1+"行 金额不能为空,";
+//					}
+//					
+//					if(dvo.getFtaxamount() == null){ 
+//						 result = result +"第"+j+1+"行 价税合计不能为空,";
+//					}
+//			 
+//					if(dvo.getFdeliverydate() == null){ 
+//						 result = result +"第"+j+1+"行 交货日期不能为空,";
+//					}
+//				 }
+//			} else 
+//				result = result +"至少有一条明细行的数据,";
+//			 
+//		 return result;
+//	}
 	
 	
 	/**
@@ -335,6 +316,8 @@ public class PurOrderSupport {
 				msgId = msgIdJE.getAsString() ;
 				busCode = busCodeJE.getAsString() ;
 				reqTime = reqTimeJE.getAsString() ;
+				baseType = DateBasetype.getEnum(busCode);
+				
 				if(modelJE.getAsJsonObject() !=null && modelJE.getAsJsonObject().get("id") !=null && !"".equals(modelJE.getAsJsonObject().get("id").getAsString())&&
 					modelJE.getAsJsonObject().get("eids") !=null && !"".equals(modelJE.getAsJsonObject().get("eids").getAsString()))
 				{

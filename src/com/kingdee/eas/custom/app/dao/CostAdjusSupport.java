@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
@@ -40,17 +41,21 @@ import com.kingdee.eas.custom.app.DateBasetype;
 import com.kingdee.eas.custom.app.dto.CostAdjusDTO;
 import com.kingdee.eas.custom.app.dto.CostAdjusDetailDTO;
 import com.kingdee.eas.custom.app.dto.PurInDTO;
+import com.kingdee.eas.custom.app.unit.AppUnit;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
+import com.kingdee.eas.scm.cal.CalculateKindEnum;
 import com.kingdee.eas.scm.cal.CostAdjustBillEntryInfo;
+import com.kingdee.eas.scm.cal.CostAdjustBillFactory;
 import com.kingdee.eas.scm.cal.CostAdjustBillInfo;
+import com.kingdee.eas.scm.cal.ICostAdjustBill;
+import com.kingdee.eas.scm.common.BillBaseStatusEnum;
+import com.kingdee.eas.scm.common.EntryBaseStatusEnum;
 import com.kingdee.eas.scm.ws.app.importbill.ScmbillImportUtils;
 import com.kingdee.eas.util.app.ContextUtil;
 
 public class CostAdjusSupport {
 
-	
-	
 	public static String doSync(Context ctx,String jsonStr){
 		String result = null;
 		if(jsonStr != null && !"".equals(jsonStr)){
@@ -75,13 +80,24 @@ public class CostAdjusSupport {
 				busCode = busCodeJE.getAsString() ;
 				reqTime = reqTimeJE.getAsString() ;
 				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+reqTime, jsonStr, "", "");
-				CostAdjusDTO m = gson.fromJson(modelJE, CostAdjusDTO.class);
-				if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-					result = judgeModel(ctx,m,busCode);
-					if("".equals(result))
-					{
-						
+				try {
+					CostAdjusDTO m = gson.fromJson(modelJE, CostAdjusDTO.class);
+					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+						result = judgeModel(ctx,m,busCode);
+						if("".equals(result))
+						{
+							ICostAdjustBill ibiz = CostAdjustBillFactory.getLocalInstance(ctx);
+							CostAdjustBillInfo info  = createCostAdjusInfo(ctx, m, busCode);
+							IObjectPK pk = ibiz.addnew(info);
+							ibiz.submit(pk.toString());
+						}
 					}
+				} catch (JsonSyntaxException e) {
+ 					e.printStackTrace();
+				} catch (BOSException e) {
+ 					e.printStackTrace();
+				} catch (EASBizException e) {
+ 					e.printStackTrace();
 				}
 			}
 			
@@ -156,31 +172,37 @@ public class CostAdjusSupport {
 	private static CostAdjustBillInfo createCostAdjusInfo(Context ctx, CostAdjusDTO m,String busCode)
     throws EASBizException, BOSException
   {
-		CostAdjustBillInfo info = new CostAdjustBillInfo();
+		  CostAdjustBillInfo info = new CostAdjustBillInfo();
 		  ObjectUuidPK orgPK = new ObjectUuidPK(m.getFstorageorgunitid());
 		  StorageOrgUnitInfo storageorginfo = StorageOrgUnitFactory.getLocalInstance(ctx).getStorageOrgUnitInfo(orgPK);
 		  CompanyOrgUnitInfo xmcompany = ScmbillImportUtils.getCompanyInfo(ctx, storageorginfo, 4);
 		  
-			String billtypeId = "";//单据类型
-			String sourceBilltypeId = "";//来源单据类型
-			String biztypeId = "";//业务类型
-			String transinfoId ="";//事务类型
-			
+			String billtypeId = "3a3b5446-0106-1000-e000-01bcc0a812e6463ED552";//单据类型
 			String storeTypeId = "181875d5-0105-1000-e000-0111c0a812fd97D461A6"; // 库存类型
 			String storeStatusId = "181875d5-0105-1000-e000-012ec0a812fd62A73FA5"; // 库存状态
-
-			
+//
+			 CalculateKindEnum kind = null;
+			if("GZ_CK_LZ_CJ".equals(busCode)){
+				kind = CalculateKindEnum.OUTPUT_WAREHOUSE;
+				  billtypeId = "3a3b5446-0106-1000-e000-01bcc0a812e6463ED552";//单据类型
+				  storeTypeId = "181875d5-0105-1000-e000-0111c0a812fd97D461A6"; // 库存类型
+				  storeStatusId = "181875d5-0105-1000-e000-012ec0a812fd62A73FA5"; // 库存状态
+			}else{
+				kind = CalculateKindEnum.INPUT_WAREHOUSE;
+				
+				
+			}
 			StoreTypeInfo storeTypeInfo = new StoreTypeInfo();
 			storeTypeInfo.setId(BOSUuid.read(storeTypeId));
 			
 			StoreStateInfo storeStatusInfo = new StoreStateInfo();
 			storeStatusInfo.setId(BOSUuid.read(storeStatusId));
 			
-			 CtrlUnitInfo cuInfo = storageorginfo.getCU();
+			 	CtrlUnitInfo cuInfo = storageorginfo.getCU();
 			    info.setCU(cuInfo);
 			    info.setStorageOrgUnit(storageorginfo);
-			    
-			    
+			    String number = AppUnit.getCodeRule(ctx, info, m.getFstorageorgunitid());
+			    info.setNumber(number);
 			    BillTypeInfo billtype = new BillTypeInfo();
 			    billtype.setId(BOSUuid.read(billtypeId));
 			    info.setBillType(billtype);
@@ -192,13 +214,16 @@ public class CostAdjusSupport {
 			    info.setCreateTime(new Timestamp(new Date().getTime()));
 			    SimpleDateFormat formmat = new SimpleDateFormat("yyyy-MM-dd");
 
-				 
 			    try {
 					info.setBizDate(formmat.parse(m.getFbizdate()));
 				} catch (ParseException e) {
 			 		e.printStackTrace();
 				}
 				
+				
+				info.setCreateType(com.kingdee.eas.scm.cal.CostAdjuestCreateTypeEnum.USERINPUT);
+				
+				info.setCalculateKind(kind);
 				
 //			    CurrencyInfo currency = new CurrencyInfo();
 //			    currency.setId(BOSUuid.read("dfd38d11-00fd-1000-e000-1ebdc0a8100dDEB58FDC"));
@@ -209,20 +234,12 @@ public class CostAdjusSupport {
 //			    if ((person != null) && (VerifyUtil.notNull(person.getId().toString()))) {
 //			      info.setStocker(person);
 //			    }
-			    
-			    BizTypeInfo bizTypeinfo = new BizTypeInfo();
-			    bizTypeinfo.setId(BOSUuid.read(biztypeId));
-			    info.setBizType(bizTypeinfo);
-			    
-			    TransactionTypeInfo transinfo = new TransactionTypeInfo();
-			    transinfo.setId(BOSUuid.read(transinfoId));
-			    info.setTransactionType(transinfo);
-			    BillTypeInfo sourceBillTypeInfo =null;
-			    if(sourceBilltypeId!=null && !"".equals(sourceBilltypeId)){
-			    	sourceBillTypeInfo = new BillTypeInfo();
-			        sourceBillTypeInfo.setId(BOSUuid.read(sourceBilltypeId));
-			    }
-			    
+				String dateStr = m.getFbizdate();
+				
+				info.setYear(Integer.parseInt(dateStr.substring(0, 4)));
+				info.setPeriod(Integer.parseInt(dateStr.substring(5, 7)));
+				info.setMonth(Integer.parseInt(dateStr.substring(0, 7).replace("-", "")));
+				info.setDay(Integer.parseInt(dateStr.replace("-", "")));
 			    
 			    for(CostAdjusDetailDTO dvo:m.getDetails()){
 			    	CostAdjustBillEntryInfo  entryInfo =  createCostEntryInfo(ctx,dvo,busCode);
@@ -238,7 +255,8 @@ public class CostAdjusSupport {
 			    info.setTotalAmount(m.getFtotalamount());
 			    info.setTotalQty(m.getFtotalqty());
 			    info.setTotalStandardCost(m.getFtotalamount());
-		
+			    info.put("MsgId", m.getId());
+			    info.setBaseStatus(BillBaseStatusEnum.ADD);
 		return info;
   	}
 	
@@ -273,7 +291,8 @@ public class CostAdjusSupport {
 		    entryInfo.setAssociateQty(BigDecimal.ZERO);
 		    entryInfo.setAmount(dvo.getFamount());
 		    entryInfo.setActualCost(dvo.getFamount());
- 		    
+		    entryInfo.put("MsgId", dvo.getId());
+		    entryInfo.setBaseStatus(EntryBaseStatusEnum.ADD); 
 		  return entryInfo;
 	  }
   

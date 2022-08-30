@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.workflow.metas.SAProcessDATASyncFacadeControllerBean;
+import com.kingdee.eas.custom.app.dao.CostAdjusSupport;
 import com.kingdee.eas.custom.app.dao.PurInWarehsSupport;
 import com.kingdee.eas.custom.app.dao.PurOrderSupport;
 import com.kingdee.eas.custom.app.dao.SaleIssueSupport;
@@ -75,8 +76,46 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 			throws BOSException {
 		this.timer.reset(); 
 		 String res =  SaleIssueSupport.doSync(ctx, jsonStr);
-		 logger.info("do _saleOrderCloseRow saveSaleIss method cost :" + this.timer.msValue());
+		 logger.info("do SyncBill2EASFacadeControllerBean saveSaleIss method cost :" + this.timer.msValue());
 		 return res;	
+	}
+
+
+	@Override
+	protected String _saveApOtherBill(Context ctx, String jsonStr)
+			throws BOSException {
+ 		return super._saveApOtherBill(ctx, jsonStr);
+	}
+
+
+	@Override
+	protected String _saveArOtherBill(Context ctx, String jsonStr)
+			throws BOSException {
+ 		return super._saveArOtherBill(ctx, jsonStr);
+	}
+
+
+	@Override
+	protected String _saveCostAdjus(Context ctx, String jsonStr)
+			throws BOSException {
+		this.timer.reset(); 
+		 String res =  CostAdjusSupport.doSync(ctx, jsonStr);
+		 logger.info("do _saveCostAdjus _saveCostAdjus method cost :" + this.timer.msValue());
+		 return res;	
+	}
+
+
+	@Override
+	protected String _savePaymentBill(Context ctx, String jsonStr)
+			throws BOSException {
+ 		return super._savePaymentBill(ctx, jsonStr);
+	}
+
+
+	@Override
+	protected String _saveReceiveBill(Context ctx, String jsonStr)
+			throws BOSException {
+ 		return super._saveReceiveBill(ctx, jsonStr);
 	}
 	
 	

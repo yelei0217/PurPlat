@@ -89,7 +89,6 @@ public class SaleOrderSupport {
 		return result;
 	}
 	
-	
 
 	/**
 	 * 校验 实体是否正确
@@ -214,7 +213,7 @@ public class SaleOrderSupport {
 	 *  插入 eas表
 	 * @param ctx
 	 */
-	private static void doInsertBill(Context ctx,SaleOrderDTO m,String busCode){
+	public static void doInsertBill(Context ctx,SaleOrderDTO m,String busCode){
 		ExecutorService pool = Executors.newFixedThreadPool(6);
 	    ParallelSqlExecutor pe = new ParallelSqlExecutor(pool); 
 		

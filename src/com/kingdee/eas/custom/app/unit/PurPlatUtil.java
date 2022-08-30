@@ -57,6 +57,8 @@ public class PurPlatUtil {
 	    			 ||"CGZ_U_MZ_SS".equals(busCode)||"CDZ_U_MZ_SS".equals(busCode)||"VMI_U_MZ_SS_VMI".equals(busCode)||"VMI_U_MZ_SS".equals(busCode)
 	    			 ||"VMI_U_LZ_SS".equals(busCode)||"YX_LZ_SS".equals(busCode)||"YX_MZ_SS".equals(busCode)||"ZZ_YC_LZ_SS".equals(busCode)||"ZZ_YC_MZ_SS".equals(busCode)){
 	    		 tableName =" T_IM_SaleIssueBill ";
+	    	 }else if("GZ_CK_LZ_CJ".equals(busCode)){
+	    		 tableName =" T_CL_CostAdjustBill ";
 	    	 }
 	        try {
 	    		String sql = " select count(1) C from "+tableName+" where CFMsgId = '"+msgId+"' ";

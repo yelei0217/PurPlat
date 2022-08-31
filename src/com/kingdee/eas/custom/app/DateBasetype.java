@@ -51,11 +51,11 @@ public class DateBasetype extends StringEnum
     public static final String HIS_REPORT_VALUE = "36";//alias=HIS收入日报
     public static final String HIS_BACK_EXT_VALUE = "37";//alias=HIS跨门诊还欠款(外)
     public static final String HIS_REP_EXT_VALUE = "38";//alias=HIS跨门诊预交款消费(外)
-    public static final String B2B_GZ_LZ_PO_VALUE = "60";//alias=高值-栗喆采购订单
-    public static final String B2B_GZ_LZ_SO_VALUE = "61";//alias=高值-栗喆销售订单
-    public static final String B2B_GZ_MZ_PO_VALUE = "62";//alias=高值-门诊采购订单
-    public static final String B2B_GZ_LZ_PI_VALUE = "63";//alias=高值-栗喆采购入库单
-    public static final String B2B_GZ_LZ_SS_VALUE = "64";//alias=高值-栗喆销售出库单
+    public static final String GZ_LZ_PO_VALUE = "60";//alias=高值-栗喆采购订单
+    public static final String GZ_LZ_SO_VALUE = "61";//alias=高值-栗喆销售订单
+    public static final String GZ_MZ_PO_VALUE = "62";//alias=高值-门诊采购订单
+    public static final String GZ_LZ_PI_VALUE = "63";//alias=高值-栗喆采购入库单
+    public static final String GZ_LZ_SS_VALUE = "64";//alias=高值-栗喆销售出库单
     public static final String GZB_LZ_PI_VALUE = "65";//alias=栗喆-采购入库单(红单) 
     public static final String GZB_LZ_PO_CR_VALUE = "66";//alias=栗喆-采购订单(自动行关闭) 
     public static final String GZB_LZ_SS_VALUE = "67";//alias=栗喆-采购销售出库(红单)  
@@ -173,11 +173,11 @@ public class DateBasetype extends StringEnum
     public static final DateBasetype HIS_Report = new DateBasetype("HIS_Report", HIS_REPORT_VALUE);
     public static final DateBasetype HIS_Back_Ext = new DateBasetype("HIS_Back_Ext", HIS_BACK_EXT_VALUE);
     public static final DateBasetype HIS_Rep_Ext = new DateBasetype("HIS_Rep_Ext", HIS_REP_EXT_VALUE);
-    public static final DateBasetype B2B_GZ_LZ_PO = new DateBasetype("B2B_GZ_LZ_PO", B2B_GZ_LZ_PO_VALUE);
-    public static final DateBasetype B2B_GZ_LZ_SO = new DateBasetype("B2B_GZ_LZ_SO", B2B_GZ_LZ_SO_VALUE);
-    public static final DateBasetype B2B_GZ_MZ_PO = new DateBasetype("B2B_GZ_MZ_PO", B2B_GZ_MZ_PO_VALUE);
-    public static final DateBasetype B2B_GZ_LZ_PI = new DateBasetype("B2B_GZ_LZ_PI", B2B_GZ_LZ_PI_VALUE);
-    public static final DateBasetype B2B_GZ_LZ_SS = new DateBasetype("B2B_GZ_LZ_SS", B2B_GZ_LZ_SS_VALUE);
+    public static final DateBasetype GZ_LZ_PO = new DateBasetype("GZ_LZ_PO", GZ_LZ_PO_VALUE);
+    public static final DateBasetype GZ_LZ_SO = new DateBasetype("GZ_LZ_SO", GZ_LZ_SO_VALUE);
+    public static final DateBasetype GZ_MZ_PO = new DateBasetype("GZ_MZ_PO", GZ_MZ_PO_VALUE);
+    public static final DateBasetype GZ_LZ_PI = new DateBasetype("GZ_LZ_PI", GZ_LZ_PI_VALUE);
+    public static final DateBasetype GZ_LZ_SS = new DateBasetype("GZ_LZ_SS", GZ_LZ_SS_VALUE);
     public static final DateBasetype GZB_LZ_PI = new DateBasetype("GZB_LZ_PI", GZB_LZ_PI_VALUE);
     public static final DateBasetype GZB_LZ_PO_CR = new DateBasetype("GZB_LZ_PO_CR", GZB_LZ_PO_CR_VALUE);
     public static final DateBasetype GZB_LZ_SS = new DateBasetype("GZB_LZ_SS", GZB_LZ_SS_VALUE);

@@ -35,7 +35,7 @@ public class BaseSupport {
 		    System.out.println("************************json begin****************************");
 		    System.out.println("#####################jsonStr################=" + jsonStr);
 			DateBaseProcessType processType = DateBaseProcessType.AddNew;
-			DateBasetype baseType = DateBasetype.B2B_GZ_LZ_SS;
+			DateBasetype baseType = DateBasetype.GZ_LZ_SS;
 			String msgId = "";
 			String busCode ="";
 			String reqTime ="";
@@ -51,8 +51,8 @@ public class BaseSupport {
 				msgId = msgIdJE.getAsString() ;
 				busCode = busCodeJE.getAsString() ;
 				reqTime = reqTimeJE.getAsString() ;
-				 
-				baseType = DateBasetype.getEnum("62");
+  				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
+				
 				// 记录日志
 				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
 				SCMBaseDTO m = gson.fromJson(modelJE, SCMBaseDTO.class);
@@ -87,7 +87,7 @@ public class BaseSupport {
 		    System.out.println("************************json begin****************************");
 		    System.out.println("#####################jsonStr################=" + jsonStr);
 			DateBaseProcessType processType = DateBaseProcessType.AddNew;
-			DateBasetype baseType = DateBasetype.B2B_GZ_LZ_SS;
+			DateBasetype baseType = DateBasetype.GZ_LZ_SS;
 			String msgId = "";
 			String busCode ="";
 			String reqTime ="";
@@ -103,7 +103,7 @@ public class BaseSupport {
 				msgId = msgIdJE.getAsString() ;
 				busCode = busCodeJE.getAsString() ;
 				reqTime = reqTimeJE.getAsString() ;
-				baseType = DateBasetype.getEnum(busCode);
+				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
 				// 记录日志
 				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
 				SCMBaseDTO m = gson.fromJson(modelJE, SCMBaseDTO.class);

@@ -237,32 +237,32 @@
             <value>38</value>
         </enumValue>
         <enumValue>
-            <name>B2B_GZ_LZ_PO</name>
-            <alias>bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[B2B_GZ_LZ_PO].alias</alias>
+            <name>GZ_LZ_PO</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_LZ_PO].alias</alias>
             <userDefined>true</userDefined>
             <value>60</value>
         </enumValue>
         <enumValue>
-            <name>B2B_GZ_LZ_SO</name>
-            <alias>bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[B2B_GZ_LZ_SO].alias</alias>
+            <name>GZ_LZ_SO</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_LZ_SO].alias</alias>
             <userDefined>true</userDefined>
             <value>61</value>
         </enumValue>
         <enumValue>
-            <name>B2B_GZ_MZ_PO</name>
-            <alias>bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[B2B_GZ_MZ_PO].alias</alias>
+            <name>GZ_MZ_PO</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_MZ_PO].alias</alias>
             <userDefined>true</userDefined>
             <value>62</value>
         </enumValue>
         <enumValue>
-            <name>B2B_GZ_LZ_PI</name>
-            <alias>bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[B2B_GZ_LZ_PI].alias</alias>
+            <name>GZ_LZ_PI</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_LZ_PI].alias</alias>
             <userDefined>true</userDefined>
             <value>63</value>
         </enumValue>
         <enumValue>
-            <name>B2B_GZ_LZ_SS</name>
-            <alias>bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[B2B_GZ_LZ_SS].alias</alias>
+            <name>GZ_LZ_SS</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_LZ_SS].alias</alias>
             <userDefined>true</userDefined>
             <value>64</value>
         </enumValue>
@@ -748,36 +748,6 @@
             <lang locale="zh_HK" value="null" />
             <lang locale="zh_TW" value="null" />
         </rs>
-        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[B2B_GZ_LZ_PI].alias">
-            <lang locale="en_US" value="null" />
-            <lang locale="zh_CN" value="高值-栗喆采购入库单" />
-            <lang locale="zh_HK" value="高值-栗喆採購入庫單" />
-            <lang locale="zh_TW" value="高值-栗喆採購入庫單" />
-        </rs>
-        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[B2B_GZ_LZ_PO].alias">
-            <lang locale="en_US" value="null" />
-            <lang locale="zh_CN" value="高值-栗喆采购订单" />
-            <lang locale="zh_HK" value="高值-栗喆採購訂單" />
-            <lang locale="zh_TW" value="高值-栗喆採購訂單" />
-        </rs>
-        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[B2B_GZ_LZ_SO].alias">
-            <lang locale="en_US" value="null" />
-            <lang locale="zh_CN" value="高值-栗喆销售订单" />
-            <lang locale="zh_HK" value="高值-栗喆銷售訂單" />
-            <lang locale="zh_TW" value="高值-栗喆銷售訂單" />
-        </rs>
-        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[B2B_GZ_LZ_SS].alias">
-            <lang locale="en_US" value="null" />
-            <lang locale="zh_CN" value="高值-栗喆销售出库单" />
-            <lang locale="zh_HK" value="高值-栗喆銷售出庫單" />
-            <lang locale="zh_TW" value="高值-栗喆銷售出庫單" />
-        </rs>
-        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[B2B_GZ_MZ_PO].alias">
-            <lang locale="en_US" value="null" />
-            <lang locale="zh_CN" value="高值-门诊采购订单" />
-            <lang locale="zh_HK" value="高值-門診採購訂單" />
-            <lang locale="zh_TW" value="高值-門診採購訂單" />
-        </rs>
         <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[BorrowLandBill].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="借入借出单下推" />
@@ -945,6 +915,36 @@
             <lang locale="zh_CN" value="高值对账-门诊-付款单" />
             <lang locale="zh_HK" value="高值對賬-門診-付款單" />
             <lang locale="zh_TW" value="高值對賬-門診-付款單" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_LZ_PI].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="高值-栗喆采购入库单" />
+            <lang locale="zh_HK" value="高值-栗喆採購入庫單" />
+            <lang locale="zh_TW" value="高值-栗喆採購入庫單" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_LZ_PO].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="高值-栗喆采购订单" />
+            <lang locale="zh_HK" value="高值-栗喆採購訂單" />
+            <lang locale="zh_TW" value="高值-栗喆採購訂單" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_LZ_SO].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="高值-栗喆销售订单" />
+            <lang locale="zh_HK" value="高值-栗喆銷售訂單" />
+            <lang locale="zh_TW" value="高值-栗喆銷售訂單" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_LZ_SS].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="高值-栗喆销售出库单" />
+            <lang locale="zh_HK" value="高值-栗喆銷售出庫單" />
+            <lang locale="zh_TW" value="高值-栗喆銷售出庫單" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_MZ_PO].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="高值-门诊采购订单" />
+            <lang locale="zh_HK" value="高值-門診採購訂單" />
+            <lang locale="zh_TW" value="高值-門診採購訂單" />
         </rs>
         <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[HIS_Back].alias">
             <lang locale="en_US" value="null" />

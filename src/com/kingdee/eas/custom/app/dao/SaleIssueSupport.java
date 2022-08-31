@@ -386,11 +386,6 @@ public class SaleIssueSupport {
 		    info.setTotalAmount(m.getFtotalamount());
 		    info.setTotalLocalAmount(m.getFtotalamount());
 	    }
-	    
-//	    info.put("yisheng", "");
-//	    info.put("HisReqID", m.getId());
-//	    info.put("HISdanjubianma", m.getNumber());
-// 	    info.put("saleid", m.getSaleid());
 	 
 	    return info;
 	  }
@@ -419,7 +414,7 @@ public class SaleIssueSupport {
 	    String invUpdateTypeId = "'";
 	    BigDecimal factor = new BigDecimal(1);
 		if("GZ_LZ_SS".equals(busCode)){
-			invUpdateTypeId ="8r0AAAAEaOjC73rf";
+			invUpdateTypeId ="8r0AAAAEaOnC73rf";
 			factor =  new BigDecimal(1);
 		}else if("VMI_LZ_SS".equals(busCode)){
 			invUpdateTypeId ="CeUAAAAIdBvC73rf";

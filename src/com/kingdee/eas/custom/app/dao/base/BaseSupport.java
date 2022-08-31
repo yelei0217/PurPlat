@@ -246,15 +246,15 @@ public class BaseSupport {
 						 result = result +"第"+j+1+"行 价税合计不能为空,";
 					}
 					
-					  if(dvo.getFdeliverydate() == null){ 
-							 result = result +"第"+j+1+"行 交货日期不能为空,";
-						}
+//					  if(dvo.getFdeliverydate() == null){ 
+//							 result = result +"第"+j+1+"行 交货日期不能为空,";
+//						}
 					  
-				   if(busCode.contains("_SO") || busCode.contains("_SS") )	{
-						if(dvo.getFsenddate() == null){ 
-							 result = result +"第"+j+1+"行 发货日期不能为空,";
-						} 
-				   }
+//				   if(busCode.contains("_SO") || busCode.contains("_SS") )	{
+//						if(dvo.getFsenddate() == null){ 
+//							 result = result +"第"+j+1+"行 发货日期不能为空,";
+//						} 
+//				   }
  
 				 }
 			} else 

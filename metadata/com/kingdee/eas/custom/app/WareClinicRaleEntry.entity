@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityObject xmlns="com.kingdee.bos.metadata">
+    <package>com.kingdee.eas.custom.app</package>
+    <name>WareClinicRaleEntry</name>
+    <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].alias</alias>
+    <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].description</description>
+    <userDefined>true</userDefined>
+    <bosType>446936C0</bosType>
+    <stereoType>false</stereoType>
+    <businessImplName>com.kingdee.eas.custom.WareClinicRaleEntry</businessImplName>
+    <businessControllerName>com.kingdee.eas.custom.app.WareClinicRaleEntryController</businessControllerName>
+    <accessLevel>public</accessLevel>
+    <subClassingMode>normal</subClassingMode>
+    <methods>
+        <method>
+            <name>getValue</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].description</description>
+            <innerID>91ccc700-a94f-4faf-b1c0-4ee7f2723db4</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectValue</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.WareClinicRaleEntry</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>pk</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[pk].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[pk].description</description>
+                    <direction>in</direction>
+                    <dataType>com.kingdee.bos.dao.IObjectPK</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getValue</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].description</description>
+            <innerID>de6ac144-2c36-4a26-8b44-19492d89d1ed</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectValue</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.WareClinicRaleEntry</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>pk</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[pk].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[pk].description</description>
+                    <direction>in</direction>
+                    <dataType>com.kingdee.bos.dao.IObjectPK</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+                <parameter>
+                    <name>selector</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[selector].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[selector].description</description>
+                    <direction>in</direction>
+                    <dataType>com.kingdee.bos.metadata.entity.SelectorItemCollection</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getValue</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].description</description>
+            <innerID>369862bf-a49b-4c35-ba4c-d527a9e6144f</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectValue</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.WareClinicRaleEntry</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>oql</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[oql].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[oql].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getCollection</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].description</description>
+            <innerID>bf36c1a7-a355-4f77-9a04-7625233f5308</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectCollection</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.WareClinicRaleEntry</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getCollection</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].description</description>
+            <innerID>4f63537a-01e4-4c39-9885-d129fde92069</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectCollection</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.WareClinicRaleEntry</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>view</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].parameters.parameter[view].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].parameters.parameter[view].description</description>
+                    <direction>in</direction>
+                    <dataType>com.kingdee.bos.metadata.entity.EntityViewInfo</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>getCollection</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].description</description>
+            <innerID>fa8a2ff5-4984-4b0b-8911-dbbec4494129</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>ObjectCollection</returnValueType>
+            <metadataRef>com.kingdee.eas.custom.app.WareClinicRaleEntry</metadataRef>
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>oql</name>
+                    <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].parameters.parameter[oql].alias</alias>
+                    <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].parameters.parameter[oql].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+    </methods>
+    <isAbstract>false</isAbstract>
+    <bizUnitPK>com.kingdee.eas.custom.WareClinicRale</bizUnitPK>
+    <baseEntity>
+        <key name="package" value="com.kingdee.eas.framework.app" />
+        <key name="name" value="CoreBillEntryBase" />
+    </baseEntity>
+    <table>
+        <key name="package" value="com.kingdee.eas.custom.app" />
+        <key name="name" value="CT_CUS_WareClinicRaleEntry" />
+    </table>
+    <properties>
+        <linkProperty>
+            <name>parent</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[parent].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[parent].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <mappingField>
+                <key name="name" value="FParentID" />
+            </mappingField>
+            <relationship>
+                <key name="package" value="com.kingdee.eas.custom.app" />
+                <key name="name" value="R_WareClinicRale_WareClinicRaleEntry_entrys" />
+            </relationship>
+        </linkProperty>
+        <linkProperty>
+            <name>DEntrys</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[DEntrys].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[DEntrys].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <relationship>
+                <key name="package" value="com.kingdee.eas.custom.app" />
+                <key name="name" value="R_WareClinicRaleEntry_WareClinicRaleEntryDEntry_DEntrys" />
+            </relationship>
+        </linkProperty>
+        <linkProperty>
+            <name>warehouse</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <mappingField>
+                <key name="name" value="CFWarehouseID" />
+            </mappingField>
+            <relationship>
+                <key name="package" value="com.kingdee.eas.custom.app" />
+                <key name="name" value="R_WareClinicRaleEntry_Warehouse_warehouse" />
+            </relationship>
+        </linkProperty>
+        <ownProperty>
+            <name>warehouseName</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>String</dataType>
+            <metadataRef />
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>80</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFWarehouseName" />
+            </mappingField>
+        </ownProperty>
+        <ownProperty>
+            <name>DataState</name>
+            <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].alias</alias>
+            <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].description</description>
+            <userDefined>true</userDefined>
+            <configured>false</configured>
+            <dataType>Enum</dataType>
+            <metadataRef>com.kingdee.eas.basedata.framework.DataStateEnum</metadataRef>
+            <isMultilingual>false</isMultilingual>
+            <isNullable>false</isNullable>
+            <formula />
+            <length>80</length>
+            <precision>0</precision>
+            <decimalDigits>0</decimalDigits>
+            <defaultValue>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].defaultValue</defaultValue>
+            <displayFormat />
+            <mappingField>
+                <key name="name" value="CFDataState" />
+            </mappingField>
+        </ownProperty>
+    </properties>
+    <logicalKey>
+        <name>id</name>
+        <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].logicalKey[id].alias</alias>
+        <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].logicalKey[id].description</description>
+        <keyClass>com.kingdee.bos.dao.IObjectPK</keyClass>
+        <userDefined>true</userDefined>
+        <keyProperties>
+            <baseProperty>
+                <key name="name" value="id" />
+            </baseProperty>
+        </keyProperties>
+    </logicalKey>
+    <defaultView>
+        <name />
+        <alias>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].defaultViewalias</alias>
+        <description>entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].defaultViewdescription</description>
+    </defaultView>
+    <resource>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="仓库分录" />
+            <lang locale="zh_HK" value="倉庫分錄" />
+            <lang locale="zh_TW" value="倉庫分錄" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].defaultViewalias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].defaultViewdescription">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].extendedProperty.genImplementCode">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].logicalKey[id].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].logicalKey[id].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].alias">
+            <lang locale="en_US" value="getCollection" />
+            <lang locale="zh_CN" value="取集合" />
+            <lang locale="zh_HK" value="取集合" />
+            <lang locale="zh_TW" value="取集合" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].parameters.parameter[oql].alias">
+            <lang locale="en_US" value="getCollection" />
+            <lang locale="zh_CN" value="取集合" />
+            <lang locale="zh_HK" value="取集合" />
+            <lang locale="zh_TW" value="取集合" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].parameters.parameter[oql].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].parameters.parameter[view].alias">
+            <lang locale="en_US" value="getCollection" />
+            <lang locale="zh_CN" value="取集合" />
+            <lang locale="zh_HK" value="取集合" />
+            <lang locale="zh_TW" value="取集合" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getCollection].parameters.parameter[view].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].alias">
+            <lang locale="en_US" value="getValue" />
+            <lang locale="zh_CN" value="取值" />
+            <lang locale="zh_HK" value="取值" />
+            <lang locale="zh_TW" value="取值" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[oql].alias">
+            <lang locale="en_US" value="getValue" />
+            <lang locale="zh_CN" value="取值" />
+            <lang locale="zh_HK" value="取值" />
+            <lang locale="zh_TW" value="取值" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[oql].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[pk].alias">
+            <lang locale="en_US" value="getValue" />
+            <lang locale="zh_CN" value="取值" />
+            <lang locale="zh_HK" value="取值" />
+            <lang locale="zh_TW" value="取值" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[pk].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[selector].alias">
+            <lang locale="en_US" value="getValue" />
+            <lang locale="zh_CN" value="取值" />
+            <lang locale="zh_HK" value="取值" />
+            <lang locale="zh_TW" value="取值" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].methods.method[getValue].parameters.parameter[selector].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[DEntrys].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="门诊分录" />
+            <lang locale="zh_HK" value="門診分錄" />
+            <lang locale="zh_TW" value="門診分錄" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[DEntrys].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="门诊分录" />
+            <lang locale="zh_HK" value="門診分錄" />
+            <lang locale="zh_TW" value="門診分錄" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[parent].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="单据头" />
+            <lang locale="zh_HK" value="單據頭" />
+            <lang locale="zh_TW" value="單據頭" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[parent].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="仓库编码" />
+            <lang locale="zh_HK" value="倉庫編碼" />
+            <lang locale="zh_TW" value="倉庫編碼" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="仓库编码" />
+            <lang locale="zh_HK" value="倉庫編碼" />
+            <lang locale="zh_TW" value="倉庫編碼" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].extendedProperty.dataField">
+            <lang locale="en_US" value="number" />
+            <lang locale="zh_CN" value="number" />
+            <lang locale="zh_TW" value="number" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].extendedProperty.isForMapping">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.linkProperty[warehouse].extendedProperty.requiredPrompt">
+            <lang locale="en_US" value="仓库编码" />
+            <lang locale="zh_CN" value="仓库编码" />
+            <lang locale="zh_TW" value="仓库编码" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="启用状态" />
+            <lang locale="zh_HK" value="啟用狀態" />
+            <lang locale="zh_TW" value="啟用狀態" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="ENABLE" />
+            <lang locale="zh_HK" value="ENABLE" />
+            <lang locale="zh_TW" value="ENABLE" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="启用状态" />
+            <lang locale="zh_HK" value="啟用狀態" />
+            <lang locale="zh_TW" value="啟用狀態" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].extendedProperty.bizDataType">
+            <lang locale="en_US" value="ENUM" />
+            <lang locale="zh_CN" value="ENUM" />
+            <lang locale="zh_TW" value="ENUM" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].extendedProperty.defaultValue">
+            <lang locale="en_US" value="ENABLE" />
+            <lang locale="zh_CN" value="ENABLE" />
+            <lang locale="zh_TW" value="ENABLE" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].extendedProperty.isForMapping">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[DataState].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="仓库名称" />
+            <lang locale="zh_HK" value="倉庫名稱" />
+            <lang locale="zh_TW" value="倉庫名稱" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].defaultValue">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="仓库名称" />
+            <lang locale="zh_HK" value="倉庫名稱" />
+            <lang locale="zh_TW" value="倉庫名稱" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].extendedProperty.ColWidthInKDTable">
+            <lang locale="en_US" value="50" />
+            <lang locale="zh_CN" value="50" />
+            <lang locale="zh_TW" value="50" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].extendedProperty.DataField">
+            <lang locale="en_US" value="entrys.warehouse.name" />
+            <lang locale="zh_CN" value="entrys.warehouse.name" />
+            <lang locale="zh_TW" value="entrys.warehouse.name" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].extendedProperty.DataSourceType">
+            <lang locale="en_US" value="BASEDATAEXT" />
+            <lang locale="zh_CN" value="BASEDATAEXT" />
+            <lang locale="zh_TW" value="BASEDATAEXT" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].extendedProperty.bizDataType">
+            <lang locale="en_US" value="STRING" />
+            <lang locale="zh_CN" value="STRING" />
+            <lang locale="zh_TW" value="STRING" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].extendedProperty.isForGrouping">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].extendedProperty.isForMapping">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].extendedProperty.isForMatching">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].extendedProperty.isForWrittenBack">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].extendedProperty.isInCode">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntry].properties.ownProperty[warehouseName].extendedProperty.isVisibleForKDTable">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+    </resource>
+</entityObject>
+

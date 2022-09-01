@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataTable xmlns="com.kingdee.bos.metadata">
+    <package>com.kingdee.eas.custom.app</package>
+    <name>CT_CUS_WareCREDE</name>
+    <alias>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].alias</alias>
+    <description>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].description</description>
+    <userDefined>true</userDefined>
+    <bizUnitPK />
+    <columns>
+        <column>
+            <name>FID</name>
+            <alias>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[FID].alias</alias>
+            <description>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[FID].description</description>
+            <userDefined>true</userDefined>
+            <isMultilingual>false</isMultilingual>
+            <isEncoded>false</isEncoded>
+            <isNullable>false</isNullable>
+            <defaultValue />
+            <sqlType>VARCHAR</sqlType>
+            <length>44</length>
+            <scale>0</scale>
+            <precision>0</precision>
+        </column>
+        <column>
+            <name>FSeq</name>
+            <alias>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[FSeq].alias</alias>
+            <description>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[FSeq].description</description>
+            <userDefined>true</userDefined>
+            <isMultilingual>false</isMultilingual>
+            <isEncoded>false</isEncoded>
+            <isNullable>false</isNullable>
+            <defaultValue />
+            <sqlType>INT</sqlType>
+            <length>4</length>
+            <scale>0</scale>
+            <precision>4</precision>
+        </column>
+        <column>
+            <name>FParentID</name>
+            <alias>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[FParentID].alias</alias>
+            <description>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[FParentID].description</description>
+            <userDefined>true</userDefined>
+            <isMultilingual>false</isMultilingual>
+            <isEncoded>false</isEncoded>
+            <isNullable>false</isNullable>
+            <defaultValue />
+            <sqlType>VARCHAR</sqlType>
+            <length>44</length>
+            <scale>0</scale>
+            <precision>0</precision>
+        </column>
+        <column>
+            <name>CFClinicID</name>
+            <alias>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[CFClinicID].alias</alias>
+            <description>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[CFClinicID].description</description>
+            <userDefined>true</userDefined>
+            <isMultilingual>false</isMultilingual>
+            <isEncoded>false</isEncoded>
+            <isNullable>true</isNullable>
+            <defaultValue />
+            <sqlType>VARCHAR</sqlType>
+            <length>44</length>
+            <scale>0</scale>
+            <precision>0</precision>
+        </column>
+        <column>
+            <name>CFClinicName</name>
+            <alias>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[CFClinicName].alias</alias>
+            <description>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[CFClinicName].description</description>
+            <userDefined>true</userDefined>
+            <isMultilingual>false</isMultilingual>
+            <isEncoded>false</isEncoded>
+            <isNullable>true</isNullable>
+            <defaultValue />
+            <sqlType>NVARCHAR</sqlType>
+            <length>80</length>
+            <scale>0</scale>
+            <precision>0</precision>
+        </column>
+        <column>
+            <name>CFDataState</name>
+            <alias>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[CFDataState].alias</alias>
+            <description>dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[CFDataState].description</description>
+            <userDefined>true</userDefined>
+            <isMultilingual>false</isMultilingual>
+            <isEncoded>false</isEncoded>
+            <isNullable>true</isNullable>
+            <defaultValue />
+            <sqlType>INT</sqlType>
+            <length>0</length>
+            <scale>0</scale>
+            <precision>0</precision>
+        </column>
+    </columns>
+    <primaryKey>
+        <name>CPK_CUS_WareCRE2ub</name>
+        <userDefined>true</userDefined>
+        <primaryKeyColumns>
+            <primaryKeyColumn>
+                <indexID>0</indexID>
+                <sortType />
+                <column>
+                    <key name="name" value="FID" />
+                </column>
+            </primaryKeyColumn>
+        </primaryKeyColumns>
+    </primaryKey>
+    <foreignKeys>
+        <foreignKey>
+            <name>CFK_CUS_CUSWCREDe8</name>
+            <userDefined>true</userDefined>
+            <refTable>
+                <key name="package" value="com.kingdee.eas.basedata.org" />
+                <key name="name" value="T_ORG_Storage" />
+            </refTable>
+            <fkColumnPairs>
+                <fkColumnPair>
+                    <sequence>0</sequence>
+                    <refColumn>
+                        <key name="name" value="FID" />
+                    </refColumn>
+                    <fkColumn>
+                        <key name="name" value="CFClinicID" />
+                    </fkColumn>
+                </fkColumnPair>
+            </fkColumnPairs>
+        </foreignKey>
+    </foreignKeys>
+    <resource>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="门诊分录" />
+            <lang locale="zh_HK" value="門診分錄" />
+            <lang locale="zh_TW" value="門診分錄" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[CFClinicID].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="门诊编码" />
+            <lang locale="zh_HK" value="門診編碼" />
+            <lang locale="zh_TW" value="門診編碼" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[CFClinicID].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="门诊编码" />
+            <lang locale="zh_HK" value="門診編碼" />
+            <lang locale="zh_TW" value="門診編碼" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[CFClinicName].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="门诊名称" />
+            <lang locale="zh_HK" value="門診名稱" />
+            <lang locale="zh_TW" value="門診名稱" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[CFClinicName].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="门诊名称" />
+            <lang locale="zh_HK" value="門診名稱" />
+            <lang locale="zh_TW" value="門診名稱" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[CFDataState].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="启用状态" />
+            <lang locale="zh_HK" value="啟用狀態" />
+            <lang locale="zh_TW" value="啟用狀態" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[CFDataState].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="启用状态" />
+            <lang locale="zh_HK" value="啟用狀態" />
+            <lang locale="zh_TW" value="啟用狀態" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[FID].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[FID].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[FParentID].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[FParentID].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[FSeq].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="单据分录序列号" />
+            <lang locale="zh_HK" value="單據分錄序列號" />
+            <lang locale="zh_TW" value="單據分錄序列號" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].columns.column[FSeq].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="单据分录序列号（定义为序列属性即使用{seq}）" />
+            <lang locale="zh_HK" value="單據分錄序列號（定義為序列屬性即使用{seq}）" />
+            <lang locale="zh_TW" value="單據分錄序列號（定義為序列屬性即使用{seq}）" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_WareCREDE].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="门诊分录" />
+            <lang locale="zh_HK" value="門診分錄" />
+            <lang locale="zh_TW" value="門診分錄" />
+        </rs>
+    </resource>
+</dataTable>
+

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleSet xmlns="com.kingdee.bos.metadata">
+    <package>com.kingdee.eas.custom.app</package>
+    <name>WareClinicRaleRuleSet</name>
+    <alias>ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].alias</alias>
+    <description>ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].description</description>
+    <userDefined>true</userDefined>
+    <expressions>
+        <groupExpression>
+            <id>837730f5-d0ac-4deb-b8a2-6fe06d5ea677</id>
+            <parentID />
+            <source>entrys.DEntrys.ClinicName=entrys.DEntrys.Clinic.name</source>
+            <operator>=</operator>
+        </groupExpression>
+        <simpleExpression>
+            <id>2af88442-c67c-4fba-9df8-5999c7a3c9a7</id>
+            <parentID>837730f5-d0ac-4deb-b8a2-6fe06d5ea677</parentID>
+            <source />
+            <type>PROPERTYACCESS</type>
+            <valueType>String</valueType>
+            <value />
+            <property>
+                <ownerID>4bcef1b3-6158-4081-95be-45b0247ca15c</ownerID>
+                <name>value</name>
+                <type>Object</type>
+            </property>
+        </simpleExpression>
+        <simpleExpression>
+            <id>4bcef1b3-6158-4081-95be-45b0247ca15c</id>
+            <parentID />
+            <source />
+            <type>VARIANT</type>
+            <valueType>UNKOWN</valueType>
+            <value>kdtDEntrys.getCell(rowIndex,"ClinicName")</value>
+        </simpleExpression>
+        <simpleExpression>
+            <id>ebfbc808-e4e0-42dc-8f39-c9edba4bbb2e</id>
+            <parentID>837730f5-d0ac-4deb-b8a2-6fe06d5ea677</parentID>
+            <source />
+            <type>METHODINVOKE</type>
+            <valueType>String</valueType>
+            <value />
+            <method>
+                <ownerID>cc3319ea-382f-4b8e-a4bd-b15478a208a0</ownerID>
+                <name>getProperty</name>
+                <type>Object</type>
+                <parameters>
+                    <parameter>
+                        <id>a452579e-17b3-4110-9118-6db07837e697</id>
+                        <expressionID>c1366934-9062-4a8c-8002-6c7b054b5562</expressionID>
+                    </parameter>
+                    <parameter>
+                        <id>268d7e38-c7b4-4178-a6ab-6bb83a0085f2</id>
+                        <expressionID>005468a2-50ea-42d8-a911-b800808abeb1</expressionID>
+                    </parameter>
+                </parameters>
+            </method>
+        </simpleExpression>
+        <simpleExpression>
+            <id>cc3319ea-382f-4b8e-a4bd-b15478a208a0</id>
+            <parentID />
+            <source />
+            <type>VARIANT</type>
+            <valueType>UNKOWN</valueType>
+            <value>com.kingdee.bos.ui.face.UIRuleUtil</value>
+        </simpleExpression>
+        <simpleExpression>
+            <id>c1366934-9062-4a8c-8002-6c7b054b5562</id>
+            <parentID />
+            <source />
+            <type>PROPERTYACCESS</type>
+            <valueType>Object</valueType>
+            <value />
+            <property>
+                <ownerID>0a0b2b6c-3672-4c5d-b055-95d965a5107e</ownerID>
+                <name>value</name>
+                <type>Object</type>
+            </property>
+        </simpleExpression>
+        <simpleExpression>
+            <id>0a0b2b6c-3672-4c5d-b055-95d965a5107e</id>
+            <parentID />
+            <source />
+            <type>VARIANT</type>
+            <valueType>UNKOWN</valueType>
+            <value>(com.kingdee.bos.dao.IObjectValue)kdtDEntrys.getCell(rowIndex,"Clinic")</value>
+        </simpleExpression>
+        <simpleExpression>
+            <id>005468a2-50ea-42d8-a911-b800808abeb1</id>
+            <parentID />
+            <source />
+            <type>CONST</type>
+            <valueType>String</valueType>
+            <value>name</value>
+        </simpleExpression>
+        <groupExpression>
+            <id>47148fae-3513-43aa-ab07-41b015cb61a6</id>
+            <parentID />
+            <source>entrys.warehouseName=entrys.warehouse.name</source>
+            <operator>=</operator>
+        </groupExpression>
+        <simpleExpression>
+            <id>b5f71190-d1fb-421c-92d6-7e7ceb0da4b9</id>
+            <parentID>47148fae-3513-43aa-ab07-41b015cb61a6</parentID>
+            <source />
+            <type>PROPERTYACCESS</type>
+            <valueType>String</valueType>
+            <value />
+            <property>
+                <ownerID>86c0fe75-804b-4f17-a5b8-59ac12df40c3</ownerID>
+                <name>value</name>
+                <type>Object</type>
+            </property>
+        </simpleExpression>
+        <simpleExpression>
+            <id>86c0fe75-804b-4f17-a5b8-59ac12df40c3</id>
+            <parentID />
+            <source />
+            <type>VARIANT</type>
+            <valueType>UNKOWN</valueType>
+            <value>kdtEntrys.getCell(rowIndex,"warehouseName")</value>
+        </simpleExpression>
+        <simpleExpression>
+            <id>eba96ba6-d366-4d95-aca8-135661efec0b</id>
+            <parentID>47148fae-3513-43aa-ab07-41b015cb61a6</parentID>
+            <source />
+            <type>METHODINVOKE</type>
+            <valueType>String</valueType>
+            <value />
+            <method>
+                <ownerID>aee662d3-f9a2-49b1-9baa-38bacd3e40aa</ownerID>
+                <name>getProperty</name>
+                <type>Object</type>
+                <parameters>
+                    <parameter>
+                        <id>f9bd1fe3-2adf-42d2-8297-08cdf36feae6</id>
+                        <expressionID>f4ab9c1a-17ea-46a9-a535-27b1bea4324f</expressionID>
+                    </parameter>
+                    <parameter>
+                        <id>6c90265e-83a0-4321-90f3-e3afd9afc8ed</id>
+                        <expressionID>cb1bd39f-e49a-4b79-8a8a-3345121e6bba</expressionID>
+                    </parameter>
+                </parameters>
+            </method>
+        </simpleExpression>
+        <simpleExpression>
+            <id>aee662d3-f9a2-49b1-9baa-38bacd3e40aa</id>
+            <parentID />
+            <source />
+            <type>VARIANT</type>
+            <valueType>UNKOWN</valueType>
+            <value>com.kingdee.bos.ui.face.UIRuleUtil</value>
+        </simpleExpression>
+        <simpleExpression>
+            <id>f4ab9c1a-17ea-46a9-a535-27b1bea4324f</id>
+            <parentID />
+            <source />
+            <type>PROPERTYACCESS</type>
+            <valueType>Object</valueType>
+            <value />
+            <property>
+                <ownerID>3de59213-016b-4c81-b378-3a6efd65e593</ownerID>
+                <name>value</name>
+                <type>Object</type>
+            </property>
+        </simpleExpression>
+        <simpleExpression>
+            <id>3de59213-016b-4c81-b378-3a6efd65e593</id>
+            <parentID />
+            <source />
+            <type>VARIANT</type>
+            <valueType>UNKOWN</valueType>
+            <value>(com.kingdee.bos.dao.IObjectValue)kdtEntrys.getCell(rowIndex,"warehouse")</value>
+        </simpleExpression>
+        <simpleExpression>
+            <id>cb1bd39f-e49a-4b79-8a8a-3345121e6bba</id>
+            <parentID />
+            <source />
+            <type>CONST</type>
+            <valueType>String</valueType>
+            <value>name</value>
+        </simpleExpression>
+    </expressions>
+    <actions>
+        <action>
+            <id>72765d6e-2366-46c7-8111-4a84df50afa5</id>
+            <name>DEntrys_ClinicName_ActionInfo</name>
+            <alias>ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].actions.action[DEntrys_ClinicName_ActionInfo].alias</alias>
+            <description>ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].actions.action[DEntrys_ClinicName_ActionInfo].description</description>
+            <expressionID>837730f5-d0ac-4deb-b8a2-6fe06d5ea677</expressionID>
+        </action>
+        <action>
+            <id>7c4a881a-8af9-4980-bcee-5253d5fc7268</id>
+            <name>entrys_warehouseName_ActionInfo</name>
+            <alias>ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].actions.action[entrys_warehouseName_ActionInfo].alias</alias>
+            <description>ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].actions.action[entrys_warehouseName_ActionInfo].description</description>
+            <expressionID>47148fae-3513-43aa-ab07-41b015cb61a6</expressionID>
+        </action>
+    </actions>
+    <rules>
+        <conditionRule>
+            <name>entrys_warehouseName_RuleInfo</name>
+            <alias>ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].rules.conditionRule[entrys_warehouseName_RuleInfo].alias</alias>
+            <description>ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].rules.conditionRule[entrys_warehouseName_RuleInfo].description</description>
+            <ruleType>withproperty</ruleType>
+            <eventObjectName />
+            <eventType>CHANGE</eventType>
+            <eventName>CHANGE</eventName>
+            <actions>
+                <action>
+                    <key name="id" value="7c4a881a-8af9-4980-bcee-5253d5fc7268" />
+                </action>
+            </actions>
+        </conditionRule>
+        <conditionRule>
+            <name>DEntrys_ClinicName_RuleInfo</name>
+            <alias>ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].rules.conditionRule[DEntrys_ClinicName_RuleInfo].alias</alias>
+            <description>ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].rules.conditionRule[DEntrys_ClinicName_RuleInfo].description</description>
+            <ruleType>withproperty</ruleType>
+            <eventObjectName />
+            <eventType>CHANGE</eventType>
+            <eventName>CHANGE</eventName>
+            <actions>
+                <action>
+                    <key name="id" value="72765d6e-2366-46c7-8111-4a84df50afa5" />
+                </action>
+            </actions>
+        </conditionRule>
+    </rules>
+    <resource>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].actions.action[DEntrys_ClinicName_ActionInfo].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="携带字段属性_name" />
+            <lang locale="zh_HK" value="攜帶字段屬性_name" />
+            <lang locale="zh_TW" value="攜帶字段屬性_name" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].actions.action[DEntrys_ClinicName_ActionInfo].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].actions.action[entrys_warehouseName_ActionInfo].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="携带字段属性_name" />
+            <lang locale="zh_HK" value="攜帶字段屬性_name" />
+            <lang locale="zh_TW" value="攜帶字段屬性_name" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].actions.action[entrys_warehouseName_ActionInfo].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].rules.conditionRule[DEntrys_ClinicName_RuleInfo].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="携带字段属性_name" />
+            <lang locale="zh_HK" value="攜帶字段屬性_name" />
+            <lang locale="zh_TW" value="攜帶字段屬性_name" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].rules.conditionRule[DEntrys_ClinicName_RuleInfo].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].rules.conditionRule[DEntrys_ClinicName_RuleInfo].extendedProperty.columnName">
+            <lang locale="en_US" value="Clinic" />
+            <lang locale="zh_CN" value="Clinic" />
+            <lang locale="zh_TW" value="Clinic" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].rules.conditionRule[DEntrys_ClinicName_RuleInfo].extendedProperty.userDefined">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].rules.conditionRule[entrys_warehouseName_RuleInfo].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="携带字段属性_name" />
+            <lang locale="zh_HK" value="攜帶字段屬性_name" />
+            <lang locale="zh_TW" value="攜帶字段屬性_name" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].rules.conditionRule[entrys_warehouseName_RuleInfo].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].rules.conditionRule[entrys_warehouseName_RuleInfo].extendedProperty.columnName">
+            <lang locale="en_US" value="warehouse" />
+            <lang locale="zh_CN" value="warehouse" />
+            <lang locale="zh_TW" value="warehouse" />
+        </rs>
+        <rs key="ruleSet[com.kingdee.eas.custom.app.WareClinicRaleRuleSet].rules.conditionRule[entrys_warehouseName_RuleInfo].extendedProperty.userDefined">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+    </resource>
+</ruleSet>
+

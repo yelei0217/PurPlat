@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bizUnit xmlns="com.kingdee.bos.metadata">
+    <package>com.kingdee.eas.custom</package>
+    <name>WareClinicRale</name>
+    <alias>bizUnit[com.kingdee.eas.custom.WareClinicRale].alias</alias>
+    <description>bizUnit[com.kingdee.eas.custom.WareClinicRale].description</description>
+    <userDefined>true</userDefined>
+    <bizType>BusinessBill</bizType>
+    <template>false</template>
+    <entityPK>com.kingdee.eas.custom.app.WareClinicRale</entityPK>
+    <queryPK>com.kingdee.eas.custom.app.WareClinicRaleQuery</queryPK>
+    <editUIPK>com.kingdee.eas.custom.client.WareClinicRaleEditUI</editUIPK>
+    <listUIPK>com.kingdee.eas.custom.client.WareClinicRaleListUI</listUIPK>
+    <webEditUIPK />
+    <webListUIPK />
+    <entityFunctionPK />
+    <editUIFunctionPK>com.kingdee.eas.custom.app.WareClinicRaleEditUIFunction</editUIFunctionPK>
+    <listUIFunctionPK>com.kingdee.eas.custom.app.WareClinicRaleListUIFunction</listUIFunctionPK>
+    <entryUIPK />
+    <versionDate />
+    <versionNumber />
+    <extendTablePKs />
+    <extendEntityPKs />
+    <extendQueryPKs />
+    <extendEditUIPKs />
+    <extendListUIPKs />
+    <menuPKList />
+    <bimTemplateType>MCoreBillBase</bimTemplateType>
+    <relatedTablePK />
+    <relatedEntityPK />
+    <relatedEditUIPK />
+    <genImplementCode>true</genImplementCode>
+    <webEditPagePK />
+    <webListPagePK />
+    <webPagePKS />
+    <webViewPagePK />
+    <webBriefPagePK />
+    <relatedWebEditPagePK />
+    <relatedQueryPK />
+    <resource>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="仓库门诊映射" />
+            <lang locale="zh_HK" value="倉庫門診映射" />
+            <lang locale="zh_TW" value="倉庫門診映射" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.OrgType">
+            <lang locale="en_US" value="NONE" />
+            <lang locale="zh_CN" value="NONE" />
+            <lang locale="zh_TW" value="NONE" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.codingRuleEnabled">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.configured">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.defaultDisplayField">
+            <lang locale="en_US" value="" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.defaultF7Query">
+            <lang locale="en_US" value="com.kingdee.eas.custom.app.WareClinicRaleQuery" />
+            <lang locale="zh_CN" value="com.kingdee.eas.custom.app.WareClinicRaleQuery" />
+            <lang locale="zh_TW" value="com.kingdee.eas.custom.app.WareClinicRaleQuery" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.editUI">
+            <lang locale="en_US" value="com.kingdee.eas.custom.client.WareClinicRaleEditUI" />
+            <lang locale="zh_CN" value="com.kingdee.eas.custom.client.WareClinicRaleEditUI" />
+            <lang locale="zh_TW" value="com.kingdee.eas.custom.client.WareClinicRaleEditUI" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.enableFieldPermission">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.isAsstAcctType">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.isParamObject">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.isUseCodeRule">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.listUI">
+            <lang locale="en_US" value="com.kingdee.eas.custom.client.WareClinicRaleListUI" />
+            <lang locale="zh_CN" value="com.kingdee.eas.custom.client.WareClinicRaleListUI" />
+            <lang locale="zh_TW" value="com.kingdee.eas.custom.client.WareClinicRaleListUI" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.maxFieldIndex">
+            <lang locale="en_US" value="6" />
+            <lang locale="zh_CN" value="6" />
+            <lang locale="zh_TW" value="6" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.useTableEditUI">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="bizUnit[com.kingdee.eas.custom.WareClinicRale].extendedProperty.userDefined">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+    </resource>
+</bizUnit>
+

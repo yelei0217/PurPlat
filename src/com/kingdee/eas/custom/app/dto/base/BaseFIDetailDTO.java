@@ -3,19 +3,15 @@ package com.kingdee.eas.custom.app.dto.base;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class SCMBaseDetailDTO implements Serializable{
+public class BaseFIDetailDTO implements Serializable{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4487576613402867447L;
+	private static final long serialVersionUID = -4111495611733375608L;
 
 	private String  id;
 	private Integer fseq;
-	private String fsourcebillid ;
-	private String fsourcebillnumber ;
-	private String fsourcebillentryid ;
-	private int fsourcebillentryseq ;
 	private String  fmaterialid;
 	private String  funitid;
 	private BigDecimal      fassociateqty;
@@ -34,8 +30,6 @@ public class SCMBaseDetailDTO implements Serializable{
 	private String 	fsenddate;
 	private BigDecimal      fbaseqty;
 	private String  fremark;
-	private String fwarehouseid ;
-	
 	
 	public String getId() {
 		return id;
@@ -48,30 +42,6 @@ public class SCMBaseDetailDTO implements Serializable{
 	}
 	public void setFseq(Integer fseq) {
 		this.fseq = fseq;
-	}
-	public String getFsourcebillid() {
-		return fsourcebillid;
-	}
-	public void setFsourcebillid(String fsourcebillid) {
-		this.fsourcebillid = fsourcebillid;
-	}
-	public String getFsourcebillnumber() {
-		return fsourcebillnumber;
-	}
-	public void setFsourcebillnumber(String fsourcebillnumber) {
-		this.fsourcebillnumber = fsourcebillnumber;
-	}
-	public String getFsourcebillentryid() {
-		return fsourcebillentryid;
-	}
-	public void setFsourcebillentryid(String fsourcebillentryid) {
-		this.fsourcebillentryid = fsourcebillentryid;
-	}
-	public int getFsourcebillentryseq() {
-		return fsourcebillentryseq;
-	}
-	public void setFsourcebillentryseq(int fsourcebillentryseq) {
-		this.fsourcebillentryseq = fsourcebillentryseq;
 	}
 	public String getFmaterialid() {
 		return fmaterialid;
@@ -181,11 +151,6 @@ public class SCMBaseDetailDTO implements Serializable{
 	public void setFremark(String fremark) {
 		this.fremark = fremark;
 	}
-	public String getFwarehouseid() {
-		return fwarehouseid;
-	}
-	public void setFwarehouseid(String fwarehouseid) {
-		this.fwarehouseid = fwarehouseid;
-	}
+
 	
 }

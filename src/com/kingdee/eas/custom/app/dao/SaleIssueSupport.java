@@ -37,8 +37,8 @@ import com.kingdee.eas.basedata.scm.im.inv.WarehouseInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.dto.SaleIssDTO;
 import com.kingdee.eas.custom.app.dto.SaleIssDetailDTO;
-import com.kingdee.eas.custom.app.dto.base.SCMBaseDTO;
-import com.kingdee.eas.custom.app.dto.base.SCMBaseDetailDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.scm.im.inv.ISaleIssueBill;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillFactory;
@@ -236,29 +236,29 @@ public class SaleIssueSupport {
 //	}
  	 
 	
-	public static void doInsertBill(Context ctx,SCMBaseDTO m,String busCode){
-		try {
-			SaleIssueBillInfo info = createSaleBillInfo(ctx,m,busCode);
-			ISaleIssueBill ibiz =SaleIssueBillFactory.getLocalInstance(ctx);
-			IObjectPK pk = ibiz.save(info);
-			ibiz.submit(pk.toString());
-			if(!busCode.contains("VMI")){
-				String fromID = info.getEntry().get(0).getSourceBillId();
-				if(fromID !=null && !"".equals(fromID)){
-				   String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
-		    		" values(newbosid('59302EC6'),'C48A423A','CC3E933B','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','6a7669e6-0108-1000-e000-2136c0a812fd045122C4','0')";
-				     DbUtil.execute(ctx,sql);
+		public static void doInsertBill(Context ctx,BaseSCMDTO m,String busCode){
+			try {
+				SaleIssueBillInfo info = createSaleBillInfo(ctx,m,busCode);
+				ISaleIssueBill ibiz =SaleIssueBillFactory.getLocalInstance(ctx);
+				IObjectPK pk = ibiz.save(info);
+				ibiz.submit(pk.toString());
+				if(!busCode.contains("VMI")){
+					String fromID = info.getEntry().get(0).getSourceBillId();
+					if(fromID !=null && !"".equals(fromID)){
+					   String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
+			    		" values(newbosid('59302EC6'),'C48A423A','CC3E933B','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','6a7669e6-0108-1000-e000-2136c0a812fd045122C4','0')";
+					     DbUtil.execute(ctx,sql);
+					}
 				}
-			}
-		} catch (EASBizException e) {
- 		e.printStackTrace();
-	} catch (BOSException e) {
-		e.printStackTrace();
+			} catch (EASBizException e) {
+	 		e.printStackTrace();
+		} catch (BOSException e) {
+			e.printStackTrace();
+		}
 	}
-}
+		
 	
-	
-	private static SaleIssueBillInfo createSaleBillInfo(Context ctx, SCMBaseDTO m,String busCode )
+	private static SaleIssueBillInfo createSaleBillInfo(Context ctx, BaseSCMDTO m,String busCode )
 	    throws BOSException, EASBizException
 	  {
 	   
@@ -351,7 +351,7 @@ public class SaleIssueSupport {
 	    }
 	    
 	   // BigDecimal totalAmount = new BigDecimal(0);
-	    for (SCMBaseDetailDTO entry : m.getDetails())
+	    for (BaseSCMDetailDTO entry : m.getDetails())
 	    {
 	        SaleIssueEntryInfo entryInfo = createSaleEntryInfo(ctx,entry,busCode);
 	        entryInfo.setStorageOrgUnit(storageorginfo);
@@ -390,7 +390,7 @@ public class SaleIssueSupport {
 	    return info;
 	  }
 	  
-	private static SaleIssueEntryInfo createSaleEntryInfo(Context ctx, SCMBaseDetailDTO dvo ,String busCode)
+	private static SaleIssueEntryInfo createSaleEntryInfo(Context ctx, BaseSCMDetailDTO dvo ,String busCode)
 	    throws EASBizException, BOSException
 	  {
 	    IMaterial imaterial = MaterialFactory.getLocalInstance(ctx);

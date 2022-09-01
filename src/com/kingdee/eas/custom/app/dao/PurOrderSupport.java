@@ -23,8 +23,8 @@ import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
 import com.kingdee.eas.custom.app.dto.PurOrderDTO;
-import com.kingdee.eas.custom.app.dto.base.SCMBaseDTO;
-import com.kingdee.eas.custom.app.dto.base.SCMBaseDetailDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.scm.sm.pur.IPurOrderEntry;
@@ -92,7 +92,7 @@ public class PurOrderSupport {
 	 *  ≤Â»Î eas±Ì
 	 * @param ctx
 	 */
-	public static void doInsertBill(Context ctx,SCMBaseDTO m,String busCode){
+	public static void doInsertBill(Context ctx,BaseSCMDTO m,String busCode){
 		ExecutorService pool = Executors.newFixedThreadPool(6);
 	    ParallelSqlExecutor pe = new ParallelSqlExecutor(pool); 
 	    StringBuffer sbr = new StringBuffer(" /*dialect*/ insert into T_SM_PurOrder (FID,FCREATORID,FCREATETIME,FMODIFIERID,FMODIFICATIONTIME,FLASTUPDATEUSERID,FLASTUPDATETIME,FCONTROLUNITID," );
@@ -127,7 +127,7 @@ public class PurOrderSupport {
 		sbr.append(",'").append( m.getFstorageorgunitid()).append("',0,'").append(m.getFstorageorgunitid()).append("',").append(isInTax).append(",0,0,1,0,0,0,1,1,0,0,0 ,'").append(m.getId()).append("') ");
 		pe.getSqlList().add(sbr);
 		
-		for(SCMBaseDetailDTO dvo : m.getDetails()){
+		for(BaseSCMDetailDTO dvo : m.getDetails()){
 			String eid  = BOSUuid.create("26041CC5").toString();
 			StringBuffer sbr1 = new StringBuffer("/*dialect*/ insert into T_SM_PURORDERENTRY(FID,FSEQ,FMATERIALID,FUNITID,FBASESTATUS,FASSOCIATEQTY,FBASEUNITID,FREMARK,FISPRESENT,FDEMANDQTY,FQTY," +
 					"FSTORAGEORGUNITID,FCOMPANYORGUNITID,FASSISTQTY,FPRICE,FDISCOUNTRATE,FACTUALPRICE,FTAXRATE,FTAXPRICE,FACTUALTAXPRICE," +

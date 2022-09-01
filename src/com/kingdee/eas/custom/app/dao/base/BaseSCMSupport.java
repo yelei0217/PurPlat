@@ -22,12 +22,17 @@ import com.kingdee.eas.custom.app.dto.PurOrderDTO;
 import com.kingdee.eas.custom.app.dto.SaleIssDTO;
 import com.kingdee.eas.custom.app.dto.SaleOrderDTO;
 import com.kingdee.eas.custom.app.dto.SaleOrderDetailDTO;
-import com.kingdee.eas.custom.app.dto.base.SCMBaseDTO;
-import com.kingdee.eas.custom.app.dto.base.SCMBaseDetailDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 
-public class BaseSupport {
+/***
+ * 
+ * @author LEI.YE
+ *	供应链 同步基础类
+ */
+public class BaseSCMSupport {
 
 	public static String syncBill(Context ctx,String jsonStr){
 		String result = null;
@@ -55,7 +60,7 @@ public class BaseSupport {
 				
 				// 记录日志
 				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
-				SCMBaseDTO m = gson.fromJson(modelJE, SCMBaseDTO.class);
+				BaseSCMDTO m = gson.fromJson(modelJE, BaseSCMDTO.class);
 				// 判断msgId 是否存在SaleOrderDTO
 				if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
 					result = judgeModel(ctx,m,busCode);
@@ -106,7 +111,7 @@ public class BaseSupport {
 				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
 				// 记录日志
 				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
-				SCMBaseDTO m = gson.fromJson(modelJE, SCMBaseDTO.class);
+				BaseSCMDTO m = gson.fromJson(modelJE, BaseSCMDTO.class);
 				// 判断msgId 是否存在SaleOrderDTO
 //				if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
 //					result = judgeModel(ctx,m,busCode);
@@ -132,7 +137,7 @@ public class BaseSupport {
 	 * @param m
 	 * @return
 	 */
-	private static String judgeModel(Context ctx,SCMBaseDTO m,String busCode ){
+	private static String judgeModel(Context ctx,BaseSCMDTO m,String busCode ){
 		 String result = "";
 		 //组织是否存在
 		 if(m.getFstorageorgunitid() != null && !"".equals(m.getFstorageorgunitid()) ){
@@ -189,7 +194,7 @@ public class BaseSupport {
 		  }
 			 
 			if(m.getDetails() !=null && m.getDetails().size() > 0 ){	 
-				 for(SCMBaseDetailDTO dvo : m.getDetails()){
+				 for(BaseSCMDetailDTO dvo : m.getDetails()){
 					 int j = 0 ; 
 					 if(dvo.getFmaterialid() ==null || "".equals(dvo.getFmaterialid())){
 						 result = result +"第"+j+1+"行物料ID不能为空,";

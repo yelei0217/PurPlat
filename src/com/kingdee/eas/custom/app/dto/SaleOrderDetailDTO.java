@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.kingdee.eas.custom.app.dto.base.SCMBaseDetailDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 
-public class SaleOrderDetailDTO  extends SCMBaseDetailDTO{
+public class SaleOrderDetailDTO  extends BaseSCMDetailDTO{
 
 	/**
 	 * 

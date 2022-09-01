@@ -10,7 +10,8 @@ import com.kingdee.eas.custom.app.dao.PurInWarehsSupport;
 import com.kingdee.eas.custom.app.dao.PurOrderSupport;
 import com.kingdee.eas.custom.app.dao.SaleIssueSupport;
 import com.kingdee.eas.custom.app.dao.SaleOrderSupport;
-import com.kingdee.eas.custom.app.dao.base.BaseSupport;
+import com.kingdee.eas.custom.app.dao.base.BaseFISupport;
+import com.kingdee.eas.custom.app.dao.base.BaseSCMSupport;
 import com.kingdee.eas.framework.bireport.bimanager.ws.engine.domain.Axis2Exception;
 import com.kingdee.util.LowTimer;
 
@@ -28,7 +29,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected String _savePurOrder(Context ctx, String jsonStr)	throws BOSException {
 		this.timer.reset(); 
 //		 String res =  PurOrderSupport.syncBill(ctx, jsonStr);
-		 String res =  BaseSupport.syncBill(ctx, jsonStr);
+		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
 		 logger.info("do savePurOrder method cost :" + this.timer.msValue());
 		 return res;
 	}
@@ -39,7 +40,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 			throws BOSException {
 		this.timer.reset(); 
 		// String res =  SaleOrderSupport.syncBill(ctx, jsonStr);
-		 String res =  BaseSupport.syncBill(ctx, jsonStr);
+		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
 		 logger.info("do _saveSaleOrder method cost :" + this.timer.msValue());
 		 return res;	}
 
@@ -69,7 +70,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 			throws BOSException {
 		this.timer.reset(); 
 //		 String res =  PurInWarehsSupport.doSync(ctx, jsonStr);
-		 String res =  BaseSupport.syncBill(ctx, jsonStr);
+		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
 		 logger.info("do _saleOrderCloseRow doCloseRow method cost :" + this.timer.msValue());
 		 return res;	
 	}
@@ -80,7 +81,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 			throws BOSException {
 		this.timer.reset(); 
 //		 String res =  SaleIssueSupport.doSync(ctx, jsonStr);
-		 String res =  BaseSupport.syncBill(ctx, jsonStr);
+		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
 		 logger.info("do SyncBill2EASFacadeControllerBean saveSaleIss method cost :" + this.timer.msValue());
 		 return res;	
 	}
@@ -89,7 +90,9 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	@Override
 	protected String _saveApOtherBill(Context ctx, String jsonStr)
 			throws BOSException {
- 		return super._saveApOtherBill(ctx, jsonStr);
+		 String res =  BaseFISupport.syncBill(ctx, jsonStr);
+		 logger.info("do BaseFISupport _saveApOtherBill method cost :" + this.timer.msValue());
+		return res;	
 	}
 
 

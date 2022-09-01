@@ -35,8 +35,8 @@ import com.kingdee.eas.basedata.scm.im.inv.WarehouseInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.dto.PurInDTO;
 import com.kingdee.eas.custom.app.dto.PurInDetailDTO;
-import com.kingdee.eas.custom.app.dto.base.SCMBaseDTO;
-import com.kingdee.eas.custom.app.dto.base.SCMBaseDetailDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 import com.kingdee.eas.custom.app.unit.AppUnit;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.custom.util.VerifyUtil;
@@ -231,7 +231,7 @@ public class PurInWarehsSupport {
 //		 return result;
 //	}
 //	
-	public static void doInsertBill(Context ctx,SCMBaseDTO m,String busCode){
+	public static void doInsertBill(Context ctx,BaseSCMDTO m,String busCode){
 			try {
 				PurInWarehsBillInfo info = createPurBillInfo(ctx, m,busCode);
 				IPurInWarehsBill ibiz = PurInWarehsBillFactory.getLocalInstance(ctx);
@@ -253,7 +253,7 @@ public class PurInWarehsSupport {
 	}
 	
 	
-	private static PurInWarehsBillInfo createPurBillInfo(Context ctx, SCMBaseDTO m,String busCode)
+	private static PurInWarehsBillInfo createPurBillInfo(Context ctx, BaseSCMDTO m,String busCode)
     throws EASBizException, BOSException
   {
     PurInWarehsBillInfo info = new PurInWarehsBillInfo();
@@ -361,7 +361,7 @@ public class PurInWarehsSupport {
     
     info.put("factory", m.getFsupplierid());
   //  BigDecimal qty = new BigDecimal(1);
-    for (SCMBaseDetailDTO entry : m.getDetails())
+    for (BaseSCMDetailDTO entry : m.getDetails())
     {
         PurInWarehsEntryInfo entryInfo = createPurEntryInfo(ctx,  entry,busCode);
         entryInfo.setStorageOrgUnit(storageorginfo);
@@ -398,7 +398,7 @@ public class PurInWarehsSupport {
     return info;
   }
   
-  private static PurInWarehsEntryInfo createPurEntryInfo(Context ctx, SCMBaseDetailDTO dvo,String busCode)
+  private static PurInWarehsEntryInfo createPurEntryInfo(Context ctx, BaseSCMDetailDTO dvo,String busCode)
     throws BOSException, EASBizException
   {
     PurInWarehsEntryInfo entryInfo = new PurInWarehsEntryInfo();

@@ -1,7 +1,7 @@
 package com.kingdee.eas.custom.app.dto;
 
-import java.io.Serializable;
+import com.kingdee.eas.custom.app.dto.base.BaseFIDTO;
 
-public class ApBillDTO  implements Serializable{
+public class ApBillDTO  extends BaseFIDTO{
 
 }

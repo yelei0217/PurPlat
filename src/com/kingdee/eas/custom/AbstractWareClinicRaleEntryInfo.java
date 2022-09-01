@@ -19,7 +19,7 @@ public class AbstractWareClinicRaleEntryInfo extends com.kingdee.eas.framework.C
         put("DEntrys", new com.kingdee.eas.custom.WareClinicRaleEntryDEntryCollection());
     }
     /**
-     * Object: 分录 's 单据头 property 
+     * Object: 仓库分录 's 单据头 property 
      */
     public com.kingdee.eas.custom.WareClinicRaleInfo getParent()
     {
@@ -30,14 +30,14 @@ public class AbstractWareClinicRaleEntryInfo extends com.kingdee.eas.framework.C
         put("parent", item);
     }
     /**
-     * Object: 分录 's 明细分录 property 
+     * Object: 仓库分录 's 门诊分录 property 
      */
     public com.kingdee.eas.custom.WareClinicRaleEntryDEntryCollection getDEntrys()
     {
         return (com.kingdee.eas.custom.WareClinicRaleEntryDEntryCollection)get("DEntrys");
     }
     /**
-     * Object: 分录 's 仓库编码 property 
+     * Object: 仓库分录 's 仓库编码 property 
      */
     public com.kingdee.eas.basedata.scm.im.inv.WarehouseInfo getWarehouse()
     {
@@ -48,7 +48,7 @@ public class AbstractWareClinicRaleEntryInfo extends com.kingdee.eas.framework.C
         put("warehouse", item);
     }
     /**
-     * Object:分录's 仓库名称property 
+     * Object:仓库分录's 仓库名称property 
      */
     public String getWarehouseName()
     {
@@ -59,7 +59,7 @@ public class AbstractWareClinicRaleEntryInfo extends com.kingdee.eas.framework.C
         setString("warehouseName", item);
     }
     /**
-     * Object:分录's 启用状态property 
+     * Object:仓库分录's 启用状态property 
      */
     public com.kingdee.eas.basedata.framework.DataStateEnum getDataState()
     {

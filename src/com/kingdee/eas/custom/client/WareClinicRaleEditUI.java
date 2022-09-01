@@ -3,6 +3,8 @@
  */
 package com.kingdee.eas.custom.client;
 
+import java.awt.event.ActionEvent;
+
 import org.apache.log4j.Logger;
 
 import com.kingdee.bos.ctrl.extendcontrols.BizDataFormat;
@@ -90,6 +92,18 @@ public class WareClinicRaleEditUI extends AbstractWareClinicRaleEditUI
    
      
     }
+    
+    @Override
+    public void kdtEntrys_Changed(int rowIndex, int colIndex) throws Exception {
+    	// TODO Auto-generated method stub
+    	super.kdtEntrys_Changed(rowIndex, colIndex);
+    }
+    
+    @Override
+    public void actionSave_actionPerformed(ActionEvent e) throws Exception {
+     	super.actionSave_actionPerformed(e);
+    }
+     
     /**
      * output loadFields method
      */

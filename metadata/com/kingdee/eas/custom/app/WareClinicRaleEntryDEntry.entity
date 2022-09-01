@@ -707,6 +707,11 @@
             <lang locale="zh_HK" value="null" />
             <lang locale="zh_TW" value="null" />
         </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntryDEntry].defaultViewextendedProperty.genImplementCode">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
         <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntryDEntry].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="门诊分录" />
@@ -1255,6 +1260,11 @@
             <lang locale="en_US" value="true" />
             <lang locale="zh_CN" value="true" />
             <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntryDEntry].properties.ownProperty[ClinicName].extendedProperty.requiredPrompt">
+            <lang locale="en_US" value="门诊名称" />
+            <lang locale="zh_CN" value="门诊名称" />
+            <lang locale="zh_TW" value="门诊名称" />
         </rs>
         <rs key="entityObject[com.kingdee.eas.custom.app.WareClinicRaleEntryDEntry].properties.ownProperty[DataState].alias">
             <lang locale="en_US" value="null" />

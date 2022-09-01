@@ -19,7 +19,7 @@ public class AbstractWareClinicRaleInfo extends com.kingdee.eas.framework.CoreBi
         put("entrys", new com.kingdee.eas.custom.WareClinicRaleEntryCollection());
     }
     /**
-     * Object: ≤÷ø‚√≈’Ô”≥…‰ 's ∑÷¬º property 
+     * Object: ≤÷ø‚√≈’Ô”≥…‰ 's ≤÷ø‚∑÷¬º property 
      */
     public com.kingdee.eas.custom.WareClinicRaleEntryCollection getEntrys()
     {

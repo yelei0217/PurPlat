@@ -4,12 +4,13 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class SCMBaseDTO implements Serializable{
+public class BaseFIDTO implements Serializable{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7438648998209090108L;
+	private static final long serialVersionUID = -349806836985494559L;
+
 	
 	private String  id;
 	private String  fnumber;
@@ -27,27 +28,10 @@ public class SCMBaseDTO implements Serializable{
 	private String  fcreatorid;
 	private String	fpurchasepersonid ;
 	private String	fstockerid;
-	private List<SCMBaseDetailDTO> details;
+	private String	finvoicenumber;
+	private List<BaseFIDetailDTO> details;
 	
-	public String getFpurchasepersonid() {
-		return fpurchasepersonid;
-	}
-	public void setFpurchasepersonid(String fpurchasepersonid) {
-		this.fpurchasepersonid = fpurchasepersonid;
-	}
 	
-	public BigDecimal getFtotalqty() {
-		return ftotalqty;
-	}
-	public void setFtotalqty(BigDecimal ftotalqty) {
-		this.ftotalqty = ftotalqty;
-	}
-	public String getFstockerid() {
-		return fstockerid;
-	}
-	public void setFstockerid(String fstockerid) {
-		this.fstockerid = fstockerid;
-	}
 	public String getId() {
 		return id;
 	}
@@ -102,6 +86,12 @@ public class SCMBaseDTO implements Serializable{
 	public void setFtotaltax(BigDecimal ftotaltax) {
 		this.ftotaltax = ftotaltax;
 	}
+	public BigDecimal getFtotalqty() {
+		return ftotalqty;
+	}
+	public void setFtotalqty(BigDecimal ftotalqty) {
+		this.ftotalqty = ftotalqty;
+	}
 	public BigDecimal getFtotaltaxamount() {
 		return ftotaltaxamount;
 	}
@@ -126,10 +116,28 @@ public class SCMBaseDTO implements Serializable{
 	public void setFcreatorid(String fcreatorid) {
 		this.fcreatorid = fcreatorid;
 	}
-	public List<SCMBaseDetailDTO> getDetails() {
+	public String getFpurchasepersonid() {
+		return fpurchasepersonid;
+	}
+	public void setFpurchasepersonid(String fpurchasepersonid) {
+		this.fpurchasepersonid = fpurchasepersonid;
+	}
+	public String getFstockerid() {
+		return fstockerid;
+	}
+	public void setFstockerid(String fstockerid) {
+		this.fstockerid = fstockerid;
+	}
+	public String getFinvoicenumber() {
+		return finvoicenumber;
+	}
+	public void setFinvoicenumber(String finvoicenumber) {
+		this.finvoicenumber = finvoicenumber;
+	}
+	public List<BaseFIDetailDTO> getDetails() {
 		return details;
 	}
-	public void setDetails(List<SCMBaseDetailDTO> details) {
+	public void setDetails(List<BaseFIDetailDTO> details) {
 		this.details = details;
 	}
 	

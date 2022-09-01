@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import com.kingdee.eas.custom.app.dto.base.SCMBaseDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
 
-public class PurInDTO  extends SCMBaseDTO {
+public class PurInDTO  extends BaseSCMDTO {
 
 	/**
 	 * 

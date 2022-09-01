@@ -18,7 +18,7 @@ public class AbstractWareClinicRaleEntryDEntryInfo extends com.kingdee.eas.frame
         super(pkField);
     }
     /**
-     * Object: 明细分录 's null property 
+     * Object: 门诊分录 's null property 
      */
     public com.kingdee.eas.custom.WareClinicRaleEntryInfo getParent1()
     {
@@ -29,7 +29,7 @@ public class AbstractWareClinicRaleEntryDEntryInfo extends com.kingdee.eas.frame
         put("parent1", item);
     }
     /**
-     * Object: 明细分录 's 门诊编码 property 
+     * Object: 门诊分录 's 门诊编码 property 
      */
     public com.kingdee.eas.basedata.org.StorageOrgUnitInfo getClinic()
     {
@@ -40,7 +40,7 @@ public class AbstractWareClinicRaleEntryDEntryInfo extends com.kingdee.eas.frame
         put("Clinic", item);
     }
     /**
-     * Object:明细分录's 门诊名称property 
+     * Object:门诊分录's 门诊名称property 
      */
     public String getClinicName()
     {
@@ -51,7 +51,7 @@ public class AbstractWareClinicRaleEntryDEntryInfo extends com.kingdee.eas.frame
         setString("ClinicName", item);
     }
     /**
-     * Object:明细分录's 启用状态property 
+     * Object:门诊分录's 启用状态property 
      */
     public com.kingdee.eas.basedata.framework.DataStateEnum getDataState()
     {

@@ -316,7 +316,8 @@ public class PurOrderSupport {
 				msgId = msgIdJE.getAsString() ;
 				busCode = busCodeJE.getAsString() ;
 				reqTime = reqTimeJE.getAsString() ;
-				baseType = DateBasetype.getEnum(busCode);
+  				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
+
 				
 				if(modelJE.getAsJsonObject() !=null && modelJE.getAsJsonObject().get("id") !=null && !"".equals(modelJE.getAsJsonObject().get("id").getAsString())&&
 					modelJE.getAsJsonObject().get("eids") !=null && !"".equals(modelJE.getAsJsonObject().get("eids").getAsString()))

@@ -87,6 +87,8 @@ public class WareClinicRaleEditUI extends AbstractWareClinicRaleEditUI
         kdtDEntrys_ClinicName_TextField.setMaxLength(80);
         KDTDefaultCellEditor kdtDEntrys_ClinicName_CellEditor = new KDTDefaultCellEditor(kdtDEntrys_ClinicName_TextField);
         this.kdtDEntrys.getColumn("ClinicName").setEditor(kdtDEntrys_ClinicName_CellEditor);
+   
+     
     }
     /**
      * output loadFields method

@@ -442,6 +442,9 @@ public class SaleIssueSupport {
 	    entryInfo.setUnReturnedBaseQty(BigDecimal.ZERO);
 	    entryInfo.setAssistQty(BigDecimal.ZERO);
 	    if(!busCode.contains("VMI")){
+	    	entryInfo.setTaxRate(dvo.getFtaxrate());
+	   	    entryInfo.setTax(dvo.getFtax());
+	   	    entryInfo.setLocalTax(dvo.getFtax());
 	 	    entryInfo.setTax(BigDecimal.ZERO);
 		    entryInfo.setAmount(dvo.getFamount());
 		    entryInfo.setLocalAmount(dvo.getFamount());

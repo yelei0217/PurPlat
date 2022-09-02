@@ -1,18 +1,25 @@
 package com.kingdee.eas.custom.app;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
-import com.kingdee.bos.workflow.metas.SAProcessDATASyncFacadeControllerBean;
+import com.kingdee.bos.dao.IObjectPK;
+import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
+import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.dao.CostAdjusSupport;
-import com.kingdee.eas.custom.app.dao.PurInWarehsSupport;
 import com.kingdee.eas.custom.app.dao.PurOrderSupport;
-import com.kingdee.eas.custom.app.dao.SaleIssueSupport;
 import com.kingdee.eas.custom.app.dao.SaleOrderSupport;
 import com.kingdee.eas.custom.app.dao.base.BaseFISupport;
 import com.kingdee.eas.custom.app.dao.base.BaseSCMSupport;
-import com.kingdee.eas.framework.bireport.bimanager.ws.engine.domain.Axis2Exception;
+import com.kingdee.eas.custom.app.unit.AppUnit;
+import com.kingdee.eas.framework.CoreBillBaseCollection;
+import com.kingdee.eas.scm.im.inv.PurInWarehsBillFactory;
+import com.kingdee.eas.scm.im.inv.PurInWarehsBillInfo;
+import com.kingdee.eas.scm.im.inv.PurInWarehsEntryInfo;
 import com.kingdee.util.LowTimer;
 
 public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacadeControllerBean
@@ -108,10 +115,30 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	@Override
 	protected String _saveCostAdjus(Context ctx, String jsonStr)
 			throws BOSException {
-		this.timer.reset(); 
-		 String res =  CostAdjusSupport.doSync(ctx, jsonStr);
-		 logger.info("do _saveCostAdjus _saveCostAdjus method cost :" + this.timer.msValue());
-		 return res;	
+		try {
+			 IObjectPK orgPK = new  ObjectUuidPK("jbYAAAad1Rl4MGHj");
+			 PurInWarehsBillInfo in = PurInWarehsBillFactory.getLocalInstance(ctx).getPurInWarehsBillInfo(orgPK);
+			 
+			 PurInWarehsEntryInfo entry = (PurInWarehsEntryInfo) in.getEntries().getObject(0);
+			 PurInWarehsEntryInfo entry1 = (PurInWarehsEntryInfo) entry.clone();
+			 entry1.setQty(new BigDecimal(1));
+			 entry1.setBaseQty(new BigDecimal(1));
+			 in.getEntries().clear();
+			 in.getEntries().addObject(entry1);
+			 CoreBillBaseCollection sourceColl = new CoreBillBaseCollection();  
+			 
+			 sourceColl.add(in);
+ 			 List<IObjectPK> pkIns = AppUnit.botpSave(ctx, "783061E3", sourceColl, "JV7MYpL+QEKaxoy2KYZKzwRRIsQ=");
+
+		} catch (EASBizException e) {
+			e.printStackTrace();
+		}
+		return "";	
+    	
+//		this.timer.reset(); 
+//		 String res =  CostAdjusSupport.doSync(ctx, jsonStr);
+//		 logger.info("do _saveCostAdjus _saveCostAdjus method cost :" + this.timer.msValue());
+//		 return res;	
 	}
 
 

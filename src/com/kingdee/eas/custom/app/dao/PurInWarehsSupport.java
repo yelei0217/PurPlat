@@ -450,13 +450,16 @@ public class PurInWarehsSupport {
     entryInfo.setUnWriteOffBaseQty(dvo.getFbaseqty().multiply(factor));
     entryInfo.setUnVmiSettleBaseQty(dvo.getFqty().multiply(factor));
     
+     
     entryInfo.setUnReturnedBaseQty(BigDecimal.ZERO);
     entryInfo.setCanDirectReqBaseQty(BigDecimal.ZERO);
     entryInfo.setCanDirectReqQty(BigDecimal.ZERO);
     entryInfo.setAssistQty(BigDecimal.ZERO);
     //entryInfo.setStandardCost(BigDecimal.ZERO);
    if(!busCode.contains("VMI")){
-	    entryInfo.setTax(BigDecimal.ZERO);
+	    entryInfo.setTaxRate(dvo.getFtaxrate());
+	    entryInfo.setTax(dvo.getFtax());
+	    entryInfo.setLocalTax(dvo.getFtax());
 	    entryInfo.setAmount(dvo.getFamount());
 	    entryInfo.setLocalAmount(dvo.getFamount());
 	    entryInfo.setWrittenOffAmount(dvo.getFamount());

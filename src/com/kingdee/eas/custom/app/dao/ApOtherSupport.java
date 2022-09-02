@@ -71,6 +71,13 @@ import com.kingdee.eas.scm.im.inv.SaleIssueBillInfo;
 import com.kingdee.eas.scm.im.inv.SaleIssueEntryInfo;
 import com.kingdee.eas.util.app.DbUtil;
 
+
+/**
+ * 
+ * @author LEI.YE	
+ *  应付单 同步
+ *
+ */
 public class ApOtherSupport {
 
 	public static void doInsertBill(Context ctx,BaseFIDTO m,String busCode){
@@ -182,8 +189,7 @@ public class ApOtherSupport {
 		 OtherBillentryInfo entryInfo = new OtherBillentryInfo();
 		 BigDecimal price = dvo.getFprice();
 		 BigDecimal taxPirce = dvo.getFtaxprice();
-		// BigDecimal taxRate = dvo.getFtax();
-		 BigDecimal taxAmount = dvo.getFtaxamount();
+ 		 BigDecimal taxAmount = dvo.getFtaxamount();
 		 BigDecimal qty = dvo.getFqty();
 		 BigDecimal amount = dvo.getFamount();
 		 

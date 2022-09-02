@@ -29,6 +29,21 @@ public class BaseFIDTO implements Serializable{
 	private String	fpurchasepersonid ;
 	private String	fstockerid;
 	private String	finvoicenumber;
+	private String fbank;
+	private String fbankaccount;
+	
+	public String getFbank() {
+		return fbank;
+	}
+	public void setFbank(String fbank) {
+		this.fbank = fbank;
+	}
+	public String getFbankaccount() {
+		return fbankaccount;
+	}
+	public void setFbankaccount(String fbankaccount) {
+		this.fbankaccount = fbankaccount;
+	}
 	private List<BaseFIDetailDTO> details;
 	
 	

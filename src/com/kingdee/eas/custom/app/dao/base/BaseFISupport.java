@@ -14,8 +14,10 @@ import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
 import com.kingdee.eas.custom.app.PurPlatSyncEnum;
 import com.kingdee.eas.custom.app.dao.ApOtherSupport;
+import com.kingdee.eas.custom.app.dao.ArOtherSupport;
 import com.kingdee.eas.custom.app.dao.PurInWarehsSupport;
 import com.kingdee.eas.custom.app.dao.PurOrderSupport;
+import com.kingdee.eas.custom.app.dao.ReceiptSupport;
 import com.kingdee.eas.custom.app.dao.SaleIssueSupport;
 import com.kingdee.eas.custom.app.dao.SaleOrderSupport;
 import com.kingdee.eas.custom.app.dto.PurInDTO;
@@ -71,12 +73,10 @@ public class BaseFISupport {
 					{
 						if(busCode.contains("_AP"))
 							ApOtherSupport.doInsertBill(ctx,m,busCode);
-//						else if(busCode.contains("_PO"))
-//							PurOrderSupport.doInsertBill(ctx, m,busCode);
-//						else if(busCode.contains("_PI"))
-//							PurInWarehsSupport.doInsertBill(ctx,m,busCode);
-//						else if(busCode.contains("_SS"))
-//							SaleIssueSupport.doInsertBill(ctx,m,busCode);
+						else if(busCode.contains("_AR"))
+							ArOtherSupport.doInsertBill(ctx, m,busCode);
+						else if(busCode.contains("_R"))
+							ReceiptSupport.doInsertBill(ctx,m,busCode);
 						result = "success";
 					}
 				}else

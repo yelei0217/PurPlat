@@ -3,9 +3,14 @@ package com.kingdee.eas.custom.app.dao;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
+import com.kingdee.bos.dao.IObjectPK;
+import com.kingdee.bos.dao.IObjectValue;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
 import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.eas.basedata.assistant.CurrencyInfo;
@@ -17,12 +22,21 @@ import com.kingdee.eas.basedata.master.cssp.CustomerInfo;
 import com.kingdee.eas.basedata.org.CompanyOrgUnitFactory;
 import com.kingdee.eas.basedata.org.CompanyOrgUnitInfo;
 import com.kingdee.eas.basedata.org.CtrlUnitInfo;
+import com.kingdee.eas.basedata.org.SaleOrgUnitInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.EASPayTypeInfo;
+import com.kingdee.eas.custom.app.dto.base.BaseFIDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseFIDetailDTO;
 import com.kingdee.eas.custom.entity.Receipt;
+import com.kingdee.eas.fi.ap.IOtherBill;
+import com.kingdee.eas.fi.ap.OtherBillFactory;
+import com.kingdee.eas.fi.ar.OtherBillentryInfo;
 import com.kingdee.eas.fi.cas.BankCheckStatus;
 import com.kingdee.eas.fi.cas.CasRecPayBillTypeEnum;
+import com.kingdee.eas.fi.cas.IReceivingBill;
+import com.kingdee.eas.fi.cas.PaymentBillInfo;
 import com.kingdee.eas.fi.cas.ReceivingBillEntryInfo;
+import com.kingdee.eas.fi.cas.ReceivingBillFactory;
 import com.kingdee.eas.fi.cas.ReceivingBillInfo;
 import com.kingdee.eas.fi.cas.ReceivingBillTypeInfo;
 import com.kingdee.eas.fi.cas.SettlementStatusEnum;
@@ -33,86 +47,65 @@ import com.kingdee.eas.util.app.ContextUtil;
 
 public class ReceiptSupport {
 
+	public static void doInsertBill(Context ctx,BaseFIDTO m,String busCode){
+		try {
+				ReceivingBillInfo info = createInfo(ctx,m,busCode);
+				IReceivingBill ibiz = ReceivingBillFactory.getLocalInstance(ctx);
+				ContextUtil.setCurrentFIUnit(ctx, info.getCompany());
+				ContextUtil.setCurrentCtrlUnit(ctx, info.getCompany().getCU());
+		    	IObjectPK pk=ibiz.save(info);
+				pk=ibiz.submit(info);
+				Set set=new HashSet();
+				set.add(pk.toString());
+	 			ibiz.audit(set);
+			} catch (EASBizException e) {
+	 		e.printStackTrace();
+			} catch (BOSException e) {
+				e.printStackTrace();
+			
+			}
+	}
 	
 	// 收款单
-	public static ReceivingBillInfo getReceivingCollection(Context ctx, Receipt m)
+	private static ReceivingBillInfo createInfo(Context ctx, BaseFIDTO m,String busCode )
 			throws BOSException, EASBizException {
-		// 收款单bycb
-		String bizDate = "";// 日期
-		String billtype = "";// 类型，3是一条数据，预收款，正数；4是2条数据，预收款正数，销售回款负数
-		String clinic = "";// 部门
-		BigDecimal realAmount = BigDecimal.ZERO;// 实收金额
-		String payType = "";// 结算方式，关联客户
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String recType = m.getRecType();  //收款类型: 100-销售回款 ; 101-预收款         
-		String defaulCsutomerName ="";  //默认客户名称
-		String defaulReceivingBillType ="";//结算方式 ：销售回款 - DAWSqQEREADgAAGVwKgSfCqo2zU= ; 预收款 - DAWSqQEREADgAAILwKgSfCqo2zU=	
-		String defaulPaymentType="91f078d7-fb90-4827-83e2-3538237b67a06BCA0AB5";;   //eas自带的付款方式
-		String defaulSettlementType =""; //系统自带 结算方式 
-		EASPayTypeInfo easPayTypeInfo =null;  // 付款方式 自定义基础资料
- 		//存放对象集合
-		CoreBaseCollection requestCollection = new CoreBaseCollection();  
-         if(recType.equals("sk-hqk")){									//还欠款业务
-        	 defaulCsutomerName ="客户欠款";
-        	 //defaulReceivingBillType="DAWSqQEREADgAAGVwKgSfCqo2zU=";   //销售回款
-        	 defaulReceivingBillType="DAWSqQEREADgAAILwKgSfCqo2zU="; 	//预收款
-        	 defaulSettlementType="99"; 
-         }else if(recType.equals("sk-ycz")){ 							 //预收业务
-         	 defaulCsutomerName ="零售客户";
-        	 defaulReceivingBillType="DAWSqQEREADgAAILwKgSfCqo2zU="; 	//预收款
-        	 defaulSettlementType="99";
-         }else if(recType.equals("sk-back-yjk")){  				       //退回预交款
-        	 defaulCsutomerName ="零售客户";
-        	 defaulSettlementType="02"; 
-        	 defaulReceivingBillType="DAWSqQEREADgAAILwKgSfCqo2zU=";   //退回到客户
-          }else if(recType.equals("sk-back-kh")){
-        	 defaulSettlementType="02"; 
-        	 defaulCsutomerName ="零售客户";
-        	 defaulReceivingBillType="DAWSqQEREADgAAInwKgSfCqo2zU=";   //退销售款（退款） 
-          } else if(recType.equals("sk-tyjk-yl")){
-        	 defaulCsutomerName ="零售客户"; 
-        	 defaulReceivingBillType="DAWSqQEREADgAAIswKgSfCqo2zU=";   //退预收款（退款）
-         	 defaulSettlementType="02"; 
-         } else if(recType.equals("sk-tyjk-xj")){
-        	 defaulCsutomerName ="零售客户";
-        	 defaulReceivingBillType="DAWSqQEREADgAAIswKgSfCqo2zU=";   //退预收款（退款）
-        	 defaulSettlementType="01"; 
-          }     
-         
-		// 通过反射 得到Receipt.class
-        bizDate = m.getBizDate();
-		billtype = m.getBillType();
-		clinic = m.getClinic();
-		realAmount = m.getRealAmount();
-		payType = m.getPayType();
-		// 根据数据自动生成对应类型的单据 
 		ReceivingBillInfo rbInfo = new ReceivingBillInfo();
-		CompanyOrgUnitInfo couInfo = CompanyOrgUnitFactory
-				.getLocalInstance(ctx).getCompanyOrgUnitInfo(
-						new ObjectUuidPK(clinic));
-		rbInfo.setCompany(couInfo);// 公司
-		CtrlUnitInfo cuInfo = couInfo.getCU(); 
-		rbInfo.setCU(cuInfo);// 管理单元 
+
+		Date currentDate = new java.util.Date();
+		// 创建人
 		rbInfo.setCreator(ContextUtil.getCurrentUserInfo(ctx));
 		// 创建时间
-		rbInfo.setCreateTime(new java.sql.Timestamp(new java.util.Date().getTime()));
-
+		rbInfo.setCreateTime(new java.sql.Timestamp(currentDate.getTime()));
+		// 公司ID
+		ObjectUuidPK orgpk = new ObjectUuidPK(m.getFstorageorgunitid());
+		
+		// 组织单元
+		CompanyOrgUnitInfo xmcompany = CompanyOrgUnitFactory.getLocalInstance(
+				ctx).getCompanyOrgUnitInfo(orgpk);
+		rbInfo.setCompany(xmcompany);
+		
+		CtrlUnitInfo cuInfo = xmcompany.getCU();
+		rbInfo.setCU(cuInfo);// 管理单元
+		
+		// 业务日期
+		SimpleDateFormat formmat = new SimpleDateFormat("yyyy-MM-dd");
+		Date bizDate = currentDate;
 		try {
-			rbInfo.setBizDate(sdf.parse(bizDate));
-		} catch (ParseException e) {
+			bizDate = formmat.parse(m.getFbizdate());
+ 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}// 业务日期
+		}
+ 		rbInfo.setBizDate(bizDate);
 		rbInfo.setHasEffected(false);// 是否曾经生效
 		rbInfo.setSourceType(SourceTypeEnum.AR);// 源类型
 		rbInfo.setSourceSysType(SourceTypeEnum.CASH);// 源系统类型
 		//rbInfo.setFundType();
 		//币别
-		CurrencyInfo curInfo = new CurrencyInfo();
-		curInfo.setId(BOSUuid
-				.read("dfd38d11-00fd-1000-e000-1ebdc0a8100dDEB58FDC"));
-		rbInfo.setCurrency(curInfo);
-
+		CurrencyInfo currency = new CurrencyInfo();
+		currency.setId(BOSUuid.read("dfd38d11-00fd-1000-e000-1ebdc0a8100dDEB58FDC"));
+		rbInfo.setCurrency(currency);
+		
 		rbInfo.setExchangeRate(BigDecimal.ONE);// 汇率
 		rbInfo.setIsExchanged(false);// 是否已经调汇
 		rbInfo.setLastExhangeRate(BigDecimal.ONE);// 最后调汇汇率
@@ -120,35 +113,38 @@ public class ReceiptSupport {
 		rbInfo.setIsInitializeBill(false);// 是否初始化单据
 		rbInfo.setFiVouchered(false);// 是否已生成凭证
 		rbInfo.setSettlementStatus(SettlementStatusEnum.UNSUBMIT);// 集中结算状态
-		rbInfo.setActRecAmt(realAmount);// 实收金额合计
+		rbInfo.setActRecAmt(m.getFtotalamount());// 实收金额合计
 		rbInfo.setActRecAmtVc(BigDecimal.ZERO);// 实收金额累计核销
-		rbInfo.setActRecLocAmt(realAmount);// 实收本位币金额合计
+		rbInfo.setActRecLocAmt(m.getFtotaltaxamount());// 实收本位币金额合计
 		rbInfo.setActRecLocAmtVc(BigDecimal.ZERO);// 实收本位币金额累计核销
-	 
+		
 		// 往来户
 		AsstActTypeInfo actType = new AsstActTypeInfo();
 		actType.setId(BOSUuid.read("YW3xsAEJEADgAAUWwKgTB0c4VZA="));
 		rbInfo.setPayerType(actType);
-
-		CustomerInfo customer = CustomerFactory.getLocalInstance(ctx).getCustomerInfo("where name = '"+defaulCsutomerName+"'");
+		
+		ObjectUuidPK cuspk = new ObjectUuidPK(m.getFcustomerid());
+		// 获取结算方式实体
+		CustomerInfo customer = CustomerFactory.getLocalInstance(ctx).getCustomerInfo(cuspk);
 		if (null != customer) {
 			rbInfo.setPayerID(customer.getId().toString());
 			rbInfo.setPayerName(customer.getName());
 			rbInfo.setPayerNumber(customer.getNumber());
 		}
+		
 		rbInfo.setIsImport(false);// 是否导入
-		rbInfo.setAmount(realAmount);// 金额
-		rbInfo.setLocalAmt(realAmount);// 金额本位币
+		rbInfo.setAmount(m.getFtotalamount());// 金额
+		rbInfo.setLocalAmt(m.getFtotalamount());// 金额本位币
 		rbInfo.setAccessoryAmt(0);// 附件数
 		rbInfo.setIsRelateReceipt(false);// 是否已关联进账单
 		rbInfo.setIsBookRL(false);// 是否登记银行日记账
 		rbInfo.setBgAmount(BigDecimal.ZERO);// 预算核准金额
 		rbInfo.setIsAppointVoucher(false);// 是否已生成指定凭证
 		rbInfo.setReceivingBillType(CasRecPayBillTypeEnum.commonType);// 收款单类型
-	 
+		
 		ReceivingBillTypeInfo rbtInfo = new ReceivingBillTypeInfo();
-		rbtInfo.setId(BOSUuid.read(defaulReceivingBillType));
-		rbInfo.setRecBillType(rbtInfo);// 收款类型 预收
+		rbtInfo.setId(BOSUuid.read("DAWSqQEREADgAAGVwKgSfCqo2zU="));
+		rbInfo.setRecBillType(rbtInfo);// 收款类型 销售回款
 		
 		rbInfo.setIsRelateRecBook(false);// 是否已关联生成应收票据
 		rbInfo.setIsCtrlOppAcct(false);// 控制对方科目
@@ -157,8 +153,8 @@ public class ReceiptSupport {
 		rbInfo.setIsTransOtherBill(false);// 是否转预收转预付
 		rbInfo.setVerifiedAmt(BigDecimal.ZERO);// 已结算金额合计
 		rbInfo.setVerifiedAmtLoc(BigDecimal.ZERO);// 已结算金额本位币合计
-		rbInfo.setUnVerifiedAmt(realAmount);// 未结算金额合计
-		rbInfo.setUnVerifiedAmtLoc(realAmount);// 未结算金额本位币合计
+		rbInfo.setUnVerifiedAmt(m.getFtotalamount());// 未结算金额合计
+		rbInfo.setUnVerifiedAmtLoc(m.getFtotalamount());// 未结算金额本位币合计
 		rbInfo.setIsNeedVoucher(true);// 对账方式
 		rbInfo.setMixEntryVerify(2);// 混合收付款类型分录是否符合相应结算条件
 		rbInfo.setIsImpFromGL(false);// 是否从总账引入的数据
@@ -167,74 +163,72 @@ public class ReceiptSupport {
 		rbInfo.setIsPreReturn(true);// 单据分录收款类型是否含有预收款或者退预收款
 		rbInfo.setIsCoopBuild(false);// 是否协同生成
 		rbInfo.setIsReverseLockAmount(true);// 是否反写锁定金额
-
-		// 付款方式
-		PaymentTypeInfo ptInfo = new PaymentTypeInfo();
-		ptInfo.setId(BOSUuid.read(defaulPaymentType));
-		rbInfo.setPaymentType(ptInfo);
 		
-		//预收款  现金 
-//		if(recType.equals("sk-tyjk-xj")||(recType.equals("sk-ycz")&&"现金".equals(easPayTypeInfo.getName()))){
-//			 AccountViewInfo account = AccountViewFactory.getLocalInstance(ctx).getAccountViewInfo("where number ='1001.01' and CompanyID ='"+clinic+"'");
-//			 rbInfo.setPayeeAccount(account);   
-//			 defaulSettlementType="01"; 
-//		}
-		
-		// 结算方式  默认为99
-//		EntityViewInfo viewInfoSTI = new EntityViewInfo();
-//		FilterInfo filterSTI = new FilterInfo();
-//		filterSTI.getFilterItems().add(new FilterItemInfo("number", defaulSettlementType, CompareType.EQUALS));
-//		viewInfoSTI.setFilter(filterSTI);
-//		ISettlementType iSettlementType = SettlementTypeFactory.getLocalInstance(ctx);
-//		SettlementTypeInfo settlementTypeInfo = iSettlementType.getSettlementTypeCollection(viewInfoSTI).get(0);
-//		rbInfo.setSettlementType(settlementTypeInfo); 
+ 		// 付款方式 赊销
+		PaymentTypeInfo paymenttypeinfo = new PaymentTypeInfo();
+		paymenttypeinfo.setId(BOSUuid.read("91f078d7-fb90-4827-83e2-3538237b67a06BCA0AB5"));
+		rbInfo.setPaymentType(paymenttypeinfo);
+ 
 		SettlementTypeInfo settlementTypeInfo = new SettlementTypeInfo();
 		settlementTypeInfo.setId(BOSUuid.read("e09a62cd-00fd-1000-e000-0b33c0a8100dE96B2B8E"));
+		rbInfo.setSettlementType(settlementTypeInfo); 
 		
 		rbInfo.setPrintCount(1);// 打印次数
 		rbInfo.setPcaVouchered(false);// 是否生成利润中心凭证
 		rbInfo.setBankCheckStatus(BankCheckStatus.match);
-		rbInfo.setBgCtrlAmt(realAmount);
+		rbInfo.setBgCtrlAmt(m.getFtotalamount());
 		rbInfo.setIsRefundmentPay(false);
 		rbInfo.setIsHasRefundPay(false);
 
+		
+		for (BaseFIDetailDTO dvo : m.getDetails())
+	    {
+			ReceivingBillEntryInfo entryInfo = createEntryInfo(ctx,dvo,busCode);
+			entryInfo.setCurrency(currency);// 币别
+			rbInfo.getEntries().addObject((IObjectValue)entryInfo);
+		}
+		
+		return rbInfo;
+	}
+	
+	// 收款单-明细对象
+	private static ReceivingBillEntryInfo createEntryInfo(Context ctx,  BaseFIDetailDTO dvo ,String busCode)
+			throws BOSException, EASBizException {
 		ReceivingBillEntryInfo rbeInfo = new ReceivingBillEntryInfo();
-		rbeInfo.setSeq(1);// 序号
-		rbeInfo.setAmount(realAmount);// 金额
+		 BigDecimal price = dvo.getFprice();
+		 BigDecimal taxPirce = dvo.getFtaxprice();
+ 		 BigDecimal taxAmount = dvo.getFtaxamount();
+		 BigDecimal qty = dvo.getFqty();
+		 BigDecimal amount = dvo.getFamount();
+ 		 BigDecimal tax = dvo.getFtax();
+
+  		rbeInfo.setSeq(dvo.getFseq());// 序号
+		rbeInfo.setAmount(amount);// 金额
 		rbeInfo.setAmountVc(BigDecimal.ZERO);// 金额核销
-		rbeInfo.setLocalAmt(realAmount);// 本位币金额
+		rbeInfo.setLocalAmt(taxAmount);// 本位币金额
 		rbeInfo.setLocalAmtVc(BigDecimal.ZERO);// 本位币金额核销
-		rbeInfo.setUnVcAmount(realAmount);// 应收（付）未核销金额
-		rbeInfo.setUnVcLocAmount(realAmount);// 应收（付）未核销本位币金额
+		rbeInfo.setUnVcAmount(taxAmount);// 应收（付）未核销金额
+		rbeInfo.setUnVcLocAmount(taxAmount);// 应收（付）未核销本位币金额
 		rbeInfo.setUnVerifyExgRateLoc(BigDecimal.ZERO);// 未结算调汇本位币金额
 		rbeInfo.setRebate(BigDecimal.ZERO);// 现金折扣
 		rbeInfo.setRebateAmtVc(BigDecimal.ZERO);// 折扣金额累计核销
 		rbeInfo.setRebateLocAmt(BigDecimal.ZERO);// 折扣本位币金额
 		rbeInfo.setRebateLocAmtVc(BigDecimal.ZERO);// 折扣本位币金额累计核销
-		rbeInfo.setActualAmt(realAmount);// 实收（付）金额
+		rbeInfo.setActualAmt(taxAmount);// 实收（付）金额
 		rbeInfo.setActualAmtVc(BigDecimal.ZERO);// 实收（付）金额累计核销
-		rbeInfo.setActualLocAmt(realAmount);// 实收（付）本位币金额
+		rbeInfo.setActualLocAmt(taxAmount);// 实收（付）本位币金额
 		rbeInfo.setLockAmt(BigDecimal.ZERO);// 锁定金额
 		rbeInfo.setLockLocAmt(BigDecimal.ZERO);// 锁定本位币金额
-		rbeInfo.setUnLockAmt(realAmount);// 未锁定金额
-		rbeInfo.setUnLockLocAmt(realAmount);// 未锁定本位币金额
+		rbeInfo.setUnLockAmt(amount);// 未锁定金额
+		rbeInfo.setUnLockLocAmt(amount);// 未锁定本位币金额
 		rbeInfo.setVcStatus(VcStatusEnum.NOT_VERIFICATED);// 核销状态
-		rbeInfo.setReceivingBill(rbInfo);// 收款单头
 		rbeInfo.setHisUnVcAmount(BigDecimal.ZERO);// 历史未核销金额
 		rbeInfo.setHisUnVcLocAmount(BigDecimal.ZERO);// 历史未核销金额本位币
 		rbeInfo.setCoreBillEntrySeq(0);// 核心单据分录行号
-		rbeInfo.setCurrency(curInfo);// 币别
-		// rbeInfo.setContractEntrySeq("0");//合同行号
-		rbeInfo.setMatchedAmount(BigDecimal.ZERO);// 已匹配金额
+ 		rbeInfo.setMatchedAmount(BigDecimal.ZERO);// 已匹配金额
 		rbeInfo.setMatchedAmountLoc(BigDecimal.ZERO);// 已匹配金额本位币
-		rbeInfo.setBgCtrlAmt(realAmount);//
-		rbeInfo.setRecBillType(rbtInfo);// 收款类型 预收
- 		rbInfo.getEntries().add(rbeInfo);
-
-//		rbInfo.put("HisReqID", m.getId());  //HisReqId
-//		rbInfo.put("HISdanjubianma",m.getNumber());// his单据编码		 
-		
- 		return rbInfo;
+		rbeInfo.setBgCtrlAmt(amount);//
+  		return rbeInfo;
 	}
 	
 }

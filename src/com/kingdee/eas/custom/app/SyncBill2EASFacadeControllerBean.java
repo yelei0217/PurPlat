@@ -99,7 +99,9 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	@Override
 	protected String _saveArOtherBill(Context ctx, String jsonStr)
 			throws BOSException {
- 		return super._saveArOtherBill(ctx, jsonStr);
+		String res =  BaseFISupport.syncBill(ctx, jsonStr);
+		 logger.info("do BaseFISupport _saveArOtherBill method cost :" + this.timer.msValue());
+		return res;		
 	}
 
 
@@ -123,7 +125,9 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	@Override
 	protected String _saveReceiveBill(Context ctx, String jsonStr)
 			throws BOSException {
- 		return super._saveReceiveBill(ctx, jsonStr);
+		String res =  BaseFISupport.syncBill(ctx, jsonStr);
+		 logger.info("do BaseFISupport _saveReceiveBill method cost :" + this.timer.msValue());
+		return res;	
 	}
 	
 	

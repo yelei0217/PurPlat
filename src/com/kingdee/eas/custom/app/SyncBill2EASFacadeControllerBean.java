@@ -17,9 +17,12 @@ import com.kingdee.eas.custom.app.dao.base.BaseFISupport;
 import com.kingdee.eas.custom.app.dao.base.BaseSCMSupport;
 import com.kingdee.eas.custom.app.unit.AppUnit;
 import com.kingdee.eas.framework.CoreBillBaseCollection;
+import com.kingdee.eas.scm.im.inv.ISaleIssueBill;
 import com.kingdee.eas.scm.im.inv.PurInWarehsBillFactory;
 import com.kingdee.eas.scm.im.inv.PurInWarehsBillInfo;
 import com.kingdee.eas.scm.im.inv.PurInWarehsEntryInfo;
+import com.kingdee.eas.scm.im.inv.SaleIssueBillFactory;
+import com.kingdee.eas.scm.im.inv.SaleIssueBillInfo;
 import com.kingdee.util.LowTimer;
 
 public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacadeControllerBean
@@ -116,19 +119,32 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected String _saveCostAdjus(Context ctx, String jsonStr)
 			throws BOSException {
 		try {
-			 IObjectPK orgPK = new  ObjectUuidPK("jbYAAAad1Rl4MGHj");
-			 PurInWarehsBillInfo in = PurInWarehsBillFactory.getLocalInstance(ctx).getPurInWarehsBillInfo(orgPK);
-			 
-			 PurInWarehsEntryInfo entry = (PurInWarehsEntryInfo) in.getEntries().getObject(0);
-			 PurInWarehsEntryInfo entry1 = (PurInWarehsEntryInfo) entry.clone();
-			 entry1.setQty(new BigDecimal(1));
-			 entry1.setBaseQty(new BigDecimal(1));
-			 in.getEntries().clear();
-			 in.getEntries().addObject(entry1);
+//			 IObjectPK orgPK = new  ObjectUuidPK("jbYAAAad1Rl4MGHj");
+//			 PurInWarehsBillInfo in = PurInWarehsBillFactory.getLocalInstance(ctx).getPurInWarehsBillInfo(orgPK);
+//			 PurInWarehsEntryInfo entry = (PurInWarehsEntryInfo) in.getEntries().getObject(0);
+//			 PurInWarehsEntryInfo entry1 = (PurInWarehsEntryInfo) entry.clone();
+//			 entry1.setQty(new BigDecimal(1));
+//			 entry1.setBaseQty(new BigDecimal(1));
+//			 in.getEntries().clear();
+//			 in.getEntries().addObject(entry1);
+//			 CoreBillBaseCollection sourceColl = new CoreBillBaseCollection();  
+//			 
+//			 sourceColl.add(in);
+// 			 List<IObjectPK> pkIns = AppUnit.botpSave(ctx, "783061E3", sourceColl, "JV7MYpL+QEKaxoy2KYZKzwRRIsQ=");
+
+			ISaleIssueBill ibiz =SaleIssueBillFactory.getLocalInstance(ctx);
+
+ 			 IObjectPK orgPK = new  ObjectUuidPK("jbYAAAadvanMPpM7");
+ 			 SaleIssueBillInfo out = SaleIssueBillFactory.getLocalInstance(ctx).getSaleIssueBillInfo(orgPK);
+//			 PurInWarehsEntryInfo entry = (PurInWarehsEntryInfo) in.getEntries().getObject(0);
+//			 PurInWarehsEntryInfo entry1 = (PurInWarehsEntryInfo) entry.clone();
+//			 entry1.setQty(new BigDecimal(1));
+//			 entry1.setBaseQty(new BigDecimal(1));
+//			 in.getEntries().clear();
+//			 in.getEntries().addObject(out);
 			 CoreBillBaseCollection sourceColl = new CoreBillBaseCollection();  
-			 
-			 sourceColl.add(in);
- 			 List<IObjectPK> pkIns = AppUnit.botpSave(ctx, "783061E3", sourceColl, "JV7MYpL+QEKaxoy2KYZKzwRRIsQ=");
+			 sourceColl.add(out);
+ 			 List<IObjectPK> pkIns = AppUnit.botpSave(ctx, "CC3E933B", sourceColl, "ufgs6nQJRo29KGbQb3EbdgRRIsQ=");
 
 		} catch (EASBizException e) {
 			e.printStackTrace();

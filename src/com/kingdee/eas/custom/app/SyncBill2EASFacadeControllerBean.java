@@ -79,10 +79,9 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected String _savePurInWare(Context ctx, String jsonStr)
 			throws BOSException {
 		this.timer.reset(); 
-//		 String res =  PurInWarehsSupport.doSync(ctx, jsonStr);
-		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
-		 logger.info("do _saleOrderCloseRow doCloseRow method cost :" + this.timer.msValue());
-		 return res;	
+		String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
+		logger.info("do _saleOrderCloseRow doCloseRow method cost :" + this.timer.msValue());
+		return res;	
 	}
 
 

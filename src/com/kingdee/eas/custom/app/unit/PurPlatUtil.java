@@ -178,7 +178,9 @@ public class PurPlatUtil {
 	    		 tableName =" T_SD_SALEORDER ";
 	    	 }else if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)||"VMIB_MZ_PI".equals(busCode)||"DZ_MZ_PI".equals(busCode)
 	    			 ||"VMI2C_LZ_PI".equals(busCode)||"VMI2CB_LZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)
-	    			 ||"YC_PI".equals(busCode)||"YX_MZ_PI".equals(busCode)||"ZZ_YC_MZ_PI".equals(busCode)){
+	    			 ||"YC_PI".equals(busCode)||"YX_MZ_PI".equals(busCode)||"ZZ_YC_MZ_PI".equals(busCode)
+	    			 ||"GZB_MZ_PI".equals(busCode)||"GZB_LZ_PI".equals(busCode)||"DZB_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)  
+	    			 ||"VMI2CB_LZ_PI".equals(busCode)||"VMIB_MZ_PI".equals(busCode)||"VMI_U_MZ_PI".equals(busCode) ){
 	    		 tableName =" T_IM_PurInWarehsBill ";
 	    	 }else if("GZ_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMIB_LZ_SS".equals(busCode)||"SO_LZ_SS".equals(busCode)
 	    			 ||"CGZ_U_MZ_SS".equals(busCode)||"CDZ_U_MZ_SS".equals(busCode)||"VMI_U_MZ_SS_VMI".equals(busCode)||"VMI_U_MZ_SS".equals(busCode)
@@ -197,7 +199,13 @@ public class PurPlatUtil {
 	    		 tableName =" T_CAS_ReceivingBill ";
 	    	 }else if("GZ_CK_LZ_AR".equals(busCode)||"GZ_CK_MZ_AP".equals(busCode)||"VMI_CK_LZ_AR".equals(busCode)){
 	    		 tableName =" T_AR_OtherBill ";
-	    	 }
+		     
+		     }else if("SK_MZ_OPI".equals(busCode)){
+    		 tableName =" T_IM_OtherInWarehsBill ";
+	     
+		     }else if("SK_MZ_OSS".equals(busCode)){
+		    	 tableName =" T_IM_OtherInWarehsBill ";
+		     }
 	    	 
 	        try {
 	    		String sql = " select count(1) C from "+tableName+" where CFMsgId = '"+msgId+"' ";

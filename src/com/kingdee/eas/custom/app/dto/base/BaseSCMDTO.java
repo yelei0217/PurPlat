@@ -27,6 +27,7 @@ public class BaseSCMDTO implements Serializable{
 	private String  fcreatorid;
 	private String	fpurchasepersonid ;
 	private String	fstockerid;
+	
 	private List<BaseSCMDetailDTO> details;
 	
 	public String getFpurchasepersonid() {

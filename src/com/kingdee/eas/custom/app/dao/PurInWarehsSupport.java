@@ -233,7 +233,7 @@ public class PurInWarehsSupport {
 //	
 	public static void doInsertBill(Context ctx,BaseSCMDTO m,String busCode){
 			try {
-				PurInWarehsBillInfo info = createPurBillInfo(ctx, m,busCode);
+				PurInWarehsBillInfo info = createBillInfo(ctx, m,busCode);
 				IPurInWarehsBill ibiz = PurInWarehsBillFactory.getLocalInstance(ctx);
 				IObjectPK pk = ibiz.save(info);
 				ibiz.submit(pk.toString());
@@ -253,11 +253,10 @@ public class PurInWarehsSupport {
 	}
 	
 	
-	private static PurInWarehsBillInfo createPurBillInfo(Context ctx, BaseSCMDTO m,String busCode)
+	private static PurInWarehsBillInfo createBillInfo(Context ctx, BaseSCMDTO m,String busCode)
     throws EASBizException, BOSException
   {
     PurInWarehsBillInfo info = new PurInWarehsBillInfo();
-
 
     ObjectUuidPK orgPK = new ObjectUuidPK(m.getFstorageorgunitid());
     StorageOrgUnitInfo storageorginfo = StorageOrgUnitFactory.getLocalInstance(ctx).getStorageOrgUnitInfo(orgPK);
@@ -310,7 +309,6 @@ public class PurInWarehsSupport {
     info.setCreateTime(new Timestamp(new Date().getTime()));
     SimpleDateFormat formmat = new SimpleDateFormat("yyyy-MM-dd");
 
-	 
     try {
 		info.setBizDate(formmat.parse(m.getFbizdate()));
 	} catch (ParseException e) {
@@ -363,7 +361,7 @@ public class PurInWarehsSupport {
   //  BigDecimal qty = new BigDecimal(1);
     for (BaseSCMDetailDTO entry : m.getDetails())
     {
-        PurInWarehsEntryInfo entryInfo = createPurEntryInfo(ctx,  entry,busCode);
+        PurInWarehsEntryInfo entryInfo = createEntryInfo(ctx,  entry,busCode);
         entryInfo.setStorageOrgUnit(storageorginfo);
         entryInfo.setCompanyOrgUnit(xmcompany);
         entryInfo.setBizDate(info.getBizDate());
@@ -398,7 +396,7 @@ public class PurInWarehsSupport {
     return info;
   }
   
-  private static PurInWarehsEntryInfo createPurEntryInfo(Context ctx, BaseSCMDetailDTO dvo,String busCode)
+  private static PurInWarehsEntryInfo createEntryInfo(Context ctx, BaseSCMDetailDTO dvo,String busCode)
     throws BOSException, EASBizException
   {
     PurInWarehsEntryInfo entryInfo = new PurInWarehsEntryInfo();

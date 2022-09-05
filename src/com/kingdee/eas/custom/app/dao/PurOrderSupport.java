@@ -142,11 +142,14 @@ public class PurOrderSupport {
 			
 			String deliveDateStr = dvo.getFdeliverydate();
 			Map<String,String> mmp = PurPlatUtil.getMaterialInfoByMId(ctx, dvo.getFmaterialid());
+			
 			int isPresent = 0;
-			if(dvo.getFispresent())
+			//if(dvo.getFispresent())
+			if(dvo.getFispresent() !=null && !"".equals(dvo.getFispresent())&& "1".equals(dvo.getFispresent()))
 				isPresent = 1;
 			else
 				isPresent = 0;
+			
 			sbr1.append("'").append(eid).append("',").append(dvo.getFseq()).append(",'").append(dvo.getFmaterialid()).append("','").append(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())).append("',4,");
 			sbr1.append(dvo.getFqty()).append(",'").append(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFbaseunitid())).append("','").append(dvo.getFremark()).append("',").append(isPresent).append(",0,").append(dvo.getFqty());
 			sbr1.append(",'").append( m.getFstorageorgunitid()).append("','").append( m.getFstorageorgunitid()).append("',0,").append(dvo.getFprice()).append(",0,").append(dvo.getFactualprice()).append(",").append(dvo.getFtaxrate()).append(",");

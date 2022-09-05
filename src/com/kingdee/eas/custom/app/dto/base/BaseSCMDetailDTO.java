@@ -20,7 +20,7 @@ public class BaseSCMDetailDTO implements Serializable{
 	private String  funitid;
 	private BigDecimal      fassociateqty;
 	private String  fbaseunitid;
-	private Boolean fispresent;
+	private String fispresent;
 	private BigDecimal      fqty;
 	private BigDecimal      fprice;
 	private BigDecimal      factualprice;
@@ -97,10 +97,10 @@ public class BaseSCMDetailDTO implements Serializable{
 	public void setFbaseunitid(String fbaseunitid) {
 		this.fbaseunitid = fbaseunitid;
 	}
-	public Boolean getFispresent() {
+	public String getFispresent() {
 		return fispresent;
 	}
-	public void setFispresent(Boolean fispresent) {
+	public void setFispresent(String fispresent) {
 		this.fispresent = fispresent;
 	}
 	public BigDecimal getFqty() {

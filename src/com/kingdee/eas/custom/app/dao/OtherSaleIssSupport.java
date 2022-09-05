@@ -131,13 +131,20 @@ public class OtherSaleIssSupport {
 		 BigDecimal qty = dvo.getFqty(); 
 			try {
 					InvUpdateTypeInfo updateTypeInfo = new InvUpdateTypeInfo();
-					if(dvo.getFispresent()){//是赠品
+					boolean ispresent = false;
+					if(dvo.getFispresent() !=null && !"".equals(dvo.getFispresent())&& "1".equals(dvo.getFispresent()))
+						ispresent = true;
+					else
+						ispresent = false;
+						
+					
+					if(ispresent){//是赠品
 						updateTypeInfo.setId(BOSUuid.read("8r0AAAAEaPXC73rf"));
 					}else{//不是赠品
 						//8r0AAAAEaOjC73rf  8r0AAAAEaOjC73rf
 						updateTypeInfo.setId(BOSUuid.read("8r0AAAAEaOjC73rf"));
 					}
-					 entryInfo.setIsPresent(dvo.getFispresent());
+					 entryInfo.setIsPresent(ispresent);
 					
 					 entryInfo.setInvUpdateType(updateTypeInfo); 
 					 entryInfo.setPrice(price);

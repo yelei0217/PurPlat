@@ -347,12 +347,6 @@ public class PurInWarehsSupport {
 		return result;
 	}
 	
-	private static Map getEntrysByB2BId(Context ctx,String id,String eIds){
-		Map mp = null;
-		
-		return mp;
-	}
-	
 	public static void doSaveBill(Context ctx,BaseSCMDTO m,String busCode){
 			try {
 					PurInWarehsBillInfo info = createBillInfo(ctx, m,busCode);

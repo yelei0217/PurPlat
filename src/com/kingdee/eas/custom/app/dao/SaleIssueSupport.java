@@ -5,6 +5,9 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -41,15 +44,26 @@ import com.kingdee.eas.basedata.scm.im.inv.WarehouseInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
+import com.kingdee.eas.custom.app.PurPlatSyncEnum;
+import com.kingdee.eas.custom.app.dto.PurInDetailDTO;
 import com.kingdee.eas.custom.app.dto.SaleIssDTO;
 import com.kingdee.eas.custom.app.dto.SaleIssDetailDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
+import com.kingdee.eas.custom.app.unit.AppUnit;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
+import com.kingdee.eas.framework.CoreBillBaseCollection;
 import com.kingdee.eas.scm.im.inv.ISaleIssueBill;
+import com.kingdee.eas.scm.im.inv.PurInWarehsBillCollection;
+import com.kingdee.eas.scm.im.inv.PurInWarehsBillFactory;
+import com.kingdee.eas.scm.im.inv.PurInWarehsBillInfo;
+import com.kingdee.eas.scm.im.inv.PurInWarehsEntryCollection;
+import com.kingdee.eas.scm.im.inv.PurInWarehsEntryInfo;
+import com.kingdee.eas.scm.im.inv.SaleIssueBillCollection;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillFactory;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillInfo;
+import com.kingdee.eas.scm.im.inv.SaleIssueEntryCollection;
 import com.kingdee.eas.scm.im.inv.SaleIssueEntryInfo;
 import com.kingdee.eas.scm.ws.app.importbill.ScmbillImportUtils;
 import com.kingdee.eas.util.app.ContextUtil;
@@ -272,9 +286,69 @@ public class SaleIssueSupport {
 				//采购入库单-退货业务流程
 		 		if("GZB_LZ_SS".equals(busCode)||"VMIB_LZ_SS".equals(busCode)){
 					//根据 id 和明细id 查询 采购入库单是否存在
-					
-				}
-			}
+		 		// 判断msgId 是否存在SaleOrderDTO
+					if(PurPlatUtil.judgeMsgIdExists(ctx, busCode, m.getBid())){
+						 try {
+							 SaleIssueBillCollection coll = SaleIssueBillFactory.getLocalInstance(ctx).getSaleIssueBillCollection("where MsgId='"+m.getBid()+"'");
+							 List<SaleIssDetailDTO> list = m.getDetails();
+							 Map<String,BigDecimal> entryMp =null;
+							 if(list !=null && list.size() > 0){
+								 entryMp = new HashMap<String,BigDecimal>();
+								 for(SaleIssDetailDTO dvo:list){
+									 if(dvo.getBid() !=null && !"".equals(dvo.getBid())&& dvo.getFqty()!=null&&
+											 dvo.getFqty().compareTo(BigDecimal.ZERO)>0	)
+									 entryMp.put(dvo.getBid(), dvo.getFqty());
+								 }
+							 }
+						
+							 if(coll !=null && coll.size() >0){
+								 CoreBillBaseCollection sourceColl = new CoreBillBaseCollection();  
+								 SaleIssueBillInfo info = coll.get(0);
+								 //整单退货
+								if(m.getIswholebill()!= null && "1".equals(m.getIswholebill())){
+									sourceColl.add(info);
+								}else{
+									//部分退货
+									 SaleIssueEntryCollection entryColl = info.getEntry();
+									 SaleIssueEntryCollection tempEntryColl = new SaleIssueEntryCollection();
+									 Iterator it = entryColl.iterator();
+									 while(it.hasNext()){
+										 SaleIssueEntryInfo entryInfo = (SaleIssueEntryInfo) it.next();
+										 if(entryInfo.get("MsgId") !=null && !"".equals( entryInfo.get("MsgId").toString() )){
+											 if(entryMp.get(entryInfo.get("MsgId").toString())!=null){
+												 BigDecimal curRetrunQty =  entryMp.get(entryInfo.get("MsgId").toString());
+												 if(entryInfo.getQty().subtract(entryInfo.getReturnsQty()).subtract(curRetrunQty).compareTo(BigDecimal.ZERO) >=0)
+												 {
+													 SaleIssueEntryInfo ec = (SaleIssueEntryInfo) entryInfo.clone();
+													 ec.setQty(curRetrunQty);
+													 tempEntryColl.add(ec);
+												 } 
+											 }
+										 }else
+												result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
+									 }
+									 if(tempEntryColl.size() > 0){
+										 info.getEntries().clear();
+										 info.getEntries().addObjectCollection(tempEntryColl);
+										 sourceColl.add(info);
+ 							 			 List<IObjectPK> pks = AppUnit.botpSave(ctx, "CC3E933B", sourceColl, "ufgs6nQJRo29KGbQb3EbdgRRIsQ=");
+										 sourceColl.clear();
+										 result = "success";
+									 }
+									 
+								}
+							 }else
+									result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
+						} catch (BOSException e) {
+ 							e.printStackTrace();
+						}
+						
+					}else
+						result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
+				}else
+					result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+			}else
+				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
 		}	
 		return result;
 		

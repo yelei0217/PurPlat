@@ -343,4 +343,48 @@ public abstract class AbstractSyncBill2EASFacadeControllerBean extends AbstractB
         return null;
     }
 
+    public String rollBackPurchInBill(Context ctx, String jsonStr) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("710f6f24-38d8-4aea-a3d9-7758ae76eb65"), new Object[]{ctx, jsonStr});
+            invokeServiceBefore(svcCtx);
+            if(!svcCtx.invokeBreak()) {
+            String retValue = (String)_rollBackPurchInBill(ctx, jsonStr);
+            svcCtx.setMethodReturnValue(retValue);
+            }
+            invokeServiceAfter(svcCtx);
+            return (String)svcCtx.getMethodReturnValue();
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected String _rollBackPurchInBill(Context ctx, String jsonStr) throws BOSException
+    {    	
+        return null;
+    }
+
+    public String rollBackSaleIssBill(Context ctx, String jsonStr) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("7d8df367-b0a7-42a8-89a0-b7dd7dfb9aa0"), new Object[]{ctx, jsonStr});
+            invokeServiceBefore(svcCtx);
+            if(!svcCtx.invokeBreak()) {
+            String retValue = (String)_rollBackSaleIssBill(ctx, jsonStr);
+            svcCtx.setMethodReturnValue(retValue);
+            }
+            invokeServiceAfter(svcCtx);
+            return (String)svcCtx.getMethodReturnValue();
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected String _rollBackSaleIssBill(Context ctx, String jsonStr) throws BOSException
+    {    	
+        return null;
+    }
+
 }

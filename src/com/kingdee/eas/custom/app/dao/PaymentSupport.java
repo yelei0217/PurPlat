@@ -141,7 +141,6 @@ public class PaymentSupport {
 		    payInfo.setUnVerifiedAmtLoc(m.getFtotaltaxamount());
 		    payInfo.setBgCtrlAmt(m.getFtotaltaxamount());
 		    payInfo.setBillStatus(com.kingdee.eas.fi.cas.BillStatusEnum.SAVE);  
-	         
  	         
 		   return payInfo;
   }

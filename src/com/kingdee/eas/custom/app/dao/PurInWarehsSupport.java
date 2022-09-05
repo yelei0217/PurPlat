@@ -5,8 +5,17 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import mondrian.rolap.BitKey.Big;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
@@ -33,17 +42,24 @@ import com.kingdee.eas.basedata.scm.im.inv.InvUpdateTypeInfo;
 import com.kingdee.eas.basedata.scm.im.inv.WarehouseFactory;
 import com.kingdee.eas.basedata.scm.im.inv.WarehouseInfo;
 import com.kingdee.eas.common.EASBizException;
+import com.kingdee.eas.custom.app.DateBaseProcessType;
+import com.kingdee.eas.custom.app.DateBasetype;
+import com.kingdee.eas.custom.app.PurPlatSyncEnum;
 import com.kingdee.eas.custom.app.dto.PurInDTO;
 import com.kingdee.eas.custom.app.dto.PurInDetailDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 import com.kingdee.eas.custom.app.unit.AppUnit;
+import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.custom.util.VerifyUtil;
+import com.kingdee.eas.framework.CoreBillBaseCollection;
 import com.kingdee.eas.scm.common.PurchaseTypeEnum;
 import com.kingdee.eas.scm.im.inv.IPurInWarehsBill;
+import com.kingdee.eas.scm.im.inv.PurInWarehsBillCollection;
 import com.kingdee.eas.scm.im.inv.PurInWarehsBillFactory;
 import com.kingdee.eas.scm.im.inv.PurInWarehsBillInfo;
+import com.kingdee.eas.scm.im.inv.PurInWarehsEntryCollection;
 import com.kingdee.eas.scm.im.inv.PurInWarehsEntryInfo;
 import com.kingdee.eas.scm.ws.app.importbill.ScmbillImportUtils;
 import com.kingdee.eas.util.app.ContextUtil;
@@ -231,20 +247,126 @@ public class PurInWarehsSupport {
 //		 return result;
 //	}
 //	
-	public static void doInsertBill(Context ctx,BaseSCMDTO m,String busCode){
+	
+	public static String doRollBackBill(Context ctx,String jsonStr){
+		String result = null;
+		if(jsonStr != null && !"".equals(jsonStr)){
+		    System.out.println("************************json begin****************************");
+		    System.out.println("#####################jsonStr################=" + jsonStr);
+			DateBaseProcessType processType = DateBaseProcessType.AddNew;
+			DateBasetype baseType = DateBasetype.GZB_MZ_PI;
+			String msgId = "";
+			String busCode ="";
+			String reqTime ="";
+			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
+			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+			Gson gson = new Gson();
+			JsonElement modelJE = returnData.get("data"); // 请求参数data
+			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+				msgId = msgIdJE.getAsString() ;
+				busCode = busCodeJE.getAsString() ;
+				reqTime = reqTimeJE.getAsString() ;
+  				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
+				// 记录日志
+				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+				PurInDTO m = gson.fromJson(modelJE, PurInDTO.class);
+				//采购入库单-退货业务流程
+				if("GZB_MZ_PI".equals(busCode)||"GZB_LZ_PI".equals(busCode)||"DZB_MZ_PI".equals(busCode)
+						||"VMI2CB_LZ_PI".equals(busCode)||"VMIB_MZ_PI".equals(busCode)){
+					//根据 id 和明细id 查询 采购入库单是否存在
+					
+					// 判断msgId 是否存在SaleOrderDTO
+					if(PurPlatUtil.judgeMsgIdExists(ctx, busCode, m.getBid())){
+						 try {
+							 PurInWarehsBillCollection coll = PurInWarehsBillFactory.getLocalInstance(ctx).getPurInWarehsBillCollection("where MsgId='"+m.getBid()+"'");
+							 List<PurInDetailDTO> list = m.getDetails();
+							 Map<String,BigDecimal> entryMp =null;
+							 if(list !=null && list.size() > 0){
+								 entryMp = new HashMap<String,BigDecimal>();
+								 for(PurInDetailDTO dvo:list){
+									 if(dvo.getBid() !=null && !"".equals(dvo.getBid())&& dvo.getFqty()!=null&&
+											 dvo.getFqty().compareTo(BigDecimal.ZERO)>0	)
+									 entryMp.put(dvo.getBid(), dvo.getFqty());
+								 }
+							 }
+						
+							 if(coll !=null && coll.size() >0){
+								 CoreBillBaseCollection sourceColl = new CoreBillBaseCollection();  
+								 PurInWarehsBillInfo info = coll.get(0);
+								 //整单退货
+								if(m.getIswholebill()!= null && "1".equals(m.getIswholebill())){
+									sourceColl.add(info);
+								}else{
+									//部分退货
+									 PurInWarehsEntryCollection entryColl = info.getEntry();
+									 PurInWarehsEntryCollection tempEntryColl = new PurInWarehsEntryCollection();
+									 Iterator it = entryColl.iterator();
+									 while(it.hasNext()){
+										 PurInWarehsEntryInfo entryInfo = (PurInWarehsEntryInfo) it.next();
+										 if(entryInfo.get("MsgId") !=null && !"".equals( entryInfo.get("MsgId").toString() )){
+											 if(entryMp.get(entryInfo.get("MsgId").toString())!=null){
+												 BigDecimal curRetrunQty =  entryMp.get(entryInfo.get("MsgId").toString());
+												 if(entryInfo.getQty().subtract(entryInfo.getReturnsQty()).subtract(curRetrunQty).compareTo(BigDecimal.ZERO) >=0)
+												 {
+													 PurInWarehsEntryInfo ec = (PurInWarehsEntryInfo) entryInfo.clone();
+													 ec.setQty(curRetrunQty);
+													 tempEntryColl.add(ec);
+												 } 
+											 }
+										 }else
+												result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
+									 }
+									 if(tempEntryColl.size() > 0){
+										 info.getEntries().clear();
+										 info.getEntries().addObjectCollection(tempEntryColl);
+										 sourceColl.add(info);
+										 List<IObjectPK> pks = AppUnit.botpSave(ctx, "783061E3", sourceColl, "JV7MYpL+QEKaxoy2KYZKzwRRIsQ=");
+										 sourceColl.clear();
+										 result = "success";
+									 }
+									 
+								}
+							 }else
+									result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
+						} catch (BOSException e) {
+ 							e.printStackTrace();
+						}
+						
+					}else
+						result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
+						
+				}else
+					result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+			}else
+				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+		}	
+		return result;
+	}
+	
+	private static Map getEntrysByB2BId(Context ctx,String id,String eIds){
+		Map mp = null;
+		
+		return mp;
+	}
+	
+	public static void doSaveBill(Context ctx,BaseSCMDTO m,String busCode){
 			try {
-				PurInWarehsBillInfo info = createBillInfo(ctx, m,busCode);
-				IPurInWarehsBill ibiz = PurInWarehsBillFactory.getLocalInstance(ctx);
-				IObjectPK pk = ibiz.save(info);
-				ibiz.submit(pk.toString());
-				if(!busCode.contains("VMI")){
-					String fromID = info.getEntry().get(0).getSourceBillId();
-					if(fromID !=null && !"".equals(fromID)){
-						String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
-						" values(newbosid('59302EC6'),'3171BFAD','783061E3','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','5iUfG0tUSoalSLeGmOHURwRRIsQ=','0')";
-						DbUtil.execute(ctx,sql);
-					}
-				}
+					PurInWarehsBillInfo info = createBillInfo(ctx, m,busCode);
+					IPurInWarehsBill ibiz = PurInWarehsBillFactory.getLocalInstance(ctx);
+					IObjectPK pk = ibiz.save(info);
+					ibiz.submit(pk.toString());
+					if(!busCode.contains("VMI")){
+						String fromID = info.getEntry().get(0).getSourceBillId();
+						if(fromID !=null && !"".equals(fromID)){
+							String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
+							" values(newbosid('59302EC6'),'3171BFAD','783061E3','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','5iUfG0tUSoalSLeGmOHURwRRIsQ=','0')";
+							DbUtil.execute(ctx,sql);
+						}
+					}	
 			} catch (EASBizException e) {
 	 		e.printStackTrace();
 		} catch (BOSException e) {
@@ -268,8 +390,6 @@ public class PurInWarehsSupport {
 	String transinfoId ="";//事务类型
 
     BigDecimal factor = new BigDecimal(1);
-
-    
 	if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"SO_LZ_PI".equals(busCode)
 			||"ZZ_GX_LZ_PI".equals(busCode)||"ZZ_YC_LZ_PI".equals(busCode)||"ZZ_YC_MZ_PI".equals(busCode)||
 			"YX_MZ_PI".equals(busCode)||"YX_LZ_PI".equals(busCode)||"YC_PI".equals(busCode)||"DZ_MZ_PI".equals(busCode)){
@@ -337,7 +457,7 @@ public class PurInWarehsSupport {
         sourceBillTypeInfo.setId(BOSUuid.read(sourceBilltypeId));
     }
     
-     info.put("yisheng", person);
+    info.put("yisheng", person);
     info.put("HISdanjubianma", m.getFnumber());
     BigDecimal totalAmount = new BigDecimal(0);
     
@@ -356,7 +476,8 @@ public class PurInWarehsSupport {
       info.setSupplier(supplierInfo);
       info.put("iscollpur", Integer.valueOf(0));
     }
-    
+    info.put("MsgId", m.getId());
+
     info.put("factory", m.getFsupplierid());
   //  BigDecimal qty = new BigDecimal(1);
     for (BaseSCMDetailDTO entry : m.getDetails())
@@ -365,8 +486,8 @@ public class PurInWarehsSupport {
         entryInfo.setStorageOrgUnit(storageorginfo);
         entryInfo.setCompanyOrgUnit(xmcompany);
         entryInfo.setBizDate(info.getBizDate());
-         entryInfo.setReceiveStorageOrgUnit(storageorginfo);
-         entryInfo.setBalanceSupplier(supplierInfo);
+        entryInfo.setReceiveStorageOrgUnit(storageorginfo);
+        entryInfo.setBalanceSupplier(supplierInfo);
         entryInfo.setPurchaseOrgUnit(purchaseorginfo);
         
         if(sourceBilltypeId!=null && !"".equals(sourceBilltypeId)){
@@ -447,12 +568,11 @@ public class PurInWarehsSupport {
     entryInfo.setUnWriteOffQty(dvo.getFqty().multiply(factor));
     entryInfo.setUnWriteOffBaseQty(dvo.getFbaseqty().multiply(factor));
     entryInfo.setUnVmiSettleBaseQty(dvo.getFqty().multiply(factor));
-    
-     
     entryInfo.setUnReturnedBaseQty(BigDecimal.ZERO);
     entryInfo.setCanDirectReqBaseQty(BigDecimal.ZERO);
     entryInfo.setCanDirectReqQty(BigDecimal.ZERO);
     entryInfo.setAssistQty(BigDecimal.ZERO);
+    entryInfo.put("MsgId", dvo.getId());
     //entryInfo.setStandardCost(BigDecimal.ZERO);
    if(!busCode.contains("VMI")){
 	    entryInfo.setTaxRate(dvo.getFtaxrate());

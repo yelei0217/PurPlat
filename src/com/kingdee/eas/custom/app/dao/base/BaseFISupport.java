@@ -72,9 +72,9 @@ public class BaseFISupport {
 					if("".equals(result))
 					{
 						if(busCode.contains("_AP"))
-							ApOtherSupport.doInsertBill(ctx,m,busCode);
+							ApOtherSupport.doSaveBill(ctx,m,busCode);
 						else if(busCode.contains("_AR"))
-							ArOtherSupport.doInsertBill(ctx, m,busCode);
+							ArOtherSupport.doSaveBill(ctx, m,busCode);
 						else if(busCode.contains("_R"))
 							ReceiptSupport.doInsertBill(ctx,m,busCode);
 						result = "success";

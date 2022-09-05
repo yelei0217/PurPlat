@@ -80,7 +80,7 @@ import com.kingdee.eas.util.app.DbUtil;
  */
 public class ApOtherSupport {
 
-	public static void doInsertBill(Context ctx,BaseFIDTO m,String busCode){
+	public static void doSaveBill(Context ctx,BaseFIDTO m,String busCode){
 		try {
 				OtherBillInfo info = createInfo(ctx,m,busCode);
 				IOtherBill ibiz = OtherBillFactory.getLocalInstance(ctx);

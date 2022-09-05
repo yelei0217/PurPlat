@@ -50,7 +50,7 @@ public class OtherPurInSupport {
 	protected BigDecimal zero = new BigDecimal("0.00");
 	
 	
-	public static void doInsertBill(Context ctx,BaseSCMDTO m,String busCode){
+	public static void doSaveBill(Context ctx,BaseSCMDTO m,String busCode){
 		try {
 				OtherInWarehsBillInfo info = createBillInfo(ctx, m,busCode);
 				IOtherInWarehsBill ibiz = OtherInWarehsBillFactory.getLocalInstance(ctx);
@@ -96,7 +96,8 @@ public class OtherPurInSupport {
 			info.setBaseStatus(BillBaseStatusEnum.ADD);
 			info.setTotalAmount(m.getFtotalamount());
 			info.setTotalQty(BigDecimal.ZERO);
-			
+		    info.put("MsgId", m.getId());
+
 			//业务类型
 			BizTypeInfo bizTypeInfo = new BizTypeInfo();
 			bizTypeInfo.setId(BOSUuid.read("N5d2igEgEADgAABzwKg/GiQHQ1w="));
@@ -128,7 +129,6 @@ public class OtherPurInSupport {
 		}
 		return info;
 	}
-	
 	
 	
 	/**
@@ -189,6 +189,7 @@ public class OtherPurInSupport {
 					 entryInfo.setQty(qty);
 					 entryInfo.setUnVmiSettleBaseQty(BigDecimal.ZERO);
 					 entryInfo.setTotalVmiSettleBaseQty(BigDecimal.ZERO);
+					 entryInfo.put("MsgId", dvo.getId());
 			} catch (EASBizException e) {
 				e.printStackTrace();
 			} catch (UuidException e) {

@@ -229,4 +229,32 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
             throw new EJBRemoteException(err);
         }
     }
+    /**
+     *采购入库单--红单-User defined method
+     *@param jsonStr 传入json参数
+     *@return
+     */
+    public String rollBackPurchInBill(String jsonStr) throws BOSException
+    {
+        try {
+            return getController().rollBackPurchInBill(getContext(), jsonStr);
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
+    /**
+     *销售出库单--红单-User defined method
+     *@param jsonStr 传入json参数
+     *@return
+     */
+    public String rollBackSaleIssBill(String jsonStr) throws BOSException
+    {
+        try {
+            return getController().rollBackSaleIssBill(getContext(), jsonStr);
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
 }

@@ -44,6 +44,12 @@
             <userDefined>true</userDefined>
             <value>-5</value>
         </enumValue>
+        <enumValue>
+            <name>NOTEXISTS_BILL</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[NOTEXISTS_BILL].alias</alias>
+            <userDefined>true</userDefined>
+            <value>-6</value>
+        </enumValue>
     </enumValues>
     <resource>
         <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].alias">
@@ -87,6 +93,12 @@
             <lang locale="zh_CN" value="JSON格式解析异常" />
             <lang locale="zh_HK" value="JSON格式解析異常" />
             <lang locale="zh_TW" value="JSON格式解析異常" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[NOTEXISTS_BILL].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="业务单据不存在" />
+            <lang locale="zh_HK" value="業務單據不存在" />
+            <lang locale="zh_TW" value="業務單據不存在" />
         </rs>
         <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[SUCCESS].alias">
             <lang locale="en_US" value="null" />

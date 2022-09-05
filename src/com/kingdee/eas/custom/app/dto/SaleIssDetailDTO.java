@@ -1,8 +1,5 @@
 package com.kingdee.eas.custom.app.dto;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 
 public class SaleIssDetailDTO  extends BaseSCMDetailDTO{
@@ -12,8 +9,22 @@ public class SaleIssDetailDTO  extends BaseSCMDetailDTO{
 	 */
 	private static final long serialVersionUID = 6480991783620144678L;
 
-//	private String id ;
-//	private String fseq ;
+	private String bid ;//蓝单明细Id
+	private String iswholerow ;//是否整行退库
+	
+	public String getBid() {
+		return bid;
+	}
+	public void setBid(String bid) {
+		this.bid = bid;
+	}
+	public String getIswholerow() {
+		return iswholerow;
+	}
+	public void setIswholerow(String iswholerow) {
+		this.iswholerow = iswholerow;
+	}
+	
 //	private String fsourcebillid ;
 //	private String fsourcebillnumber ;
 //	private String fsourcebillentryid ;

@@ -28,4 +28,6 @@ public interface ISyncBill2EASFacade extends IBizCtrl
     public String saveReceiveBill(String jsonStr) throws BOSException;
     public String saveCostAdjus(String jsonStr) throws BOSException;
     public String savePurInCGW(String jsonStr) throws BOSException;
+    public String rollBackPurchInBill(String jsonStr) throws BOSException;
+    public String rollBackSaleIssBill(String jsonStr) throws BOSException;
 }

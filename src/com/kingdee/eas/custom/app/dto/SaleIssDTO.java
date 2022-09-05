@@ -1,9 +1,5 @@
 package com.kingdee.eas.custom.app.dto;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.List;
-
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
 
 public class SaleIssDTO  extends BaseSCMDTO{
@@ -13,8 +9,24 @@ public class SaleIssDTO  extends BaseSCMDTO{
 	 */
 	private static final long serialVersionUID = -1238406490548965088L;
 
-//	private String  id;
-//	private String  fnumber;
+	private String  bid;	//蓝单ID
+	private String  iswholebill;	//是否整单退库
+	
+	public String getBid() {
+		return bid;
+	}
+	public void setBid(String bid) {
+		this.bid = bid;
+	}
+	public String getIswholebill() {
+		return iswholebill;
+	}
+	public void setIswholebill(String iswholebill) {
+		this.iswholebill = iswholebill;
+	}
+	
+	
+	
 //	private String    fbizdate;
 //	private String  fcustomerid;
 //	private String  fstorageorgunitid;

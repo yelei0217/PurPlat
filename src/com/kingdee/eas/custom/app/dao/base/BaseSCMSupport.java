@@ -13,6 +13,8 @@ import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
 import com.kingdee.eas.custom.app.PurPlatSyncEnum;
+import com.kingdee.eas.custom.app.dao.OtherPurInSupport;
+import com.kingdee.eas.custom.app.dao.OtherSaleIssSupport;
 import com.kingdee.eas.custom.app.dao.PurInWarehsSupport;
 import com.kingdee.eas.custom.app.dao.PurOrderSupport;
 import com.kingdee.eas.custom.app.dao.SaleIssueSupport;
@@ -71,9 +73,13 @@ public class BaseSCMSupport {
 						else if(busCode.contains("_PO"))
 							PurOrderSupport.doInsertBill(ctx, m,busCode);
 						else if(busCode.contains("_PI"))
-							PurInWarehsSupport.doInsertBill(ctx,m,busCode);
+							PurInWarehsSupport.doSaveBill(ctx,m,busCode);
 						else if(busCode.contains("_SS"))
-							SaleIssueSupport.doInsertBill(ctx,m,busCode);
+							SaleIssueSupport.doSaveBill(ctx,m,busCode);
+						else if("SK_MZ_OPI".equals(busCode))
+							OtherPurInSupport.doSaveBill(ctx,m,busCode);
+						else if("SK_MZ_OSS".equals(busCode))
+							OtherSaleIssSupport.doSaveBill(ctx,m,busCode);
 						result = "success";
 					}
 				}else
@@ -82,7 +88,6 @@ public class BaseSCMSupport {
 				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
 		}else
 			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
-		
 		return result;
 	}
 	

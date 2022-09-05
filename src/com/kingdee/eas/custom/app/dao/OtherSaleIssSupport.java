@@ -51,7 +51,7 @@ public class OtherSaleIssSupport {
 
 	protected BigDecimal zero = new BigDecimal("0.00");
 
-	public static void doInsertBill(Context ctx,BaseSCMDTO m,String busCode){
+	public static void doSaveBill(Context ctx,BaseSCMDTO m,String busCode){
 		try {
 				OtherIssueBillInfo info = createBillInfo(ctx, m,busCode);
 				IOtherIssueBill ibiz = OtherIssueBillFactory.getLocalInstance(ctx);
@@ -91,7 +91,9 @@ public class OtherSaleIssSupport {
 			info.setBaseStatus(BillBaseStatusEnum.ADD);
 			info.setTotalAmount(m.getFtotalamount());
 			info.setTotalQty(BigDecimal.ZERO);
-			
+		   
+			info.put("MsgId", m.getId());
+
 		    //业务类型
 		    BizTypeInfo bizTypeInfo = new BizTypeInfo();
 		    bizTypeInfo.setId(BOSUuid.read("Nz878AEgEADgAABIwKg/GiQHQ1w="));
@@ -181,15 +183,13 @@ public class OtherSaleIssSupport {
 					 entryInfo.setQty(qty);
 					 entryInfo.setUnVmiSettleBaseQty(BigDecimal.ZERO);
 					 entryInfo.setTotalVmiSettleBaseQty(BigDecimal.ZERO);
+					 entryInfo.put("MsgId", dvo.getId());
 			} catch (EASBizException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+ 				e.printStackTrace();
 			} catch (UuidException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+ 				e.printStackTrace();
 			} catch (BOSException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+ 				e.printStackTrace();
 			}
 		return entryInfo;
 	}

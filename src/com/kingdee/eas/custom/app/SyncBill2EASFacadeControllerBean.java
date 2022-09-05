@@ -11,7 +11,9 @@ import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.dao.CostAdjusSupport;
+import com.kingdee.eas.custom.app.dao.PurInWarehsSupport;
 import com.kingdee.eas.custom.app.dao.PurOrderSupport;
+import com.kingdee.eas.custom.app.dao.SaleIssueSupport;
 import com.kingdee.eas.custom.app.dao.SaleOrderSupport;
 import com.kingdee.eas.custom.app.dao.base.BaseFISupport;
 import com.kingdee.eas.custom.app.dao.base.BaseSCMSupport;
@@ -170,6 +172,56 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 		String res =  BaseFISupport.syncBill(ctx, jsonStr);
 		 logger.info("do BaseFISupport _saveReceiveBill method cost :" + this.timer.msValue());
 		return res;	
+	}
+
+	
+	/**
+	 * 
+	 * 采购入库单--退库
+	 */
+	@Override
+	protected String _rollBackPurchInBill(Context ctx, String jsonStr)
+			throws BOSException {
+		String res =  PurInWarehsSupport.doRollBackBill(ctx, jsonStr);
+		logger.info("do PurInWarehsSupport _rollBackPurchInBill method cost :" + this.timer.msValue());
+		return res;	
+	}
+
+
+	/**
+	 * 
+	 * 销售出库单--退库
+	 * 
+	 */
+	@Override
+	protected String _rollBackSaleIssBill(Context ctx, String jsonStr)
+			throws BOSException {
+		String res =  SaleIssueSupport.doRollBackBill(ctx, jsonStr);
+		logger.info("do _rollBackSaleIssBill SaleIssueSupport method cost :" + this.timer.msValue());
+		return res;	
+	}
+
+	/**
+	 * 
+	 * 其他入库单--同步
+	 * 
+	 */
+	@Override
+	protected String _saveOtherPurIn(Context ctx, String jsonStr)
+			throws BOSException {
+ 		return super._saveOtherPurIn(ctx, jsonStr);
+	}
+
+	
+	/**
+	 * 
+	 * 其他出库单--同步
+	 * 
+	 */
+	@Override
+	protected String _saveOtherSaleIss(Context ctx, String jsonStr)
+			throws BOSException {
+ 		return super._saveOtherSaleIss(ctx, jsonStr);
 	}
 	
 	

@@ -179,7 +179,8 @@ public class ReceiptSupport {
 		rbInfo.setBgCtrlAmt(m.getFtotalamount());
 		rbInfo.setIsRefundmentPay(false);
 		rbInfo.setIsHasRefundPay(false);
-
+		
+		rbInfo.put("MsgId", m.getId());
 		
 		for (BaseFIDetailDTO dvo : m.getDetails())
 	    {
@@ -228,6 +229,7 @@ public class ReceiptSupport {
  		rbeInfo.setMatchedAmount(BigDecimal.ZERO);// 已匹配金额
 		rbeInfo.setMatchedAmountLoc(BigDecimal.ZERO);// 已匹配金额本位币
 		rbeInfo.setBgCtrlAmt(amount);//
+		rbeInfo.put("MsgId", dvo.getId());
   		return rbeInfo;
 	}
 	

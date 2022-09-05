@@ -7,6 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
@@ -35,10 +39,13 @@ import com.kingdee.eas.basedata.scm.im.inv.InvUpdateTypeInfo;
 import com.kingdee.eas.basedata.scm.im.inv.WarehouseFactory;
 import com.kingdee.eas.basedata.scm.im.inv.WarehouseInfo;
 import com.kingdee.eas.common.EASBizException;
+import com.kingdee.eas.custom.app.DateBaseProcessType;
+import com.kingdee.eas.custom.app.DateBasetype;
 import com.kingdee.eas.custom.app.dto.SaleIssDTO;
 import com.kingdee.eas.custom.app.dto.SaleIssDetailDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
+import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.scm.im.inv.ISaleIssueBill;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillFactory;
@@ -235,21 +242,59 @@ public class SaleIssueSupport {
 //		 return result;
 //	}
  	 
-	
-		public static void doInsertBill(Context ctx,BaseSCMDTO m,String busCode){
-			try {
-				SaleIssueBillInfo info = createSaleBillInfo(ctx,m,busCode);
-				ISaleIssueBill ibiz =SaleIssueBillFactory.getLocalInstance(ctx);
-				IObjectPK pk = ibiz.save(info);
-				ibiz.submit(pk.toString());
-				if(!busCode.contains("VMI")){
-					String fromID = info.getEntry().get(0).getSourceBillId();
-					if(fromID !=null && !"".equals(fromID)){
-					   String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
-			    		" values(newbosid('59302EC6'),'C48A423A','CC3E933B','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','6a7669e6-0108-1000-e000-2136c0a812fd045122C4','0')";
-					     DbUtil.execute(ctx,sql);
-					}
+	public static String doRollBackBill(Context ctx,String jsonStr){
+ 		String result = null;
+		if(jsonStr != null && !"".equals(jsonStr)){
+		    System.out.println("************************json begin****************************");
+		    System.out.println("#####################jsonStr################=" + jsonStr);
+			DateBaseProcessType processType = DateBaseProcessType.AddNew;
+			DateBasetype baseType = DateBasetype.GZB_LZ_SS;
+			String msgId = "";
+			String busCode ="";
+			String reqTime ="";
+			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
+			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+			Gson gson = new Gson();
+			JsonElement modelJE = returnData.get("data"); // 请求参数data
+			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+				msgId = msgIdJE.getAsString() ;
+				busCode = busCodeJE.getAsString() ;
+				reqTime = reqTimeJE.getAsString() ;
+  				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
+				
+				// 记录日志
+				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+				SaleIssDTO m = gson.fromJson(modelJE, SaleIssDTO.class);
+				//采购入库单-退货业务流程
+		 		if("GZB_LZ_SS".equals(busCode)||"VMIB_LZ_SS".equals(busCode)){
+					//根据 id 和明细id 查询 采购入库单是否存在
+					
 				}
+			}
+		}	
+		return result;
+		
+	}
+	
+	
+	public static void doSaveBill(Context ctx,BaseSCMDTO m,String busCode){
+			try { 
+					SaleIssueBillInfo info = createSaleBillInfo(ctx,m,busCode);
+					ISaleIssueBill ibiz =SaleIssueBillFactory.getLocalInstance(ctx);
+					IObjectPK pk = ibiz.save(info);
+					ibiz.submit(pk.toString());
+					if(!busCode.contains("VMI")){
+						String fromID = info.getEntry().get(0).getSourceBillId();
+						if(fromID !=null && !"".equals(fromID)){
+						   String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
+				    		" values(newbosid('59302EC6'),'C48A423A','CC3E933B','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','6a7669e6-0108-1000-e000-2136c0a812fd045122C4','0')";
+						     DbUtil.execute(ctx,sql);
+						}
+					}
 			} catch (EASBizException e) {
 	 		e.printStackTrace();
 		} catch (BOSException e) {
@@ -274,7 +319,6 @@ public class SaleIssueSupport {
 		String sourceBilltypeId = "";//来源单据类型
 		String biztypeId = "";//业务类型
 		String transinfoId ="";//事务类型
-	    
 	    
 	    info.setStorageOrgUnit(storageorginfo);
 	    info.setIsSysBill(false);
@@ -338,6 +382,8 @@ public class SaleIssueSupport {
 	    transinfo.setId(BOSUuid.read(transinfoId));//普通销售出库
 	    info.setTransactionType(transinfo);
 	    
+	    info.put("MsgId", m.getId());
+
 	    BillTypeInfo sourceBillTypeInfo = null ;
 	    if(sourceBilltypeId != null && !"".equals(sourceBilltypeId)){
 		    sourceBillTypeInfo = new BillTypeInfo();
@@ -460,6 +506,7 @@ public class SaleIssueSupport {
 	    }
 	    entryInfo.put("huohao", material.get("huohao"));
 	    entryInfo.put("pinpai", material.get("pinpai"));
+	    entryInfo.put("MsgId", dvo.getId());
 	    return entryInfo;
 	  }
 	  

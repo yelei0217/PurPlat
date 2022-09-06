@@ -21,4 +21,9 @@ public interface SyncDataEASFacadeController extends BizController
     public void DoErrorJon(Context ctx, String data) throws BOSException, RemoteException;
     public String materialSyncFun(Context ctx, String data) throws BOSException, RemoteException;
     public void DoMaterialJson(Context ctx, String data) throws BOSException, RemoteException;
+    public void doCustomerMid(Context ctx) throws BOSException, RemoteException;
+    public void doOrgMid(Context ctx) throws BOSException, RemoteException;
+    public void doSuppMid(Context ctx) throws BOSException, RemoteException;
+    public void doPersonMid(Context ctx) throws BOSException, RemoteException;
+    public void doCangkuMid(Context ctx) throws BOSException, RemoteException;
 }

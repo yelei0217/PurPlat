@@ -117,4 +117,104 @@ public abstract class AbstractSyncDataEASFacadeControllerBean extends AbstractBi
         return;
     }
 
+    public void doCustomerMid(Context ctx) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("e7952baf-2485-41e2-b12d-0652fb49ee1b"), new Object[]{ctx});
+            invokeServiceBefore(svcCtx);
+              if(!svcCtx.invokeBreak()) {
+            _doCustomerMid(ctx);
+            }
+            invokeServiceAfter(svcCtx);
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected void _doCustomerMid(Context ctx) throws BOSException
+    {    	
+        return;
+    }
+
+    public void doOrgMid(Context ctx) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("9f0b981c-d4ea-4258-b699-c782a0e1c677"), new Object[]{ctx});
+            invokeServiceBefore(svcCtx);
+              if(!svcCtx.invokeBreak()) {
+            _doOrgMid(ctx);
+            }
+            invokeServiceAfter(svcCtx);
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected void _doOrgMid(Context ctx) throws BOSException
+    {    	
+        return;
+    }
+
+    public void doSuppMid(Context ctx) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("d9cb5cdb-ca3d-4380-9631-85f7c3f5fb40"), new Object[]{ctx});
+            invokeServiceBefore(svcCtx);
+              if(!svcCtx.invokeBreak()) {
+            _doSuppMid(ctx);
+            }
+            invokeServiceAfter(svcCtx);
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected void _doSuppMid(Context ctx) throws BOSException
+    {    	
+        return;
+    }
+
+    public void doPersonMid(Context ctx) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("37226f02-d5d3-4fdc-8e26-6a34970d9eb8"), new Object[]{ctx});
+            invokeServiceBefore(svcCtx);
+              if(!svcCtx.invokeBreak()) {
+            _doPersonMid(ctx);
+            }
+            invokeServiceAfter(svcCtx);
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected void _doPersonMid(Context ctx) throws BOSException
+    {    	
+        return;
+    }
+
+    public void doCangkuMid(Context ctx) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("9838503f-8349-4c50-b271-397c2c1cdc09"), new Object[]{ctx});
+            invokeServiceBefore(svcCtx);
+              if(!svcCtx.invokeBreak()) {
+            _doCangkuMid(ctx);
+            }
+            invokeServiceAfter(svcCtx);
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected void _doCangkuMid(Context ctx) throws BOSException
+    {    	
+        return;
+    }
+
 }

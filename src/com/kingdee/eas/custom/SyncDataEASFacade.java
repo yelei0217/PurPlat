@@ -90,4 +90,64 @@ public class SyncDataEASFacade extends AbstractBizCtrl implements ISyncDataEASFa
             throw new EJBRemoteException(err);
         }
     }
+    /**
+     *doCustomerMid-User defined method
+     */
+    public void doCustomerMid() throws BOSException
+    {
+        try {
+            getController().doCustomerMid(getContext());
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
+    /**
+     *doOrgMid-User defined method
+     */
+    public void doOrgMid() throws BOSException
+    {
+        try {
+            getController().doOrgMid(getContext());
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
+    /**
+     *doSuppMid-User defined method
+     */
+    public void doSuppMid() throws BOSException
+    {
+        try {
+            getController().doSuppMid(getContext());
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
+    /**
+     *doPersonMid-User defined method
+     */
+    public void doPersonMid() throws BOSException
+    {
+        try {
+            getController().doPersonMid(getContext());
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
+    /**
+     *doCangkuMid-User defined method
+     */
+    public void doCangkuMid() throws BOSException
+    {
+        try {
+            getController().doCangkuMid(getContext());
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
 }

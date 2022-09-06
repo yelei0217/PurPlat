@@ -152,6 +152,81 @@
             </parameters>
             <configured>false</configured>
         </method>
+        <method>
+            <name>doCustomerMid</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doCustomerMid].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doCustomerMid].description</description>
+            <innerID>e7952baf-2485-41e2-b12d-0652fb49ee1b</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>doOrgMid</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doOrgMid].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doOrgMid].description</description>
+            <innerID>9f0b981c-d4ea-4258-b699-c782a0e1c677</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>doSuppMid</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doSuppMid].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doSuppMid].description</description>
+            <innerID>d9cb5cdb-ca3d-4380-9631-85f7c3f5fb40</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>doPersonMid</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doPersonMid].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doPersonMid].description</description>
+            <innerID>37226f02-d5d3-4fdc-8e26-6a34970d9eb8</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>doCangkuMid</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doCangkuMid].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doCangkuMid].description</description>
+            <innerID>9838503f-8349-4c50-b271-397c2c1cdc09</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
     </methods>
     <resource>
         <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].alias">
@@ -218,6 +293,66 @@
         <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[DoMaterialJson].parameters.parameter[data].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doCangkuMid].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doCangkuMid].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doCustomerMid].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doCustomerMid].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doOrgMid].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doOrgMid].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doPersonMid].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doPersonMid].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doSuppMid].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[doSuppMid].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
             <lang locale="zh_TW" value="null" />
         </rs>
         <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[materialSyncFun].alias">

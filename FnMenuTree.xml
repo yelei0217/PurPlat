@@ -8709,6 +8709,148 @@
                   <attribute key="level" value="4" />
                   <attribute key="type" value="5" />
                </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="/WXqom2uRFqlePwIaL5B8hdCz6U=" />
+                  <attribute key="name" value="异常单据维护" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!010CALINWeb!040CALINWEB" />
+                  <attribute key="number" value="040CALINWEB" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.cal.ExceptionBillQueryPage&amp;inwafpage=true&amp;debug=true&amp;IsMultiOrg=true" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+            </configitem>
+            <configitem name="FnMenu">
+               <attribute key="system" value="true" />
+               <attribute key="id" value="ndxFOd36Rv69DbLTxlUrZBdCz6U=" />
+               <attribute key="name" value="出库核算" />
+               <attribute key="leaf" value="false" />
+               <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!outCal" />
+               <attribute key="number" value="outCal" />
+               <attribute key="level" value="3" />
+               <attribute key="type" value="5" />
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="uzY0PeegTaC1rdtIBBP2xRdCz6U=" />
+                  <attribute key="name" value="存货结转明细报告" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!outCal!040CALOUTWEB" />
+                  <attribute key="number" value="040CALOUTWEB" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.cal.CostComputeReportPage&amp;inwafpage=true&amp;debug=true&amp;IsMultiOrg=true" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="wDhP7AaXSH6Kl+eriUIrzhdCz6U=" />
+                  <attribute key="name" value="存货结转价格来源报告" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!outCal!050CALOUTWEB" />
+                  <attribute key="number" value="050CALOUTWEB" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.cal.CostComputePriceSourceReport&amp;inwafpage=true&amp;debug=true&amp;IsMultiOrg=true" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="e3Ov8RMPS7aKIgjmhn8m6xdCz6U=" />
+                  <attribute key="name" value="存货结转汇总报告" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!outCal!030CALOUTWEB" />
+                  <attribute key="number" value="030CALOUTWEB" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.cal.CostComputeSumReportPage&amp;inwafpage=true&amp;debug=true&amp;IsMultiOrg=true" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="jSU3pwNeRBShXI1mFAqcNxdCz6U=" />
+                  <attribute key="name" value="材料出库核算" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!outCal!010CALOUT" />
+                  <attribute key="number" value="010CALOUT" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.cal.materialCalculateCost&amp;inwafpage=true&amp;debug=true&amp;IsMultiOrg=true&amp;OprtState=rawMaterailCostCal" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="06ox4jb1S62B6XSiVd3ujBdCz6U=" />
+                  <attribute key="name" value="产成品出库核算" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!outCal!020CALOUT" />
+                  <attribute key="number" value="020CALOUT" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.cal.materialCalculateCost&amp;inwafpage=true&amp;debug=true&amp;IsMultiOrg=true&amp;OprtState=fishedGoodsCostCal" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+            </configitem>
+            <configitem name="FnMenu">
+               <attribute key="system" value="true" />
+               <attribute key="id" value="U9UzKzaoTSOrR3J3sLUH4BdCz6U=" />
+               <attribute key="name" value="期末处理" />
+               <attribute key="leaf" value="false" />
+               <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!080INSPeriodEndClosingWeb" />
+               <attribute key="number" value="080INSPeriodEndClosingWeb" />
+               <attribute key="level" value="3" />
+               <attribute key="type" value="5" />
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="mhdgt4LrRkqgUjVSMcfOkRdCz6U=" />
+                  <attribute key="name" value="对账" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!080INSPeriodEndClosingWeb!020INSBalToGLWeb" />
+                  <attribute key="number" value="020INSBalToGLWeb" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.cal.InvCkAccountPage&amp;inwafpage=true&amp;debug=true&amp;IsMultiOrg=false" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="wKlQm7kBQd+lKKWfOq5TnxdCz6U=" />
+                  <attribute key="name" value="结账" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!080INSPeriodEndClosingWeb!030INSClosePeriod" />
+                  <attribute key="number" value="030INSClosePeriod" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.cal.CloseAccountPage&amp;inwafpage=true" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="desc" value="单据科目维护" />
+                  <attribute key="id" value="1qtfZAXKQBqz2lbP96G41BdCz6U=" />
+                  <attribute key="name" value="单据科目维护" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!080INSPeriodEndClosingWeb!060BillAccountView" />
+                  <attribute key="number" value="060BillAccountView" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.cal.BillAccountViewQueryPage&amp;inwafpage=true&amp;debug=true&amp;IsMultiOrg=false" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="3+jbqiSvQyilx64jms8MtxdCz6U=" />
+                  <attribute key="name" value="关账" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!080INSPeriodEndClosingWeb!010shutaccount" />
+                  <attribute key="number" value="010shutaccount" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.cal.ShutAccountPage&amp;inwafpage=true" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="ldvQB82pTme8sw63iFzLyxdCz6U=" />
+                  <attribute key="name" value="期末检查" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!8AStoreCal!080INSPeriodEndClosingWeb!periodEndCheck" />
+                  <attribute key="number" value="periodEndCheck" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.cal.PeriodEndCheckPage&amp;inwafpage=true" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
             </configitem>
             <configitem name="FnMenu">
                <attribute key="system" value="true" />
@@ -8907,6 +9049,88 @@
                   <attribute key="longNumber" value="10FinancialAccountingWeb!5AccountReceivableWeb!ARWeb005!ARWeb005001" />
                   <attribute key="number" value="ARWeb005001" />
                   <attribute key="uiClass" value="/easweb/dynamicForm.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.fi.ar.receivingBillEditPage&amp;waf2skin=easbase&amp;inwafpage=true&amp;module=AR" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+            </configitem>
+            <configitem name="FnMenu">
+               <attribute key="system" value="true" />
+               <attribute key="desc" value="坏账处理" />
+               <attribute key="id" value="oZriuklLSaOeQApj1ulBohdCz6U=" />
+               <attribute key="name" value="坏账处理" />
+               <attribute key="leaf" value="false" />
+               <attribute key="longNumber" value="10FinancialAccountingWeb!5AccountReceivableWeb!ARWeb011" />
+               <attribute key="number" value="ARWeb011" />
+               <attribute key="level" value="3" />
+               <attribute key="type" value="5" />
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="desc" value="坏账准备计提" />
+                  <attribute key="id" value="Q0Y2rIYpRxOp6u/oZHnbMRdCz6U=" />
+                  <attribute key="name" value="坏账准备计提" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!5AccountReceivableWeb!ARWeb011!BadDebt001" />
+                  <attribute key="number" value="BadDebt001" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.fi.ar.BadAccountDebtEdit&amp;waf2skin=eascard&amp;inwafpage=true&amp;module=ar" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="desc" value="坏账损失" />
+                  <attribute key="id" value="z0oVbzyiSXCKFKpuI3X/iBdCz6U=" />
+                  <attribute key="name" value="坏账损失" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!5AccountReceivableWeb!ARWeb011!ARWeb01105" />
+                  <attribute key="number" value="ARWeb01105" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.fi.ar.BadAcctLossListUI&amp;waf2skin=eascard&amp;inwafpage=true&amp;module=ar" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="desc" value="坏账备查簿查看" />
+                  <attribute key="id" value="PtuXifNESziSetDJNR4z0xdCz6U=" />
+                  <attribute key="name" value="坏账备查簿" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!5AccountReceivableWeb!ARWeb011!BadDebt005" />
+                  <attribute key="number" value="BadDebt005" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.fi.ar.BadAcctReferQueryUI&amp;waf2skin=eascard&amp;inwafpage=true&amp;module=AR" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="desc" value="坏账参数" />
+                  <attribute key="id" value="sbRG6wQhT0qMVTRtwUTH+RdCz6U=" />
+                  <attribute key="name" value="坏账参数" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!5AccountReceivableWeb!ARWeb011!ARWeb01103" />
+                  <attribute key="number" value="ARWeb01103" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.fi.ar.BadAccountPramListUI&amp;waf2skin=eascard&amp;inwafpage=true&amp;module=ar" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="desc" value="坏账计提维护" />
+                  <attribute key="id" value="Nwvjgn74QOK1puqHrpJYkRdCz6U=" />
+                  <attribute key="name" value="坏账计提维护" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!5AccountReceivableWeb!ARWeb011!ARWeb01101" />
+                  <attribute key="number" value="ARWeb01101" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?waf2skin=easbase&amp;inwafpage=true&amp;event=initialize&amp;uipk=com.kingdee.eas.fi.ar.BadAccountList&amp;method=doEvent&amp;system=ar&amp;module=AR" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="hwOmyY7FQCCQaJRxmWxKWxdCz6U=" />
+                  <attribute key="name" value="客户初始准备余额" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="10FinancialAccountingWeb!5AccountReceivableWeb!ARWeb011!10050508WEB" />
+                  <attribute key="number" value="10050508WEB" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.fi.ar.AccountBadDebtCustPrepareListPage&amp;inwafpage=true" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="5" />
                </configitem>
@@ -16379,6 +16603,27 @@
             </configitem>
             <configitem name="FnMenu">
                <attribute key="system" value="true" />
+               <attribute key="id" value="Qlzy5CpERF2/pALmJJMAwRdCz6U=" />
+               <attribute key="name" value="员工信息" />
+               <attribute key="leaf" value="false" />
+               <attribute key="longNumber" value="0301MasterDataWeb!03BSADWeb!personweb" />
+               <attribute key="number" value="personweb" />
+               <attribute key="level" value="3" />
+               <attribute key="type" value="5" />
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="OCVqXEvvRfOVV1fEZjBYFBdCz6U=" />
+                  <attribute key="name" value="收款信息" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="0301MasterDataWeb!03BSADWeb!personweb!3personAccount" />
+                  <attribute key="number" value="3personAccount" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.basedata.person.PersonAccountList&amp;inwafpage=true" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+            </configitem>
+            <configitem name="FnMenu">
+               <attribute key="system" value="true" />
                <attribute key="id" value="/VIaOzbNSnuAqiO0jB2g+hdCz6U=" />
                <attribute key="name" value="财务会计数据" />
                <attribute key="leaf" value="false" />
@@ -19773,6 +20018,38 @@
             </configitem>
             <configitem name="FnMenu">
                <attribute key="system" value="true" />
+               <attribute key="id" value="6RAbv9OBSmqYslGjZVhOghdCz6U=" />
+               <attribute key="name" value="销售合同" />
+               <attribute key="leaf" value="false" />
+               <attribute key="longNumber" value="70SCMWEB!030SALWEB!036SaleContractWeb" />
+               <attribute key="number" value="036SaleContractWeb" />
+               <attribute key="level" value="3" />
+               <attribute key="type" value="5" />
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="xaFVyAi/REOkmCu+J4kyQRdCz6U=" />
+                  <attribute key="name" value="销售合同维护" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="70SCMWEB!030SALWEB!036SaleContractWeb!020SaleContractListWeb" />
+                  <attribute key="number" value="020SaleContractListWeb" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.sd.sale.SaleContractListPage&amp;waf2skin=eascard&amp;inwafpage=true" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="a58ElJWISVe6mrIR0ww5BxdCz6U=" />
+                  <attribute key="name" value="销售合同新增" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="70SCMWEB!030SALWEB!036SaleContractWeb!010SaleContractEditWeb" />
+                  <attribute key="number" value="010SaleContractEditWeb" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.sd.sale.SaleContractEditPage&amp;inwafpage=true" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+            </configitem>
+            <configitem name="FnMenu">
+               <attribute key="system" value="true" />
                <attribute key="id" value="Q1Kg/JtPR7ajh7kzvTTqZxdCz6U=" />
                <attribute key="name" value="统计报表" />
                <attribute key="leaf" value="false" />
@@ -20029,6 +20306,39 @@
                   <attribute key="number" value="PurOrderScoutRpt" />
                   <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.PurOrderScoutRpt&amp;waf2skin=easbase&amp;inwafpage=true&amp;IsMultiOrg=false" />
                   <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+            </configitem>
+            <configitem name="FnMenu">
+               <attribute key="system" value="true" />
+               <attribute key="id" value="S4TW3kkNTWC1jLM22H/F7xdCz6U=" />
+               <attribute key="name" value="采购合同" />
+               <attribute key="leaf" value="false" />
+               <attribute key="longNumber" value="70SCMWEB!010PURWEB!030ScmPurContractWEB" />
+               <attribute key="number" value="030ScmPurContractWEB" />
+               <attribute key="level" value="3" />
+               <attribute key="type" value="5" />
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="PmLge7biQieIxE3l2kPLOhdCz6U=" />
+                  <attribute key="name" value="采购合同维护" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="70SCMWEB!010PURWEB!030ScmPurContractWEB!020PurContractListUIWEB" />
+                  <attribute key="number" value="020PurContractListUIWEB" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.sm.pur.PurContractListPage&amp;inwafpage=true" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="5u4pH+UwTSmuqjRJFriVgBdCz6U=" />
+                  <attribute key="name" value="采购合同新增" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="70SCMWEB!010PURWEB!030ScmPurContractWEB!010PurContractEidtUIWEB" />
+                  <attribute key="number" value="010PurContractEidtUIWEB" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.scm.sm.pur.PurContractEditPage&amp;inwafpage=true" />
+                  <attribute key="level" value="4" />
+                  <attribute key="state" value="ADDNEW" />
                   <attribute key="type" value="5" />
                </configitem>
             </configitem>
@@ -25553,6 +25863,19 @@
          <attribute key="level" value="1" />
          <attribute key="type" value="10" />
          <configitem name="FnMenu">
+            <attribute key="system" value="false" />
+            <attribute key="id" value="rJG+LEtmRxKrZux9AqAue/033J8=" />
+            <attribute key="name" value="SAP日志" />
+            <attribute key="leaf" value="true" />
+            <attribute key="longNumber" value="0301MasterData!BIM000gcapntha1" />
+            <attribute key="number" value="BIM000gcapntha1" />
+            <attribute key="uiClass" value="com.kingdee.eas.mkld.sapinterage.client.SAPInterfaceLogListUI" />
+            <attribute key="level" value="2" />
+            <attribute key="bizUnitPk" value="com.kingdee.eas.mkld.sapinterage.SAPInterfaceLog" />
+            <attribute key="type" value="10" />
+            <attribute key="index" value="0" />
+         </configitem>
+         <configitem name="FnMenu">
             <attribute key="system" value="true" />
             <attribute key="id" value="wWdYwvReRdqxWyAAKn6wnxdCz6U=" />
             <attribute key="name" value="业务对象建模" />
@@ -25611,20 +25934,20 @@
                </configitem>
                <attribute key="index" value="0" />
             </configitem>
-            <attribute key="index" value="0" />
+            <attribute key="index" value="1" />
          </configitem>
          <configitem name="FnMenu">
             <attribute key="system" value="false" />
             <attribute key="id" value="qR3f5aCJTwmX5EGmz0mVJv033J8=" />
             <attribute key="name" value="供应商同步" />
             <attribute key="leaf" value="true" />
-            <attribute key="longNumber" value="0301MasterData!BIM001g8g8c6401" />
-            <attribute key="number" value="BIM001g8g8c6401" />
+            <attribute key="longNumber" value="0301MasterData!BIM002gcapnthd2" />
+            <attribute key="number" value="BIM002gcapnthd2" />
             <attribute key="uiClass" value="com.kingdee.eas.custom.client.SupplySyncLogListUI" />
             <attribute key="level" value="2" />
             <attribute key="bizUnitPk" value="com.kingdee.eas.custom.SupplySyncLog" />
             <attribute key="type" value="10" />
-            <attribute key="index" value="1" />
+            <attribute key="index" value="2" />
          </configitem>
          <configitem name="FnMenu">
             <attribute key="system" value="true" />
@@ -26075,7 +26398,20 @@
                </configitem>
                <attribute key="index" value="5" />
             </configitem>
-            <attribute key="index" value="2" />
+            <attribute key="index" value="3" />
+         </configitem>
+         <configitem name="FnMenu">
+            <attribute key="system" value="false" />
+            <attribute key="id" value="7crYTDA1T3W/smsXtoitav033J8=" />
+            <attribute key="name" value="同步日志" />
+            <attribute key="leaf" value="true" />
+            <attribute key="longNumber" value="0301MasterData!BIM004gcapnthd3" />
+            <attribute key="number" value="BIM004gcapnthd3" />
+            <attribute key="uiClass" value="com.kingdee.eas.custom.client.PurPlatSyncdbLogListUI" />
+            <attribute key="level" value="2" />
+            <attribute key="bizUnitPk" value="com.kingdee.eas.custom.PurPlatSyncdbLog" />
+            <attribute key="type" value="10" />
+            <attribute key="index" value="4" />
          </configitem>
          <configitem name="FnMenu">
             <attribute key="system" value="true" />
@@ -26286,7 +26622,7 @@
                </configitem>
                <attribute key="index" value="3" />
             </configitem>
-            <attribute key="index" value="3" />
+            <attribute key="index" value="5" />
          </configitem>
          <configitem name="FnMenu">
             <attribute key="system" value="true" />
@@ -26374,8 +26710,8 @@
                <attribute key="id" value="7BidAAeOSj6NNq3yZjJME/033J8=" />
                <attribute key="name" value="业绩及成本统计" />
                <attribute key="leaf" value="false" />
-               <attribute key="longNumber" value="0301MasterData!02MainData!BIM005g8g8c6442" />
-               <attribute key="number" value="BIM005g8g8c6442" />
+               <attribute key="longNumber" value="0301MasterData!02MainData!BIM005gcapnthd4" />
+               <attribute key="number" value="BIM005gcapnthd4" />
                <attribute key="level" value="3" />
                <attribute key="type" value="10" />
                <configitem name="FnMenu">
@@ -26383,8 +26719,8 @@
                   <attribute key="id" value="OfsYMSP0QpGWonDwGfPMVP033J8=" />
                   <attribute key="name" value="业绩汇总" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM005g8g8c6442!BIM000g8g8c6443" />
-                  <attribute key="number" value="BIM000g8g8c6443" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM005gcapnthd4!BIM000gcapnthd5" />
+                  <attribute key="number" value="BIM000gcapnthd5" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.AchienementSumListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.AchienementSum" />
@@ -26396,8 +26732,8 @@
                   <attribute key="id" value="yqW0+RWoQxOQjPgABW8d5P033J8=" />
                   <attribute key="name" value="业绩成本汇总" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM005g8g8c6442!BIM001g8g8c6444" />
-                  <attribute key="number" value="BIM001g8g8c6444" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM005gcapnthd4!BIM001gcapnthd6" />
+                  <attribute key="number" value="BIM001gcapnthd6" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.ClinicAchieveCosthSumListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.ClinicAchieveCosthSum" />
@@ -26409,8 +26745,8 @@
                   <attribute key="id" value="BNp7dXwLSG62Z0qJL4VYzf033J8=" />
                   <attribute key="name" value="分摊数据" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM005g8g8c6442!BIM002g8g8c6445" />
-                  <attribute key="number" value="BIM002g8g8c6445" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM005gcapnthd4!BIM002gcapnthd7" />
+                  <attribute key="number" value="BIM002gcapnthd7" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.PayShareDetailListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.PayShareDetail" />
@@ -26422,8 +26758,8 @@
                   <attribute key="id" value="Wyvb+vd4Tm6pS4EAoUOydf033J8=" />
                   <attribute key="name" value="成本汇总" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM005g8g8c6442!BIM003g8g8c6446" />
-                  <attribute key="number" value="BIM003g8g8c6446" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM005gcapnthd4!BIM003gcapnthd8" />
+                  <attribute key="number" value="BIM003gcapnthd8" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.CostSumListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.CostSum" />
@@ -26435,8 +26771,8 @@
                   <attribute key="id" value="Mf/L1xpcT/m7Gq9LsLTZh/033J8=" />
                   <attribute key="name" value="成本明细" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM005g8g8c6442!BIM004g8g8c6447" />
-                  <attribute key="number" value="BIM004g8g8c6447" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM005gcapnthd4!BIM004gcapnthd9" />
+                  <attribute key="number" value="BIM004gcapnthd9" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.CostDetailListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.CostDetail" />
@@ -26450,8 +26786,8 @@
                <attribute key="id" value="cThN+17yRRW7w8Dilg8MOv033J8=" />
                <attribute key="name" value="HIS收费项目" />
                <attribute key="leaf" value="false" />
-               <attribute key="longNumber" value="0301MasterData!02MainData!BIM006g8g8c6448" />
-               <attribute key="number" value="BIM006g8g8c6448" />
+               <attribute key="longNumber" value="0301MasterData!02MainData!BIM006gcapnthd10" />
+               <attribute key="number" value="BIM006gcapnthd10" />
                <attribute key="level" value="3" />
                <attribute key="type" value="10" />
                <configitem name="FnMenu">
@@ -26459,8 +26795,8 @@
                   <attribute key="id" value="onC33wR8Rlm7TilyC5cvVv033J8=" />
                   <attribute key="name" value="二级分类" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM006g8g8c6448!BIM000g8g8c6449" />
-                  <attribute key="number" value="BIM000g8g8c6449" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM006gcapnthd10!BIM000gcapnthd11" />
+                  <attribute key="number" value="BIM000gcapnthd11" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.srqr.client.PaytypeitemListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.srqr.Paytypeitem" />
@@ -26472,8 +26808,8 @@
                   <attribute key="id" value="atv7A0VySve9sv/84w1YuP033J8=" />
                   <attribute key="name" value="收费项目管理" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM006g8g8c6448!BIM001g8g8c64410" />
-                  <attribute key="number" value="BIM001g8g8c64410" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM006gcapnthd10!BIM001gcapnthd12" />
+                  <attribute key="number" value="BIM001gcapnthd12" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.srqr.client.ItemCheckListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.srqr.ItemCheck" />
@@ -26485,8 +26821,8 @@
                   <attribute key="id" value="xcPcjRFHQ0CoYsVSPKnAFv033J8=" />
                   <attribute key="name" value="城市收费项" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM006g8g8c6448!BIM002g8g8c64411" />
-                  <attribute key="number" value="BIM002g8g8c64411" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM006gcapnthd10!BIM002gcapnthd13" />
+                  <attribute key="number" value="BIM002gcapnthd13" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.srqr.client.ClinicItemListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.srqr.ClinicItem" />
@@ -26498,8 +26834,8 @@
                   <attribute key="id" value="/+BPIgNmSUioRBb/hsOrLP033J8=" />
                   <attribute key="name" value="收费项目" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM006g8g8c6448!BIM003g8g8c64412" />
-                  <attribute key="number" value="BIM003g8g8c64412" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM006gcapnthd10!BIM003gcapnthd14" />
+                  <attribute key="number" value="BIM003gcapnthd14" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.srqr.client.PayItemListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.srqr.PayItem" />
@@ -26511,8 +26847,8 @@
                   <attribute key="id" value="x26JIoUNSGKYTxeKF3Wp1/033J8=" />
                   <attribute key="name" value="一级分类" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM006g8g8c6448!BIM004g8g8c64413" />
-                  <attribute key="number" value="BIM004g8g8c64413" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM006gcapnthd10!BIM004gcapnthd15" />
+                  <attribute key="number" value="BIM004gcapnthd15" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.srqr.client.PaytypecategoryListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.srqr.Paytypecategory" />
@@ -26562,8 +26898,8 @@
                <attribute key="id" value="s/vPL09DQmS2oZECwe7NqP033J8=" />
                <attribute key="name" value="报表配置" />
                <attribute key="leaf" value="false" />
-               <attribute key="longNumber" value="0301MasterData!02MainData!BIM009g8g8c64414" />
-               <attribute key="number" value="BIM009g8g8c64414" />
+               <attribute key="longNumber" value="0301MasterData!02MainData!BIM009gcapnthd16" />
+               <attribute key="number" value="BIM009gcapnthd16" />
                <attribute key="level" value="3" />
                <attribute key="type" value="10" />
                <configitem name="FnMenu">
@@ -26571,8 +26907,8 @@
                   <attribute key="id" value="qZfkiDbVT9eIXmKsrJgZif033J8=" />
                   <attribute key="name" value="成本中心" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM009g8g8c64414!BIM000g8g8c64415" />
-                  <attribute key="number" value="BIM000g8g8c64415" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM009gcapnthd16!BIM000gcapnthe17" />
+                  <attribute key="number" value="BIM000gcapnthe17" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.srqr.client.CostCenterListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.srqr.CostCenter" />
@@ -26584,8 +26920,8 @@
                   <attribute key="id" value="q8kCydNgRtSwla7cJDBVDv033J8=" />
                   <attribute key="name" value="岗位类别" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM009g8g8c64414!BIM001g8g8c64416" />
-                  <attribute key="number" value="BIM001g8g8c64416" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM009gcapnthd16!BIM001gcapnthe18" />
+                  <attribute key="number" value="BIM001gcapnthe18" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.srqr.client.PostTypeListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.srqr.PostType" />
@@ -26707,8 +27043,8 @@
                <attribute key="id" value="/oEmm2MSSpaGE4z35KpbKv033J8=" />
                <attribute key="name" value="薪酬参数配置" />
                <attribute key="leaf" value="false" />
-               <attribute key="longNumber" value="0301MasterData!02MainData!BIM017g8g8c64417" />
-               <attribute key="number" value="BIM017g8g8c64417" />
+               <attribute key="longNumber" value="0301MasterData!02MainData!BIM017gcapnthe19" />
+               <attribute key="number" value="BIM017gcapnthe19" />
                <attribute key="level" value="3" />
                <attribute key="type" value="10" />
                <configitem name="FnMenu">
@@ -26716,8 +27052,8 @@
                   <attribute key="id" value="9JzDR9qoSCu6BG0YTQDc+f033J8=" />
                   <attribute key="name" value="美白比例配置" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017g8g8c64417!BIM000g8g8c64418" />
-                  <attribute key="number" value="BIM000g8g8c64418" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017gcapnthe19!BIM000gcapnthe20" />
+                  <attribute key="number" value="BIM000gcapnthe20" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.WhiteProportionListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.WhiteProportion" />
@@ -26729,8 +27065,8 @@
                   <attribute key="id" value="Co+w2xi/QCuomant6B0b5P033J8=" />
                   <attribute key="name" value="渠道折扣配置" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017g8g8c64417!BIM001g8g8c64419" />
-                  <attribute key="number" value="BIM001g8g8c64419" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017gcapnthe19!BIM001gcapnthe21" />
+                  <attribute key="number" value="BIM001gcapnthe21" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.CityChannelListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.CityChannel" />
@@ -26742,8 +27078,8 @@
                   <attribute key="id" value="k9VuIiGDTUedMAbwvNXeUf033J8=" />
                   <attribute key="name" value="咨询比例配置" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017g8g8c64417!BIM002g8g8c64420" />
-                  <attribute key="number" value="BIM002g8g8c64420" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017gcapnthe19!BIM002gcapnthe22" />
+                  <attribute key="number" value="BIM002gcapnthe22" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.ConsultantProListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.ConsultantPro" />
@@ -26755,8 +27091,8 @@
                   <attribute key="id" value="zFIOs9ZjReGLssoUP9n/OP033J8=" />
                   <attribute key="name" value="薪酬城市" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017g8g8c64417!BIM003g8g8c64421" />
-                  <attribute key="number" value="BIM003g8g8c64421" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017gcapnthe19!BIM003gcapnthe23" />
+                  <attribute key="number" value="BIM003gcapnthe23" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.PayCityListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.PayCity" />
@@ -26768,8 +27104,8 @@
                   <attribute key="id" value="rG83pN8sS7K5MpmiD3Ehzf033J8=" />
                   <attribute key="name" value="洁牙单价配置" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017g8g8c64417!BIM004g8g8c64422" />
-                  <attribute key="number" value="BIM004g8g8c64422" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017gcapnthe19!BIM004gcapnthe24" />
+                  <attribute key="number" value="BIM004gcapnthe24" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.ScalingBonusListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.ScalingBonus" />
@@ -26781,8 +27117,8 @@
                   <attribute key="id" value="msv+BqjcSMGjy0gds8zQNf033J8=" />
                   <attribute key="name" value="其他职位参数配置" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017g8g8c64417!BIM005g8g8c64423" />
-                  <attribute key="number" value="BIM005g8g8c64423" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017gcapnthe19!BIM005gcapnthe25" />
+                  <attribute key="number" value="BIM005gcapnthe25" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.AchRoyaltyRuleListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.AchRoyaltyRule" />
@@ -26794,8 +27130,8 @@
                   <attribute key="id" value="xwa42JVxSL6eWAzTMNBvtv033J8=" />
                   <attribute key="name" value="兼职医生提成比例" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017g8g8c64417!BIM006g8g8c64424" />
-                  <attribute key="number" value="BIM006g8g8c64424" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017gcapnthe19!BIM006gcapnthe26" />
+                  <attribute key="number" value="BIM006gcapnthe26" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.PartTimeDocProListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.PartTimeDocPro" />
@@ -26807,8 +27143,8 @@
                   <attribute key="id" value="ilVp0M4IRFWeJuo5FuCgfv033J8=" />
                   <attribute key="name" value="医生通用提成比例" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017g8g8c64417!BIM007g8g8c64425" />
-                  <attribute key="number" value="BIM007g8g8c64425" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017gcapnthe19!BIM007gcapnthe27" />
+                  <attribute key="number" value="BIM007gcapnthe27" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.DocCurrencyProListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.DocCurrencyPro" />
@@ -26820,8 +27156,8 @@
                   <attribute key="id" value="rXheYPdWSGK+y91uEz2De/033J8=" />
                   <attribute key="name" value="特定医生" />
                   <attribute key="leaf" value="true" />
-                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017g8g8c64417!BIM008g8g8c64426" />
-                  <attribute key="number" value="BIM008g8g8c64426" />
+                  <attribute key="longNumber" value="0301MasterData!02MainData!BIM017gcapnthe19!BIM008gcapnthe28" />
+                  <attribute key="number" value="BIM008gcapnthe28" />
                   <attribute key="uiClass" value="com.kingdee.eas.mw.pay.client.SpecialDocListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="bizUnitPk" value="com.kingdee.eas.mw.pay.SpecialDoc" />
@@ -26830,7 +27166,7 @@
                </configitem>
                <attribute key="index" value="17" />
             </configitem>
-            <attribute key="index" value="4" />
+            <attribute key="index" value="6" />
          </configitem>
          <configitem name="FnMenu">
             <attribute key="system" value="true" />
@@ -27021,7 +27357,7 @@
                </configitem>
                <attribute key="index" value="5" />
             </configitem>
-            <attribute key="index" value="5" />
+            <attribute key="index" value="7" />
          </configitem>
          <configitem name="FnMenu">
             <attribute key="system" value="true" />
@@ -27177,7 +27513,7 @@
                </configitem>
                <attribute key="index" value="3" />
             </configitem>
-            <attribute key="index" value="6" />
+            <attribute key="index" value="8" />
          </configitem>
          <configitem name="FnMenu">
             <attribute key="system" value="true" />
@@ -27188,7 +27524,7 @@
             <attribute key="number" value="09SSC" />
             <attribute key="level" value="2" />
             <attribute key="type" value="10" />
-            <attribute key="index" value="7" />
+            <attribute key="index" value="9" />
          </configitem>
          <configitem name="FnMenu">
             <attribute key="system" value="true" />
@@ -27272,6 +27608,30 @@
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
+                  <attribute key="id" value="VAlG4nOARMCGPXBC4ceagv033J8=" />
+                  <attribute key="name" value="接口返回日志" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="0301MasterData!03BSAD!6SPBD!scmdb099" />
+                  <attribute key="number" value="scmdb099" />
+                  <attribute key="uiClass" value="com.kingdee.eas.mkld.sapinterage.client.SAPInterfaceLogListUI" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="10" />
+                  <attribute key="index" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="2kVMtL4WR2KSCYXt0riEz/033J8=" />
+                  <attribute key="name" value="下推记录" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="0301MasterData!03BSAD!6SPBD!scmdb92" />
+                  <attribute key="number" value="scmdb92" />
+                  <attribute key="uiClass" value="com.kingdee.eas.custom.client.PushRecordListUI" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="10" />
+                  <attribute key="index" value="6" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
                   <attribute key="iconImage" value="imgFunction_bdQuery" />
                   <attribute key="id" value="i5AlFgEJEADgAAOAwKgSGf033J8=" />
                   <attribute key="name" value="单据类型" />
@@ -27281,7 +27641,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.basedata.scm.common.client.BillTypeListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="5" />
+                  <attribute key="index" value="7" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27294,7 +27654,19 @@
                   <attribute key="uiClass" value="com.kingdee.eas.basedata.scm.common.client.DeliveryTypeListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="6" />
+                  <attribute key="index" value="8" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="JYQKPHLcR+KZGgWer8hA2/033J8=" />
+                  <attribute key="name" value="仓库门诊映射" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="0301MasterData!03BSAD!6SPBD!scmdb9201" />
+                  <attribute key="number" value="scmdb9201" />
+                  <attribute key="uiClass" value="com.kingdee.eas.custom.client.WareClinicRaleListUI" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="10" />
+                  <attribute key="index" value="9" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27306,7 +27678,19 @@
                   <attribute key="uiClass" value="com.kingdee.eas.mm.basedata.client.TrackNumberListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="7" />
+                  <attribute key="index" value="10" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="jwS3JYDDTnmeN/xFE7COHP033J8=" />
+                  <attribute key="name" value="接口同步日志" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="0301MasterData!03BSAD!6SPBD!scmdb098" />
+                  <attribute key="number" value="scmdb098" />
+                  <attribute key="uiClass" value="com.kingdee.eas.mkld.sapinterage.client.ReceClaimRecordListUI" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="10" />
+                  <attribute key="index" value="11" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27319,7 +27703,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.basedata.master.material.client.AsstAttrMainUI " />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="8" />
+                  <attribute key="index" value="12" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27331,7 +27715,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.custom.client.DefalutCustomerListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="9" />
+                  <attribute key="index" value="13" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27343,7 +27727,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.custom.client.CityMappingCompanyListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="10" />
+                  <attribute key="index" value="14" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27356,7 +27740,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.basedata.scm.sd.sale.client.ContraceListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="11" />
+                  <attribute key="index" value="15" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27368,7 +27752,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.custom.client.SupplySyncLogListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="12" />
+                  <attribute key="index" value="16" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27380,7 +27764,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.custom.client.TempMateSyncLogListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="13" />
+                  <attribute key="index" value="17" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27392,7 +27776,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.custom.client.ProcessMaterialListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="14" />
+                  <attribute key="index" value="18" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27405,7 +27789,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.basedata.scm.common.client.RowTypeListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="15" />
+                  <attribute key="index" value="19" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27418,7 +27802,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.mm.project.client.ProjectListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="16" />
+                  <attribute key="index" value="20" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27430,7 +27814,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.custom.client.ProcessSubmitBillListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="17" />
+                  <attribute key="index" value="21" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27442,7 +27826,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.custom.client.TempMateListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="18" />
+                  <attribute key="index" value="22" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27454,7 +27838,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.custom.client.ProcessSyncLogListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="19" />
+                  <attribute key="index" value="23" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27467,7 +27851,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.basedata.assistant.client.ProjectMainUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="20" />
+                  <attribute key="index" value="24" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27480,7 +27864,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.basedata.assistant.client.MeasureUnitListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="21" />
+                  <attribute key="index" value="25" />
                </configitem>
                <configitem name="FnMenu">
                   <attribute key="system" value="true" />
@@ -27493,7 +27877,7 @@
                   <attribute key="uiClass" value="com.kingdee.eas.basedata.assistant.client.ChannelTypeListUI" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="10" />
-                  <attribute key="index" value="22" />
+                  <attribute key="index" value="26" />
                </configitem>
                <attribute key="index" value="0" />
             </configitem>
@@ -28162,7 +28546,7 @@
                </configitem>
                <attribute key="index" value="8" />
             </configitem>
-            <attribute key="index" value="8" />
+            <attribute key="index" value="10" />
          </configitem>
          <configitem name="FnMenu">
             <attribute key="system" value="true" />
@@ -28295,19 +28679,19 @@
                </configitem>
                <attribute key="index" value="3" />
             </configitem>
-            <attribute key="index" value="9" />
+            <attribute key="index" value="11" />
          </configitem>
          <attribute key="desc" value="" />
          <attribute key="state" value="" />
          <configitem name="FnMenu">
             <attribute key="system" value="false" />
             <attribute key="leaf" value="true" />
-            <attribute key="id" value="7crYTDA1T3W/smsXtoitav033J8=" />
-            <attribute key="name" value="同步日志" />
+            <attribute key="id" value="s6/fIBqETOa0pSvqwche7P033J8=" />
+            <attribute key="name" value="基础资料日志" />
             <attribute key="type" value="10" />
-            <attribute key="index" value="10" />
-            <attribute key="longNumber" value="0301MasterData!BIM010g8g8c64427" />
-            <attribute key="number" value="BIM010g8g8c64427" />
+            <attribute key="index" value="12" />
+            <attribute key="longNumber" value="0301MasterData!BIM012gcapnthe29" />
+            <attribute key="number" value="BIM012gcapnthe29" />
             <attribute key="level" value="2" />
             <attribute key="desc" value="" />
             <attribute key="iconImage" value="" />
@@ -29020,6 +29404,87 @@
                   <attribute key="longNumber" value="FinanceSharedServiceCenterWeb!020FSSCARWeb!015SARWEB!015SARWEB06" />
                   <attribute key="number" value="015SARWEB06" />
                   <attribute key="uiClass" value="/easweb/dynamicPage.do?inwafpage=true&amp;event=initialize&amp;uipk=com.kingdee.eas.fi.ap.impInitDataGLUI&amp;waf2skin=easbase&amp;method=doEvent&amp;module=FSSC_AR" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+            </configitem>
+            <configitem name="FnMenu">
+               <attribute key="system" value="true" />
+               <attribute key="desc" value="坏账处理" />
+               <attribute key="id" value="vVilEq5KRtCiB0B8Jd08nhdCz6U=" />
+               <attribute key="name" value="坏账处理" />
+               <attribute key="leaf" value="false" />
+               <attribute key="longNumber" value="FinanceSharedServiceCenterWeb!020FSSCARWeb!070sarweb" />
+               <attribute key="number" value="070sarweb" />
+               <attribute key="level" value="3" />
+               <attribute key="type" value="5" />
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="ZS8PcaQtQMuawft7nFOaBxdCz6U=" />
+                  <attribute key="name" value="坏账准备计提" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="FinanceSharedServiceCenterWeb!020FSSCARWeb!070sarweb!BadDebtFssc001" />
+                  <attribute key="number" value="BadDebtFssc001" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.fi.ar.BadAccountDebtEdit&amp;waf2skin=eascard&amp;inwafpage=true&amp;module=fssc_ar" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="desc" value="坏账参数" />
+                  <attribute key="id" value="LdT6N2c5R46FaRtTx9/GmxdCz6U=" />
+                  <attribute key="name" value="坏账参数" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="FinanceSharedServiceCenterWeb!020FSSCARWeb!070sarweb!BadParamFssc001" />
+                  <attribute key="number" value="BadParamFssc001" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.fi.ar.BadAccountPramListUI&amp;waf2skin=eascard&amp;inwafpage=true&amp;module=fssc_ar" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="id" value="2bsHHZDaTi2YIt3jlox85RdCz6U=" />
+                  <attribute key="name" value="客户初始准备余额" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="FinanceSharedServiceCenterWeb!020FSSCARWeb!070sarweb!10050508SARWEB" />
+                  <attribute key="number" value="10050508SARWEB" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.fi.ar.AccountBadDebtCustPrepareListPage&amp;inwafpage=true&amp;system=ar&amp;module=fssc_AR" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="desc" value="坏账备查簿查看" />
+                  <attribute key="id" value="xHkGSeKuTf6TNs9weAMsWhdCz6U=" />
+                  <attribute key="name" value="坏账备查簿" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="FinanceSharedServiceCenterWeb!020FSSCARWeb!070sarweb!badAcct005" />
+                  <attribute key="number" value="badAcct005" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.fi.ar.BadAcctReferQueryUI&amp;waf2skin=eascard&amp;inwafpage=true&amp;module=FSSC_AR" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="desc" value="坏账计提维护" />
+                  <attribute key="id" value="C6BxteU0Sgy6C2hhQKq3CBdCz6U=" />
+                  <attribute key="name" value="坏账计提维护" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="FinanceSharedServiceCenterWeb!020FSSCARWeb!070sarweb!070010sarweb" />
+                  <attribute key="number" value="070010sarweb" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?waf2skin=easbase&amp;inwafpage=true&amp;event=initialize&amp;uipk=com.kingdee.eas.fi.ar.BadAccountList&amp;method=doEvent&amp;system=ar&amp;module=fssc_AR" />
+                  <attribute key="level" value="4" />
+                  <attribute key="type" value="5" />
+               </configitem>
+               <configitem name="FnMenu">
+                  <attribute key="system" value="true" />
+                  <attribute key="desc" value="坏账损失" />
+                  <attribute key="id" value="JT7bPzEBQdynOSLU2d1DdhdCz6U=" />
+                  <attribute key="name" value="坏账损失" />
+                  <attribute key="leaf" value="true" />
+                  <attribute key="longNumber" value="FinanceSharedServiceCenterWeb!020FSSCARWeb!070sarweb!BadAcctLossFssc001" />
+                  <attribute key="number" value="BadAcctLossFssc001" />
+                  <attribute key="uiClass" value="/easweb/dynamicPage.do?event=initialize&amp;method=doEvent&amp;uipk=com.kingdee.eas.fi.ar.BadAcctLossListUI&amp;waf2skin=eascard&amp;inwafpage=true&amp;module=fssc_ar" />
                   <attribute key="level" value="4" />
                   <attribute key="type" value="5" />
                </configitem>
@@ -38176,6 +38641,17 @@
                <attribute key="longNumber" value="purPlat!purPlatdb!purPlatdb001" />
                <attribute key="number" value="purPlatdb001" />
                <attribute key="uiClass" value="com.kingdee.eas.custom.client.PurPlatSyncdbLogListUI" />
+               <attribute key="level" value="3" />
+               <attribute key="type" value="10" />
+            </configitem>
+            <configitem name="FnMenu">
+               <attribute key="system" value="true" />
+               <attribute key="id" value="im+yHyKJQhKmE+LroQ6LB/033J8=" />
+               <attribute key="name" value="业务单据同步记录" />
+               <attribute key="leaf" value="true" />
+               <attribute key="longNumber" value="purPlat!purPlatdb!purPlatBus02" />
+               <attribute key="number" value="purPlatBus02" />
+               <attribute key="uiClass" value="com.kingdee.eas.custom.client.PurPlatSyncBusLogListUI" />
                <attribute key="level" value="3" />
                <attribute key="type" value="10" />
             </configitem>

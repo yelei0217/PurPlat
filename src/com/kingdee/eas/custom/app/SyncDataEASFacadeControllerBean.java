@@ -126,21 +126,20 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						mapTo.put("fStatus",rsCopy.getString("FSTATUS") );
 						mapTo.put("fUpdateType",rsCopy.getString("FUPDATETYPE") ); 
 						String datajsonStr = JSONObject.toJSONString(mapTo);
-						
-						map.put("FID", mapTo.get("fid"));
+						 
 						map.put("FNUMBER", mapTo.get("fNumber"));
 			        	map.put("FNAME", mapTo.get("fName"));
 			        	map.put("JSON", datajsonStr);
 			        	 
 					}
-					flag=true;
-					getlogInfo(ctx , map ,  DateBasetype.Customer ,processType ,flag ,loginfo);  
+					
 				}else{
 					 map.put("ERROR", "根据ID"+fid+"在jbYAAAMU2SvM567U公司下找不到对应的客户信息,没有同步到中间库。");
 					 System.out.println("########  ERROR ########根据ID："+fid+"在jbYAAAMU2SvM567U公司下找不到对应的客户信息,没有同步到中间库。");
 				}   
 				
-				
+				flag=true;
+				getlogInfo(ctx , map ,  DateBasetype.Customer ,processType ,flag ,loginfo);  
     			
     			
     		}else if(type ==2){ //供应商  newOrDele : 0:新增 ; 1启用 ; 2:禁用
@@ -201,16 +200,14 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			        	map.put("FNAME", mapTo.get("fName"));
 			        	map.put("JSON", datajsonStr);
 			        	 
-					}
-					flag=true;
-					getlogInfo(ctx , map ,  DateBasetype.Supplier ,processType,flag,loginfo);
-					
+					} 
 				}else{
 					 map.put("ERROR", "根据ID"+fid+"找不到对应的供应商信息,没有同步到中间库。");
 					 System.out.println("########  ERROR ########根据ID："+fid+"找不到对应的供应商信息,没有同步到中间库");
 				} 
 					
-    			
+				flag=true;
+				getlogInfo(ctx , map ,  DateBasetype.Supplier ,processType,flag,loginfo);
     			
     			
 				
@@ -237,9 +234,9 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					EAISynTemplate.execute(ctx, dataBase, selectDelete);
 				}
 				
-    			String sql  = " /*dialect*/ SELECT admin.fid  fId , admin.fnumber fNumber  ,admin.fname_l2  fName , admin.FLONGNUMBER  fLongNumber ,laytype.fid  fLayerTypeID , admin.fparentid  FPAREBTID , "+
+    			String sql  = " /*dialect*/ SELECT admin.fid  fId , admin.fnumber fNumber  ,admin.fname_l2  fName , admin.FLONGNUMBER  fLongNumber ,laytype.fid  fLayerTypeID , admin.fparentid  FPARENTID , "+
 	  			  " admin.FISCOMPANYORGUNIT   fIsCompanyOrgUnit  ,admin.FISADMINORGUNIT  fIsAdminOrgUnit ,admin.FISCOSTORGUNIT  fIsCostOrgUnit ,admin.fisstart  fIsStart ,  to_char( admin.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' ) FcreateTime ,"+
-	  			  " admin.FLevel fLevel ,  admin.FIsLeaf  fIsLeaf , admin.FIsSealUp  fIsOUSealUp , nvl(admin.FTaxNumber,'') fTaxNumber ,  nvl( admin.FADMINADDRESS_L2,'')  fAddress  , "+newOrDele+"  FupdateType ,"+
+	  			  " admin.FLevel fLevel ,  admin.FIsLeaf  fIsLeaf , admin.FIsSealUp  fIsOUSealUp ,  "+newOrDele+"  FupdateType ,"+
 	  			  "   to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime_0 "+
 	  			  " FROM T_ORG_ADMIN admin "+
 	  			  " inner  join  T_Org_LayerType laytype  on laytype.fid = admin.FLAYERTYPEID  "+ 
@@ -262,7 +259,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						mapTo.put("Flongnumber",rsCopy.getString("FLONGNUMBER") );
 						
 						mapTo.put("FLayerTypeID",rsCopy.getString("FLAYERTYPEID") );
-						mapTo.put("FPAREBTID",rsCopy.getString("FPAREBTID") );
+						mapTo.put("FPARENTID",rsCopy.getString("FPARENTID") );
 						mapTo.put("FIsCompanyOrgUnit",rsCopy.getString("FISCOMPANYORGUNIT") );
 						mapTo.put("FIsAdminOrgUnit",rsCopy.getString("FISADMINORGUNIT") );
 						mapTo.put("fIsCostOrgUnit",rsCopy.getString("FISCOSTORGUNIT") );
@@ -278,15 +275,14 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			        	map.put("FNAME", mapTo.get("fName")); 
 			        	map.put("JSON", datajsonStr);
 			        	 
-					}
+					} 
 					
-					flag=true;
-					getlogInfo(ctx , map ,  DateBasetype.orgUnit ,processType,flag,loginfo);
 				}else{
 					 map.put("ERROR", "根据ID"+fid+"找不到对应的组织信息,没有同步到中间库。");
 					 System.out.println("########  ERROR ########根据ID："+fid+"找不到对应的组织信息,没有同步到中间库。");
 				}  
-				 
+				flag=true;
+				getlogInfo(ctx , map ,  DateBasetype.orgUnit ,processType,flag,loginfo);
     			
     		}else if(type ==4){//人员  newOrDele : 0:新增 ; 1启用 ; 2:禁用
     			
@@ -327,28 +323,27 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
        		left join  T_HR_BDEmployeeType emptype  on  emptype.fid = emprel.FLABORRELATIONSTATEID 
        		where  person.fnumber = 'MS310100082'*/
     			
-	    		String personsql = " /*dialect*/ SELECT    person.fid fId , person.fnumber fNumber, person.fname_l2 fName ,pmuser.FNUMBER  fLoginNumber ,empposition.fid fPositionID ,  "+
+				String personsql = " /*dialect*/ SELECT    person.fid fId , person.fnumber fNumber, person.fname_l2 fName , empposition.fid fPositionID ,  "+
 	          		" empposition.fnumber  fPositionNumber ,empposition.fname_l2 fPositionName  ,com.fid fOrgtid,dep.fid fDeptid,com.fnumber fOrgNumber, com.fname_l2 fOrgName , " +
-	          		" '' POSTCODE , person.FEMAIL FEMAIL , '' BANK , '' BANKNUM , to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FSYNTIME_0  , job.fnumber fPostLeveNumber,  "+
-	          		"  emptype.fnumber fEmployeeTypeNumber, emptype.fname_l2 fEmployeeTypeName, to_char(person.FCREATETIME , 'yyyy-hh-dd')   fCreateTime,  0 fUpdateType ,person.fnumber  fEmpNumber , "+ 
+	          		" '' POSTCODE , person.FEMAIL FEMAIL , '' BANK , '' BANKNUM , to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FSYNTIME_0   ,  "+
+	          		"  emptype.fnumber fEmployeeTypeNumber, emptype.fname_l2 fEmployeeTypeName, to_char(person.FCREATETIME , 'yyyy-mm-dd hh24:mi:ss')   fCreateTime,  0 fUpdateType ,person.fnumber  fEmpNumber , "+ 
 	          		" to_char( emprel.FEnterDate  ,'yyyy-mm-dd hh24:mi:ss' ) FENTERDATE , to_char( emprel.FActualFormalDate  ,'yyyy-mm-dd hh24:mi:ss' ) FPLANFORMALDATE ,  "+ 
-	          		" joblevel.fid FJOBLEVELID , joblevel.fnumber FJOBLEVELNUMBER ,joblevel.fname_l2  FJOBLEVELNAME , hrjobcate.fid FJOBCATEGORYID  ,hrjobcate.fnumber FJOBCATEGORYNUMBER  , hrjobcate.fname_2 FJOBCATEGORYNAME "+
+	          		" joblevel.fid FJOBLEVELID , joblevel.fnumber FJOBLEVELNUMBER ,joblevel.fname_l2  FJOBLEVELNAME , hrjobcate.fid FJOBCATEGORYID  ,hrjobcate.fnumber FJOBCATEGORYNUMBER  , hrjobcate.fname_l2 FJOBCATEGORYNAME "+
 	          		 
-	          		" FROM   t_bd_person person "+
-	          		" left  join t_pm_user pmuser on pmuser.FPERSONID  = person.FID "+
-	          		" inner join t_hr_emporgrelation relation on person.fid = relation.fpersonid   and  relation.FAssignType= 1   and  to_char(relation.FLEFFDT , 'yyyy-hh-dd') ='2199-12-31'"+
+	          		" FROM   t_bd_person person "+ 
+	          		" inner join t_hr_emporgrelation relation on person.fid = relation.fpersonid   and  relation.FAssignType= 1   and  to_char(relation.FLEFFDT , 'yyyy-mm-dd') ='2199-12-31'"+
 	          		" left join T_ORG_Position empposition on empposition.fid = relation.FPositionID "+
 	          		" left join  T_ORG_Admin  com on    com.fid =  relation.FCompanyID "+
 	          		" left join  T_ORG_Admin dep on dep.fid =   relation.FAdminOrgID	 "+
 	          		" left join  T_ORG_Job  job on  job.fid = empposition.FJOBID  "+
 	          		" left join T_HR_EmpLaborRelation emprel  on emprel.fid = relation.FLABORRELATIONID  "+
 	          		" left join  T_HR_BDEmployeeType emptype  on  emptype.fid = emprel.FLABORRELATIONSTATEID  "+
-	          		" LEFT JOIN  T_HR_EmpPostRank postrank  on  postrank.fpresonid = person.fid and  to_char( postrank.FLEFFDT  ,'yyyy-mm-dd hh24:mi:ss' )  = '2199-12-31 00:00:00' "+
-	          		" left  join T_HR_JobLevel joblevel on  joblevel.fid = postrank.fFJOBLEVELID "+
+	          		" LEFT JOIN  T_HR_EmpPostRank postrank  on  postrank.fpersonid = person.fid and  to_char( postrank.FLEFFDT  ,'yyyy-mm-dd hh24:mi:ss' )  = '2199-12-31 00:00:00' "+
+	          		" left  join T_HR_JobLevel joblevel on  joblevel.fid = postrank.FJOBLEVELID "+
 	          		
 	          		" left  join T_HR_PositionExtend postEx on  postEx.FPositionID = empposition.fid "+
 	          		" left  join T_HR_HRJob hrjob on  hrjob.fid = postEx.FHRJobID "+
-	          		" left  join T_HR_HRJobCategory hrjobcate on  hrjobcate.fid = hrjob.FHRJOBCATEGORYID "+ 
+	          		" left  join T_HR_HRJobCategory hrjobcate on  hrjobcate.fid = hrjob.FHRJOBCATEGORYID "+
 	          		" where  person.fid = '"+fid+"' ";
 	    		IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,personsql);
 				
@@ -371,8 +366,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						mapTo.put("fOrgtid",rsCopy.getString("FORGTID") );
 						mapTo.put("fDeptid",rsCopy.getString("FDEPTID") );
 						mapTo.put("fOrgNumber",rsCopy.getString("FORGNUMBER") );
-						mapTo.put("fOrgName",rsCopy.getString("FORGNAME") );
-						mapTo.put("fPostLeveNumber",rsCopy.getString("FPOSTLEVENUMBER") );
+						mapTo.put("fOrgName",rsCopy.getString("FORGNAME") ); 
 						mapTo.put("fEmployeeTypeNumber",rsCopy.getString("FEMPLOYEETYPENUMBER") );
 						mapTo.put("fEmployeeTypeName",rsCopy.getString("FEMPLOYEETYPENAME") ); 
 						mapTo.put("fCreateTime",rsCopy.getString("FCREATETIME") ); 
@@ -386,13 +380,13 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			        	 
 					}
 					
-					flag=true;
-					getlogInfo(ctx , map ,  DateBasetype.Person ,processType,flag,loginfo);
+					
 				}else{
 					 map.put("ERROR", "根据ID"+fid+"找不到对应的人员信息,没有同步到中间库。");
 					 System.out.println("########  ERROR ########根据ID："+fid+"找不到对应的人员信息,没有同步到中间库。");
 				}  
-				
+				flag=true;
+				getlogInfo(ctx , map ,  DateBasetype.Person ,processType,flag,loginfo);
 	    		 
     		}else if(type ==5){//仓库  newOrDele : 0:新增 ; 1启用 ; 2:禁用
  
@@ -414,8 +408,8 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					// TODO: handle exception
 				}
 				
-    			String sql  = " /*dialect*/ select wah.fid fId , wah.fnumber fNumber, wah.fname_l2 fName ,admin.fid fOrgtid,admin.fnumber fOrgNumber, admin.fname_l2 fOrgName, "+
-				  "	wah.FWhState fStatus ,cuser.fname_l2  fCreator ,  to_char( wah.FCREATETIME ,'yyyy-mm-dd' ) fCreateTime ,  "+fUpdateType+" fUpdateType ,to_char( wah.FLASTUPDATETIME  ,'yyyy-mm-dd' ) fUpdateTime ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime  "+
+    			String sql  = " /*dialect*/ select wah.fid fId , wah.fnumber fNumber, wah.fname_l2 fName ,admin.fid fOrgid,admin.fnumber fOrgNumber, admin.fname_l2 fOrgName, "+
+				  "	wah.FWhState fStatus ,cuser.fname_l2  fCreator ,  to_char( wah.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' ) fCreateTime ,  "+fUpdateType+" fUpdateType ,to_char( wah.FLASTUPDATETIME  ,'yyyy-mm-dd hh24:mi:ss' ) fUpdateTime ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime  "+
 				  " from  T_DB_WAREHOUSE wah inner  join T_ORG_Storage admin on admin.fid = wah.FstorageOrgID "+
 				  "	inner join  T_PM_User  cuser on cuser.fid=wah.FCREATORID  "+ 
 				  " where wah.fid = '"+fid+"' ";  
@@ -429,7 +423,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     						mapData.put("fId",rs.getString("FID") );
     						mapData.put("fNumber",rs.getString("FNUMBER") );
     						mapData.put("fName",rs.getString("FNAME") );
-    						mapData.put("fOrgtid",rs.getString("FORGTID") );
+    						mapData.put("fOrgtid",rs.getString("FORGID") );
     						mapData.put("fOrgNumber",rs.getString("FORGNUMBER") );
     						mapData.put("fOrgName",rs.getString("FORGNAME") );
     						mapData.put("fStatus",rs.getString("FSTATUS") );
@@ -542,11 +536,12 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     						map.put("RESJSON", result);
     						map.put("JSON", JSONObject.toJSONString(eMps)); 
     					}
-    					flag=true;
-    					getlogInfo(ctx , map,DateBasetype.FreeItem ,processType,flag ,loginfo);
+    					
     				}else{
     					 map.put("ERROR", "根据ID"+fid+"找不到对应的仓库信息,没有同步到中间库。");
     				}   
+    				flag=true;
+					getlogInfo(ctx , map,DateBasetype.FreeItem ,processType,flag ,loginfo);
     			}  
     			
     		}
@@ -720,7 +715,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				}  
 			}
 			
-			if(ids.length() > 0 ){
+			if(ids.length() > 1 ){
 				 
 				Map<String, String> deleMap = new  HashMap<String, String>();
 				
@@ -1193,8 +1188,12 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						insertSqlStart += columnName + ",";
 						if (columnName.toLowerCase().endsWith("time") || columnName.toLowerCase().endsWith("date") ||  columnName.toLowerCase().endsWith("time_0") ) {
 							// insertSqlValues += value+"','";
-							insertSqlValues += "to_date('" + value
-									+ "','yyyy-mm-dd hh24:mi:ss')" + ",";
+							if(null == value || "".equals(value) || "null".equals(value)){
+								insertSqlValues +=   value + ",";
+							}else{
+								insertSqlValues += "to_date('" + value
+								+ "','yyyy-mm-dd hh24:mi:ss')" + ",";
+							}
 						} else {
 							if (null == value) {
 								insertSqlValues += "'0',";
@@ -1209,11 +1208,58 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					System.out.print("**************sql=" + insertSql);
 				} 
 				
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return insertSql;
 		}
+		
+		private String insertMidTableAll(Context ctx,  String tableName,IRowSet rows , String fSign) {
+			String insertSql = "";
+			try {
+				/*if(rows.next()){
+					
+					
+				} */
+				IRowSetMetaData rowSetMataData = rows.getRowSetMetaData();
+				int columnsSize = rowSetMataData.getColumnCount();
+				String insertSqlStart = "INSERT INTO " + tableName + "(";
+				String insertSqlValues = "";
+				insertSql = "";
+				for (int i = 1; i <= columnsSize; i++) {
+					String columnName = rowSetMataData.getColumnName(i);
+					String value = rows.getString(columnName);
+					insertSqlStart += columnName + ",";
+					if (columnName.toLowerCase().endsWith("time") || columnName.toLowerCase().endsWith("date") ||  columnName.toLowerCase().endsWith("time_0") ) {
+						// insertSqlValues += value+"','";
+						
+						if(null == value || "".equals(value) || "null".equals(value)){
+							insertSqlValues +=   value + ",";
+						}else{
+							insertSqlValues += "to_date('" + value
+							+ "','yyyy-mm-dd hh24:mi:ss')" + ",";
+						}
+						
+					} else {
+						if (null == value) {
+							insertSqlValues += "'0',";
+						} else {
+							insertSqlValues += "'" + value + "',";
+						}
+					}
+				}
+				insertSqlStart += fSign+ ") VALUES(";
+				insertSqlValues += "0)";
+				insertSql = insertSqlStart + insertSqlValues;
+				//System.out.print("**************sql=" + insertSql);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return insertSql;
+		}
+		
 
 		@Override
 		protected void _doCangkuMid(Context ctx) throws BOSException {
@@ -1251,7 +1297,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				}
 			} 
 			
-			String sql  = " /*dialect*/ select wah.fid fId , wah.fnumber fNumber, wah.fname_l2 fName ,admin.fid fOrgtid,admin.fnumber fOrgNumber, admin.fname_l2 fOrgName, "+
+			String sql  = " /*dialect*/ select wah.fid fId , wah.fnumber fNumber, wah.fname_l2 fName ,admin.fid fOrgid,admin.fnumber fOrgNumber, admin.fname_l2 fOrgName, "+
 			  "  wah.FWhState fStatus ,cuser.fname_l2  fCreator ,  to_char( wah.FCREATETIME ,'yyyy-mm-dd' ) fCreateTime ,(case when wah.FWhState= 2 then 2 else 1 end )   fUpdateType ,to_char( wah.FLASTUPDATETIME  ,'yyyy-mm-dd' ) fUpdateTime ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime  "+
 			  " from  T_DB_WAREHOUSE wah inner  join T_ORG_Storage admin on admin.fid = wah.FstorageOrgID "+
 			  "	inner join  T_PM_User  cuser on cuser.fid=wah.FCREATORID  ";
@@ -1266,7 +1312,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						String name = rsData.getString("FNAME");
 						String status = rsData.getString("FSTATUS");
 						 
-						String orgid = rsData.getString("FORGTID");
+						String orgid = rsData.getString("FORGID");
 						
 						String table = "";
 						if( "jbYAAAMU2SvM567U".equals(orgid)){
@@ -1275,7 +1321,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 							table = "EAS_Warehouse_Clinic";
 						}   
 						if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
-							 String sqlInsert = insertMidTable(ctx,  table, rsData ,"fSign");
+							 String sqlInsert = insertMidTableAll(ctx,  table, rsData ,"fSign");
 							 sqls.add(sqlInsert);
 						 }else{
 							 String midName = namemap.get(fid);
@@ -1360,7 +1406,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						 String status = rs.getString("FSTATUS");
 						 
 						 if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
-							 String sqlInsert = insertMidTable(ctx,  "EAS_Customer_MIDTABLE", rs ,"fSign");
+							 String sqlInsert = insertMidTableAll(ctx,  "EAS_Customer_MIDTABLE", rs ,"fSign");
 							 sqls.add(sqlInsert);
 						 }else{
 							 String midName = namemap.get(fid);
@@ -1419,15 +1465,15 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				for (Map<String, Object> map : retsSup) {
 					String fid = map.get("FID").toString(); 
 					String name = map.get("FNAME")==null? "": map.get("FNAME").toString();
-					String status = map.get("FSTATUS")==null? "0":map.get("FSTATUS").toString();
+					String status = map.get("FISSTART")==null? "0":map.get("FISSTART").toString();
 					namemap.put( fid, name);
 					statusmap.put( fid, status);
 				}
 			} 
 			
-			String sql  = " /*dialect*/ SELECT admin.fid  fId , admin.fnumber fNumber  ,admin.fname_l2  fName , admin.FLONGNUMBER  fLongNumber ,laytype.fid  fLayerTypeID , admin.fparentid  FPAREBTID , "+
+			String sql  = " /*dialect*/ SELECT admin.fid  fId , admin.fnumber fNumber  ,admin.fname_l2  fName , admin.FLONGNUMBER  fLongNumber ,laytype.fid  fLayerTypeID , admin.fparentid  FPARENTID , "+
 			  " admin.FISCOMPANYORGUNIT   fIsCompanyOrgUnit  ,admin.FISADMINORGUNIT  fIsAdminOrgUnit ,admin.FISCOSTORGUNIT  fIsCostOrgUnit ,admin.fisstart  fIsStart ,  to_char( admin.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' ) FcreateTime ,"+
-			  " admin.FLevel fLevel ,  admin.FIsLeaf  fIsLeaf , admin.FIsSealUp  fIsOUSealUp , nvl(admin.FTaxNumber,'') fTaxNumber ,  nvl( admin.FADMINADDRESS_L2,'')  fAddress  , (case when admin.FIsLeaf)  FupdateType ,"+
+			  " admin.FLevel fLevel ,  admin.FIsLeaf  fIsLeaf , admin.FIsSealUp  fIsOUSealUp ,  (case when admin.FIsSealUp =1 then 2  else 1 end )  FupdateType ,"+
 			  "  to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime_0 "+
 			  " FROM T_ORG_ADMIN admin "+
 			  " inner  join  T_Org_LayerType laytype  on laytype.fid = admin.FLAYERTYPEID  ";
@@ -1438,16 +1484,16 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					while(rs.next()){	
 						 String fid = rs.getString("FID");
 						 String name = rs.getString("FNAME");
-						 String status = rs.getString("FISSEALUP");
+						 String status = rs.getString("FISOUSEALUP");
 						 
 						 if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
-							 String sqlInsert = insertMidTable(ctx,  "EAS_ORG_MIDTABLE", rs ,"fSign_0");
+							 String sqlInsert = insertMidTableAll(ctx,  "EAS_ORG_MIDTABLE", rs ,"fSign_0");
 							 sqls.add(sqlInsert);
 						 }else{
 							 String midName = namemap.get(fid);
 							 String midStatus= statusmap.get(fid);
 							 boolean flag = false;
-							 String sqlUpdate = " update EAS_Supplier_MIDTABLE set ";
+							 String sqlUpdate = " update EAS_ORG_MIDTABLE set ";
 							 if(!name.equals(midName)){
 								 sqlUpdate = sqlUpdate+" FNAME = '"+name+"',";
 								 flag = true;
@@ -1505,24 +1551,23 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			} 
 			 
 			
-    		String personsql = " /*dialect*/ SELECT    person.fid fId , person.fnumber fNumber, person.fname_l2 fName ,pmuser.FNUMBER  fLoginNumber ,empposition.fid fPositionID ,  "+
+    		String personsql = " /*dialect*/ SELECT    person.fid fId , person.fnumber fNumber, person.fname_l2 fName , empposition.fid fPositionID ,  "+
           		" empposition.fnumber  fPositionNumber ,empposition.fname_l2 fPositionName  ,com.fid fOrgtid,dep.fid fDeptid,com.fnumber fOrgNumber, com.fname_l2 fOrgName , " +
-          		" '' POSTCODE , person.FEMAIL FEMAIL , '' BANK , '' BANKNUM , to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FSYNTIME_0  , job.fnumber fPostLeveNumber,  "+
-          		"  emptype.fnumber fEmployeeTypeNumber, emptype.fname_l2 fEmployeeTypeName, to_char(person.FCREATETIME , 'yyyy-hh-dd')   fCreateTime,  0 fUpdateType ,person.fnumber  fEmpNumber , "+ 
+          		" '' POSTCODE , person.FEMAIL FEMAIL , '' BANK , '' BANKNUM , to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FSYNTIME_0   ,  "+
+          		"  emptype.fnumber fEmployeeTypeNumber, emptype.fname_l2 fEmployeeTypeName, to_char(person.FCREATETIME , 'yyyy-mm-dd hh24:mi:ss')   fCreateTime,  0 fUpdateType ,person.fnumber  fEmpNumber , "+ 
           		" to_char( emprel.FEnterDate  ,'yyyy-mm-dd hh24:mi:ss' ) FENTERDATE , to_char( emprel.FActualFormalDate  ,'yyyy-mm-dd hh24:mi:ss' ) FPLANFORMALDATE ,  "+ 
-          		" joblevel.fid FJOBLEVELID , joblevel.fnumber FJOBLEVELNUMBER ,joblevel.fname_l2  FJOBLEVELNAME , hrjobcate.fid FJOBCATEGORYID  ,hrjobcate.fnumber FJOBCATEGORYNUMBER  , hrjobcate.fname_2 FJOBCATEGORYNAME "+
+          		" joblevel.fid FJOBLEVELID , joblevel.fnumber FJOBLEVELNUMBER ,joblevel.fname_l2  FJOBLEVELNAME , hrjobcate.fid FJOBCATEGORYID  ,hrjobcate.fnumber FJOBCATEGORYNUMBER  , hrjobcate.fname_l2 FJOBCATEGORYNAME "+
           		 
-          		" FROM   t_bd_person person "+
-          		" left  join t_pm_user pmuser on pmuser.FPERSONID  = person.FID "+
-          		" inner join t_hr_emporgrelation relation on person.fid = relation.fpersonid   and  relation.FAssignType= 1   and  to_char(relation.FLEFFDT , 'yyyy-hh-dd') ='2199-12-31'"+
+          		" FROM   t_bd_person person "+ 
+          		" inner join t_hr_emporgrelation relation on person.fid = relation.fpersonid   and  relation.FAssignType= 1   and  to_char(relation.FLEFFDT , 'yyyy-mm-dd') ='2199-12-31'"+
           		" left join T_ORG_Position empposition on empposition.fid = relation.FPositionID "+
           		" left join  T_ORG_Admin  com on    com.fid =  relation.FCompanyID "+
           		" left join  T_ORG_Admin dep on dep.fid =   relation.FAdminOrgID	 "+
           		" left join  T_ORG_Job  job on  job.fid = empposition.FJOBID  "+
           		" left join T_HR_EmpLaborRelation emprel  on emprel.fid = relation.FLABORRELATIONID  "+
           		" left join  T_HR_BDEmployeeType emptype  on  emptype.fid = emprel.FLABORRELATIONSTATEID  "+
-          		" LEFT JOIN  T_HR_EmpPostRank postrank  on  postrank.fpresonid = person.fid and  to_char( postrank.FLEFFDT  ,'yyyy-mm-dd hh24:mi:ss' )  = '2199-12-31 00:00:00' "+
-          		" left  join T_HR_JobLevel joblevel on  joblevel.fid = postrank.fFJOBLEVELID "+
+          		" LEFT JOIN  T_HR_EmpPostRank postrank  on  postrank.fpersonid = person.fid and  to_char( postrank.FLEFFDT  ,'yyyy-mm-dd hh24:mi:ss' )  = '2199-12-31 00:00:00' "+
+          		" left  join T_HR_JobLevel joblevel on  joblevel.fid = postrank.FJOBLEVELID "+
           		
           		" left  join T_HR_PositionExtend postEx on  postEx.FPositionID = empposition.fid "+
           		" left  join T_HR_HRJob hrjob on  hrjob.fid = postEx.FHRJobID "+
@@ -1538,7 +1583,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						 String name = rs.getString("FNAME"); 
 						 
 						 if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
-							 String sqlInsert = insertMidTable(ctx,  "EAS_Person_MIDTABLE", rs ,"fSign_0");
+							 String sqlInsert = insertMidTableAll(ctx,  "EAS_Person_MIDTABLE", rs ,"fSign_0");
 							 sqls.add(sqlInsert);
 						 }else{
 							 String midName = namemap.get(fid); 
@@ -1610,7 +1655,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						 String status = rs.getString("FSTATUS");
 						 
 						 if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
-							 String sqlInsert = insertMidTable(ctx,  "EAS_Supplier_MIDTABLE", rs ,"fSign");
+							 String sqlInsert = insertMidTableAll(ctx,  "EAS_Supplier_MIDTABLE", rs ,"fSign");
 							 sqls.add(sqlInsert);
 						 }else{
 							 String midName = namemap.get(fid);

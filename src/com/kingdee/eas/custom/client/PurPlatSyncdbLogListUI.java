@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import org.apache.log4j.Logger;
 
 import com.kingdee.bos.ui.face.CoreUIObject;
+import com.kingdee.eas.custom.ISyncDataEASFacade;
+import com.kingdee.eas.custom.SyncDataEASFacadeFactory;
 
 /**
  * output class name
@@ -35,7 +37,15 @@ public class PurPlatSyncdbLogListUI extends AbstractPurPlatSyncdbLogListUI
 
     @Override
     public void actionHelp_actionPerformed(ActionEvent e) throws Exception {
-     	super.actionHelp_actionPerformed(e);
+     	//super.actionHelp_actionPerformed(e);
+     	ISyncDataEASFacade  is = SyncDataEASFacadeFactory.getRemoteInstance();
+    	//is.doCustomerMid();
+     	//is.doOrgMid();
+     	//is.doSuppMid();
+     	//is.doCangkuMid();
+     	//is.doPersonMid();
+     	
+     	is.DoErrorJon("");
     }
     
     /**

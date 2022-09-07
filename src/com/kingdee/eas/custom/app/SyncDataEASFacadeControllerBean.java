@@ -22,19 +22,20 @@ import org.apache.log4j.Logger;
 import com.alibaba.fastjson.JSONObject;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
-import com.kingdee.bos.workflow.define.ProcessType;
+import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.eas.basedata.assistant.KAClassficationFactory;
 import com.kingdee.eas.basedata.assistant.MeasureUnitFactory;
 import com.kingdee.eas.basedata.master.material.IMaterial;
 import com.kingdee.eas.basedata.master.material.MaterialFactory;
 import com.kingdee.eas.basedata.master.material.MaterialGroupFactory;
-import com.kingdee.eas.basedata.org.CompanyOrgUnitFactory;
-import com.kingdee.eas.basedata.org.CompanyOrgUnitInfo;
 import com.kingdee.eas.common.EASBizException;
+import com.kingdee.eas.custom.EAISynTemplate;
+import com.kingdee.eas.custom.PurPlatSyncdbLogCollection;
 import com.kingdee.eas.custom.PurPlatSyncdbLogFactory;
 import com.kingdee.eas.custom.PurPlatSyncdbLogInfo;
 import com.kingdee.eas.custom.app.unit.MaterialUntil;
 import com.kingdee.jdbc.rowset.IRowSet;
+import com.kingdee.jdbc.rowset.IRowSetMetaData;
 
 public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeControllerBean{
 	
@@ -43,6 +44,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
         Logger.getLogger("com.kingdee.eas.custom.app.SyncDataEASFacadeControllerBean");
 
 
+    String dataBase = "04";
     private static String warurl = "http://sr.wellekq.com:10090/his-war/notify/receiveClinicStore"; //测试地址
 
     private static String warJinYongurl = "http://sr.wellekq.com:10090/his-war/notify/updateClinicStoreStatus"; //测试地址
@@ -51,31 +53,258 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
      * type   :  1:客户  2：供应商  3：组织  4 人员  5 仓库   
      * newOrDele : 0:新增 ; 1启用 ; 2:禁用
      */
-    @Override
-	protected void _syncDateByType(Context ctx, int type, String data,
-			int newOrDele, String name, String number) throws BOSException {
-		// TODO Auto-generated method stub
-		//super._syncDateByType(ctx, type, data, newOrDele, name, number);
-
+    
+    protected boolean syncDate(Context ctx, int type, String data,
+			int newOrDele, String name, String fid ,PurPlatSyncdbLogInfo loginfo) throws BOSException {
     	boolean flag = false;
+    	Map<String, String> map = new  HashMap<String, String>();
+    	DateBaseProcessType processType = null;
+    	if(newOrDele ==0 ){
+    		processType = DateBaseProcessType.AddNew;
+    	}else if(newOrDele ==1 ){
+    		processType = DateBaseProcessType.ENABLE;
+    	}else if(newOrDele ==2 ){
+    		processType = DateBaseProcessType.DisAble;
+    	}
     	try {
-    		Map<String, String> map = new  HashMap<String, String>();
-        	map.put("FNUMBER", number);
-        	map.put("FNAME", name);
-        	map.put("JSON", data);
-        	
+    		
+        	 
         	String retMsg = "";
         	map.put("RESJSON", "");
-    		if(type ==1){ 
-    			getlogInfo(ctx , map ,  DateBasetype.Customer ,DateBaseProcessType.AddNew ,flag);
-    		}else if(type ==2){
-    			getlogInfo(ctx , map ,  DateBasetype.Supplier ,DateBaseProcessType.AddNew,flag);
-    			  
-    		}else if(type ==3){
-    			getlogInfo(ctx , map ,  DateBasetype.orgUnit ,DateBaseProcessType.AddNew,flag);
-    		}else if(type ==4){
-    			getlogInfo(ctx , map ,  DateBasetype.Person ,DateBaseProcessType.AddNew,flag);
+        	map.put("FID", fid);
+        	map.put("NEWORDEL", newOrDele+"");
+    		if(type ==1){ //客户  newOrDele : 0:新增 ; 1启用 ; 2:禁用
+ 
+    			int fStatus = 0;
+    			int fUpdateType = 0;
+    			if(newOrDele == 1){
+    				fStatus = 0;
+    				fUpdateType = 0;
+    			}else if(newOrDele == 2){
+    				fStatus = 1;
+    				fUpdateType = 2;
+    			}
+    			String selectSuppSql = " /*dialect*/ select  FNUMBER from  EAS_Customer_MIDTABLE where fid='"+fid+"' ";
+				List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
+				if(retsSup.size() == 0 ){//没有 
+					
+				}else{
+					String selectDelete = " delete    EAS_Customer_MIDTABLE where fid='"+fid+"' ";
+					EAISynTemplate.execute(ctx, dataBase, selectDelete);
+				}
+				String sql  = " /*dialect*/ select cus.fid fId  ,cus.fnumber fNumber ,cus.fname_l2 fName , '' fOpenBank , '' fBankAccount ,  cuser.fname_l2  fCreator , "+
+				 "  to_char( cus.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' ) fCreateTime ,to_char( cus.FLASTUPDATETIME  ,'yyyy-mm-dd hh24:mi:ss' ) fUpdateTime , 0 fIsGroup, "+
+				 "  com.fid fOrgtId , com.FNUMBER fOrgNumber ,com.fname_l2 fOrgName , "+fStatus+"  fStatus , "+fUpdateType+" fUpdateType ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime "+
+				 "  from T_BD_Customer  cus   "+
+				 "  inner join T_BD_CustomerCompanyInfo cuscom  on cuscom.FCUSTOMERID  = cus.fid "+
+				 "  inner join  T_PM_User  cuser on cuser.fid=cus.FCREATORID  "+
+				 "  inner join  T_ORG_Company com on com.fid  = cuscom.FComOrgID and   com.fid = 'jbYAAAMU2SvM567U' "+
+				 "  where cus.fid ='"+fid+"'   ";
+				
+				
+				IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
+				IRowSet  rsCopy=  rs.createCopy();
+				if(rs!=null && rs.size() > 0){
+					String sqlInsert = insertMidTable(ctx,  "EAS_Customer_MIDTABLE", rs ,"fSign");
+					map.put("ERROR",sqlInsert);
+					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
+					
+					if(rsCopy.next()){	
+						Map<String, String> mapTo = new  HashMap<String, String>();
+						mapTo.put("fId",rsCopy.getString("FID") );
+						mapTo.put("fNumber",rsCopy.getString("FNUMBER") );
+						mapTo.put("fName",rsCopy.getString("FNAME") );
+						mapTo.put("fOpenBank",rsCopy.getString("FOPENBANK") );
+						mapTo.put("fBankAccount",rsCopy.getString("FBANKACCOUNT") );
+						mapTo.put("fCreator",rsCopy.getString("FCREATOR") );
+						mapTo.put("fCreateTime",rsCopy.getString("FCREATETIME") );
+						mapTo.put("fUpdateTime",rsCopy.getString("FUPDATETIME") );
+						mapTo.put("fIsGroup",rsCopy.getString("FISGROUP") );
+						mapTo.put("fOrgtId",rsCopy.getString("FORGTID") );
+						mapTo.put("fOrgNumber",rsCopy.getString("FORGNUMBER") );
+						mapTo.put("fOrgName",rsCopy.getString("FORGNAME") );
+						mapTo.put("fStatus",rsCopy.getString("FSTATUS") );
+						mapTo.put("fUpdateType",rsCopy.getString("FUPDATETYPE") ); 
+						String datajsonStr = JSONObject.toJSONString(mapTo);
+						 
+						map.put("FNUMBER", mapTo.get("fNumber"));
+			        	map.put("FNAME", mapTo.get("fName"));
+			        	map.put("JSON", datajsonStr);
+			        	 
+					}
+					
+				}else{
+					 map.put("ERROR", "根据ID"+fid+"在jbYAAAMU2SvM567U公司下找不到对应的客户信息,没有同步到中间库。");
+					 System.out.println("########  ERROR ########根据ID："+fid+"在jbYAAAMU2SvM567U公司下找不到对应的客户信息,没有同步到中间库。");
+				}   
+				
+				flag=true;
+				getlogInfo(ctx , map ,  DateBasetype.Customer ,processType ,flag ,loginfo);  
     			
+    			
+    		}else if(type ==2){ //供应商  newOrDele : 0:新增 ; 1启用 ; 2:禁用
+ 
+    			String selectSuppSql = " /*dialect*/ select  FNUMBER from  EAS_Supplier_MIDTABLE where fid='"+fid+"' ";
+				List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
+				if(retsSup.size() == 0 ){//没有 
+					
+				}else{
+					String selectDelete = " delete    EAS_Supplier_MIDTABLE where fid='"+fid+"' ";
+					EAISynTemplate.execute(ctx, dataBase, selectDelete);
+				}
+
+				/*SELECT supp.fid  fid , supp.fnumber fnumber ,supp.fname_l2 Fname ,  gro.fname_l2 FCLASSNAME ,'' FOpenBank ,  '' FBankAccount,
+   			 supp.FCREATORID  Fcreator , supp.FCREATETIME  FcreateTime , supp.FLASTUPDATETIME FupdateTime,  supp.FIsInternalCompany  FISGroup ,
+   			 admin.FNUMBER  ForgNumber ,admin.FName_l2 ForgName , (case when supp.FUsedStatus = 1 then 0 else  1 end ) FStatus ,admin.Fid Forgtid, 0  FupdateType, sysdate FsynTime
+   			 FROM  T_BD_Supplier  supp 
+   			inner  join  T_BD_CSSPGroup gro on gro.fid =supp.FBrowseGroupID
+   			inner join  T_ORG_admin    admin  on admin.fid = supp.FCONTROLUNITID  */
+   			
+				String sql  = " /*dialect*/ SELECT supp.fid  fid , supp.fnumber fnumber ,supp.fname_l2 Fname ,  gro.fname_l2 FCLASSNAME ,'' FOpenBank ,  '' FBankAccount, "+
+				 "  supp.FCREATORID  Fcreator , to_char( supp.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' )   FcreateTime , to_char( supp.FLASTUPDATETIME ,'yyyy-mm-dd hh24:mi:ss' )  FupdateTime,  supp.FIsInternalCompany  FISGroup , "+
+				 "  admin.FNUMBER  ForgNumber ,admin.FName_l2 ForgName , (case when supp.FUsedStatus = 1 then 0 else  1 end ) FStatus ,admin.Fid Forgtid, "+newOrDele+"  FupdateType ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime "+
+				 "   FROM  T_BD_Supplier  supp    "+
+				 "  inner  join  T_BD_CSSPGroup gro on gro.fid =supp.FBrowseGroupID "+
+				 " inner join  T_ORG_admin    admin  on admin.fid = supp.FCONTROLUNITID "+
+				 "    where supp.fid ='"+fid+"'   "; 
+				
+				IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
+				IRowSet  rsCopy=  rs.createCopy();
+				if(rs!=null && rs.size() > 0){
+					String sqlInsert = insertMidTable(ctx,  "EAS_Supplier_MIDTABLE", rs ,"fSign");
+					map.put("ERROR",sqlInsert);
+					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
+					
+					if(rsCopy.next()){	
+						Map<String, String> mapTo = new  HashMap<String, String>();
+						mapTo.put("fId",rsCopy.getString("FID") );
+						mapTo.put("fNumber",rsCopy.getString("FNUMBER") );
+						mapTo.put("fName",rsCopy.getString("FNAME") );
+						 
+						mapTo.put("fClassName",rsCopy.getString("FCLASSNAME") );
+						
+						mapTo.put("fOpenBank",rsCopy.getString("FOPENBANK") );
+						mapTo.put("fBankAccount",rsCopy.getString("FBANKACCOUNT") );
+						mapTo.put("fCreator",rsCopy.getString("FCREATOR") );
+						mapTo.put("fCreateTime",rsCopy.getString("FCREATETIME") );
+						mapTo.put("fUpdateTime",rsCopy.getString("FUPDATETIME") );
+						mapTo.put("fIsGroup",rsCopy.getString("FISGROUP") );
+						mapTo.put("fOrgtId",rsCopy.getString("FORGTID") );
+						mapTo.put("fOrgNumber",rsCopy.getString("FORGNUMBER") );
+						mapTo.put("fOrgName",rsCopy.getString("FORGNAME") );
+						mapTo.put("fStatus",rsCopy.getString("FSTATUS") );
+						mapTo.put("fUpdateType",rsCopy.getString("FUPDATETYPE") ); 
+						String datajsonStr = JSONObject.toJSONString(mapTo);
+						 
+						map.put("FNUMBER", mapTo.get("fNumber"));
+			        	map.put("FNAME", mapTo.get("fName"));
+			        	map.put("JSON", datajsonStr);
+			        	 
+					} 
+				}else{
+					 map.put("ERROR", "根据ID"+fid+"找不到对应的供应商信息,没有同步到中间库。");
+					 System.out.println("########  ERROR ########根据ID："+fid+"找不到对应的供应商信息,没有同步到中间库");
+				} 
+					
+				flag=true;
+				getlogInfo(ctx , map ,  DateBasetype.Supplier ,processType,flag,loginfo);
+    			
+    			
+				
+    			  
+    		}else if(type ==3){//组织  newOrDele : 0:新增 ; 1启用 ; 2:禁用
+    		  
+    			int fStatus = 0;
+    			int fUpdateType = 0;
+    			if(newOrDele == 1){
+    				fStatus = 0;
+    				fUpdateType = 1;
+    			}else if(newOrDele == 2){
+    				fStatus = 1;
+    				fUpdateType = 2;
+    			}
+    			
+    			
+    			String selectSuppSql = " /*dialect*/ select  fid from  EAS_ORG_MIDTABLE where fid='"+fid+"' ";
+				List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
+				if(retsSup.size() == 0 ){//没有 
+					
+				}else{
+					String selectDelete = " delete    EAS_ORG_MIDTABLE where fid='"+fid+"' ";
+					EAISynTemplate.execute(ctx, dataBase, selectDelete);
+				}
+				
+    			String sql  = " /*dialect*/ SELECT admin.fid  fId , admin.fnumber fNumber  ,admin.fname_l2  fName , admin.FLONGNUMBER  fLongNumber ,laytype.fid  fLayerTypeID , admin.fparentid  FPARENTID , "+
+	  			  " admin.FISCOMPANYORGUNIT   fIsCompanyOrgUnit  ,admin.FISADMINORGUNIT  fIsAdminOrgUnit ,admin.FISCOSTORGUNIT  fIsCostOrgUnit ,admin.fisstart  fIsStart ,  to_char( admin.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' ) FcreateTime ,"+
+	  			  " admin.FLevel fLevel ,  admin.FIsLeaf  fIsLeaf , admin.FIsSealUp  fIsOUSealUp ,  "+newOrDele+"  FupdateType ,"+
+	  			  "   to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime_0 "+
+	  			  " FROM T_ORG_ADMIN admin "+
+	  			  " inner  join  T_Org_LayerType laytype  on laytype.fid = admin.FLAYERTYPEID  "+ 
+	  			  " where admin.fid = '"+fid+"' ";  
+	  			
+	  			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql); 
+	  			IRowSet  rsCopy=  rs.createCopy();
+				if(rs!=null && rs.size() > 0){
+					String sqlInsert = insertMidTable(ctx,  "EAS_ORG_MIDTABLE", rs,"fSign_0");
+					map.put("ERROR",sqlInsert);
+					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
+					
+					
+					if(rsCopy.next()){	
+						Map<String, String> mapTo = new  HashMap<String, String>();
+						mapTo.put("fid",rsCopy.getString("FID") );
+						mapTo.put("fnumber",rsCopy.getString("FNUMBER") );
+						mapTo.put("Fname",rsCopy.getString("FNAME") );
+						 
+						mapTo.put("Flongnumber",rsCopy.getString("FLONGNUMBER") );
+						
+						mapTo.put("FLayerTypeID",rsCopy.getString("FLAYERTYPEID") );
+						mapTo.put("FPARENTID",rsCopy.getString("FPARENTID") );
+						mapTo.put("FIsCompanyOrgUnit",rsCopy.getString("FISCOMPANYORGUNIT") );
+						mapTo.put("FIsAdminOrgUnit",rsCopy.getString("FISADMINORGUNIT") );
+						mapTo.put("fIsCostOrgUnit",rsCopy.getString("FISCOSTORGUNIT") );
+						mapTo.put("fIsStart",rsCopy.getString("FISSTART") );
+						mapTo.put("fLevel",rsCopy.getString("FLEVEL") );
+						mapTo.put("fIsLeaf",rsCopy.getString("FISLEAF") );
+						mapTo.put("fIsOUSealUp",rsCopy.getString("FISOUSEALUP") );
+						mapTo.put("FcreateTime",rsCopy.getString("FCREATETIME") );
+						mapTo.put("FupdateType",rsCopy.getString("FUPDATETYPE") ); 
+						String datajsonStr = JSONObject.toJSONString(mapTo);
+						
+						map.put("FNUMBER", mapTo.get("fNumber"));
+			        	map.put("FNAME", mapTo.get("fName")); 
+			        	map.put("JSON", datajsonStr);
+			        	 
+					} 
+					
+				}else{
+					 map.put("ERROR", "根据ID"+fid+"找不到对应的组织信息,没有同步到中间库。");
+					 System.out.println("########  ERROR ########根据ID："+fid+"找不到对应的组织信息,没有同步到中间库。");
+				}  
+				flag=true;
+				getlogInfo(ctx , map ,  DateBasetype.orgUnit ,processType,flag,loginfo);
+    			
+    		}else if(type ==4){//人员  newOrDele : 0:新增 ; 1启用 ; 2:禁用
+    			
+    			int fStatus = 0;
+    			int fUpdateType = 0;
+    			if(newOrDele == 1){
+    				fStatus = 0;
+    				fUpdateType = 0;
+    			}else if(newOrDele == 2){
+    				fStatus = 1;
+    				fUpdateType = 2;
+    			}
+    			
+    			
+    			String selectSuppSql = " /*dialect*/ select  fid from  EAS_Person_MIDTABLE where fid='"+fid+"' ";
+				List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
+				if(retsSup.size() == 0 ){//没有 
+					
+				}else{
+					String selectDelete = " delete    EAS_Person_MIDTABLE where fid='"+fid+"' ";
+					EAISynTemplate.execute(ctx, dataBase, selectDelete);
+				}
 
     			/* SELECT    person.fid , person.fnumber, person.fname_l2 ,pmuser.FNUMBER  ,empposition.fid ,   
        		 empposition.fnumber  ,empposition.fname_l2   ,com.fid ,dep.fid,com.fnumber, com.fname_l2 ,job.fnumber ,
@@ -94,140 +323,305 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
        		left join  T_HR_BDEmployeeType emptype  on  emptype.fid = emprel.FLABORRELATIONSTATEID 
        		where  person.fnumber = 'MS310100082'*/
     			
-	    		String personsql = " /*dialect*/ SELECT    person.fid fId , person.fnumber fNumber, person.fname_l2 fName ,pmuser.FNUMBER  fLoginNumber ,empposition.fid fPositionID ,  "+
-	          		" empposition.fnumber  fPositionNumber ,empposition.fname_l2 fPositionName  ,com.fid fOrgtid,dep.fid fDeptid,com.fnumber fOrgNumber, com.fname_l2 fOrgName ,job.fnumber fPostLeveNumber, "+
-	          		"  emptype.fnumber fEmployeeTypeNumber, emptype.fname_l2 fEmployeeTypeName, to_char(person.FCREATETIME , 'yyyy-hh-dd')   fCreateTime,  0 fUpdateType ,person.fnumber  fEmpNumber "+
-	          		" FROM   t_bd_person person "+
-	          		" left  join t_pm_user pmuser on pmuser.FPERSONID  = person.FID "+
-	          		" inner join t_hr_emporgrelation relation on person.fid = relation.fpersonid   and  relation.FAssignType= 1   and  to_char(relation.FLEFFDT , 'yyyy-hh-dd') ='2199-12-31'"+
+				String personsql = " /*dialect*/ SELECT    person.fid fId , person.fnumber fNumber, person.fname_l2 fName , empposition.fid fPositionID ,  "+
+	          		" empposition.fnumber  fPositionNumber ,empposition.fname_l2 fPositionName  ,com.fid fOrgtid,dep.fid fDeptid,com.fnumber fOrgNumber, com.fname_l2 fOrgName , " +
+	          		" '' POSTCODE , person.FEMAIL FEMAIL , '' BANK , '' BANKNUM , to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FSYNTIME_0   ,  "+
+	          		"  emptype.fnumber fEmployeeTypeNumber, emptype.fname_l2 fEmployeeTypeName, to_char(person.FCREATETIME , 'yyyy-mm-dd hh24:mi:ss')   fCreateTime,  0 fUpdateType ,person.fnumber  fEmpNumber , "+ 
+	          		" to_char( emprel.FEnterDate  ,'yyyy-mm-dd hh24:mi:ss' ) FENTERDATE , to_char( emprel.FActualFormalDate  ,'yyyy-mm-dd hh24:mi:ss' ) FPLANFORMALDATE ,  "+ 
+	          		" joblevel.fid FJOBLEVELID , joblevel.fnumber FJOBLEVELNUMBER ,joblevel.fname_l2  FJOBLEVELNAME , hrjobcate.fid FJOBCATEGORYID  ,hrjobcate.fnumber FJOBCATEGORYNUMBER  , hrjobcate.fname_l2 FJOBCATEGORYNAME "+
+	          		 
+	          		" FROM   t_bd_person person "+ 
+	          		" inner join t_hr_emporgrelation relation on person.fid = relation.fpersonid   and  relation.FAssignType= 1   and  to_char(relation.FLEFFDT , 'yyyy-mm-dd') ='2199-12-31'"+
 	          		" left join T_ORG_Position empposition on empposition.fid = relation.FPositionID "+
 	          		" left join  T_ORG_Admin  com on    com.fid =  relation.FCompanyID "+
 	          		" left join  T_ORG_Admin dep on dep.fid =   relation.FAdminOrgID	 "+
 	          		" left join  T_ORG_Job  job on  job.fid = empposition.FJOBID  "+
 	          		" left join T_HR_EmpLaborRelation emprel  on emprel.fid = relation.FLABORRELATIONID  "+
 	          		" left join  T_HR_BDEmployeeType emptype  on  emptype.fid = emprel.FLABORRELATIONSTATEID  "+
-	          		" where  person.fnumber = 'MS310100082' ";
+	          		" LEFT JOIN  T_HR_EmpPostRank postrank  on  postrank.fpersonid = person.fid and  to_char( postrank.FLEFFDT  ,'yyyy-mm-dd hh24:mi:ss' )  = '2199-12-31 00:00:00' "+
+	          		" left  join T_HR_JobLevel joblevel on  joblevel.fid = postrank.FJOBLEVELID "+
+	          		
+	          		" left  join T_HR_PositionExtend postEx on  postEx.FPositionID = empposition.fid "+
+	          		" left  join T_HR_HRJob hrjob on  hrjob.fid = postEx.FHRJobID "+
+	          		" left  join T_HR_HRJobCategory hrjobcate on  hrjobcate.fid = hrjob.FHRJOBCATEGORYID "+
+	          		" where  person.fid = '"+fid+"' ";
 	    		IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,personsql);
+				
+	    		IRowSet  rsCopy=  rs.createCopy();
 				if(rs!=null && rs.size() > 0){
-					  try {
-						while(rs.next()){	 
-							map.put("fId",rs.getString("FID") );
-							map.put("fNumber",rs.getString("FNUMBER") );
-							map.put("fName",rs.getString("FNAME") );
-							map.put("fLoginNumber",rs.getString("FLOGINNUMBER") );
-							map.put("fPositionID",rs.getString("FPOSITIONID") );
-							map.put("fPositionNumber",rs.getString("FPOSITIONNUMBER") );
-							map.put("fPositionName",rs.getString("FPOSITIONNAME") );
-							map.put("fOrgtid",rs.getString("FORGTID") );
-							map.put("fDeptid",rs.getString("FDEPTID") );
-							map.put("fOrgNumber",rs.getString("FORGNUMBER") );
-							map.put("fOrgName",rs.getString("FORGNAME") );
-							map.put("fPostLeveNumber",rs.getString("FPOSTLEVENUMBER") );
-							map.put("fEmployeeTypeNumber",rs.getString("FEMPLOYEETYPENUMBER") );
-							map.put("fEmployeeTypeName",rs.getString("FEMPLOYEETYPENAME") ); 
-							map.put("fCreateTime",rs.getString("FCREATETIME") ); 
-							map.put("fUpdateType",rs.getString("FUPDATETYPE") ); 
-							map.put("fEmpNumber",rs.getString("FEMPNUMBER") );  
-						  }
-					} catch (SQLException e) {
-						e.printStackTrace();
+					String sqlInsert = insertMidTable(ctx,  "EAS_ORG_MIDTABLE", rs,"fSign_0");
+					map.put("ERROR",sqlInsert);
+					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
+					
+					
+					if(rsCopy.next()){	
+						Map<String, String> mapTo = new  HashMap<String, String>();
+						mapTo.put("fId",rsCopy.getString("FID") );
+						mapTo.put("fNumber",rsCopy.getString("FNUMBER") );
+						mapTo.put("fName",rsCopy.getString("FNAME") );
+						mapTo.put("fLoginNumber",rsCopy.getString("FLOGINNUMBER") );
+						mapTo.put("fPositionID",rsCopy.getString("FPOSITIONID") );
+						mapTo.put("fPositionNumber",rsCopy.getString("FPOSITIONNUMBER") );
+						mapTo.put("fPositionName",rsCopy.getString("FPOSITIONNAME") );
+						mapTo.put("fOrgtid",rsCopy.getString("FORGTID") );
+						mapTo.put("fDeptid",rsCopy.getString("FDEPTID") );
+						mapTo.put("fOrgNumber",rsCopy.getString("FORGNUMBER") );
+						mapTo.put("fOrgName",rsCopy.getString("FORGNAME") ); 
+						mapTo.put("fEmployeeTypeNumber",rsCopy.getString("FEMPLOYEETYPENUMBER") );
+						mapTo.put("fEmployeeTypeName",rsCopy.getString("FEMPLOYEETYPENAME") ); 
+						mapTo.put("fCreateTime",rsCopy.getString("FCREATETIME") ); 
+						mapTo.put("fUpdateType",rsCopy.getString("FUPDATETYPE") ); 
+						mapTo.put("fEmpNumber",rsCopy.getString("FEMPNUMBER") );  
+						String datajsonStr = JSONObject.toJSONString(mapTo);
+						
+						map.put("FNUMBER", mapTo.get("fNumber"));
+			        	map.put("FNAME", mapTo.get("fName")); 
+			        	map.put("JSON", datajsonStr);
+			        	 
 					}
-				}
-
-    		}else if(type ==5){
-    			Map<String, String> mapWar = new  HashMap<String, String>();
-    			mapWar = (Map) JSONObject.parse(data);
+					
+					
+				}else{
+					 map.put("ERROR", "根据ID"+fid+"找不到对应的人员信息,没有同步到中间库。");
+					 System.out.println("########  ERROR ########根据ID："+fid+"找不到对应的人员信息,没有同步到中间库。");
+				}  
+				flag=true;
+				getlogInfo(ctx , map ,  DateBasetype.Person ,processType,flag,loginfo);
+	    		 
+    		}else if(type ==5){//仓库  newOrDele : 0:新增 ; 1启用 ; 2:禁用
+ 
     			Map<String, String> mapRet = new  HashMap<String, String>();
-    			DateBaseProcessType processType = null;
-    			String orgid = mapWar.get("forgId").toString();
-    			if( "jbYAAAMU2SvM567U".equals(orgid)){//B2B
-					 
-				}else{//给his 
-					List<Map<String,String>> eMps = new ArrayList<Map<String,String>>();
-					if(newOrDele == 0 ){
-						eMps.add(mapWar);
-						Map<String,Object> mp = new HashMap<String,Object>();
-						mp.put("subList", eMps);
-						
-						System.out.println("########  body ########"+JSONObject.toJSONString(eMps));
-						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 , warurl);
-						logger.info("发送仓库,"+mapWar+"通知给his系统，result：" + result);
-						System.out.println("########  result ########"+result);
-						
-						mapRet = (Map) JSONObject.parse(result);  
-						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
-							flag=true;
-						}
-						map.put("RESJSON", result);
-						map.put("JSON", JSONObject.toJSONString(eMps));
-						processType = DateBaseProcessType.AddNew;
-					}else if(newOrDele == 1 ){ 
-						Map<String, String> mapNew = new  HashMap<String, String>();
-						mapNew.put("fid",mapWar.get("fid").toString()); 
-						mapNew.put("fstatus","1" );
-						
-						eMps.add(mapNew);
-						Map<String,Object> mp = new HashMap<String,Object>();
-						mp.put("subList", eMps);
-						
-						System.out.println("########  body ########"+JSONObject.toJSONString(eMps));
-						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 ,warJinYongurl);
-						logger.info("发送仓库启用信息,"+mapWar+"通知给his系统，result：" + result);
-						System.out.println("########  result ########"+result);
-						mapRet = (Map) JSONObject.parse(result);  
-						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
-							flag=true;
-						}
-						map.put("RESJSON", result);
-						map.put("JSON", JSONObject.toJSONString(eMps));
-						processType = DateBaseProcessType.ENABLE; 
-					}else if(newOrDele == 2 ){ 
-						Map<String, String> mapNew = new  HashMap<String, String>();
-						mapNew.put("fid",mapWar.get("fid").toString()); 
-						mapNew.put("fstatus","2" );
-						
-						eMps.add(mapNew);
-						Map<String,Object> mp = new HashMap<String,Object>();
-						mp.put("subList", eMps);
-						
-						System.out.println("########  body ########"+JSONObject.toJSONString(eMps));
-						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 ,warJinYongurl);
-						logger.info("发送仓库禁用信息,"+mapWar+"通知给his系统，result：" + result);
-						System.out.println("########  result ########"+result);
-						mapRet = (Map) JSONObject.parse(result);  
-						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
-							flag=true;
-						}
-						map.put("RESJSON", result);
-						map.put("JSON", JSONObject.toJSONString(eMps));
-						processType = DateBaseProcessType.DisAble;
-					}
+    			
+    			
+    			 
+    			int fUpdateType = 0;
+    			if(newOrDele == 1){ 
+    				fUpdateType = 1;
+    			}else if(newOrDele == 2){ 
+    				fUpdateType = 2;
+    			}
+    			HashMap<String, String> mapData = new HashMap<String, String>(); 
+				
+    			try{
+    				
+    			}catch (Exception e) {
+					// TODO: handle exception
 				}
-    			getlogInfo(ctx , map,DateBasetype.FreeItem ,processType,flag );
+				
+    			String sql  = " /*dialect*/ select wah.fid fId , wah.fnumber fNumber, wah.fname_l2 fName ,admin.fid fOrgid,admin.fnumber fOrgNumber, admin.fname_l2 fOrgName, "+
+				  "	wah.FWhState fStatus ,cuser.fname_l2  fCreator ,  to_char( wah.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' ) fCreateTime ,  "+fUpdateType+" fUpdateType ,to_char( wah.FLASTUPDATETIME  ,'yyyy-mm-dd hh24:mi:ss' ) fUpdateTime ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime  "+
+				  " from  T_DB_WAREHOUSE wah inner  join T_ORG_Storage admin on admin.fid = wah.FstorageOrgID "+
+				  "	inner join  T_PM_User  cuser on cuser.fid=wah.FCREATORID  "+ 
+				  " where wah.fid = '"+fid+"' ";  
+    			IRowSet  rsData = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
+    			IRowSet  rs = rsData.createCopy(); 
+    			String orgid = rs.getString("FORGTID");
+    			if(rs!=null && rs.size() > 0){
+    				while(rs.next()){    
+    					orgid = rs.getString("FORGTID");
+    					if( "jbYAAAMU2SvM567U".equals(orgid)){
+    						mapData.put("fId",rs.getString("FID") );
+    						mapData.put("fNumber",rs.getString("FNUMBER") );
+    						mapData.put("fName",rs.getString("FNAME") );
+    						mapData.put("fOrgtid",rs.getString("FORGID") );
+    						mapData.put("fOrgNumber",rs.getString("FORGNUMBER") );
+    						mapData.put("fOrgName",rs.getString("FORGNAME") );
+    						mapData.put("fStatus",rs.getString("FSTATUS") );
+    						mapData.put("fCreator",rs.getString("FCREATOR") );
+    						mapData.put("fCreateTime",rs.getString("FCREATETIME") );
+    						mapData.put("fUpdateType",rs.getString("FUPDATETYPE") );
+    						mapData.put("fUpdateTime",rs.getString("FUPDATETIME") ); 
+						}else{
+							mapData.put("fid",rs.getString("FID") );
+							mapData.put("fstatus",rs.getString("FSTATUS") );
+							mapData.put("fnumber",rs.getString("FNUMBER") );
+							mapData.put("fname",rs.getString("FNAME") );
+							/*map.put("forgtid",rs.getString("FORGTID") );
+							map.put("forgNumber",rs.getString("FORGNUMBER") );
+							map.put("forgName",rs.getString("FORGNAME") );*/
+							mapData.put("forgId",rs.getString("FORGTID") );
+						} 
+    					String datajsonStr = JSONObject.toJSONString(mapData);
+    					map.put("FNUMBER", mapData.get("fNumber"));
+			        	map.put("FNAME", mapData.get("fName"));
+			        	map.put("JSON", datajsonStr);
+			        	
+    				}
+		       }   
+    			
+    			if( "jbYAAAMU2SvM567U".equals(orgid)){//B2B
+    				String selectSuppSql = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Cent where fid='"+fid+"' ";
+    				List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
+    				if(retsSup.size() == 0 ){//没有 
+    					
+    				}else{
+    					String selectDelete = " delete    EAS_Warehouse_Cent where fid='"+fid+"' ";
+    					EAISynTemplate.execute(ctx, dataBase, selectDelete);
+    				}  
+    				if(rs!=null && rs.size() > 0){
+    					String sqlInsert = insertMidTable(ctx,  "EAS_Warehouse_Cent", rs,"fSign");
+    					map.put("ERROR",sqlInsert);
+    					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
+    				}else{
+    					 map.put("ERROR", "根据ID"+fid+"找不到对应的仓库信息,没有同步到中间库。");
+    				}   
+    			}else{
+    				String selectSuppSql = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Clinic where fid='"+fid+"' ";
+    				List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
+    				if(retsSup.size() == 0 ){//没有 
+    					
+    				}else{
+    					String selectDelete = " delete    EAS_Warehouse_Clinic where fid='"+fid+"' ";
+    					EAISynTemplate.execute(ctx, dataBase, selectDelete);
+    				} 
+    				if(rs!=null && rs.size() > 0){
+    					String sqlInsert = insertMidTable(ctx,  "EAS_Warehouse_Clinic", rs,"fSign");
+    					map.put("ERROR",sqlInsert);
+    					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
+    					
+    					
+    					List<Map<String,String>> eMps = new ArrayList<Map<String,String>>();
+    					if(newOrDele == 0 ){
+    						eMps.add(mapData);
+    						Map<String,Object> mp = new HashMap<String,Object>();
+    						mp.put("subList", eMps);
+    						
+    						System.out.println("########  body ########"+JSONObject.toJSONString(eMps));
+    						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 , warurl);
+    						logger.info("发送仓库,"+mapData+"通知给his系统，result：" + result);
+    						System.out.println("########  result ########"+result);
+    						
+    						mapRet = (Map) JSONObject.parse(result);  
+    						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
+    							flag=true;
+    						}
+    						map.put("RESJSON", result);
+    						map.put("JSON", JSONObject.toJSONString(eMps)); 
+    					}else if(newOrDele == 1 ){ 
+    						Map<String, String> mapNew = new  HashMap<String, String>();
+    						mapNew.put("fid",mapData.get("fid").toString()); 
+    						mapNew.put("fstatus","1" );
+    						
+    						eMps.add(mapNew);
+    						Map<String,Object> mp = new HashMap<String,Object>();
+    						mp.put("subList", eMps);
+    						
+    						System.out.println("########  body ########"+JSONObject.toJSONString(eMps));
+    						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 ,warJinYongurl);
+    						logger.info("发送仓库启用信息,"+mapData+"通知给his系统，result：" + result);
+    						System.out.println("########  result ########"+result);
+    						mapRet = (Map) JSONObject.parse(result);  
+    						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
+    							flag=true;
+    						}
+    						map.put("RESJSON", result);
+    						map.put("JSON", JSONObject.toJSONString(eMps)); 
+    					}else if(newOrDele == 2 ){ 
+    						Map<String, String> mapNew = new  HashMap<String, String>();
+    						mapNew.put("fid",mapData.get("fid").toString()); 
+    						mapNew.put("fstatus","2" );
+    						
+    						eMps.add(mapNew);
+    						Map<String,Object> mp = new HashMap<String,Object>();
+    						mp.put("subList", eMps);
+    						
+    						System.out.println("########  body ########"+JSONObject.toJSONString(eMps));
+    						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 ,warJinYongurl);
+    						logger.info("发送仓库禁用信息,"+mapData+"通知给his系统，result：" + result);
+    						System.out.println("########  result ########"+result);
+    						mapRet = (Map) JSONObject.parse(result);  
+    						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
+    							flag=true;
+    						}
+    						map.put("RESJSON", result);
+    						map.put("JSON", JSONObject.toJSONString(eMps)); 
+    					}
+    					
+    				}else{
+    					 map.put("ERROR", "根据ID"+fid+"找不到对应的仓库信息,没有同步到中间库。");
+    				}   
+    				flag=true;
+					getlogInfo(ctx , map,DateBasetype.FreeItem ,processType,flag ,loginfo);
+    			}  
+    			
     		}
 		} catch (EASBizException e) {
 			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
+		if(!flag){
+			try {
+				if(type ==1){
+					getlogInfo(ctx , map,DateBasetype.Customer ,processType,flag ,loginfo); 
+				}else if(type ==2){
+					getlogInfo(ctx , map,DateBasetype.Supplier ,processType,flag,loginfo );
+				}else if(type ==3){
+					getlogInfo(ctx , map,DateBasetype.orgUnit ,processType,flag ,loginfo);
+				}else if(type ==4){
+					getlogInfo(ctx , map,DateBasetype.Person ,processType,flag ,loginfo);
+				}else if(type ==5){
+					getlogInfo(ctx , map,DateBasetype.FreeItem ,processType,flag ,loginfo);
+				}
+			}catch (EASBizException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return flag;
+    }
+    
+    @Override
+	protected void _syncDateByType(Context ctx, int type, String data,
+			int newOrDele, String name, String fid) throws BOSException {
+		// TODO Auto-generated method stub
+		//super._syncDateByType(ctx, type, data, newOrDele, name, number);
+    	PurPlatSyncdbLogInfo loginfo = new PurPlatSyncdbLogInfo();
+    	syncDate(ctx,type,data,newOrDele,name,fid,loginfo);
     	
 	}
 
-	public PurPlatSyncdbLogInfo getlogInfo(Context ctx , Map<String, String> map,DateBasetype dateBasetype,DateBaseProcessType processType, boolean flag)
+	public PurPlatSyncdbLogInfo getlogInfo(Context ctx , Map<String, String> map,DateBasetype dateBasetype,DateBaseProcessType processType, boolean flag ,PurPlatSyncdbLogInfo loginfo)
 	throws BOSException, EASBizException {
-		Calendar cal = Calendar.getInstance();
-		PurPlatSyncdbLogInfo loginfo = new PurPlatSyncdbLogInfo();
+		Calendar cal = Calendar.getInstance(); 
 		cal.setTime(new Date());
-		loginfo.setNumber(cal.getTimeInMillis() + "." + map.get("FNUMBER"));
-		loginfo.setName(map.get("FNAME").toString());
-		loginfo.setSimpleName(map.get("FNUMBER").toString());
+		
+		
+		if(null != map.get("FNUMBER") && !"".equals(map.get("FNUMBER"))){
+			loginfo.setNumber(cal.getTimeInMillis() + "." + map.get("FNUMBER")); 
+			loginfo.setSimpleName(map.get("FNUMBER").toString());
+		}else{
+			loginfo.setNumber(cal.getTimeInMillis() + "." + map.get("FID")); 
+			loginfo.setSimpleName(map.get("FID").toString());
+		}
+		
+		if(null != map.get("FNAME") && !"".equals(map.get("FNAME"))){
+			loginfo.setName(map.get("FNAME").toString());
+		}
+		
+		
+		if(null != map.get("JSON") && !"".equals(map.get("JSON"))){
+			loginfo.setMessage(map.get("JSON").toString());
+		}
+		
+		if(null != map.get("RESJSON") && !"".equals(map.get("RESJSON"))){
+			loginfo.setRespond(map.get("RESJSON").toString());
+		} 
+		
+		if(null != map.get("FID") && !"".equals(map.get("FID"))){
+			loginfo.setDescription(map.get("FID").toString());
+		}
 		loginfo.setDateBaseType(dateBasetype);
 		String version = String.valueOf(cal.getTimeInMillis());
 		loginfo.setVersion(version);
 		loginfo.setUpdateDate(new Date());
-		loginfo.setMessage(map.get("JSON").toString());
-		loginfo.setRespond(map.get("RESJSON").toString());
+		
 		loginfo.setStatus(flag);
 		loginfo.setProcessType(processType);
+		if(null != map.get("ERROR") && !"".equals(map.get("ERROR"))){
+			loginfo.setErrorMessage(map.get("ERROR").toString());
+		}
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		loginfo.setIsSync(false); 
@@ -301,6 +695,8 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 		StringBuffer ids = new StringBuffer();
 		ids= ids.append("'");
 		try {
+			
+			
 			String sql = " /*dialect*/select  fid ,cfdatebasetype TYPE , cfmessage  MESSAGE    from  CT_CUS_PurPlatSyncdbLog where  cfstatus = 0 and  cfdatebasetype != 6 and  nvl(CFSendCount,0) < 4  and  cfIsSync = 0 ";
 			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
 			  
@@ -320,30 +716,61 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			}
 			
 			if(ids.length() > 1 ){
+				 
+				Map<String, String> deleMap = new  HashMap<String, String>();
+				
 				ids = new StringBuffer().append( ids.substring(0, ids.length()-1) );
 				String upsql = " update CT_CUS_PurPlatSyncdbLog set cfIsSync = 1 where  fid in ("+ids+") ";
 				com.kingdee.eas.custom.util.DBUtil.execute(ctx,upsql);
 				
-				for(Map.Entry<String, String> entry : typemap.entrySet()){
-				    String id = entry.getKey();
-				    String type = entry.getValue(); 
-				    if(type.equals("6") && null !=msgmap.get(id) && !"".equals(msgmap.get(id).toString())){//物料
-				    	String msgjson = msgmap.get(id);
-				    	
-				    	MaterialUntil  ma = new MaterialUntil();
-				    	ma.doCreateMaterial(ctx , msgjson);
-				    }
-				    
-				}
 				
+				PurPlatSyncdbLogCollection collection = PurPlatSyncdbLogFactory.getLocalInstance(ctx).getPurPlatSyncdbLogCollection(" where  id in ("+ids+" )");
 				
-				String upEndsql = " update CT_CUS_PurPlatSyncdbLog set cfIsSync = 0 where  fid in ("+ids+") ";
+				for(int i = 0 ; i < collection.size(); i ++){
+					PurPlatSyncdbLogInfo info= collection.get(i);
+					int newOrDele = 0 ;
+					if("2".equals(info.getProcessType().getValue() )  ){
+						newOrDele = 0 ;
+			    	}else if("6".equals(info.getProcessType().getValue() ) ){
+			    		newOrDele = 1 ;
+			    	}else if("5".equals(info.getProcessType().getValue() )  ){
+			    		newOrDele = 2 ;
+			    	}
+					boolean flag = false;
+					if(info.getDateBaseType()!=null  && "6".equals(info.getDateBaseType().getValue())){
+						MaterialUntil  ma = new MaterialUntil();
+				    	ma.doCreateMaterial(ctx , info.getMessage());
+					}else if(info.getDateBaseType()!=null  && "4".equals(info.getDateBaseType().getValue())){//1:客户  
+						flag =  syncDate(ctx,1,data,newOrDele,"",info.getDescription(),info);
+						
+					}else if(info.getDateBaseType()!=null  && "3".equals(info.getDateBaseType().getValue())){//   2：供应商  
+						flag = syncDate(ctx,2,data,newOrDele,"",info.getDescription(),info);
+						
+					}else if(info.getDateBaseType()!=null  && "1".equals(info.getDateBaseType().getValue())){//    3：组织   
+						flag = syncDate(ctx,3,data,newOrDele,"",info.getDescription(),info);
+					}else if(info.getDateBaseType()!=null  && "5".equals(info.getDateBaseType().getValue())){//   4 人员   
+						flag = syncDate(ctx,4,data,newOrDele,"",info.getDescription(),info);
+					}else if(info.getDateBaseType()!=null  && "8".equals(info.getDateBaseType().getValue())){//    5 仓库   
+						flag = syncDate(ctx,5,data,newOrDele,"",info.getDescription(),info);
+					} 
+					//1:客户  2：供应商  3：组织  4 人员  5 仓库   
+					
+					
+					if(flag){
+						info.setStatus(true);
+						PurPlatSyncdbLogFactory.getLocalInstance(ctx).save(info);
+					}else{
+						//typemap.put(info.getId().toString(), info.getId().toString());
+					}
+				}  
+				String upEndsql = "/*dialect*/ update CT_CUS_PurPlatSyncdbLog set cfIsSync = 0 , cfsendcount = nvl(cfsendcount,0)+1 where  fid in ("+ids+") ";
 				com.kingdee.eas.custom.util.DBUtil.execute(ctx,upEndsql);
 				
-			}
-			
-			
+			} 
 		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EASBizException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -745,6 +1172,555 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 	   }
 	
 	
+
+		private String insertMidTable(Context ctx,  String tableName,IRowSet rows , String fSign) {
+			String insertSql = "";
+			try {
+				if(rows.next()){
+					IRowSetMetaData rowSetMataData = rows.getRowSetMetaData();
+					int columnsSize = rowSetMataData.getColumnCount();
+					String insertSqlStart = "INSERT INTO " + tableName + "(";
+					String insertSqlValues = "";
+					insertSql = "";
+					for (int i = 1; i <= columnsSize; i++) {
+						String columnName = rowSetMataData.getColumnName(i);
+						String value = rows.getString(columnName);
+						insertSqlStart += columnName + ",";
+						if (columnName.toLowerCase().endsWith("time") || columnName.toLowerCase().endsWith("date") ||  columnName.toLowerCase().endsWith("time_0") ) {
+							// insertSqlValues += value+"','";
+							if(null == value || "".equals(value) || "null".equals(value)){
+								insertSqlValues +=   value + ",";
+							}else{
+								insertSqlValues += "to_date('" + value
+								+ "','yyyy-mm-dd hh24:mi:ss')" + ",";
+							}
+						} else {
+							if (null == value) {
+								insertSqlValues += "'0',";
+							} else {
+								insertSqlValues += "'" + value + "',";
+							}
+						}
+					}
+					insertSqlStart += fSign+ ") VALUES(";
+					insertSqlValues += "0)";
+					insertSql = insertSqlStart + insertSqlValues;
+					System.out.print("**************sql=" + insertSql);
+				} 
+				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return insertSql;
+		}
+		
+		private String insertMidTableAll(Context ctx,  String tableName,IRowSet rows , String fSign) {
+			String insertSql = "";
+			try {
+				/*if(rows.next()){
+					
+					
+				} */
+				IRowSetMetaData rowSetMataData = rows.getRowSetMetaData();
+				int columnsSize = rowSetMataData.getColumnCount();
+				String insertSqlStart = "INSERT INTO " + tableName + "(";
+				String insertSqlValues = "";
+				insertSql = "";
+				for (int i = 1; i <= columnsSize; i++) {
+					String columnName = rowSetMataData.getColumnName(i);
+					String value = rows.getString(columnName);
+					insertSqlStart += columnName + ",";
+					if (columnName.toLowerCase().endsWith("time") || columnName.toLowerCase().endsWith("date") ||  columnName.toLowerCase().endsWith("time_0") ) {
+						// insertSqlValues += value+"','";
+						
+						if(null == value || "".equals(value) || "null".equals(value)){
+							insertSqlValues +=   value + ",";
+						}else{
+							insertSqlValues += "to_date('" + value
+							+ "','yyyy-mm-dd hh24:mi:ss')" + ",";
+						}
+						
+					} else {
+						if (null == value) {
+							insertSqlValues += "'0',";
+						} else {
+							insertSqlValues += "'" + value + "',";
+						}
+					}
+				}
+				insertSqlStart += fSign+ ") VALUES(";
+				insertSqlValues += "0)";
+				insertSql = insertSqlStart + insertSqlValues;
+				//System.out.print("**************sql=" + insertSql);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return insertSql;
+		}
+		
+
+		@Override
+		protected void _doCangkuMid(Context ctx) throws BOSException {
+			// TODO Auto-generated method stub
+			super._doCangkuMid(ctx);
+			
+			
+			Map<String, String> namemap = new  HashMap<String, String>();
+			Map<String, String> statusmap = new  HashMap<String, String>();
+			
+			List<String> updatesqls = new ArrayList<String>();
+			List<String> sqls = new ArrayList<String>();
+			
+			String selectSuppSqlCent = " /*dialect*/ select   FID,FNAME , FSTATUS,FUPDATETYPE  from   EAS_Warehouse_Cent   ";
+			List<Map<String, Object>> retsSupCent = EAISynTemplate.query(ctx,dataBase, selectSuppSqlCent);
+			if(retsSupCent.size() > 0 ){
+				for (Map<String, Object> map : retsSupCent) {
+					String fid = map.get("FID").toString(); 
+					String name = map.get("FNAME")==null? "": map.get("FNAME").toString();
+					String status = map.get("FSTATUS")==null? "0":map.get("FSTATUS").toString();
+					namemap.put( fid, name);
+					statusmap.put( fid, status);
+				}
+			} 
+			
+			String selectSuppSql = " /*dialect*/ select   FID,FNAME , FSTATUS,FUPDATETYPE  from   EAS_Warehouse_Clinic   ";
+			List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
+			if(retsSup.size() > 0 ){
+				for (Map<String, Object> map : retsSup) {
+					String fid = map.get("FID").toString(); 
+					String name = map.get("FNAME")==null? "": map.get("FNAME").toString();
+					String status = map.get("FSTATUS")==null? "0":map.get("FSTATUS").toString();
+					namemap.put( fid, name);
+					statusmap.put( fid, status);
+				}
+			} 
+			
+			String sql  = " /*dialect*/ select wah.fid fId , wah.fnumber fNumber, wah.fname_l2 fName ,admin.fid fOrgid,admin.fnumber fOrgNumber, admin.fname_l2 fOrgName, "+
+			  "  wah.FWhState fStatus ,cuser.fname_l2  fCreator ,  to_char( wah.FCREATETIME ,'yyyy-mm-dd' ) fCreateTime ,(case when wah.FWhState= 2 then 2 else 1 end )   fUpdateType ,to_char( wah.FLASTUPDATETIME  ,'yyyy-mm-dd' ) fUpdateTime ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime  "+
+			  " from  T_DB_WAREHOUSE wah inner  join T_ORG_Storage admin on admin.fid = wah.FstorageOrgID "+
+			  "	inner join  T_PM_User  cuser on cuser.fid=wah.FCREATORID  ";
+			IRowSet  rsData = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
+			 
+			if(rsData!=null && rsData.size() > 0){
+				
+				try {
+					while(rsData.next()){    
+						
+						String fid = rsData.getString("FID");
+						String name = rsData.getString("FNAME");
+						String status = rsData.getString("FSTATUS");
+						 
+						String orgid = rsData.getString("FORGID");
+						
+						String table = "";
+						if( "jbYAAAMU2SvM567U".equals(orgid)){
+							table = "EAS_Warehouse_Cent";
+						}else{
+							table = "EAS_Warehouse_Clinic";
+						}   
+						if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
+							 String sqlInsert = insertMidTableAll(ctx,  table, rsData ,"fSign");
+							 sqls.add(sqlInsert);
+						 }else{
+							 String midName = namemap.get(fid);
+							 String midStatus= statusmap.get(fid);
+							 boolean flag = false;
+							 String sqlUpdate = " update "+table+" set ";
+							 if(!name.equals(midName)){
+								 sqlUpdate = sqlUpdate+" FNAME = '"+name+"',";
+								 flag = true;
+							 }
+							 if(!status.equals(midStatus)){ 
+								 if("1".equals(status)){
+									 sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
+									 flag = true;
+								 }else if("0".equals(status)){
+									 sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
+									 flag = true;
+								 } else if("2".equals(status)){
+									 sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =2,";
+									 flag = true;
+								 } 
+							 }
+							 if(flag){
+								 sqlUpdate = sqlUpdate+" fSign = 0, FsynTime =sysdate where fid = '"+fid+"'";
+								 updatesqls.add(sqlUpdate);
+							 }
+						 }
+			        	
+					}
+				}catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+	       } 
+
+			if(sqls.size() >0){
+				doInsertSqls(ctx, dataBase, sqls);
+			}
+			if(updatesqls.size() >0){
+				doInsertSqls(ctx, dataBase, updatesqls);
+			}
+			
+		}
+
+		@Override
+		protected void _doCustomerMid(Context ctx) throws BOSException {
+			// TODO Auto-generated method stub
+			super._doCustomerMid(ctx);
+			Map<String, String> namemap = new  HashMap<String, String>();
+			Map<String, String> statusmap = new  HashMap<String, String>();
+			
+			List<String> updatesqls = new ArrayList<String>();
+			List<String> sqls = new ArrayList<String>();
+			
+			String selectSuppSql = " /*dialect*/ select   FID,FNAME , FSTATUS,FUPDATETYPE  from   EAS_Customer_MIDTABLE   ";
+			List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
+			if(retsSup.size() > 0 ){
+				for (Map<String, Object> map : retsSup) {
+					String fid = map.get("FID").toString(); 
+					String name = map.get("FNAME")==null? "": map.get("FNAME").toString();
+					String status = map.get("FSTATUS")==null? "0":map.get("FSTATUS").toString();
+					namemap.put( fid, name);
+					statusmap.put( fid, status);
+				}
+			} 
+			
+			String sql  = " /*dialect*/ select cus.fid fId  ,cus.fnumber fNumber ,cus.fname_l2 fName , '' fOpenBank , '' fBankAccount ,  cuser.fname_l2  fCreator , "+
+			 "  to_char( cus.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' ) fCreateTime ,to_char( cus.FLASTUPDATETIME  ,'yyyy-mm-dd hh24:mi:ss' ) fUpdateTime , 0 fIsGroup, "+
+			 "  com.fid fOrgtId , com.FNUMBER fOrgNumber ,com.fname_l2 fOrgName , (case when cus.FUsedStatus=1 then 0 else 1 end )   fStatus ,(case when cus.FUsedStatus=1 then 1 else 2 end )  fUpdateType ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime "+
+			 "  from T_BD_Customer  cus   "+
+			 "  inner join T_BD_CustomerCompanyInfo cuscom  on cuscom.FCUSTOMERID  = cus.fid "+
+			 "  inner join  T_PM_User  cuser on cuser.fid=cus.FCREATORID  "+
+			 "  inner join  T_ORG_Company com on com.fid  = cuscom.FComOrgID and   com.fid = 'jbYAAAMU2SvM567U' ";
+			 
+			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
+			if(rs!=null && rs.size() > 0){
+				
+				try {
+					while(rs.next()){	
+						 String fid = rs.getString("FID");
+						 String name = rs.getString("FNAME");
+						 String status = rs.getString("FSTATUS");
+						 
+						 if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
+							 String sqlInsert = insertMidTableAll(ctx,  "EAS_Customer_MIDTABLE", rs ,"fSign");
+							 sqls.add(sqlInsert);
+						 }else{
+							 String midName = namemap.get(fid);
+							 String midStatus= statusmap.get(fid);
+							 boolean flag = false;
+							 String sqlUpdate = " update EAS_Customer_MIDTABLE set ";
+							 if(!name.equals(midName)){
+								 sqlUpdate = sqlUpdate+" FNAME = '"+name+"',";
+								 flag = true;
+							 }
+							 if(!status.equals(midStatus)){ 
+								 if("1".equals(status)){
+									 sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =2,";
+									 flag = true;
+								 }else if("0".equals(status)){
+									 sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
+									 flag = true;
+								 } 
+							 }
+							 if(flag){
+								 sqlUpdate = sqlUpdate+" fSign = 0, FsynTime =sysdate where fid = '"+fid+"'";
+								 updatesqls.add(sqlUpdate);
+							 }
+						 }
+						 
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+				
+			}	
+			
+			if(sqls.size() >0){
+				doInsertSqls(ctx, dataBase, sqls);
+			}
+			if(updatesqls.size() >0){
+				doInsertSqls(ctx, dataBase, updatesqls);
+			}
+				 
+		}
+
+		@Override
+		protected void _doOrgMid(Context ctx) throws BOSException {
+			// TODO Auto-generated method stub
+			super._doOrgMid(ctx);
+			Map<String, String> namemap = new  HashMap<String, String>();
+			Map<String, String> statusmap = new  HashMap<String, String>();
+			
+			List<String> updatesqls = new ArrayList<String>();
+			List<String> sqls = new ArrayList<String>();
+			
+			String selectSuppSql = " /*dialect*/ select   FID,FNAME , FISSTART,FUPDATETYPE  from   EAS_ORG_MIDTABLE   ";
+			List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
+			if(retsSup.size() > 0 ){
+				for (Map<String, Object> map : retsSup) {
+					String fid = map.get("FID").toString(); 
+					String name = map.get("FNAME")==null? "": map.get("FNAME").toString();
+					String status = map.get("FISSTART")==null? "0":map.get("FISSTART").toString();
+					namemap.put( fid, name);
+					statusmap.put( fid, status);
+				}
+			} 
+			
+			String sql  = " /*dialect*/ SELECT admin.fid  fId , admin.fnumber fNumber  ,admin.fname_l2  fName , admin.FLONGNUMBER  fLongNumber ,laytype.fid  fLayerTypeID , admin.fparentid  FPARENTID , "+
+			  " admin.FISCOMPANYORGUNIT   fIsCompanyOrgUnit  ,admin.FISADMINORGUNIT  fIsAdminOrgUnit ,admin.FISCOSTORGUNIT  fIsCostOrgUnit ,admin.fisstart  fIsStart ,  to_char( admin.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' ) FcreateTime ,"+
+			  " admin.FLevel fLevel ,  admin.FIsLeaf  fIsLeaf , admin.FIsSealUp  fIsOUSealUp ,  (case when admin.FIsSealUp =1 then 2  else 1 end )  FupdateType ,"+
+			  "  to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime_0 "+
+			  " FROM T_ORG_ADMIN admin "+
+			  " inner  join  T_Org_LayerType laytype  on laytype.fid = admin.FLAYERTYPEID  ";
+			
+			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);  
+			if(rs!=null && rs.size() > 0){
+				try {
+					while(rs.next()){	
+						 String fid = rs.getString("FID");
+						 String name = rs.getString("FNAME");
+						 String status = rs.getString("FISOUSEALUP");
+						 
+						 if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
+							 String sqlInsert = insertMidTableAll(ctx,  "EAS_ORG_MIDTABLE", rs ,"fSign_0");
+							 sqls.add(sqlInsert);
+						 }else{
+							 String midName = namemap.get(fid);
+							 String midStatus= statusmap.get(fid);
+							 boolean flag = false;
+							 String sqlUpdate = " update EAS_ORG_MIDTABLE set ";
+							 if(!name.equals(midName)){
+								 sqlUpdate = sqlUpdate+" FNAME = '"+name+"',";
+								 flag = true;
+							 }
+							 if(!status.equals(midStatus)){ 
+								 if("1".equals(status)){
+									 sqlUpdate = sqlUpdate+" FISSTART = "+status+", FUPDATETYPE =2,";
+									 flag = true;
+								 }else if("0".equals(status)){
+									 sqlUpdate = sqlUpdate+" FISSTART = "+status+", FUPDATETYPE =1,";
+									 flag = true;
+								 } 
+							 }
+							 if(flag){
+								 sqlUpdate = sqlUpdate+" fSign_0 = 0, FsynTime_0 =sysdate where fid = '"+fid+"'";
+								 updatesqls.add(sqlUpdate);
+							 }
+						 }
+						 
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+				
+			} 
+			if(sqls.size() >0){
+				doInsertSqls(ctx, dataBase, sqls);
+			}
+			if(updatesqls.size() >0){
+				doInsertSqls(ctx, dataBase, updatesqls);
+			}
+				 
+			
+		}
+
+		@Override
+		protected void _doPersonMid(Context ctx) throws BOSException {
+			// TODO Auto-generated method stub
+			super._doPersonMid(ctx);
+			
+			Map<String, String> namemap = new  HashMap<String, String>(); 
+			
+			List<String> updatesqls = new ArrayList<String>();
+			List<String> sqls = new ArrayList<String>();
+			
+			String selectSuppSql = " /*dialect*/ select   FID,FNAME  from   EAS_Person_MIDTABLE   ";
+			List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
+			if(retsSup.size() > 0 ){
+				for (Map<String, Object> map : retsSup) {
+					String fid = map.get("FID").toString(); 
+					String name = map.get("FNAME")==null? "": map.get("FNAME").toString(); 
+					namemap.put( fid, name); 
+				}
+			} 
+			 
+			
+    		String personsql = " /*dialect*/ SELECT    person.fid fId , person.fnumber fNumber, person.fname_l2 fName , empposition.fid fPositionID ,  "+
+          		" empposition.fnumber  fPositionNumber ,empposition.fname_l2 fPositionName  ,com.fid fOrgtid,dep.fid fDeptid,com.fnumber fOrgNumber, com.fname_l2 fOrgName , " +
+          		" '' POSTCODE , person.FEMAIL FEMAIL , '' BANK , '' BANKNUM , to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FSYNTIME_0   ,  "+
+          		"  emptype.fnumber fEmployeeTypeNumber, emptype.fname_l2 fEmployeeTypeName, to_char(person.FCREATETIME , 'yyyy-mm-dd hh24:mi:ss')   fCreateTime,  0 fUpdateType ,person.fnumber  fEmpNumber , "+ 
+          		" to_char( emprel.FEnterDate  ,'yyyy-mm-dd hh24:mi:ss' ) FENTERDATE , to_char( emprel.FActualFormalDate  ,'yyyy-mm-dd hh24:mi:ss' ) FPLANFORMALDATE ,  "+ 
+          		" joblevel.fid FJOBLEVELID , joblevel.fnumber FJOBLEVELNUMBER ,joblevel.fname_l2  FJOBLEVELNAME , hrjobcate.fid FJOBCATEGORYID  ,hrjobcate.fnumber FJOBCATEGORYNUMBER  , hrjobcate.fname_l2 FJOBCATEGORYNAME "+
+          		 
+          		" FROM   t_bd_person person "+ 
+          		" inner join t_hr_emporgrelation relation on person.fid = relation.fpersonid   and  relation.FAssignType= 1   and  to_char(relation.FLEFFDT , 'yyyy-mm-dd') ='2199-12-31'"+
+          		" left join T_ORG_Position empposition on empposition.fid = relation.FPositionID "+
+          		" left join  T_ORG_Admin  com on    com.fid =  relation.FCompanyID "+
+          		" left join  T_ORG_Admin dep on dep.fid =   relation.FAdminOrgID	 "+
+          		" left join  T_ORG_Job  job on  job.fid = empposition.FJOBID  "+
+          		" left join T_HR_EmpLaborRelation emprel  on emprel.fid = relation.FLABORRELATIONID  "+
+          		" left join  T_HR_BDEmployeeType emptype  on  emptype.fid = emprel.FLABORRELATIONSTATEID  "+
+          		" LEFT JOIN  T_HR_EmpPostRank postrank  on  postrank.fpersonid = person.fid and  to_char( postrank.FLEFFDT  ,'yyyy-mm-dd hh24:mi:ss' )  = '2199-12-31 00:00:00' "+
+          		" left  join T_HR_JobLevel joblevel on  joblevel.fid = postrank.FJOBLEVELID "+
+          		
+          		" left  join T_HR_PositionExtend postEx on  postEx.FPositionID = empposition.fid "+
+          		" left  join T_HR_HRJob hrjob on  hrjob.fid = postEx.FHRJobID "+
+          		" left  join T_HR_HRJobCategory hrjobcate on  hrjobcate.fid = hrjob.FHRJOBCATEGORYID ";
+    		
+    		IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,personsql);
+			 
+			if(rs!=null && rs.size() > 0){
+				 
+				try {
+					while(rs.next()){	
+						 String fid = rs.getString("FID");
+						 String name = rs.getString("FNAME"); 
+						 
+						 if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
+							 String sqlInsert = insertMidTableAll(ctx,  "EAS_Person_MIDTABLE", rs ,"fSign_0");
+							 sqls.add(sqlInsert);
+						 }else{
+							 String midName = namemap.get(fid); 
+							 boolean flag = false;
+							 String sqlUpdate = " update EAS_Person_MIDTABLE set ";
+							 if(!name.equals(midName)){
+								 sqlUpdate = sqlUpdate+" FNAME = '"+name+"',";
+								 flag = true;
+							 } 
+							 if(flag){
+								 sqlUpdate = sqlUpdate+" fSign_0 = 0, FsynTime_0 =sysdate where fid = '"+fid+"'";
+								 updatesqls.add(sqlUpdate);
+							 }
+						 }
+						 
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}  
+			} 
+			
+			if(sqls.size() >0){
+				doInsertSqls(ctx, dataBase, sqls);
+			}
+			if(updatesqls.size() >0){
+				doInsertSqls(ctx, dataBase, updatesqls);
+			}
+			
+		}
+
+		@Override
+		protected void _doSuppMid(Context ctx) throws BOSException {
+			// TODO Auto-generated method stub
+			super._doSuppMid(ctx); 
+			
+			Map<String, String> namemap = new  HashMap<String, String>();
+			Map<String, String> statusmap = new  HashMap<String, String>();
+			
+			List<String> updatesqls = new ArrayList<String>();
+			List<String> sqls = new ArrayList<String>();
+			
+			String selectSuppSql = " /*dialect*/ select   FID,FNAME , FSTATUS,FUPDATETYPE  from   EAS_Supplier_MIDTABLE   ";
+			List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
+			if(retsSup.size() > 0 ){
+				for (Map<String, Object> map : retsSup) {
+					String fid = map.get("FID").toString(); 
+					String name = map.get("FNAME")==null? "": map.get("FNAME").toString();
+					String status = map.get("FSTATUS")==null? "0":map.get("FSTATUS").toString();
+					namemap.put( fid, name);
+					statusmap.put( fid, status);
+				}
+			} 
+			
+ 
+			String sql  = " /*dialect*/ SELECT supp.fid  fid , supp.fnumber fnumber ,supp.fname_l2 Fname ,  gro.fname_l2 FCLASSNAME ,'' FOpenBank ,  '' FBankAccount, "+
+			 "  supp.FCREATORID  Fcreator , to_char( supp.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' )   FcreateTime , to_char( supp.FLASTUPDATETIME ,'yyyy-mm-dd hh24:mi:ss' )  FupdateTime,  supp.FIsInternalCompany  FISGroup , "+
+			 "  admin.FNUMBER  ForgNumber ,admin.FName_l2 ForgName , (case when supp.FUsedStatus = 1 then 0 else  1 end ) FStatus ,admin.Fid Forgtid, (case when supp.FUsedStatus = 1 then 1 else  2 end )  FupdateType ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime "+
+			 "   FROM  T_BD_Supplier  supp    "+
+			 "  inner  join  T_BD_CSSPGroup gro on gro.fid =supp.FBrowseGroupID "+
+			 " inner join  T_ORG_admin    admin  on admin.fid = supp.FCONTROLUNITID "; 
+			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);  
+			if(rs!=null && rs.size() > 0){
+				
+				try {
+					while(rs.next()){	
+						 String fid = rs.getString("FID");
+						 String name = rs.getString("FNAME");
+						 String status = rs.getString("FSTATUS");
+						 
+						 if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
+							 String sqlInsert = insertMidTableAll(ctx,  "EAS_Supplier_MIDTABLE", rs ,"fSign");
+							 sqls.add(sqlInsert);
+						 }else{
+							 String midName = namemap.get(fid);
+							 String midStatus= statusmap.get(fid);
+							 boolean flag = false;
+							 String sqlUpdate = " update EAS_Supplier_MIDTABLE set ";
+							 if(!name.equals(midName)){
+								 sqlUpdate = sqlUpdate+" FNAME = '"+name+"',";
+								 flag = true;
+							 }
+							 if(!status.equals(midStatus)){ 
+								 if("1".equals(status)){
+									 sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =2,";
+									 flag = true;
+								 }else if("0".equals(status)){
+									 sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
+									 flag = true;
+								 } 
+							 }
+							 if(flag){
+								 sqlUpdate = sqlUpdate+" fSign = 0, FsynTime =sysdate where fid = '"+fid+"'";
+								 updatesqls.add(sqlUpdate);
+							 }
+						 }
+						 
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+				
+			}	
+			if(sqls.size() >0){
+				doInsertSqls(ctx, dataBase, sqls);
+			}
+			if(updatesqls.size() >0){
+				doInsertSqls(ctx, dataBase, updatesqls);
+			}
+				 
+		}
+		
+		private void doInsertSqls(Context ctx, String dataBase,List<String> sqls){
+			try {
+				int size = sqls.size();
+				int qian = (int)Math.ceil(size/10000);
+				if(size%10000 >0){
+					qian ++;
+				}
+				for(int i = 0 ; i < qian ; i++){
+					List<String> sumSqls =  new ArrayList<String>();
+				
+					if(size < (i+1)*10000 ){
+						sumSqls = sqls.subList(i*10000, size);
+					}else{
+						sumSqls = sqls.subList(i*10000, (i+1)*10000);
+					}
+					EAISynTemplate.executeBatch(ctx, dataBase, sumSqls);
+				
+				}
+			} catch (BOSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
     
+		
     
 }

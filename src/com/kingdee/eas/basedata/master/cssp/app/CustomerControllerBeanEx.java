@@ -1,20 +1,18 @@
 package com.kingdee.eas.basedata.master.cssp.app;
 
-import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.Map;
 
-import com.alibaba.fastjson.JSONObject;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectCollection;
 import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.IObjectValue;
+import com.kingdee.eas.basedata.master.cssp.CustomerFactory;
+import com.kingdee.eas.basedata.master.cssp.CustomerInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.ISyncDataEASFacade;
-import com.kingdee.eas.custom.SyncDataEASFacade;
 import com.kingdee.eas.custom.SyncDataEASFacadeFactory;
 import com.kingdee.eas.framework.Result;
-import com.kingdee.jdbc.rowset.IRowSet;
 
 public class CustomerControllerBeanEx extends CustomerControllerBean{
 	
@@ -50,47 +48,9 @@ public class CustomerControllerBeanEx extends CustomerControllerBean{
 		}
 		IObjectPK id = super._submit(ctx, model);    
 		   
-		if(isNew){
-			HashMap<String, String> map = new HashMap<String, String>(); 
-			String sql  = " /*dialect*/ select cus.fid fId  ,cus.fnumber fNumber ,cus.fname_l2 fName , '' fOpenBank , '' fBankAccount ,  cuser.fname_l2  fCreator , "+
-			 "  to_char( cus.FCREATETIME ,'yyyy-mm-dd' ) fCreateTime ,to_char( cus.FLASTUPDATETIME  ,'yyyy-mm-dd' ) fUpdateTime , 0 fIsGroup, "+
-			 "  com.fid fOrgtId , com.FNUMBER fOrgNumber ,com.fname_l2 fOrgName , 0  fStatus , 0 fUpdateType "+
-			 "  from T_BD_Customer  cus   "+
-			 "  inner join T_BD_CustomerCompanyInfo cuscom  on cuscom.FCUSTOMERID  = cus.fid "+
-			 "  inner join  T_PM_User  cuser on cuser.fid=cus.FCREATORID  "+
-			 "  inner join  T_ORG_Company com on com.fid  = cuscom.FComOrgID and   com.fnumber = 'jbYAAAMU2SvM567U' "+
-			 "  where cus.fid ='"+id.toString()+"' and cus.fisInternalCompany = 1 ";
-			
-			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
-			if(rs!=null && rs.size() > 0){
-				  try {
-					while(rs.next()){	 
-						map.put("fId",rs.getString("FID") );
-						map.put("fNumber",rs.getString("FNUMBER") );
-						map.put("fName",rs.getString("FNAME") );
-						map.put("fOpenBank",rs.getString("FOPENBANK") );
-						map.put("fBankAccount",rs.getString("FBANKACCOUNT") );
-						map.put("fCreator",rs.getString("FCREATOR") );
-						map.put("fCreateTime",rs.getString("FCREATETIME") );
-						map.put("fUpdateTime",rs.getString("FUPDATETIME") );
-						map.put("fIsGroup",rs.getString("FISGROUP") );
-						map.put("fOrgtId",rs.getString("FORGTID") );
-						map.put("fOrgNumber",rs.getString("FORGNUMBER") );
-						map.put("fOrgName",rs.getString("FORGNAME") );
-						map.put("fStatus",rs.getString("FSTATUS") );
-						map.put("fUpdateType",rs.getString("FUPDATETYPE") ); 
-					  }
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			 }  
-			if(map.size() >0){
-				String datajsonStr = JSONObject.toJSONString(map);
-				ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
-				is.syncDateByType( 1 , datajsonStr , 1  , map.get("fName") ,map.get("fNumber"));
-			}
-			
+		if(true){
+			ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
+			is.syncDateByType( 1 , "" , 0  , "" ,id.toString()); 
 		}
 		return id;
 	}
@@ -101,56 +61,75 @@ public class CustomerControllerBeanEx extends CustomerControllerBean{
 		// TODO Auto-generated method stub  xxxxxxxxx
 		super._freezed(ctx, customerPK, isForceFreezed);
 		if(isForceFreezed){
-			HashMap<String, String> map = new HashMap<String, String>(); 
-			String sql  = " /*dialect*/ select cus.fid fId  ,cus.fnumber fNumber ,cus.fname_l2 fName , '' fOpenBank , '' fBankAccount ,  cuser.fname_l2  fCreator , "+
-			 "  to_char( cus.FCREATETIME ,'yyyy-mm-dd' ) fCreateTime ,to_char( cus.FLASTUPDATETIME  ,'yyyy-mm-dd' ) fUpdateTime , 0 fIsGroup, "+
-			 "  com.fid fOrgtId , com.FNUMBER fOrgNumber ,com.fname_l2 fOrgName , 1  fStatus , 2 fUpdateType "+
-			 "  from T_BD_Customer  cus   "+
-			 "  inner join T_BD_CustomerCompanyInfo cuscom  on cuscom.FCUSTOMERID  = cus.fid "+
-			 "  inner join  T_PM_User  cuser on cuser.fid=cus.FCREATORID  "+
-			 "  inner join  T_ORG_Company com on com.fid  = cuscom.FComOrgID and   com.fnumber = 'jbYAAAMU2SvM567U' "+
-			 "  where cus.fid ='"+customerPK.toString()+"' and cus.fisInternalCompany = 1 ";
+			ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
+			is.syncDateByType( 1 ,  "" , 2 ,  "" ,customerPK.toString());
+		}
+	}
+
+	     
+
+	@Override
+	public void approve(Context arg0, IObjectPK arg1) throws BOSException,
+			EASBizException {
+		// TODO Auto-generated method stub ed1
+		super.approve(arg0, arg1); 
+		ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(arg0);
+		is.syncDateByType( 1 , "" , 1 , "" ,arg1.toString());
+	}
+
+	
+	
+	@Override
+	protected void _approve(Context ctx, IObjectPK customerPK)
+			throws BOSException, EASBizException {
+		// TODO Auto-generated method stub
+		super._approve(ctx, customerPK);
+	}
+ 
+
+	@Override
+	public Map approve(Context arg0, IObjectPK[] arg1) throws BOSException,
+			EASBizException {
+		// TODO Auto-generated method stub1
+		Map map = super.approve(arg0, arg1); 
+		for(int i=0;i<arg1.length ;i++){ 
 			
-			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
-			if(rs!=null && rs.size() > 0){
-				  try {
-					while(rs.next()){	
-						map.put("fId",rs.getString("FID") );
-						map.put("fNumber",rs.getString("FNUMBER") );
-						map.put("fName",rs.getString("FNAME") );
-						map.put("fOpenBank",rs.getString("FOPENBANK") );
-						map.put("fBankAccount",rs.getString("FBANKACCOUNT") );
-						map.put("fCreator",rs.getString("FCREATOR") );
-						map.put("fCreateTime",rs.getString("FCREATETIME") );
-						map.put("fUpdateTime",rs.getString("FUPDATETIME") );
-						map.put("fIsGroup",rs.getString("FISGROUP") );
-						map.put("fOrgtId",rs.getString("FORGTID") );
-						map.put("fOrgNumber",rs.getString("FORGNUMBER") );
-						map.put("fOrgName",rs.getString("FORGNAME") );
-						map.put("fStatus",rs.getString("FSTATUS") );
-						map.put("fUpdateType",rs.getString("FUPDATETYPE") ); 
-						
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			 }  
-			if(map.size() >0){
-				String datajsonStr = JSONObject.toJSONString(map);
-				ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
-				is.syncDateByType( 1 , datajsonStr , 0 ,  map.get("fName") ,map.get("fNumber"));
-			}
+			CustomerInfo cusinfo= CustomerFactory.getLocalInstance(arg0).getCustomerInfo(arg1[i]);
+			if(cusinfo.getUsedStatus().getValue()==1){
+				ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(arg0);
+				is.syncDateByType( 1 , "" , 1 , "" ,arg1[i].toString());
+			} 
+		}
+		return map;
+	}
+
+	@Override
+	public void unApprove(Context arg0, IObjectPK arg1, boolean arg2)
+			throws BOSException, EASBizException {
+		// TODO Auto-generated method stub ed1
+		super.unApprove(arg0, arg1, arg2); 
+		CustomerInfo cusinfo= CustomerFactory.getLocalInstance(arg0).getCustomerInfo(arg1);
+		if(cusinfo.getUsedStatus().getValue()==0){
+			ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(arg0);
+			is.syncDateByType( 1 , "" , 2 , "" ,arg1.toString());
 		}
 	}
 
 	@Override
-	protected void _unFreezed(Context ctx, IObjectPK customerPK,
-			boolean isForceUnFreezed) throws BOSException, EASBizException {
-		// TODO Auto-generated method stub
-		super._unFreezed(ctx, customerPK, isForceUnFreezed);
-	}
- 
+	public Map unApprove(Context arg0, IObjectPK[] arg1) throws BOSException,
+			EASBizException {
+		// TODO Auto-generated method stub1
+		Map map =  super.unApprove(arg0, arg1);
+		for(int i=0;i<arg1.length ;i++){ 
+			CustomerInfo cusinfo= CustomerFactory.getLocalInstance(arg0).getCustomerInfo(arg1[i]);
+			if(cusinfo.getUsedStatus().getValue()==0){
+				ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(arg0);
+				is.syncDateByType( 1 , "" , 2 , "" ,arg1[i].toString());
+			}
+		}
+			
+		return map;
+	} 
 	
 	
 }

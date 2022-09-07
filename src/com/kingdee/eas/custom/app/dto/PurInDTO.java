@@ -30,6 +30,17 @@ public class PurInDTO  {
 	private String  fcreatorid;
 	private String	fpurchasepersonid ;
 	private String	fstockerid;
+	private String fdoctor;
+	
+	
+	
+	public String getFdoctor() {
+		return fdoctor;
+	}
+	public void setFdoctor(String fdoctor) {
+		this.fdoctor = fdoctor;
+	}
+	
 	public String getBid() {
 		return bid;
 	}

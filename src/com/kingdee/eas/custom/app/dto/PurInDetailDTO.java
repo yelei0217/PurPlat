@@ -40,7 +40,42 @@ public class PurInDetailDTO {
 	private String  fremark;
 	private String fwarehouseid ;
 	
+	private String flot;
+	private String fmfg;
+	private String fexp;
+	private String fpatientid;
+	private String fpatientname;
 	
+	public String getFlot() {
+		return flot;
+	}
+	public void setFlot(String flot) {
+		this.flot = flot;
+	}
+	public String getFmfg() {
+		return fmfg;
+	}
+	public void setFmfg(String fmfg) {
+		this.fmfg = fmfg;
+	}
+	public String getFexp() {
+		return fexp;
+	}
+	public void setFexp(String fexp) {
+		this.fexp = fexp;
+	}
+	public String getFpatientid() {
+		return fpatientid;
+	}
+	public void setFpatientid(String fpatientid) {
+		this.fpatientid = fpatientid;
+	}
+	public String getFpatientname() {
+		return fpatientname;
+	}
+	public void setFpatientname(String fpatientname) {
+		this.fpatientname = fpatientname;
+	}
 	public String getBid() {
 		return bid;
 	}

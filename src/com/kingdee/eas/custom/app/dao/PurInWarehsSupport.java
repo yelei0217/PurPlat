@@ -326,7 +326,7 @@ public class PurInWarehsSupport {
 										 sourceColl.add(info);
 										 List<IObjectPK> pks = AppUnit.botpSave(ctx, "783061E3", sourceColl, "JV7MYpL+QEKaxoy2KYZKzwRRIsQ=");
 										 sourceColl.clear();
-										 result = "success";
+										 result = PurPlatSyncEnum.SUCCESS.getAlias();
 									 }
 									 
 								}

@@ -80,7 +80,7 @@ public class BaseSCMSupport {
 							OtherPurInSupport.doSaveBill(ctx,m,busCode);
 						else if("SK_MZ_OSS".equals(busCode))
 							OtherSaleIssSupport.doSaveBill(ctx,m,busCode);
-						result = "success";
+						 result = PurPlatSyncEnum.SUCCESS.getAlias();
 					}
 				}else
 					result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
@@ -135,7 +135,6 @@ public class BaseSCMSupport {
 		return result;
 	}
 	
-
 	/**
 	 * 校验 实体是否正确
 	 * @param ctx

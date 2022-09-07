@@ -180,7 +180,7 @@ public class PurPlatUtil {
 	    			 ||"VMI2C_LZ_PI".equals(busCode)||"VMI2CB_LZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)
 	    			 ||"YC_PI".equals(busCode)||"YX_MZ_PI".equals(busCode)||"ZZ_YC_MZ_PI".equals(busCode)
 	    			 ||"GZB_MZ_PI".equals(busCode)||"GZB_LZ_PI".equals(busCode)||"DZB_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)  
-	    			 ||"VMI2CB_LZ_PI".equals(busCode)||"VMIB_MZ_PI".equals(busCode)||"VMI_U_MZ_PI".equals(busCode) ){
+	    			 ||"VMI2CB_LZ_PI".equals(busCode)||"VMIB_MZ_PI".equals(busCode)||"VMI_U_MZ_PI".equals(busCode)||"ZZ_YC_MZ_PI_C".equals(busCode) ){
 	    		 tableName =" T_IM_PurInWarehsBill ";
 	    	 }else if("GZ_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMIB_LZ_SS".equals(busCode)||"SO_LZ_SS".equals(busCode)
 	    			 ||"CGZ_U_MZ_SS".equals(busCode)||"CDZ_U_MZ_SS".equals(busCode)||"VMI_U_MZ_SS_VMI".equals(busCode)||"VMI_U_MZ_SS".equals(busCode)

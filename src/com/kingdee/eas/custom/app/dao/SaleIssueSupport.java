@@ -325,7 +325,7 @@ public class SaleIssueSupport {
 												 } 
 											 }
 										 }else
-												result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
+											 result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
 									 }
 									 if(tempEntryColl.size() > 0){
 										 info.getEntries().clear();
@@ -333,16 +333,17 @@ public class SaleIssueSupport {
 										 sourceColl.add(info);
  							 			 List<IObjectPK> pks = AppUnit.botpSave(ctx, "CC3E933B", sourceColl, "ufgs6nQJRo29KGbQb3EbdgRRIsQ=");
 										 sourceColl.clear();
-										 result = "success";
-									 }
-									 
+										 //result = "success";
+										 result = PurPlatSyncEnum.SUCCESS.getAlias();
+									 }else
+										result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
 								}
 							 }else
-									result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
+									result = PurPlatSyncEnum.EXCEPTION_SERVER.getAlias();
 						} catch (BOSException e) {
  							e.printStackTrace();
+ 							result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
 						}
-						
 					}else
 						result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
 				}else
@@ -350,6 +351,10 @@ public class SaleIssueSupport {
 			}else
 				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
 		}	
+		
+		if(result != null && !"".equals(result)){
+			
+		}
 		return result;
 		
 	}

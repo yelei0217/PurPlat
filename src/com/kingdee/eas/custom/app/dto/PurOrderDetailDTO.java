@@ -1,10 +1,8 @@
 package com.kingdee.eas.custom.app.dto;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
-public class PurOrderDetailDTO implements Serializable{
+public class PurOrderDetailDTO{
 	
 	/**
 	 * 

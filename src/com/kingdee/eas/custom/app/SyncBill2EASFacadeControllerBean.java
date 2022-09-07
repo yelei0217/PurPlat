@@ -11,6 +11,7 @@ import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.dao.CostAdjusSupport;
+import com.kingdee.eas.custom.app.dao.PurInCGWSupport;
 import com.kingdee.eas.custom.app.dao.PurInWarehsSupport;
 import com.kingdee.eas.custom.app.dao.PurOrderSupport;
 import com.kingdee.eas.custom.app.dao.SaleIssueSupport;
@@ -119,43 +120,10 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	@Override
 	protected String _saveCostAdjus(Context ctx, String jsonStr)
 			throws BOSException {
-		try {
-//			 IObjectPK orgPK = new  ObjectUuidPK("jbYAAAad1Rl4MGHj");
-//			 PurInWarehsBillInfo in = PurInWarehsBillFactory.getLocalInstance(ctx).getPurInWarehsBillInfo(orgPK);
-//			 PurInWarehsEntryInfo entry = (PurInWarehsEntryInfo) in.getEntries().getObject(0);
-//			 PurInWarehsEntryInfo entry1 = (PurInWarehsEntryInfo) entry.clone();
-//			 entry1.setQty(new BigDecimal(1));
-//			 entry1.setBaseQty(new BigDecimal(1));
-//			 in.getEntries().clear();
-//			 in.getEntries().addObject(entry1);
-//			 CoreBillBaseCollection sourceColl = new CoreBillBaseCollection();  
-//			 
-//			 sourceColl.add(in);
-// 			 List<IObjectPK> pkIns = AppUnit.botpSave(ctx, "783061E3", sourceColl, "JV7MYpL+QEKaxoy2KYZKzwRRIsQ=");
-
-			ISaleIssueBill ibiz =SaleIssueBillFactory.getLocalInstance(ctx);
-
- 			 IObjectPK orgPK = new  ObjectUuidPK("jbYAAAadvanMPpM7");
- 			 SaleIssueBillInfo out = SaleIssueBillFactory.getLocalInstance(ctx).getSaleIssueBillInfo(orgPK);
-//			 PurInWarehsEntryInfo entry = (PurInWarehsEntryInfo) in.getEntries().getObject(0);
-//			 PurInWarehsEntryInfo entry1 = (PurInWarehsEntryInfo) entry.clone();
-//			 entry1.setQty(new BigDecimal(1));
-//			 entry1.setBaseQty(new BigDecimal(1));
-//			 in.getEntries().clear();
-//			 in.getEntries().addObject(out);
-			 CoreBillBaseCollection sourceColl = new CoreBillBaseCollection();  
-			 sourceColl.add(out);
- 			 List<IObjectPK> pkIns = AppUnit.botpSave(ctx, "CC3E933B", sourceColl, "ufgs6nQJRo29KGbQb3EbdgRRIsQ=");
-
-		} catch (EASBizException e) {
-			e.printStackTrace();
-		}
-		return "";	
-    	
-//		this.timer.reset(); 
-//		 String res =  CostAdjusSupport.doSync(ctx, jsonStr);
-//		 logger.info("do _saveCostAdjus _saveCostAdjus method cost :" + this.timer.msValue());
-//		 return res;	
+		 this.timer.reset(); 
+		 String res =  CostAdjusSupport.doSync(ctx, jsonStr);
+		 logger.info("do _saveCostAdjus _saveCostAdjus method cost :" + this.timer.msValue());
+		 return res;	
 	}
 
 
@@ -209,9 +177,10 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	@Override
 	protected String _saveOtherPurIn(Context ctx, String jsonStr)
 			throws BOSException {
- 		return super._saveOtherPurIn(ctx, jsonStr);
+		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
+		 logger.info("do SyncBill2EASFacadeControllerBean _saveOtherPurIn method cost :" + this.timer.msValue());
+		 return res;
 	}
-
 	
 	/**
 	 * 
@@ -221,7 +190,23 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	@Override
 	protected String _saveOtherSaleIss(Context ctx, String jsonStr)
 			throws BOSException {
- 		return super._saveOtherSaleIss(ctx, jsonStr);
+		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
+		 logger.info("do SyncBill2EASFacadeControllerBean _saveOtherSaleIss method cost :" + this.timer.msValue());
+		 return res;
+	}
+
+
+	/**
+	 * 
+	 * 成果物 -- 同步
+	 * 
+	 */
+	@Override
+	protected String _savePurInCGW(Context ctx, String jsonStr)throws BOSException {
+		 String res =  PurInCGWSupport.syncBill(ctx, jsonStr);
+ 		 logger.info("do SyncBill2EASFacadeControllerBean _savePurInCGW method cost :" + this.timer.msValue());
+		 return res;
+ 		
 	}
 	
 	

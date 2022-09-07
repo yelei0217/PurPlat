@@ -77,7 +77,7 @@ public class BaseFISupport {
 							ArOtherSupport.doSaveBill(ctx, m,busCode);
 						else if(busCode.contains("_R"))
 							ReceiptSupport.doInsertBill(ctx,m,busCode);
-						result = "success";
+						 result = PurPlatSyncEnum.SUCCESS.getAlias();
 					}
 				}else
 					result = PurPlatSyncEnum.EXISTS_BILL.getAlias();

@@ -9,6 +9,7 @@ import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectCollection;
 import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.IObjectValue;
+import com.kingdee.eas.basedata.master.cssp.CustomerCompanyInfoFactory;
 import com.kingdee.eas.basedata.master.cssp.CustomerCompanyInfoInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.ISyncDataEASFacade;
@@ -16,6 +17,7 @@ import com.kingdee.eas.custom.SyncDataEASFacadeFactory;
 import com.kingdee.eas.framework.CoreBaseCollection;
 import com.kingdee.eas.framework.CoreBaseInfo;
 import com.kingdee.eas.framework.Result;
+import com.kingdee.eas.scm.crm.customer.CustomerCompanyInfoCollection;
 import com.kingdee.jdbc.rowset.IRowSet;
 
 public class CustomerCompanyInfoControllerBeanEx extends CustomerCompanyInfoControllerBean{
@@ -27,10 +29,16 @@ public class CustomerCompanyInfoControllerBeanEx extends CustomerCompanyInfoCont
 			EASBizException {
 		// TODO Auto-generated method stub1
 		super._cancel(ctx, pks);
+		 
+		ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
 		for(int i=0;i<pks.length ;i++){ 
-			ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
-			is.syncDateByType( 1 , "" , 2 , "" ,pks[i].toString());
-		}
+
+			com.kingdee.eas.basedata.master.cssp.CustomerCompanyInfoCollection coll = CustomerCompanyInfoFactory.getLocalInstance(ctx).getCustomerCompanyInfoCollection(" where  id = '"+pks[i]+"'  and  UsingStatus = 1 ");
+			if(coll.size() > 0 ){ 
+				is.syncDateByType( 1 , "" , 2 , "" ,coll.get(0).getCustomer().getId().toString());
+			}
+			
+		} 
 	}
   
 	@Override
@@ -38,9 +46,14 @@ public class CustomerCompanyInfoControllerBeanEx extends CustomerCompanyInfoCont
 			throws BOSException, EASBizException {
 		// TODO Auto-generated method stub1  ∆Ù”√
 		super._cancelCancel(ctx, pks);
+		ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
 		for(int i=0;i<pks.length ;i++){ 
-			ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
-			is.syncDateByType( 1 , "" , 1 , "" ,pks[i].toString());
+
+			com.kingdee.eas.basedata.master.cssp.CustomerCompanyInfoCollection coll = CustomerCompanyInfoFactory.getLocalInstance(ctx).getCustomerCompanyInfoCollection(" where  id = '"+pks[i].toString()+"'  and  UsingStatus = 0 ");
+			if(coll.size() > 0 ){ 
+				is.syncDateByType( 1 , "" , 1 , "" ,coll.get(0).getCustomer().getId().toString());
+			}
+			
 		} 
 	}
  

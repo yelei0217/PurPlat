@@ -38,9 +38,11 @@ import com.kingdee.eas.basedata.scm.im.inv.WarehouseInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
+import com.kingdee.eas.custom.app.PurPlatSyncEnum;
 import com.kingdee.eas.custom.app.dto.CostAdjusDTO;
 import com.kingdee.eas.custom.app.dto.CostAdjusDetailDTO;
 import com.kingdee.eas.custom.app.dto.PurInDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseResponseDTO;
 import com.kingdee.eas.custom.app.unit.AppUnit;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
@@ -58,20 +60,24 @@ public class CostAdjusSupport {
 
 	public static String doSync(Context ctx,String jsonStr){
 		String result = null;
+		String msgId = "";
+		String busCode ="";
+		String reqTime ="";
+		BaseResponseDTO respondDTO = new BaseResponseDTO();
+		PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
+		Gson gson = new Gson();
+		
 		if(jsonStr != null && !"".equals(jsonStr)){
 		    System.out.println("************************json begin****************************");
 		    System.out.println("#####################jsonStr################=" + jsonStr);
 			DateBaseProcessType processType = DateBaseProcessType.AddNew;
 			DateBasetype baseType = DateBasetype.GZ_CK_LZ_CJ;
-			String msgId = "";
-			String busCode ="";
-			String reqTime ="";
+
 			
 			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
 			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
 			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
 			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-			Gson gson = new Gson();
 			JsonElement modelJE = returnData.get("data"); // 请求参数data
 			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
 					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
@@ -81,29 +87,49 @@ public class CostAdjusSupport {
 				reqTime = reqTimeJE.getAsString() ;
 				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+reqTime, jsonStr, "", "");
 				try {
-					CostAdjusDTO m = gson.fromJson(modelJE, CostAdjusDTO.class);
-					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-						result = judgeModel(ctx,m,busCode);
-						if("".equals(result))
-						{
-							ICostAdjustBill ibiz = CostAdjustBillFactory.getLocalInstance(ctx);
-							CostAdjustBillInfo info  = createCostAdjusInfo(ctx, m, busCode);
-							IObjectPK pk = ibiz.addnew(info);
-							ibiz.submit(pk.toString());
-						}
+					CostAdjusDTO m = null;
+					try {
+						m = gson.fromJson(modelJE, CostAdjusDTO.class);
+					} catch (JsonSyntaxException e) {
+						purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+ 						e.printStackTrace();
 					}
-				} catch (JsonSyntaxException e) {
- 					e.printStackTrace();
+					
+					if(m !=null){
+						if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+							result = judgeModel(ctx,m,busCode);
+							if("".equals(result))
+							{
+								ICostAdjustBill ibiz = CostAdjustBillFactory.getLocalInstance(ctx);
+								CostAdjustBillInfo info  = createCostAdjusInfo(ctx, m, busCode);
+								IObjectPK pk = ibiz.addnew(info);
+								ibiz.submit(pk.toString());
+							}else 
+						    	  purPlatMenu = PurPlatSyncEnum.NOTEXISTS_BILL;
+						}else 
+					    	  purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
+					}else
+						purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
 				} catch (BOSException e) {
  					e.printStackTrace();
 				} catch (EASBizException e) {
  					e.printStackTrace();
 				}
-			}
+			}else
+				purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
 			
-		}
-		return result;
-	}
+		}else
+			purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+		
+		respondDTO.setCode(purPlatMenu.getValue());
+		respondDTO.setMsgId(msgId);
+		if(purPlatMenu==PurPlatSyncEnum.EXCEPTION_SERVER)
+		respondDTO.setMsg(result);
+		else
+			respondDTO.setMsg(purPlatMenu.getAlias());
+		return gson.toJson(respondDTO);
+ 	}
+	
 	private static String judgeModel(Context ctx,CostAdjusDTO m,String busCode ){
 		String result = "";
 		 //组织是否存在

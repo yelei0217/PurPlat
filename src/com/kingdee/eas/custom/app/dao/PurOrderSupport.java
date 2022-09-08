@@ -22,7 +22,9 @@ import com.kingdee.eas.basedata.framework.app.ParallelSqlExecutor;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
+import com.kingdee.eas.custom.app.PurPlatSyncEnum;
 import com.kingdee.eas.custom.app.dto.PurOrderDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseResponseDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
@@ -296,6 +298,13 @@ public class PurOrderSupport {
 	 */
 	public static String doCloseRow(Context ctx,String jsonStr){
 		String result ="";
+		String msgId = "";
+		String busCode ="";
+		String reqTime ="";
+		Gson gson = new Gson();
+		BaseResponseDTO respondDTO = new BaseResponseDTO();
+		PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
+		
 		if(jsonStr != null && !"".equals(jsonStr)){
 		    System.out.println("************************json PurOrderSupport  doCloseRow  begin****************************");
 		    System.out.println("#####################jsonStr################=" + jsonStr);
@@ -303,14 +312,12 @@ public class PurOrderSupport {
 
 			DateBaseProcessType processType = DateBaseProcessType.AddNew;
 			DateBasetype baseType = DateBasetype.GZB_LZ_PO_CR;
-			String msgId = "";
-			String busCode ="";
-			String reqTime ="";
+			
 			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
 			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
 			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
 			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-			Gson gson = new Gson();
+		
 			JsonElement modelJE = returnData.get("data"); // 请求参数data
 			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
 					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
@@ -320,7 +327,6 @@ public class PurOrderSupport {
 				busCode = busCodeJE.getAsString() ;
 				reqTime = reqTimeJE.getAsString() ;
   				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
-
 				
 				if(modelJE.getAsJsonObject() !=null && modelJE.getAsJsonObject().get("id") !=null && !"".equals(modelJE.getAsJsonObject().get("id").getAsString())&&
 					modelJE.getAsJsonObject().get("eids") !=null && !"".equals(modelJE.getAsJsonObject().get("eids").getAsString()))
@@ -374,12 +380,9 @@ public class PurOrderSupport {
 						          String[] reasons = (String[])reasonLists.toArray(new String[reasonLists.size()]);
 						          ibize.handClose(pks, reasons);
 						        }
-						        result ="success";
-						      }
-						      else
-						      {
-						    	  result ="单据未找到";
-						      }
+ 						        purPlatMenu = PurPlatSyncEnum.SUCCESS;
+						      } else
+						    	  purPlatMenu = PurPlatSyncEnum.NOTEXISTS_BILL;
 					} catch (EASBizException e) {
  						e.printStackTrace();
 					} catch (BOSException e) {
@@ -387,11 +390,17 @@ public class PurOrderSupport {
 					} catch (SQLException e) {
  						e.printStackTrace();
 					}
-			              
 				}
-			}
-		}
-		return result ;
+			}else
+				purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+		}else
+			purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+		
+		respondDTO.setCode(purPlatMenu.getValue());
+		respondDTO.setMsgId(msgId);
+		respondDTO.setMsg(purPlatMenu.getAlias());
+		
+		return gson.toJson(respondDTO) ;
 	}
 
 }

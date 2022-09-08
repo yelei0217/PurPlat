@@ -47,6 +47,7 @@ import com.kingdee.eas.custom.app.DateBasetype;
 import com.kingdee.eas.custom.app.PurPlatSyncEnum;
 import com.kingdee.eas.custom.app.dto.PurInDTO;
 import com.kingdee.eas.custom.app.dto.PurInDetailDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseResponseDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 import com.kingdee.eas.custom.app.unit.AppUnit;
@@ -250,19 +251,24 @@ public class PurInWarehsSupport {
 	
 	public static String doRollBackBill(Context ctx,String jsonStr){
 		String result = null;
+		String msgId = "";
+		String busCode ="";
+		String reqTime ="";
+		BaseResponseDTO respondDTO = new BaseResponseDTO();
+		PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
+		Gson gson = new Gson();
+		
 		if(jsonStr != null && !"".equals(jsonStr)){
 		    System.out.println("************************json begin****************************");
 		    System.out.println("#####################jsonStr################=" + jsonStr);
 			DateBaseProcessType processType = DateBaseProcessType.AddNew;
 			DateBasetype baseType = DateBasetype.GZB_MZ_PI;
-			String msgId = "";
-			String busCode ="";
-			String reqTime ="";
+	 
 			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
 			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
 			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
 			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-			Gson gson = new Gson();
+		 
 			JsonElement modelJE = returnData.get("data"); // 请求参数data
 			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
 					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
@@ -324,27 +330,33 @@ public class PurInWarehsSupport {
 										 info.getEntries().clear();
 										 info.getEntries().addObjectCollection(tempEntryColl);
 										 sourceColl.add(info);
-										 List<IObjectPK> pks = AppUnit.botpSave(ctx, "783061E3", sourceColl, "JV7MYpL+QEKaxoy2KYZKzwRRIsQ=");
-										 sourceColl.clear();
-										 result = PurPlatSyncEnum.SUCCESS.getAlias();
 									 }
-									 
 								}
+								if(sourceColl !=null && sourceColl.size() > 0){
+									 List<IObjectPK> pks = AppUnit.botpSave(ctx, "783061E3", sourceColl, "JV7MYpL+QEKaxoy2KYZKzwRRIsQ=");
+									 sourceColl.clear();
+									 purPlatMenu = PurPlatSyncEnum.SUCCESS;
+								}else
+									 purPlatMenu = PurPlatSyncEnum.NOTEXISTS_BILL;
 							 }else
-									result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
+								 purPlatMenu = PurPlatSyncEnum.NOTEXISTS_BILL;
 						} catch (BOSException e) {
  							e.printStackTrace();
 						}
 						
 					}else
-						result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
-						
+						purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
 				}else
-					result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+					purPlatMenu = PurPlatSyncEnum.BUSCODE_EXCEPTION;
 			}else
-				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
-		}	
-		return result;
+				purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+		}else
+			purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+		
+		respondDTO.setCode(purPlatMenu.getValue());
+		respondDTO.setMsgId(msgId);
+		respondDTO.setMsg(purPlatMenu.getAlias());
+		return gson.toJson(respondDTO);
 	}
 	
 	public static void doSaveBill(Context ctx,BaseSCMDTO m,String busCode){

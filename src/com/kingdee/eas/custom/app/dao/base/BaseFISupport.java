@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
@@ -27,6 +28,7 @@ import com.kingdee.eas.custom.app.dto.SaleOrderDTO;
 import com.kingdee.eas.custom.app.dto.SaleOrderDetailDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseFIDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseFIDetailDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseResponseDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
@@ -41,19 +43,24 @@ public class BaseFISupport {
 
 	public static String syncBill(Context ctx,String jsonStr){
 		String result = null;
+		String msgId = "";
+		String busCode ="";
+		String reqTime ="";
+		BaseResponseDTO respondDTO = new BaseResponseDTO();
+		PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
+		Gson gson = new Gson();
+		
 		if(jsonStr != null && !"".equals(jsonStr)){
 		    System.out.println("************************json begin****************************");
 		    System.out.println("#####################jsonStr################=" + jsonStr);
 			DateBaseProcessType processType = DateBaseProcessType.AddNew;
 			DateBasetype baseType = DateBasetype.GZ_CK_LZ_AP;
-			String msgId = "";
-			String busCode ="";
-			String reqTime ="";
+		
 			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
 			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
 			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
 			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-			Gson gson = new Gson();
+			
 			JsonElement modelJE = returnData.get("data"); // 请求参数data
 			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
 					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
@@ -65,74 +72,90 @@ public class BaseFISupport {
 				
 				// 记录日志
 				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
-				BaseFIDTO m = gson.fromJson(modelJE, BaseFIDTO.class);
-				// 判断msgId 是否存在SaleOrderDTO
-				if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-					result = judgeModel(ctx,m,busCode);
-					if("".equals(result))
-					{
-						if(busCode.contains("_AP"))
-							ApOtherSupport.doSaveBill(ctx,m,busCode);
-						else if(busCode.contains("_AR"))
-							ArOtherSupport.doSaveBill(ctx, m,busCode);
-						else if(busCode.contains("_R"))
-							ReceiptSupport.doInsertBill(ctx,m,busCode);
-						 result = PurPlatSyncEnum.SUCCESS.getAlias();
-					}
-				}else
-					result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
+				BaseFIDTO m = null;
+				try {
+					m = gson.fromJson(modelJE, BaseFIDTO.class);
+				} catch (JsonSyntaxException e) {
+					purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+ 					e.printStackTrace();
+				}
+				if(m != null){
+					// 判断msgId 是否存在SaleOrderDTO
+					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+						result = judgeModel(ctx,m,busCode);
+						if("".equals(result))
+						{
+							if(busCode.contains("_AP"))
+								ApOtherSupport.doSaveBill(ctx,m,busCode);
+							else if(busCode.contains("_AR"))
+								ArOtherSupport.doSaveBill(ctx, m,busCode);
+							else if(busCode.contains("_R"))
+								ReceiptSupport.doInsertBill(ctx,m,busCode);
+	 						 purPlatMenu = PurPlatSyncEnum.SUCCESS;
+						}else
+							purPlatMenu = PurPlatSyncEnum.EXCEPTION_SERVER;
+					}else
+						purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
+				}else 
+					purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+			
 			}else
-				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+ 			purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
 		}else
-			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+			purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
 		
-		return result;
+		respondDTO.setCode(purPlatMenu.getValue());
+		respondDTO.setMsgId(msgId);
+		if(purPlatMenu==PurPlatSyncEnum.EXCEPTION_SERVER)
+		respondDTO.setMsg(result);
+		else
+			respondDTO.setMsg(purPlatMenu.getAlias());
+		return gson.toJson(respondDTO);
 	}
 	
-	public static String judgeJsonStr(Context ctx,String jsonStr){
-		String result = null;
-		if(jsonStr != null && !"".equals(jsonStr)){
-		    System.out.println("************************json begin****************************");
-		    System.out.println("#####################jsonStr################=" + jsonStr);
-			DateBaseProcessType processType = DateBaseProcessType.AddNew;
-			DateBasetype baseType = DateBasetype.GZ_LZ_SS;
-			String msgId = "";
-			String busCode ="";
-			String reqTime ="";
-			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
-			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
-			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
-			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-			Gson gson = new Gson();
-			JsonElement modelJE = returnData.get("data"); // 请求参数data
-			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
-					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
-					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
-				msgId = msgIdJE.getAsString() ;
-				busCode = busCodeJE.getAsString() ;
-				reqTime = reqTimeJE.getAsString() ;
-				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
-				// 记录日志
-				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
-				BaseSCMDTO m = gson.fromJson(modelJE, BaseSCMDTO.class);
-				// 判断msgId 是否存在SaleOrderDTO
-//				if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-//					result = judgeModel(ctx,m,busCode);
-//					if("".equals(result))
-//					{
-//					//	SaleOrderSupport.doInsertBill(ctx,m,busCode);
-//						result = "success";
-//					}
-//				}else
-//					result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
-			}else
-				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
-		}else
-			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
-		
-		return result;
-	}
-	
+//	public static String judgeJsonStr(Context ctx,String jsonStr){
+//		String result = null;
+//		if(jsonStr != null && !"".equals(jsonStr)){
+//		    System.out.println("************************json begin****************************");
+//		    System.out.println("#####################jsonStr################=" + jsonStr);
+//			DateBaseProcessType processType = DateBaseProcessType.AddNew;
+//			DateBasetype baseType = DateBasetype.GZ_LZ_SS;
+//			String msgId = "";
+//			String busCode ="";
+//			String reqTime ="";
+//			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
+//			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+//			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+//			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+//			Gson gson = new Gson();
+//			JsonElement modelJE = returnData.get("data"); // 请求参数data
+//			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+//					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+//					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+//				msgId = msgIdJE.getAsString() ;
+//				busCode = busCodeJE.getAsString() ;
+//				reqTime = reqTimeJE.getAsString() ;
+//				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
+//				// 记录日志
+//				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+//				BaseSCMDTO m = gson.fromJson(modelJE, BaseSCMDTO.class);
+//				// 判断msgId 是否存在SaleOrderDTO
+////				if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+////					result = judgeModel(ctx,m,busCode);
+////					if("".equals(result))
+////					{
+////					//	SaleOrderSupport.doInsertBill(ctx,m,busCode);
+////						result = "success";
+////					}
+////				}else
+////					result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
+//			}else
+//				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+//		}else
+//			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+//		
+//		return result;
+//	}
 
 	/**
 	 * 校验 实体是否正确

@@ -25,8 +25,10 @@ import com.kingdee.eas.custom.PushRecordFactory;
 import com.kingdee.eas.custom.PushRecordInfo;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
+import com.kingdee.eas.custom.app.PurPlatSyncEnum;
 import com.kingdee.eas.custom.app.PushStatusEnum;
 import com.kingdee.eas.custom.app.dto.SaleOrderDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseResponseDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
@@ -333,20 +335,27 @@ public class SaleOrderSupport {
 	
 	public static String doCloseRow(Context ctx,String jsonStr){
 		String result ="";
+		
+		
+		String msgId = "";
+		String busCode ="";
+		String reqTime ="";
+		Gson gson = new Gson();
+		BaseResponseDTO respondDTO = new BaseResponseDTO();
+		PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
+		
 		if(jsonStr != null && !"".equals(jsonStr)){
 		    System.out.println("************************json SaleOrderSupport  doCloseRow  begin****************************");
 		    System.out.println("#####################jsonStr################=" + jsonStr);
 		    System.out.println("************************json SaleOrderSupport  doCloseRow  end****************************");
 			DateBaseProcessType processType = DateBaseProcessType.AddNew;
 			DateBasetype baseType = DateBasetype.GZB_LZ_SO_CR;
-			String msgId = "";
-			String busCode ="";
-			String reqTime ="";
+	 
 			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
 			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
 			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
 			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-			Gson gson = new Gson();
+		
 			JsonElement modelJE = returnData.get("data"); // 请求参数data
 			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
 					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
@@ -409,12 +418,10 @@ public class SaleOrderSupport {
 						          String[] reasons = (String[])reasonLists.toArray(new String[reasonLists.size()]);
 						          ibize.handClose(pks, reasons);
 						        }
-						        result ="success";
+						        	purPlatMenu = PurPlatSyncEnum.SUCCESS;
 						      }
-						      else
-						      {
-						    	  result ="单据未找到";
-						      }
+						      else 
+						    	  purPlatMenu = PurPlatSyncEnum.NOTEXISTS_BILL;
 					} catch (EASBizException e) {
  						e.printStackTrace();
 					} catch (BOSException e) {
@@ -422,12 +429,18 @@ public class SaleOrderSupport {
 					} catch (SQLException e) {
  						e.printStackTrace();
 					}
-			              
-				}
-			}
-		}
-		return result ;
-	}
+				}else 
+					purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+			}else 
+				purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+		}else 
+			purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+			
+			respondDTO.setCode(purPlatMenu.getValue());
+			respondDTO.setMsgId(msgId);
+			respondDTO.setMsg(purPlatMenu.getAlias());
+			return gson.toJson(respondDTO) ;
+ 	}
 	
 	
 }

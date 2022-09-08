@@ -50,6 +50,12 @@
             <userDefined>true</userDefined>
             <value>-6</value>
         </enumValue>
+        <enumValue>
+            <name>BUSCODE_EXCEPTION</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[BUSCODE_EXCEPTION].alias</alias>
+            <userDefined>true</userDefined>
+            <value>-7</value>
+        </enumValue>
     </enumValues>
     <resource>
         <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].alias">
@@ -63,6 +69,12 @@
             <lang locale="zh_CN" value="采购平台同步枚举" />
             <lang locale="zh_HK" value="採購平臺同步枚舉" />
             <lang locale="zh_TW" value="採購平臺同步枚舉" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[BUSCODE_EXCEPTION].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="业务类型异常" />
+            <lang locale="zh_HK" value="業務類型異常" />
+            <lang locale="zh_TW" value="業務類型異常" />
         </rs>
         <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[EXCEPTION_NET].alias">
             <lang locale="en_US" value="null" />

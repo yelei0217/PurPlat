@@ -48,6 +48,7 @@ import com.kingdee.eas.custom.app.PurPlatSyncEnum;
 import com.kingdee.eas.custom.app.dto.PurInDetailDTO;
 import com.kingdee.eas.custom.app.dto.SaleIssDTO;
 import com.kingdee.eas.custom.app.dto.SaleIssDetailDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseResponseDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 import com.kingdee.eas.custom.app.unit.AppUnit;
@@ -258,20 +259,24 @@ public class SaleIssueSupport {
  	 
 	public static String doRollBackBill(Context ctx,String jsonStr){
  		String result = null;
+		String msgId = "";
+		String busCode ="";
+		String reqTime ="";
+		BaseResponseDTO respondDTO = new BaseResponseDTO();
+		PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
+		Gson gson = new Gson();
+ 		
 		if(jsonStr != null && !"".equals(jsonStr)){
 		    System.out.println("************************json begin****************************");
 		    System.out.println("#####################jsonStr################=" + jsonStr);
 			DateBaseProcessType processType = DateBaseProcessType.AddNew;
 			DateBasetype baseType = DateBasetype.GZB_LZ_SS;
-			String msgId = "";
-			String busCode ="";
-			String reqTime ="";
+	 
 			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
 			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
 			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
 			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-			Gson gson = new Gson();
-			JsonElement modelJE = returnData.get("data"); // 请求参数data
+ 			JsonElement modelJE = returnData.get("data"); // 请求参数data
 			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
 					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
 					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
@@ -331,31 +336,35 @@ public class SaleIssueSupport {
 										 info.getEntries().clear();
 										 info.getEntries().addObjectCollection(tempEntryColl);
 										 sourceColl.add(info);
- 							 			 List<IObjectPK> pks = AppUnit.botpSave(ctx, "CC3E933B", sourceColl, "ufgs6nQJRo29KGbQb3EbdgRRIsQ=");
-										 sourceColl.clear();
-										 //result = "success";
-										 result = PurPlatSyncEnum.SUCCESS.getAlias();
-									 }else
-										result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
+ 									 }else
+ 									 purPlatMenu = PurPlatSyncEnum.NOTEXISTS_BILL;
 								}
+								if(sourceColl !=null && sourceColl.size() > 0){
+						 			 List<IObjectPK> pks = AppUnit.botpSave(ctx, "CC3E933B", sourceColl, "ufgs6nQJRo29KGbQb3EbdgRRIsQ=");
+									 sourceColl.clear();
+									 purPlatMenu = PurPlatSyncEnum.SUCCESS;
+								}else
+									 purPlatMenu = PurPlatSyncEnum.NOTEXISTS_BILL;
+								
 							 }else
-									result = PurPlatSyncEnum.EXCEPTION_SERVER.getAlias();
+								 purPlatMenu = PurPlatSyncEnum.EXCEPTION_SERVER;
 						} catch (BOSException e) {
  							e.printStackTrace();
- 							result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
+  							purPlatMenu = PurPlatSyncEnum.NOTEXISTS_BILL;
 						}
 					}else
-						result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
+						purPlatMenu = PurPlatSyncEnum.NOTEXISTS_BILL;
 				}else
-					result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+					purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
 			}else
-				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
-		}	
+				purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+		}else
+			purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
 		
-		if(result != null && !"".equals(result)){
-			
-		}
-		return result;
+		respondDTO.setCode(purPlatMenu.getValue());
+		respondDTO.setMsgId(msgId);
+		respondDTO.setMsg(purPlatMenu.getAlias());
+		return gson.toJson(respondDTO);
 		
 	}
 	

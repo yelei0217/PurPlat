@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
@@ -43,6 +44,7 @@ import com.kingdee.eas.custom.app.DateBasetype;
 import com.kingdee.eas.custom.app.PurPlatSyncEnum;
 import com.kingdee.eas.custom.app.dto.PurInDTO;
 import com.kingdee.eas.custom.app.dto.PurInDetailDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseResponseDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 import com.kingdee.eas.custom.app.unit.AppUnit;
@@ -61,20 +63,24 @@ public class PurInCGWSupport {
 	
 	public static String syncBill(Context ctx,String jsonStr){
 		String result = null;
+		String msgId = "";
+		String busCode ="";
+		String reqTime ="";
+		BaseResponseDTO respondDTO = new BaseResponseDTO();
+		PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
+		Gson gson = new Gson();
+		
 		if(jsonStr != null && !"".equals(jsonStr)){
 		    System.out.println("************************json begin****************************");
 		    System.out.println("#####################jsonStr################=" + jsonStr);
 			DateBaseProcessType processType = DateBaseProcessType.AddNew;
 			DateBasetype baseType = DateBasetype.ZZ_YC_MZ_PI_C;
-			String msgId = "";
-			String busCode ="";
-			String reqTime ="";
+
 			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
 			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
 			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
 			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-			Gson gson = new Gson();
-			JsonElement modelJE = returnData.get("data"); // 请求参数data
+ 			JsonElement modelJE = returnData.get("data"); // 请求参数data
 			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
 					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
 					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
@@ -84,22 +90,39 @@ public class PurInCGWSupport {
   				//baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
 				// 记录日志
 				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
-				PurInDTO m = gson.fromJson(modelJE, PurInDTO.class);
-				// 判断msgId 是否存在SaleOrderDTO
-				if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-					result = judgeModel(ctx,m,busCode);
-					if("".equals(result))
-					{
-						doSaveBill(ctx,m,busCode);
-						result = PurPlatSyncEnum.SUCCESS.getAlias();
-					}
+				PurInDTO m =null;
+				try {
+					m = gson.fromJson(modelJE, PurInDTO.class);
+				} catch (JsonSyntaxException e) {
+					purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+ 					e.printStackTrace();
+				}
+				if(m !=null){
+					// 判断msgId 是否存在SaleOrderDTO
+					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+						result = judgeModel(ctx,m,busCode);
+						if("".equals(result))
+						{
+							doSaveBill(ctx,m,busCode);
+ 							purPlatMenu = PurPlatSyncEnum.SUCCESS;	
+						}else
+							purPlatMenu = PurPlatSyncEnum.EXCEPTION_SERVER;	
+					}else
+						purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
 				}else
-					result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
+					purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
 			}else
-				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
+				purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
 		}else
-			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
-		return result;
+			purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+		
+		respondDTO.setCode(purPlatMenu.getValue());
+		respondDTO.setMsgId(msgId);
+		if(purPlatMenu==PurPlatSyncEnum.EXCEPTION_SERVER)
+			respondDTO.setMsg(result);
+		else
+			respondDTO.setMsg(purPlatMenu.getAlias());
+		return gson.toJson(respondDTO);
 	}
 	
 	private static void doSaveBill(Context ctx,PurInDTO m,String busCode){

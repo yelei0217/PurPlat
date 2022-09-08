@@ -1309,7 +1309,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					while(rsData.next()){    
 						
 						String fid = rsData.getString("FID");
-						String name = rsData.getString("FNAME");
+						String name = rsData.getObject("FNAME")==null?"":rsData.getString("FNAME"); 
 						String status = rsData.getString("FSTATUS");
 						 
 						String orgid = rsData.getString("FORGID");
@@ -1402,7 +1402,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				try {
 					while(rs.next()){	
 						 String fid = rs.getString("FID");
-						 String name = rs.getString("FNAME");
+						 String name = rs.getObject("FNAME")==null?"":rs.getString("FNAME");   
 						 String status = rs.getString("FSTATUS");
 						 
 						 if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
@@ -1483,7 +1483,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				try {
 					while(rs.next()){	
 						 String fid = rs.getString("FID");
-						 String name = rs.getString("FNAME");
+						 String name = rs.getObject("FNAME")==null?"":rs.getString("FNAME");    
 						 String status = rs.getString("FISOUSEALUP");
 						 
 						 if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
@@ -1580,7 +1580,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				try {
 					while(rs.next()){	
 						 String fid = rs.getString("FID");
-						 String name = rs.getString("FNAME"); 
+						 String name = rs.getObject("FNAME")==null?"":rs.getString("FNAME");  
 						 
 						 if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
 							 String sqlInsert = insertMidTableAll(ctx,  "EAS_Person_MIDTABLE", rs ,"fSign_0");
@@ -1639,7 +1639,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			} 
 			
  
-			String sql  = " /*dialect*/ SELECT supp.fid  fid , supp.fnumber fnumber ,supp.fname_l2 Fname ,  gro.fname_l2 FCLASSNAME ,'' FOpenBank ,  '' FBankAccount, "+
+			String sql  = " /*dialect*/ SELECT supp.fid  fid , supp.fnumber fnumber ,nvl(supp.fname_l2,'') Fname ,  gro.fname_l2 FCLASSNAME ,'' FOpenBank ,  '' FBankAccount, "+
 			 "  supp.FCREATORID  Fcreator , to_char( supp.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' )   FcreateTime , to_char( supp.FLASTUPDATETIME ,'yyyy-mm-dd hh24:mi:ss' )  FupdateTime,  supp.FIsInternalCompany  FISGroup , "+
 			 "  admin.FNUMBER  ForgNumber ,admin.FName_l2 ForgName , (case when supp.FUsedStatus = 1 then 0 else  1 end ) FStatus ,admin.Fid Forgtid, (case when supp.FUsedStatus = 1 then 1 else  2 end )  FupdateType ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime "+
 			 "   FROM  T_BD_Supplier  supp    "+
@@ -1651,7 +1651,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				try {
 					while(rs.next()){	
 						 String fid = rs.getString("FID");
-						 String name = rs.getString("FNAME");
+						 String name = rs.getObject("FNAME")==null?"":rs.getString("FNAME");
 						 String status = rs.getString("FSTATUS");
 						 
 						 if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
@@ -1661,7 +1661,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 							 String midName = namemap.get(fid);
 							 String midStatus= statusmap.get(fid);
 							 boolean flag = false;
-							 String sqlUpdate = " update EAS_Supplier_MIDTABLE set ";
+							 String sqlUpdate = " update EAS_Supplier_MIDTABLE set "; 
 							 if(!name.equals(midName)){
 								 sqlUpdate = sqlUpdate+" FNAME = '"+name+"',";
 								 flag = true;

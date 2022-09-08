@@ -41,11 +41,11 @@ public class PurPlatSyncdbLogListUI extends AbstractPurPlatSyncdbLogListUI
      	ISyncDataEASFacade  is = SyncDataEASFacadeFactory.getRemoteInstance();
     	//is.doCustomerMid();
      	//is.doOrgMid();
-     	//is.doSuppMid();
+     	is.doSuppMid();
      	//is.doCangkuMid();
      	//is.doPersonMid();
      	
-     	is.DoErrorJon("");
+     	//is.DoErrorJon("");
     }
     
     /**

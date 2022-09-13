@@ -227,6 +227,32 @@
             <userDefinedLogic />
             <configured>false</configured>
         </method>
+        <method>
+            <name>getWareclinicRales</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[getWareclinicRales].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[getWareclinicRales].description</description>
+            <innerID>579fc9c8-43bd-44e4-820a-087994c33156</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType>String</returnValueType>
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>jsonStr</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[getWareclinicRales].parameters.parameter[jsonStr].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[getWareclinicRales].parameters.parameter[jsonStr].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
     </methods>
     <resource>
         <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].alias">
@@ -353,6 +379,29 @@
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="null" />
             <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[getWareclinicRales].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="获取仓库与门诊映射关系" />
+            <lang locale="zh_HK" value="獲取倉庫與門診映射關係" />
+            <lang locale="zh_TW" value="獲取倉庫與門診映射關係" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[getWareclinicRales].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="获取仓库与门诊映射关系" />
+            <lang locale="zh_HK" value="獲取倉庫與門診映射關係" />
+            <lang locale="zh_TW" value="獲取倉庫與門診映射關係" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[getWareclinicRales].parameters.parameter[jsonStr].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="查询参数" />
+            <lang locale="zh_HK" value="查詢參數" />
+            <lang locale="zh_TW" value="查詢參數" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[getWareclinicRales].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
             <lang locale="zh_TW" value="null" />
         </rs>
         <rs key="facade[com.kingdee.eas.custom.app.SyncDataEASFacade].methods.method[materialSyncFun].alias">

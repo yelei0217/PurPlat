@@ -104,9 +104,29 @@ public class WSSyncBill2EASFacadeSrvProxy {
         }
     }
 
+    public String rollBackSaleIssBill( String jsonStr ) throws WSInvokeException {
+        try {
+            return getController().rollBackSaleIssBill(
+            jsonStr);
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
     public String savePurInWare( String jsonStr ) throws WSInvokeException {
         try {
             return getController().savePurInWare(
+            jsonStr);
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public String rollBackPurchInBill( String jsonStr ) throws WSInvokeException {
+        try {
+            return getController().rollBackPurchInBill(
             jsonStr);
         }
         catch( Throwable e ) {

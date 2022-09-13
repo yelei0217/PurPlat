@@ -217,4 +217,26 @@ public abstract class AbstractSyncDataEASFacadeControllerBean extends AbstractBi
         return;
     }
 
+    public String getWareclinicRales(Context ctx, String jsonStr) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("579fc9c8-43bd-44e4-820a-087994c33156"), new Object[]{ctx, jsonStr});
+            invokeServiceBefore(svcCtx);
+            if(!svcCtx.invokeBreak()) {
+            String retValue = (String)_getWareclinicRales(ctx, jsonStr);
+            svcCtx.setMethodReturnValue(retValue);
+            }
+            invokeServiceAfter(svcCtx);
+            return (String)svcCtx.getMethodReturnValue();
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected String _getWareclinicRales(Context ctx, String jsonStr) throws BOSException
+    {    	
+        return null;
+    }
+
 }

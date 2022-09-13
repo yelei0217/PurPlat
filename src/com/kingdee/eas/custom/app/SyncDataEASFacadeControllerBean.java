@@ -14,12 +14,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
@@ -33,12 +39,15 @@ import com.kingdee.eas.custom.EAISynTemplate;
 import com.kingdee.eas.custom.PurPlatSyncdbLogCollection;
 import com.kingdee.eas.custom.PurPlatSyncdbLogFactory;
 import com.kingdee.eas.custom.PurPlatSyncdbLogInfo;
+import com.kingdee.eas.custom.app.dto.SOrgDTO;
+import com.kingdee.eas.custom.app.dto.SaleOrderDTO;
+import com.kingdee.eas.custom.app.dto.WareDTO;
+import com.kingdee.eas.custom.app.dto.base.BaseResponseDTO;
 import com.kingdee.eas.custom.app.unit.MaterialUntil;
 import com.kingdee.jdbc.rowset.IRowSet;
 import com.kingdee.jdbc.rowset.IRowSetMetaData;
 
 public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeControllerBean{
-	
 	
     private static Logger logger =
         Logger.getLogger("com.kingdee.eas.custom.app.SyncDataEASFacadeControllerBean");
@@ -455,7 +464,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     				if(retsSup.size() == 0 ){//没有 
     					
     				}else{
-    					String selectDelete = " delete    EAS_Warehouse_Cent where fid='"+fid+"' ";
+    					String selectDelete = " delete  EAS_Warehouse_Cent where fid='"+fid+"' ";
     					EAISynTemplate.execute(ctx, dataBase, selectDelete);
     				}  
     				if(rs!=null && rs.size() > 0){
@@ -1720,7 +1729,117 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				e.printStackTrace();
 			}
 		}
-    
+
 		
+		/**
+		 * 
+		 * 获取仓库与门诊映射关系
+		 * 
+		 */
+		@Override
+		protected String _getWareclinicRales(Context ctx,String jsonStr ) throws BOSException {
+			String result = null;
+			Gson gson = new Gson();
+			BaseResponseDTO respondDTO = new BaseResponseDTO();
+			PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
+			String msgId = "";
+			String busCode ="";
+			String reqTime ="";
+			if(jsonStr !=null && !"".equals(jsonStr)){
+				System.out.println("************************json begin****************************");
+				System.out.println("#####################jsonStr################=" + jsonStr);
+				DateBaseProcessType processType = DateBaseProcessType.AddNew;
+				DateBasetype baseType = DateBasetype.WareClinicRale_S;
+				
+				JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
+				JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+				JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+				JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+				
+				if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+						busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+						reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+					
+					msgId = msgIdJE.getAsString();
+					if(busCodeJE.getAsString().equals(baseType.getName())){
+						String sql ="select c.FID WID, c.FNUMBER WNO ,c.FNAME_L2 WNA ,b.CFDATASTATE WST ,d.FID SID,d.FNUMBER SNO ,d.FNAME_L2 SNA,a.CFDATASTATE SST "+
+						" from CT_CUS_WareCREDE a "+
+						" inner join CT_CUS_WareClinicRaleEntry b on a.FPARENTID = b.FID "+
+						" inner join T_DB_WAREHOUSE c on b.CFWAREHOUSEID =  c.FID "+
+						" inner join T_ORG_STORAGE d on a.CFCLINICID = d.FID "+
+						" where c.FSTORAGEORGID = 'jbYAAAMU2SvM567U'" ;
+						IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);  
+						if(rs!=null && rs.size() > 0){
+							try {
+			 					List<SOrgDTO> list= new ArrayList<SOrgDTO>();
+			 					 Map<String,WareDTO> mpwd = new HashMap<String,WareDTO>();
+								while(rs.next()){	
+									
+									WareDTO wd = new WareDTO();
+									wd.setWid(rs.getString("WID"));
+									wd.setWno(rs.getString("WNO"));
+									wd.setWna(rs.getString("WNA"));
+									wd.setWst(Integer.parseInt(rs.getString("WST")));
+									mpwd.put(rs.getString("WID"), wd);
+									
+									SOrgDTO dto = new SOrgDTO();
+									dto.setWid(rs.getString("WID"));
+									dto.setSid(rs.getString("SID"));
+									dto.setSna(rs.getString("SNA"));
+									dto.setSno(rs.getString("SNO"));
+									dto.setSst(Integer.parseInt(rs.getString("SST")));
+									list.add(dto);
+			 					}
+								if(list !=null && list.size() >0 && mpwd !=null && mpwd.size() > 0){
+									Map<String, List<SOrgDTO>>  mp = groupingArrayList(list);
+									//result = gson.toJson(mp);
+									List<WareDTO> returnLs = new ArrayList<WareDTO>();
+									Set wids = mp.keySet();
+									for(Object oid:wids){
+										 WareDTO d = mpwd.get(oid);
+										 List<SOrgDTO> ls = mp.get(oid);
+										 d.setClinics(ls);
+										 returnLs.add(d);
+									}
+									respondDTO.setMsg(returnLs);
+									purPlatMenu = PurPlatSyncEnum.SUCCESS;
+								}
+							} catch (SQLException e) {
+			 					e.printStackTrace();
+			 					purPlatMenu=PurPlatSyncEnum.EXCEPTION_SERVER;
+							}
+						}
+						
+					}else
+						purPlatMenu = PurPlatSyncEnum.BUSCODE_EXCEPTION;
+				}else
+					purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+				
+			}else
+				purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+			
+			respondDTO.setCode(purPlatMenu.getValue());
+			respondDTO.setMsgId(msgId);
+			if(purPlatMenu!=PurPlatSyncEnum.SUCCESS)
+				respondDTO.setMsg(purPlatMenu.getAlias());
+			
+			return gson.toJson(respondDTO); 
+		}
+    
+		 //第一种分组的方法
+	    private static Map<String, List<SOrgDTO>> groupingArrayList(List<SOrgDTO> list){
+	        Map<String, List<SOrgDTO>> map = new HashMap<String,List<SOrgDTO>>();
+	        //分组
+	        for (SOrgDTO l:list){
+	            if (map.containsKey(l.getWid())) {  //判断是否存在该key
+	                map.get(l.getWid()).add(l);   //存在就获取该key的value然后add
+	            } else {
+	                List<SOrgDTO> lt = new ArrayList<SOrgDTO>();
+	                lt.add(l);
+	                map.put(l.getWid(), lt);  //不存在就put
+	            }
+	        }
+	        return map;
+	    }
     
 }

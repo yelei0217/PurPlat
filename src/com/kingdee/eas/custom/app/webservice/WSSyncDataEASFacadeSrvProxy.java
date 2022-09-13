@@ -39,6 +39,56 @@ public class WSSyncDataEASFacadeSrvProxy {
         }
     }
 
+    public void doCustomerMid() throws WSInvokeException {
+        try {
+            getController().doCustomerMid(
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void doCangkuMid() throws WSInvokeException {
+        try {
+            getController().doCangkuMid(
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void doSuppMid() throws WSInvokeException {
+        try {
+            getController().doSuppMid(
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void doOrgMid() throws WSInvokeException {
+        try {
+            getController().doOrgMid(
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public void doPersonMid() throws WSInvokeException {
+        try {
+            getController().doPersonMid(
+            );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
     public void DoErrorJon( String data ) throws WSInvokeException {
         try {
             getController().DoErrorJon(
@@ -65,6 +115,16 @@ public class WSSyncDataEASFacadeSrvProxy {
             getController().DoMaterialJson(
             data
             );
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
+    public String getWareclinicRales( String jsonStr ) throws WSInvokeException {
+        try {
+            return getController().getWareclinicRales(
+            jsonStr);
         }
         catch( Throwable e ) {
             throw new WSInvokeException( e ) ;

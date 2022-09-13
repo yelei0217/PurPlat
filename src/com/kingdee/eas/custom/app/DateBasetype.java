@@ -134,6 +134,7 @@ public class DateBasetype extends StringEnum
     public static final String YX_CK_MZ_AP_VALUE = "145";//alias=隐形矫正对账-门诊-应付单
     public static final String YX_CK_MZ_CJ_VALUE = "146";//alias=隐形矫正对账-门诊-成本调整单
     public static final String YX_CK_MZ_P_VALUE = "147";//alias=隐形矫正对账-门诊-付款单
+    public static final String WARECLINICRALE_S_VALUE = "39";//alias=仓库门诊对应关系查询
 
     public static final DateBasetype orgUnit = new DateBasetype("orgUnit", ORGUNIT_VALUE);
     public static final DateBasetype position = new DateBasetype("position", POSITION_VALUE);
@@ -256,6 +257,7 @@ public class DateBasetype extends StringEnum
     public static final DateBasetype YX_CK_MZ_AP = new DateBasetype("YX_CK_MZ_AP", YX_CK_MZ_AP_VALUE);
     public static final DateBasetype YX_CK_MZ_CJ = new DateBasetype("YX_CK_MZ_CJ", YX_CK_MZ_CJ_VALUE);
     public static final DateBasetype YX_CK_MZ_P = new DateBasetype("YX_CK_MZ_P", YX_CK_MZ_P_VALUE);
+    public static final DateBasetype WareClinicRale_S = new DateBasetype("WareClinicRale_S", WARECLINICRALE_S_VALUE);
 
     /**
      * construct function

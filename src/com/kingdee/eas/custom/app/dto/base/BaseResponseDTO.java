@@ -11,7 +11,7 @@ public class BaseResponseDTO implements Serializable{
 
 	private String msgId;
 	private String code;
-	private String msg ;
+	private Object msg ;
 	
 	public String getMsgId() {
 		return msgId;
@@ -25,10 +25,10 @@ public class BaseResponseDTO implements Serializable{
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public String getMsg() {
+	public Object getMsg() {
 		return msg;
 	}
-	public void setMsg(String msg) {
+	public void setMsg(Object msg) {
 		this.msg = msg;
 	}
 	

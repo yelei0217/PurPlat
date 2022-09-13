@@ -137,12 +137,15 @@ public class PurPlatSyncBusLogListUI extends AbstractPurPlatSyncBusLogListUI
     	//String result = SyncBill2EASFacadeFactory.getRemoteInstance().rollBackPurchInBill(jsonStr);
      	//System.out.println("savePurInWare"+result);
     	
+//    	String jsonStr = "{\"msgId\":\"202209121610002\",\"busCode\":\"ZZ_YC_MZ_PI_C\",\"reqTime\":\"202209121610002\",\"data\":{\"id\":\"202209121610002\",\"fnumber\":\"202209121610002\",\"fbizdate\":\"2022-09-12\",\"fstorageorgunitid\":\"kO6+E1zaSbKzTzLMtI+csMznrtQ=\",\"fpurchasepersonid\":\"Lt2bG2FWRzy0+1V/cUTJFIDvfe0=\",\"fsupplierid\":\"ZrYAxLT6RbCTmHETKr1WijfGffw=\",\"fadminorgunitid\":\"jbYAAAWC4L/M567U\",\"ftotalamount\":172.41,\"ftotaltax\":27.59,\"ftotalqty\":2,\"ftotaltaxamount\":200,\"fcreatorid\":\"\",\"fstockerid\":\"\",\"fdoctor\":\"YVqJZ6h0SfqyzXpy4GNGHoDvfe0=\",\"details\":[{\"id\":\"202209121610002-1\",\"fwarehouseid\":\"jbYAAAAGX9G76fiu\",\"fseq\":\"1\",\"fmaterialid\":\"YblhcM4pQOutUg5b4WEyC0QJ5/A=\",\"funitid\":\"G03\",\"fassociateqty\":\"2\",\"fbaseunitid\":\"G03\",\"fremark\":\"ccss\",\"fispresent\":\"0\",\"fqty\":2,\"fprice\":86.206897,\"factualprice\":86.206897,\"ftaxrate\":16,\"ftaxprice\":100,\"factualtaxprice\":100,\"famount\":172.41,\"ftax\":27.59,\"ftaxamount\":200,\"flot\":\"54541-YblhcM4pQOutUg5b4WEyC0QJ5-202209072028001\",\"fmfg\":\"2022-09-12\",\"fexp\":\"2022-09-12\",\"fpatientid\":\"54541\",\"fpatientname\":\"张三\",\"fbaseqty\":2}]}}";
+//    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().savePurInCGW(jsonStr);
+//     	System.out.println("savePurInWare"+result);
     	
-    	String jsonStr = "{\"msgId\":\"202209121610002\",\"busCode\":\"ZZ_YC_MZ_PI_C\",\"reqTime\":\"202209121610002\",\"data\":{\"id\":\"202209121610002\",\"fnumber\":\"202209121610002\",\"fbizdate\":\"2022-09-12\",\"fstorageorgunitid\":\"kO6+E1zaSbKzTzLMtI+csMznrtQ=\",\"fpurchasepersonid\":\"Lt2bG2FWRzy0+1V/cUTJFIDvfe0=\",\"fsupplierid\":\"ZrYAxLT6RbCTmHETKr1WijfGffw=\",\"fadminorgunitid\":\"jbYAAAWC4L/M567U\",\"ftotalamount\":172.41,\"ftotaltax\":27.59,\"ftotalqty\":2,\"ftotaltaxamount\":200,\"fcreatorid\":\"\",\"fstockerid\":\"\",\"fdoctor\":\"YVqJZ6h0SfqyzXpy4GNGHoDvfe0=\",\"details\":[{\"id\":\"202209121610002-1\",\"fwarehouseid\":\"jbYAAAAGX9G76fiu\",\"fseq\":\"1\",\"fmaterialid\":\"YblhcM4pQOutUg5b4WEyC0QJ5/A=\",\"funitid\":\"G03\",\"fassociateqty\":\"2\",\"fbaseunitid\":\"G03\",\"fremark\":\"ccss\",\"fispresent\":\"0\",\"fqty\":2,\"fprice\":86.206897,\"factualprice\":86.206897,\"ftaxrate\":16,\"ftaxprice\":100,\"factualtaxprice\":100,\"famount\":172.41,\"ftax\":27.59,\"ftaxamount\":200,\"flot\":\"54541-YblhcM4pQOutUg5b4WEyC0QJ5-202209072028001\",\"fmfg\":\"2022-09-12\",\"fexp\":\"2022-09-12\",\"fpatientid\":\"54541\",\"fpatientname\":\"张三\",\"fbaseqty\":2}]}}";
-    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().savePurInCGW(jsonStr);
-     	System.out.println("savePurInWare"+result);
     	
     	
+    	String jsonStr = "{\"msgId\":\"202209121610002\",\"busCode\":\"WareClinicRale_S\",\"reqTime\":\"202209121610002\"}";
+    	String result = SyncDataEASFacadeFactory.getRemoteInstance().getWareclinicRales(jsonStr);
+     	System.out.println("getWareclinicRales"+result);
     }
 
     /**

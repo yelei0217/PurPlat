@@ -23,4 +23,5 @@ public interface ISyncDataEASFacade extends IBizCtrl
     public void doSuppMid() throws BOSException;
     public void doPersonMid() throws BOSException;
     public void doCangkuMid() throws BOSException;
+    public String getWareclinicRales(String jsonStr) throws BOSException;
 }

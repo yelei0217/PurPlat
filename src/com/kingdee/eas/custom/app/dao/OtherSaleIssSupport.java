@@ -96,22 +96,29 @@ public class OtherSaleIssSupport {
 
 		    //业务类型
 		    BizTypeInfo bizTypeInfo = new BizTypeInfo();
-		    bizTypeInfo.setId(BOSUuid.read("Nz878AEgEADgAABIwKg/GiQHQ1w="));
+		    bizTypeInfo.setId(BOSUuid.read("Nz878AEgEADgAABMwKg/GiQHQ1w="));
 		    info.setBizType(bizTypeInfo);
 		    //事务类型
 		    TransactionTypeInfo transactiontypeinfo = new TransactionTypeInfo();
-		    bizTypeInfo.setId(BOSUuid.read("DawAAAAPoCGwCNyn"));
+		    transactiontypeinfo.setId(BOSUuid.read("DawAAAAPoCGwCNyn"));
 		    info.setTransactionType(transactiontypeinfo);  
-			ObjectUuidPK suppPK = new ObjectUuidPK(m.getFsupplierid());
-			SupplierInfo supplierInfo=SupplierFactory.getLocalInstance(ctx).getSupplierInfo(suppPK);
-
+		    
+		    CustomerInfo customerInfo = null ;
+		    if(m.getFcustomerid()!=null && !"".equals(m.getFcustomerid())){
+		    	ObjectUuidPK cusPK = new ObjectUuidPK(m.getFcustomerid());
+				customerInfo =CustomerFactory.getLocalInstance(ctx).getCustomerInfo(cusPK); 
+		    }
+		
+			
 			 for (BaseSCMDetailDTO entry : m.getDetails())
 			 {
 				OtherIssueBillEntryInfo entryInfo = createEntryInfo(ctx,entry,busCode);
 			 	entryInfo.setBizDate(info.getBizDate());
 				entryInfo.setStorageOrgUnit(storageorginfo);
 				entryInfo.setCompanyOrgUnit(xmcompany);
-				entryInfo.setSupplier(supplierInfo);
+				if(customerInfo!=null)
+				entryInfo.setCustomer(customerInfo);
+
 			    info.getEntries().addObject(entryInfo);
 			 }
 			
@@ -127,7 +134,7 @@ public class OtherSaleIssSupport {
 	
 	
 	private static OtherIssueBillEntryInfo createEntryInfo(Context ctx,BaseSCMDetailDTO dvo,String busCode){
-		OtherIssueBillEntryInfo  entryInfo = null;
+		OtherIssueBillEntryInfo  entryInfo = new OtherIssueBillEntryInfo();
 		 BigDecimal price = dvo.getFprice();
 		 BigDecimal amount = dvo.getFamount();
 		 BigDecimal qty = dvo.getFqty(); 
@@ -147,7 +154,7 @@ public class OtherSaleIssSupport {
 						updateTypeInfo.setId(BOSUuid.read("8r0AAAAEaOjC73rf"));
 					}
 					 entryInfo.setIsPresent(ispresent);
-					
+					 
 					 entryInfo.setInvUpdateType(updateTypeInfo); 
 					 entryInfo.setPrice(price);
 					 entryInfo.setAmount(amount);

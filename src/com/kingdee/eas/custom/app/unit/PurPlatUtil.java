@@ -204,7 +204,7 @@ public class PurPlatUtil {
     		 tableName =" T_IM_OtherInWarehsBill ";
 	     
 		     }else if("SK_MZ_OSS".equals(busCode)){
-		    	 tableName =" T_IM_OtherInWarehsBill ";
+		    	 tableName =" T_IM_OtherIssueBill ";
 		     }
 	    	 
 	        try {

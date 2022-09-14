@@ -14,6 +14,8 @@ import com.kingdee.eas.basedata.assistant.MeasureUnitInfo;
 import com.kingdee.eas.basedata.master.cssp.CustomerFactory;
 import com.kingdee.eas.basedata.master.cssp.CustomerInfo;
 import com.kingdee.eas.basedata.master.cssp.ICustomer;
+import com.kingdee.eas.basedata.master.cssp.SupplierFactory;
+import com.kingdee.eas.basedata.master.cssp.SupplierInfo;
 import com.kingdee.eas.basedata.master.material.IMaterial;
 import com.kingdee.eas.basedata.master.material.MaterialFactory;
 import com.kingdee.eas.basedata.master.material.MaterialInfo;
@@ -100,15 +102,18 @@ public class OtherPurInSupport {
 
 			//业务类型
 			BizTypeInfo bizTypeInfo = new BizTypeInfo();
-			bizTypeInfo.setId(BOSUuid.read("N5d2igEgEADgAABzwKg/GiQHQ1w="));
+			bizTypeInfo.setId(BOSUuid.read("N5d2igEgEADgAABywKg/GiQHQ1w="));
 			info.setBizType(bizTypeInfo);
 			    
 			//事务类型
 			TransactionTypeInfo transactiontypeinfo = new TransactionTypeInfo();
-			bizTypeInfo.setId(BOSUuid.read("DawAAAAPoCWwCNyn"));
+			transactiontypeinfo.setId(BOSUuid.read("DawAAAAPoCWwCNyn"));
 			info.setTransactionType(transactiontypeinfo);  
-			ObjectUuidPK cusPK = new ObjectUuidPK(m.getFcustomerid());
-			CustomerInfo customerInfo =CustomerFactory.getLocalInstance(ctx).getCustomerInfo(cusPK); 
+			SupplierInfo supplierInfo = null ;
+			if(m.getFsupplierid() != null && !"".equals(m.getFsupplierid())){
+				ObjectUuidPK suppPK = new ObjectUuidPK(m.getFsupplierid());
+				supplierInfo=SupplierFactory.getLocalInstance(ctx).getSupplierInfo(suppPK);
+			}
 			
 		    for (BaseSCMDetailDTO entry : m.getDetails())
 		    {
@@ -116,7 +121,8 @@ public class OtherPurInSupport {
 		 		entryInfo.setBizDate(info.getBizDate());
 				entryInfo.setStorageOrgUnit(storageorginfo);
 				entryInfo.setCompanyOrgUnit(xmcompany);
-				entryInfo.setCustomer(customerInfo);
+				if(supplierInfo != null )
+				entryInfo.setSupplier(supplierInfo);  
 		       info.getEntries().addObject(entryInfo);
 		    }
 			    

@@ -155,6 +155,10 @@ public class PurPlatSyncBusLogListUI extends AbstractPurPlatSyncBusLogListUI
 //    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().saveOtherSaleIss(jsonStr);
 //     	System.out.println("saveOtherSaleIss"+result);
     	
+    	String jsonStr = "{\"msgId\":\"202209121610002\",\"busCode\":\"Customer\",\"reqTime\":\"202209121610002\"}";
+    	String result = SyncDataEASFacadeFactory.getRemoteInstance().getCenterPurCustomer(jsonStr);
+     	System.out.println("getCenterPurCustomer"+result);
+    	
     }
 
     /**

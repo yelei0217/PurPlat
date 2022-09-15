@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -44,6 +45,8 @@ import com.kingdee.eas.custom.app.dto.SaleOrderDTO;
 import com.kingdee.eas.custom.app.dto.WareDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseResponseDTO;
 import com.kingdee.eas.custom.app.unit.MaterialUntil;
+import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
+import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.jdbc.rowset.IRowSet;
 import com.kingdee.jdbc.rowset.IRowSetMetaData;
 
@@ -1738,8 +1741,6 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 		 */
 		@Override
 		protected String _getWareclinicRales(Context ctx,String jsonStr ) throws BOSException {
-			String result = null;
-			Gson gson = new Gson();
 			BaseResponseDTO respondDTO = new BaseResponseDTO();
 			PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
 			String msgId = "";
@@ -1756,6 +1757,8 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
 				JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
 				
+				PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+
 				if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
 						busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
 						reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
@@ -1823,7 +1826,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			if(purPlatMenu!=PurPlatSyncEnum.SUCCESS)
 				respondDTO.setMsg(purPlatMenu.getAlias());
 			
-			return gson.toJson(respondDTO); 
+			return new GsonBuilder().disableHtmlEscaping().create().toJson(respondDTO); 
 		}
     
 		 //第一种分组的方法
@@ -1841,5 +1844,89 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 	        }
 	        return map;
 	    }
+
+	    /**
+	     * 查询集采客户
+	     */
+		@Override
+		protected String _getCenterPurCustomer(Context ctx, String jsonStr)
+				throws BOSException {
+			String result = null;
+			//Gson gson = new Gson();
+			BaseResponseDTO respondDTO = new BaseResponseDTO();
+			PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
+			String msgId = "";
+			String busCode ="";
+			String reqTime ="";
+			if(jsonStr !=null && !"".equals(jsonStr)){
+				System.out.println("************************json begin****************************");
+				System.out.println("#####################jsonStr################=" + jsonStr);
+				DateBaseProcessType processType = DateBaseProcessType.Search;
+				DateBasetype baseType = DateBasetype.Customer;
+				
+				JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
+				JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+				JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+				JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+				
+				PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+
+				if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+						busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+						reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+					
+					msgId = msgIdJE.getAsString();
+					if(busCodeJE.getAsString().equals(baseType.getName())){
+						String sql =" select a.FID cusid ,a.FNUMBER cusno ,a.FNAME_L2 cusna,b.FNUMBER cateno,b.FNAME_L2 catena, "+
+									" a.FISINTERNALCOMPANY as isinner, FInternalCompanyID eascompanyid from t_bd_customer a "+
+									" inner join T_BD_CSSPGroup b on a.FBROWSEGROUPID =b.FID "+
+									" where a.cfissend =1 and a.FUSEDSTATUS =1 "+
+									" and b.fid in ('4maBHK6PR3G0grhmW6XAbnolaaI=','vtDAX1FNQxW+LWlYA1QIWXolaaI=') ";
+						IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);  
+						if(rs!=null && rs.size() > 0){
+							try {
+			 					List list= new ArrayList();
+								while(rs.next()){	
+									HashMap<String,String> mp = new HashMap<String,String>();
+									mp.put("cusid", rs.getString("cusid"));
+									mp.put("cusno", rs.getString("cusno"));
+									mp.put("cusna", rs.getString("cusna"));
+									mp.put("cateno", rs.getString("cateno"));
+									mp.put("isinner", rs.getString("isinner"));
+									if(rs.getObject("eascompanyid") !=null && !"".equals(rs.getObject("eascompanyid").toString()))
+										mp.put("eascompanyid", rs.getObject("eascompanyid").toString());
+									else
+										mp.put("eascompanyid", "");
+
+									list.add(mp);
+			 					}
+								
+								if(list !=null && list.size() > 0){
+									respondDTO.setMsg(list);
+								}
+							 
+							} catch (SQLException e) {
+			 					e.printStackTrace();
+			 					purPlatMenu=PurPlatSyncEnum.EXCEPTION_SERVER;
+							}
+						}
+						
+					}else
+						purPlatMenu = PurPlatSyncEnum.BUSCODE_EXCEPTION;
+				}else
+					purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+				
+			}else
+				purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+			
+			respondDTO.setCode(purPlatMenu.getValue());
+			respondDTO.setMsgId(msgId);
+			if(purPlatMenu!=PurPlatSyncEnum.SUCCESS)
+				respondDTO.setMsg(purPlatMenu.getAlias());
+			
+			return new GsonBuilder().disableHtmlEscaping().create().toJson(respondDTO); 
+		}
     
+	    
+	    
 }

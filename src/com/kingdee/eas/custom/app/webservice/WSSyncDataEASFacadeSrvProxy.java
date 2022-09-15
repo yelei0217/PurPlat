@@ -121,6 +121,16 @@ public class WSSyncDataEASFacadeSrvProxy {
         }
     }
 
+    public String getCenterPurCustomer( String jsonStr ) throws WSInvokeException {
+        try {
+            return getController().getCenterPurCustomer(
+            jsonStr);
+        }
+        catch( Throwable e ) {
+            throw new WSInvokeException( e ) ;
+        }
+    }
+
     public String getWareclinicRales( String jsonStr ) throws WSInvokeException {
         try {
             return getController().getWareclinicRales(

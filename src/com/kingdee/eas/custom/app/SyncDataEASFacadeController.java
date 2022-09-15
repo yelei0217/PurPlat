@@ -27,4 +27,5 @@ public interface SyncDataEASFacadeController extends BizController
     public void doPersonMid(Context ctx) throws BOSException, RemoteException;
     public void doCangkuMid(Context ctx) throws BOSException, RemoteException;
     public String getWareclinicRales(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public String getCenterPurCustomer(Context ctx, String jsonStr) throws BOSException, RemoteException;
 }

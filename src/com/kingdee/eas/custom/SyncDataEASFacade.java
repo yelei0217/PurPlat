@@ -164,4 +164,18 @@ public class SyncDataEASFacade extends AbstractBizCtrl implements ISyncDataEASFa
             throw new EJBRemoteException(err);
         }
     }
+    /**
+     *获取集采客户信息-User defined method
+     *@param jsonStr 查询参数
+     *@return
+     */
+    public String getCenterPurCustomer(String jsonStr) throws BOSException
+    {
+        try {
+            return getController().getCenterPurCustomer(getContext(), jsonStr);
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
 }

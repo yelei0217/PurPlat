@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.apache.http.client.HttpClient;
 
-import com.kingdee.eas.custom.app.httpsunit.HTTPSClientUtil;
-import com.kingdee.eas.custom.app.httpsunit.HTTPSTrustClient;
+import com.kingdee.eas.custom.rest.HTTPSClientUtil;
+import com.kingdee.eas.custom.rest.HTTPSTrustClient;
  
 
 public class JiCaiDoApi {

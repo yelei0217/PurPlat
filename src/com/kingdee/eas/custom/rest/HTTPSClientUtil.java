@@ -1,4 +1,4 @@
-package com.kingdee.eas.custom.app.httpsunit;
+package com.kingdee.eas.custom.rest;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class HTTPSClientUtil {
         String result = null;
         HttpPost httpPost = new HttpPost(url);
         httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json"); 
-        httpPost.addHeader("Authorization", SAPInterfaceUtil.getBasicAuth()); 
+        //httpPost.addHeader("Authorization", SAPInterfaceUtil.getBasicAuth()); 
     	StringEntity entity = new StringEntity(strJson,DEFAULT_CHARSET);
         httpPost.setEntity(entity);
         HttpResponse response = httpClient.execute(httpPost);

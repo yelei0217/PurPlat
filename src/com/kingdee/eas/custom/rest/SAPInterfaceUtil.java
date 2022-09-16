@@ -1,4 +1,4 @@
-package com.kingdee.eas.custom.app.httpsunit;
+package com.kingdee.eas.custom.rest;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;

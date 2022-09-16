@@ -5,13 +5,23 @@ package com.kingdee.eas.custom.client;
 
 import java.awt.event.*;
 
+import org.apache.http.client.HttpClient;
 import org.apache.log4j.Logger;
 import com.kingdee.bos.ui.face.CoreUIObject;
+import com.kingdee.bos.ui.face.IUIWindow;
+import com.kingdee.bos.ui.face.UIException;
+import com.kingdee.bos.ui.face.UIFactory;
+import com.kingdee.bos.ctrl.swing.KDWorkButton;
 import com.kingdee.bos.dao.IObjectValue;
+import com.kingdee.eas.common.client.OprtState;
+import com.kingdee.eas.common.client.UIContext;
 import com.kingdee.eas.custom.ISyncDataEASFacade;
 import com.kingdee.eas.custom.PushRecordFacadeFactory;
 import com.kingdee.eas.custom.SyncBill2EASFacadeFactory;
 import com.kingdee.eas.custom.SyncDataEASFacadeFactory;
+import com.kingdee.eas.custom.rest.HTTPSClientUtil;
+import com.kingdee.eas.custom.rest.HTTPSTrustClient;
+import com.kingdee.eas.custom.rest.InterfaceResource;
 import com.kingdee.eas.framework.*;
 import com.kingdee.eas.scm.im.inv.PurInWarehsBillFactory;
 import com.kingdee.eas.scm.im.inv.ws.PurInWarehsBillFacade;
@@ -31,6 +41,45 @@ public class PurPlatSyncBusLogListUI extends AbstractPurPlatSyncBusLogListUI
         super();
     }
 
+    @Override
+    public void onLoad() throws Exception {
+     	super.onLoad();
+     	KDWorkButton btnHttpsTest = new KDWorkButton();
+     	btnHttpsTest.setText("Https发送测试");// 设置按钮名称
+     	btnHttpsTest.setIcon(com.kingdee.eas.util.client.EASResource.getIcon("imgTbtn_time"));// 图标
+		toolBar.add(btnHttpsTest);// 添加到工具栏
+		btnHttpsTest.setVisible(true);// 设置可见
+		btnHttpsTest.setEnabled(true);// 设置可用
+		btnHttpsTest.addActionListener(new ActionListener() {// 添加点击事件
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ShowHttpsTestUIWind();
+			}
+		 });
+    }
+    
+    
+    private void ShowHttpsTestUIWind()
+    {
+        UIContext context = new UIContext(this);
+        try
+        {
+          String path = "com.kingdee.eas.custom.client.RestHttpsTestUI";
+          IUIWindow window = UIFactory.createUIFactory("com.kingdee.eas.base.uiframe.client.UIModelDialogFactory").create(path, context, null, OprtState.VIEW);
+          window.show();
+          refreshList();
+        }
+        catch (UIException e)
+        {
+          e.printStackTrace();
+        }
+        catch (Exception e)
+        {
+          e.printStackTrace();
+        }
+    
+    }
+    
     /**
      * output storeFields method
      */
@@ -155,10 +204,15 @@ public class PurPlatSyncBusLogListUI extends AbstractPurPlatSyncBusLogListUI
 //    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().saveOtherSaleIss(jsonStr);
 //     	System.out.println("saveOtherSaleIss"+result);
     	
-    	String jsonStr = "{\"msgId\":\"202209121610002\",\"busCode\":\"Customer\",\"reqTime\":\"202209121610002\"}";
-    	String result = SyncDataEASFacadeFactory.getRemoteInstance().getCenterPurCustomer(jsonStr);
-     	System.out.println("getCenterPurCustomer"+result);
+//    	String jsonStr = "{\"msgId\":\"202209121610002\",\"busCode\":\"Customer\",\"reqTime\":\"202209121610002\"}";
+//    	String result = SyncDataEASFacadeFactory.getRemoteInstance().getCenterPurCustomer(jsonStr);
+//     	System.out.println("getCenterPurCustomer"+result);
     	
+//    	String jsonStr = "{\"msgId\":\"20220715121021\",\"operType\":0,\"baseType\":5,\"reqTime\":\"20220715121021\",\"data\":{\"fId\":\"jbYAAAac+li76fiu1\",\"fNumber\":\"MS3101MWZH00101\",\"fName\":\"上海中心仓1\",\"fOrgId\":\"jbYAAAMU2SvM567U\",\"fOrgNumber\":\"MS3101MWZH001\",\"fOrgName\":\"上海栗喆医疗器械有限公司\",\"fStatus\":\"1\"}}";
+//    	HttpClient httpClient = new HTTPSTrustClient().init();
+//		String  result = HTTPSClientUtil.doPostJson(httpClient, InterfaceResource.sap_base_url, jsonStr);
+//		System.out.println("doPostJson"+result);
+		    
     }
 
     /**

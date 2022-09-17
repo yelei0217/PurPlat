@@ -3,6 +3,7 @@ package com.kingdee.eas.custom.app;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.http.client.HttpClient;
 import org.apache.log4j.Logger;
 
 import com.kingdee.bos.BOSException;
@@ -19,6 +20,9 @@ import com.kingdee.eas.custom.app.dao.SaleOrderSupport;
 import com.kingdee.eas.custom.app.dao.base.BaseFISupport;
 import com.kingdee.eas.custom.app.dao.base.BaseSCMSupport;
 import com.kingdee.eas.custom.app.unit.AppUnit;
+import com.kingdee.eas.custom.rest.HTTPSClientUtil;
+import com.kingdee.eas.custom.rest.HTTPSTrustClient;
+import com.kingdee.eas.custom.rest.InterfaceResource;
 import com.kingdee.eas.framework.CoreBillBaseCollection;
 import com.kingdee.eas.scm.im.inv.ISaleIssueBill;
 import com.kingdee.eas.scm.im.inv.PurInWarehsBillFactory;
@@ -130,7 +134,16 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	@Override
 	protected String _savePaymentBill(Context ctx, String jsonStr)
 			throws BOSException {
- 		return super._savePaymentBill(ctx, jsonStr);
+ 		//return super._savePaymentBill(ctx, jsonStr);
+		 String  result ="_savePaymentBill";
+        try {
+			HttpClient httpClient = new HTTPSTrustClient().init();
+			result += HTTPSClientUtil.doPostJson(httpClient, InterfaceResource.sap_base_url, jsonStr);			
+		} catch (Exception e) {
+ 			e.printStackTrace();
+		}
+ 		 
+ 		return result;
 	}
 
 

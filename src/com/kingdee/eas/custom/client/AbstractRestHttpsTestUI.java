@@ -43,21 +43,18 @@ import com.kingdee.bos.appframework.uip.UINavigator;
 /**
  * output class name
  */
-public abstract class AbstractRestHttpsTestUI extends CoreUIObject
+public abstract class AbstractRestHttpsTestUI extends com.kingdee.eas.custom.client.TimeCheckNoNullEditUI
 {
     private static final Logger logger = CoreUIObject.getLogger(AbstractRestHttpsTestUI.class);
-    protected ResourceBundleHelper resHelper = null;
-    protected com.kingdee.bos.ctrl.swing.KDToolBar RestHttpsTestUI_toolbar;
-    protected com.kingdee.bos.ctrl.swing.KDLabel kDLabel1;
     protected com.kingdee.bos.ctrl.swing.KDTextArea txtSentJson;
-    protected com.kingdee.bos.ctrl.swing.KDButton btnOK;
-    protected com.kingdee.bos.ctrl.swing.KDButton btnCancel;
+    protected com.kingdee.eas.custom.DateBaseLogInfo entityDateBaseLog = null;
     /**
      * output class constructor
      */
     public AbstractRestHttpsTestUI() throws Exception
     {
         super();
+        this.defaultObjectName = "entityDateBaseLog";
         jbInit();
         
         initUIP();
@@ -70,29 +67,14 @@ public abstract class AbstractRestHttpsTestUI extends CoreUIObject
     {
         this.resHelper = new ResourceBundleHelper(AbstractRestHttpsTestUI.class.getName());
         this.setUITitle(resHelper.getString("this.title"));
-        this.toolBar = new com.kingdee.bos.ctrl.swing.KDToolBar();
-        this.menuBar = new com.kingdee.bos.ctrl.swing.KDMenuBar();
-        this.kDLabel1 = new com.kingdee.bos.ctrl.swing.KDLabel();
         this.txtSentJson = new com.kingdee.bos.ctrl.swing.KDTextArea();
-        this.btnOK = new com.kingdee.bos.ctrl.swing.KDButton();
-        this.btnCancel = new com.kingdee.bos.ctrl.swing.KDButton();
-        this.setName("RestHttpsTestUI");
-        this.toolBar.setName("RestHttpsTestUI_toolbar");
-        this.menuBar.setName("RestHttpsTestUI_menubar");
-        this.kDLabel1.setName("kDLabel1");
         this.txtSentJson.setName("txtSentJson");
-        this.btnOK.setName("btnOK");
-        this.btnCancel.setName("btnCancel");
-        // RestHttpsTestUI
-        // RestHttpsTestUI_toolbar
-        // RestHttpsTestUI_menubar
-        // kDLabel1		
-        this.kDLabel1.setText(resHelper.getString("kDLabel1.text"));
+        // TimeCheckNoNull		
+        this.kDDatePicker1.setEnabled(false);		
+        this.kDDatePicker1.setVisible(false);		
+        this.kDTextField1.setEnabled(false);		
+        this.kDTextField1.setVisible(false);
         // txtSentJson
-        // btnOK		
-        this.btnOK.setText(resHelper.getString("btnOK.text"));
-        // btnCancel		
-        this.btnCancel.setText(resHelper.getString("btnCancel.text"));
 		//Register control's property binding
 		registerBindings();
 		registerUIState();
@@ -106,7 +88,6 @@ public abstract class AbstractRestHttpsTestUI extends CoreUIObject
 		if (bars != null) {
 			list.addAll(java.util.Arrays.asList(bars));
 		}
-		list.add(this.toolBar);
 		return (com.kingdee.bos.ctrl.swing.KDToolBar[])list.toArray(new com.kingdee.bos.ctrl.swing.KDToolBar[list.size()]);
 	}
 
@@ -120,14 +101,16 @@ public abstract class AbstractRestHttpsTestUI extends CoreUIObject
     {
         this.setBounds(new Rectangle(10, 10, 500, 300));
         this.setLayout(null);
-        kDLabel1.setBounds(new Rectangle(8, 162, 100, 19));
-        this.add(kDLabel1, null);
-        txtSentJson.setBounds(new Rectangle(115, 15, 336, 206));
-        this.add(txtSentJson, null);
-        btnOK.setBounds(new Rectangle(92, 245, 114, 40));
+        kDDatePicker1.setBounds(new Rectangle(40, 265, 170, 19));
+        this.add(kDDatePicker1, null);
+        btnOK.setBounds(new Rectangle(158, 230, 67, 21));
         this.add(btnOK, null);
-        btnCancel.setBounds(new Rectangle(316, 248, 111, 35));
+        kDTextField1.setBounds(new Rectangle(275, 267, 56, 19));
+        this.add(kDTextField1, null);
+        btnCancel.setBounds(new Rectangle(299, 230, 67, 21));
         this.add(btnCancel, null);
+        txtSentJson.setBounds(new Rectangle(82, 22, 367, 186));
+        this.add(txtSentJson, null);
 
     }
 
@@ -187,6 +170,7 @@ public abstract class AbstractRestHttpsTestUI extends CoreUIObject
     {
         IObjectValue ov = dataObject;        	    	
         super.setDataObject(ov);
+        this.entityDateBaseLog = (com.kingdee.eas.custom.DateBaseLogInfo)ov;
     }
 
     /**
@@ -227,6 +211,10 @@ public abstract class AbstractRestHttpsTestUI extends CoreUIObject
     public SelectorItemCollection getSelectors()
     {
         SelectorItemCollection sic = new SelectorItemCollection();
+		String selectorAll = System.getProperty("selector.all");
+		if(StringUtils.isEmpty(selectorAll)){
+			selectorAll = "true";
+		}
         return sic;
     }        
 

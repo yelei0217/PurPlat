@@ -11,7 +11,7 @@ import com.kingdee.eas.framework.batchHandler.ResponseContext;
 /**
  * output class name
  */
-public abstract class AbstractRestHttpsTestUIHandler extends com.kingdee.eas.framework.app.CoreUIObjectHandler
+public abstract class AbstractRestHttpsTestUIHandler extends com.kingdee.eas.custom.app.TimeCheckNoNullEditUIHandler
 
 {
 }

@@ -17,8 +17,15 @@ import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.ormapping.ObjectStringPK;
+import com.kingdee.bos.metadata.entity.EntityViewInfo;
+import com.kingdee.bos.metadata.entity.FilterInfo;
+import com.kingdee.bos.metadata.entity.FilterItemInfo;
+import com.kingdee.bos.metadata.query.util.CompareType;
 import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.eas.basedata.framework.app.ParallelSqlExecutor;
+import com.kingdee.eas.basedata.master.material.MaterialCollection;
+import com.kingdee.eas.basedata.master.material.MaterialFactory;
+import com.kingdee.eas.basedata.master.material.MaterialInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
@@ -151,8 +158,21 @@ public class PurOrderSupport {
 				isPresent = 1;
 			else
 				isPresent = 0;
+ 			EntityViewInfo view = new EntityViewInfo();
+		 	FilterInfo filter = new FilterInfo();
+		 	filter.getFilterItems().add(new FilterItemInfo("number",dvo.getFmaterialid(),CompareType.EQUALS)); //
+		  	view.setFilter(filter);
+		  	
+		    MaterialInfo material = null;
+		    MaterialCollection materialColl =null ;
+			try {
+				materialColl = MaterialFactory.getLocalInstance(ctx).getMaterialCollection(view);
+				material = materialColl.get(0);
+			} catch (BOSException e) {
+ 				e.printStackTrace();
+			}
 			
-			sbr1.append("'").append(eid).append("',").append(dvo.getFseq()).append(",'").append(dvo.getFmaterialid()).append("','").append(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())).append("',4,");
+			sbr1.append("'").append(eid).append("',").append(dvo.getFseq()).append(",'").append(material.getId().toString()).append("','").append(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())).append("',4,");
 			sbr1.append(dvo.getFqty()).append(",'").append(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFbaseunitid())).append("','").append(dvo.getFremark()).append("',").append(isPresent).append(",0,").append(dvo.getFqty());
 			sbr1.append(",'").append( m.getFstorageorgunitid()).append("','").append( m.getFstorageorgunitid()).append("',0,").append(dvo.getFprice()).append(",0,").append(dvo.getFactualprice()).append(",").append(dvo.getFtaxrate()).append(",");
 			sbr1.append(dvo.getFtaxprice()).append(",").append(dvo.getFactualtaxprice()).append(",").append(dvo.getFamount()).append(",").append(dvo.getFamount()).append(",").append(dvo.getFtax()).append(",").append(dvo.getFtaxamount()).append(",0,");

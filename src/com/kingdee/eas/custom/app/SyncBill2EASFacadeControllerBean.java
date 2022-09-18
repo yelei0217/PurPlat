@@ -59,7 +59,8 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 		// String res =  SaleOrderSupport.syncBill(ctx, jsonStr);
 		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
 		 logger.info("do _saveSaleOrder method cost :" + this.timer.msValue());
-		 return res;	}
+		 return res;	
+	}
 
 
 	@Override

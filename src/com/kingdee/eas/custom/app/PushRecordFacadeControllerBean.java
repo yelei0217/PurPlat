@@ -151,6 +151,15 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 									SaleIssueBillInfo saleIssInfo = iSaleIssue.getSaleIssueBillInfo(issPK);
 									if(pushInfo.getDateBaseType() == DateBasetype.VMI_U_MZ_SO){
 										updateSaleIssInvType(ctx,pks.get(0).toString());
+										
+										//门诊-采购入库 （EAS自动）	VMI_U_MZ_PI 
+										
+										//门诊-销售出库 （EAS自动）	VMI_U_MZ_SS	 
+										
+										//栗喆-采购入库 （EAS自动）	VMI_U_LZ_PI 
+										
+										//栗喆-销售出库 （EAS自动）	VMI_U_LZ_SS	 
+										
 									}
 								//	IObjectPK issPK = iSaleIssue.submit(saleIssInfo);
 									if(issPK != null && !"".equals(issPK.toString())){

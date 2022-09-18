@@ -236,9 +236,11 @@ public class PurPlatUtil {
 		    	 } else if("S".equals(oper)){
 		    		 sql = " select count(1) C from T_BD_Supplier where FId ='"+fid+"' and FUsedStatus =1 ";
  		    	 } else if("M".equals(oper)){
-		    		 sql = " select count(1) C from T_BD_Material where FId ='"+fid+"' and FStatus =1 ";
+//		    		 sql = " select count(1) C from T_BD_Material where FId ='"+fid+"' and FStatus =1 ";
+ 		    		 sql = " select count(1) C from T_BD_Material where FNumber ='"+fid+"' and FStatus =1 ";
  		    	 } else if("MP".equals(oper)){
-		    		 sql = " select count(1) C from T_BD_MaterialPurchasing where FMaterialID ='"+fid+"' and FOrgUnit = '"+orgId+"' ";
+//		    		 sql = " select count(1) C from T_BD_MaterialPurchasing where FMaterialID ='"+fid+"' and FOrgUnit = '"+orgId+"' ";
+		    		 sql = "  select count(1) C from T_BD_Material a inner join T_BD_MaterialPurchasing b on a.fid=b.FMATERIALID where a.FID ='"+fid+"' and b.FOrgUnit = '"+orgId+"' ";
  		    	 }else if("UNIT".equals(oper)){
 		    		 sql = " select count(1) C from T_BD_MeasureUnit where FNumber ='"+fid+"' and FGroupID ='CUYZGEtVTzqROJAmOrUCEBwqyGg=' ";
  		    	 }else if("USER".equals(oper)){

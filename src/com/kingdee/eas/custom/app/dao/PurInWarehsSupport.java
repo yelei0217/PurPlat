@@ -20,12 +20,17 @@ import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
+import com.kingdee.bos.metadata.entity.EntityViewInfo;
+import com.kingdee.bos.metadata.entity.FilterInfo;
+import com.kingdee.bos.metadata.entity.FilterItemInfo;
+import com.kingdee.bos.metadata.query.util.CompareType;
 import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.eas.basedata.assistant.CurrencyInfo;
 import com.kingdee.eas.basedata.assistant.MeasureUnitFactory;
 import com.kingdee.eas.basedata.assistant.MeasureUnitInfo;
 import com.kingdee.eas.basedata.master.cssp.SupplierInfo;
 import com.kingdee.eas.basedata.master.material.IMaterial;
+import com.kingdee.eas.basedata.master.material.MaterialCollection;
 import com.kingdee.eas.basedata.master.material.MaterialFactory;
 import com.kingdee.eas.basedata.master.material.MaterialInfo;
 import com.kingdee.eas.basedata.org.CompanyOrgUnitInfo;
@@ -527,13 +532,21 @@ public class PurInWarehsSupport {
     throws BOSException, EASBizException
   {
     PurInWarehsEntryInfo entryInfo = new PurInWarehsEntryInfo();
-    IMaterial imaterial = MaterialFactory.getLocalInstance(ctx);
-
-    MaterialInfo material = null;
-    IObjectPK pk = new ObjectUuidPK(BOSUuid.read(dvo.getFmaterialid()));
-    material = imaterial.getMaterialInfo(pk);
+//    IMaterial imaterial = MaterialFactory.getLocalInstance(ctx);
+//    MaterialInfo material = null;
+//    IObjectPK pk = new ObjectUuidPK(BOSUuid.read(dvo.getFmaterialid()));
+//    material = imaterial.getMaterialInfo(pk);
     
-    pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
+    
+	EntityViewInfo view = new EntityViewInfo();
+ 	FilterInfo filter = new FilterInfo();
+ 	filter.getFilterItems().add(new FilterItemInfo("number",dvo.getFmaterialid(),CompareType.EQUALS)); //
+  	view.setFilter(filter);
+ 	
+    MaterialCollection materialColl =  MaterialFactory.getLocalInstance(ctx).getMaterialCollection(view);
+    MaterialInfo material = materialColl.get(0);
+    
+    IObjectPK pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
     MeasureUnitInfo unitInfo = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitInfo(pk);
     
     pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));

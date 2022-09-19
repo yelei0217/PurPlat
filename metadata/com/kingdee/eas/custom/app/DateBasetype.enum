@@ -740,6 +740,12 @@
             <userDefined>true</userDefined>
             <value>39</value>
         </enumValue>
+        <enumValue>
+            <name>WAREHOUSE</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[WAREHOUSE].alias</alias>
+            <userDefined>true</userDefined>
+            <value>150</value>
+        </enumValue>
     </enumValues>
     <resource>
         <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].alias">
@@ -1311,6 +1317,12 @@
             <lang locale="zh_CN" value="京东慧采" />
             <lang locale="zh_HK" value="京東慧采" />
             <lang locale="zh_TW" value="京東慧采" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[WAREHOUSE].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="仓库" />
+            <lang locale="zh_HK" value="倉庫" />
+            <lang locale="zh_TW" value="倉庫" />
         </rs>
         <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[WareClinicRale_S].alias">
             <lang locale="en_US" value="null" />

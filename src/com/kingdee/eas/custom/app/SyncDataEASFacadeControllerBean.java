@@ -14,39 +14,41 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.http.client.HttpClient;
 import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
-import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.eas.basedata.assistant.KAClassficationFactory;
 import com.kingdee.eas.basedata.assistant.MeasureUnitFactory;
 import com.kingdee.eas.basedata.master.material.IMaterial;
 import com.kingdee.eas.basedata.master.material.MaterialFactory;
 import com.kingdee.eas.basedata.master.material.MaterialGroupFactory;
+import com.kingdee.eas.basedata.org.CompanyOrgUnitFactory;
+import com.kingdee.eas.basedata.org.CompanyOrgUnitInfo;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.EAISynTemplate;
 import com.kingdee.eas.custom.PurPlatSyncdbLogCollection;
 import com.kingdee.eas.custom.PurPlatSyncdbLogFactory;
 import com.kingdee.eas.custom.PurPlatSyncdbLogInfo;
 import com.kingdee.eas.custom.app.dto.SOrgDTO;
-import com.kingdee.eas.custom.app.dto.SaleOrderDTO;
 import com.kingdee.eas.custom.app.dto.WareDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseResponseDTO;
 import com.kingdee.eas.custom.app.unit.MaterialUntil;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
+import com.kingdee.eas.custom.rest.HTTPSClientUtil;
+import com.kingdee.eas.custom.rest.HTTPSTrustClient;
+import com.kingdee.eas.custom.rest.InterfaceResource;
 import com.kingdee.jdbc.rowset.IRowSet;
 import com.kingdee.jdbc.rowset.IRowSetMetaData;
 
@@ -69,14 +71,36 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     protected boolean syncDate(Context ctx, int type, String data,
 			int newOrDele, String name, String fid ,PurPlatSyncdbLogInfo loginfo) throws BOSException {
     	boolean flag = false;
+    	
+    	
+    	Map<String, Object> mapEAS = new  HashMap<String, Object>();
+    	mapEAS.put("msgId",fid);
+    	if(type==3){
+    		mapEAS.put("baseType",1);//组织
+    	}else if(type==2){
+    		mapEAS.put("baseType", 2 );//供应商
+    	}else if(type==1){
+    		mapEAS.put("baseType", 3 );//客户
+    	}else if(type==4){
+    		mapEAS.put("baseType", 4 );//员工
+    	}else if(type==5){
+    		mapEAS.put("baseType", 5 );//仓库
+    	} 
+    	
+    	Date newDate = new Date();
+    	mapEAS.put("reqTime",newDate.getTime()+"");
+    	mapEAS.put("operType","0");
     	Map<String, String> map = new  HashMap<String, String>();
     	DateBaseProcessType processType = null;
     	if(newOrDele ==0 ){
     		processType = DateBaseProcessType.AddNew;
+    		mapEAS.put("operType",0);
     	}else if(newOrDele ==1 ){
     		processType = DateBaseProcessType.ENABLE;
+    		mapEAS.put("operType",1);
     	}else if(newOrDele ==2 ){
     		processType = DateBaseProcessType.DisAble;
+    		mapEAS.put("operType",2);
     	}
     	try {
     		
@@ -136,34 +160,36 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						mapTo.put("fOrgNumber",rsCopy.getString("FORGNUMBER") );
 						mapTo.put("fOrgName",rsCopy.getString("FORGNAME") );
 						mapTo.put("fStatus",rsCopy.getString("FSTATUS") );
-						mapTo.put("fUpdateType",rsCopy.getString("FUPDATETYPE") ); 
-						String datajsonStr = JSONObject.toJSONString(mapTo);
+						mapTo.put("fUpdateType",rsCopy.getString("FUPDATETYPE") );  
 						 
+						mapEAS.put("data",mapTo);
+						String datajsonStr = JSONObject.toJSONString(mapEAS);
+						
 						map.put("FNUMBER", mapTo.get("fNumber"));
 			        	map.put("FNAME", mapTo.get("fName"));
 			        	map.put("JSON", datajsonStr);
 			        	 
+			        	
+			        	String  result = sendBaseDataToB2B(ctx ,datajsonStr);
+			        	logger.info("发送客户通知给B2B系统，result：" + result);  
+			        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
+			        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
+			        		flag=true;
+			        	}  
+			        	map.put("RESJSON", result);
 					}
 					
 				}else{
 					 map.put("ERROR", "根据ID"+fid+"在jbYAAAMU2SvM567U公司下找不到对应的客户信息,没有同步到中间库。");
 					 System.out.println("########  ERROR ########根据ID："+fid+"在jbYAAAMU2SvM567U公司下找不到对应的客户信息,没有同步到中间库。");
 				}   
-				
-				flag=true;
+				 
 				getlogInfo(ctx , map ,  DateBasetype.Customer ,processType ,flag ,loginfo);  
     			
     			
     		}else if(type ==2){ //供应商  newOrDele : 0:新增 ; 1启用 ; 2:禁用
  
-    			String selectSuppSql = " /*dialect*/ select  FNUMBER from  EAS_Supplier_MIDTABLE where fid='"+fid+"' ";
-				List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
-				if(retsSup.size() == 0 ){//没有 
-					
-				}else{
-					String selectDelete = " delete    EAS_Supplier_MIDTABLE where fid='"+fid+"' ";
-					EAISynTemplate.execute(ctx, dataBase, selectDelete);
-				}
+    			
 
 				/*SELECT supp.fid  fid , supp.fnumber fnumber ,supp.fname_l2 Fname ,  gro.fname_l2 FCLASSNAME ,'' FOpenBank ,  '' FBankAccount,
    			 supp.FCREATORID  Fcreator , supp.FCREATETIME  FcreateTime , supp.FLASTUPDATETIME FupdateTime,  supp.FIsInternalCompany  FISGroup ,
@@ -178,14 +204,45 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				 "   FROM  T_BD_Supplier  supp    "+
 				 "  inner  join  T_BD_CSSPGroup gro on gro.fid =supp.FBrowseGroupID "+
 				 " inner join  T_ORG_admin    admin  on admin.fid = supp.FCONTROLUNITID "+
+				 " inner join  T_BD_SupplierCompanyInfo supcom  on supcom.FSUPPLIERID  = supp.fid and supcom.FComOrgID  = 'jbYAAAMU2SvM567U'"+
 				 "    where supp.fid ='"+fid+"'   "; 
-				
+				 
+				CompanyOrgUnitInfo companyInfo = CompanyOrgUnitFactory.getLocalInstance(ctx).getCompanyOrgUnitInfo("where id='jbYAAAMU2SvM567U''");
+			  		  
 				IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
 				IRowSet  rsCopy=  rs.createCopy();
 				if(rs!=null && rs.size() > 0){
+					
+					String selectSuppSql = " /*dialect*/ select  FNUMBER from  EAS_Supplier_MIDTABLE where fid='"+fid+"' ";
+					List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
+					if(retsSup.size() == 0 ){//没有 
+						
+					}else{
+						String selectDelete = " delete    EAS_Supplier_MIDTABLE where fid='"+fid+"' ";
+						EAISynTemplate.execute(ctx, dataBase, selectDelete);
+					}
+					
+					
 					String sqlInsert = insertMidTable(ctx,  "EAS_Supplier_MIDTABLE", rs ,"fSign");
 					map.put("ERROR",sqlInsert);
 					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
+					
+					
+					String bankStr = "";
+					String bankAccountStr = "";
+					String bankSql = " select  FBank BANK , FBankAccount BANKACCOUNT  from  T_BD_SupplierCompanyBank   supbank "+
+					" inner  join  T_BD_SupplierCompanyInfo supcom  on   supcom.FSUPPLIERID ="+fid+"   and  supcom.FComOrgID  = 'jbYAAAMU2SvM567U'  and  supcom.fid = supbank.FSupplierCompanyInfoID";
+					IRowSet  rsBk = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,bankSql);
+					while(rsBk.next()){	
+						bankStr = bankStr+ rsBk.getString("BANK");
+						bankAccountStr = bankAccountStr + rsBk.getString("BANKACCOUNT");
+					}
+					if(bankStr.length() >0){
+						bankStr = bankStr.substring(0, bankStr.length()-1);
+					}
+					if(bankAccountStr.length() >0){
+						bankAccountStr = bankAccountStr.substring(0, bankAccountStr.length()-1);
+					}
 					
 					if(rsCopy.next()){	
 						Map<String, String> mapTo = new  HashMap<String, String>();
@@ -195,30 +252,40 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						 
 						mapTo.put("fClassName",rsCopy.getString("FCLASSNAME") );
 						
-						mapTo.put("fOpenBank",rsCopy.getString("FOPENBANK") );
-						mapTo.put("fBankAccount",rsCopy.getString("FBANKACCOUNT") );
+						mapTo.put("fOpenBank",bankStr );
+						mapTo.put("fBankAccount",bankAccountStr );
 						mapTo.put("fCreator",rsCopy.getString("FCREATOR") );
 						mapTo.put("fCreateTime",rsCopy.getString("FCREATETIME") );
 						mapTo.put("fUpdateTime",rsCopy.getString("FUPDATETIME") );
 						mapTo.put("fIsGroup",rsCopy.getString("FISGROUP") );
-						mapTo.put("fOrgtId",rsCopy.getString("FORGTID") );
-						mapTo.put("fOrgNumber",rsCopy.getString("FORGNUMBER") );
-						mapTo.put("fOrgName",rsCopy.getString("FORGNAME") );
+						mapTo.put("fOrgtId",companyInfo.getId().toString() );
+						mapTo.put("fOrgNumber",companyInfo.getNumber() );
+						mapTo.put("fOrgName",companyInfo.getName() );
 						mapTo.put("fStatus",rsCopy.getString("FSTATUS") );
 						mapTo.put("fUpdateType",rsCopy.getString("FUPDATETYPE") ); 
-						String datajsonStr = JSONObject.toJSONString(mapTo);
+
+						mapEAS.put("data",mapTo);
+						String datajsonStr = JSONObject.toJSONString(mapEAS);
 						 
 						map.put("FNUMBER", mapTo.get("fNumber"));
 			        	map.put("FNAME", mapTo.get("fName"));
 			        	map.put("JSON", datajsonStr);
+			        	
+			        	String  result = sendBaseDataToB2B(ctx ,datajsonStr);
+			        	 
+			        	logger.info("发送供应商通知给B2B系统，result：" + result);  
+			        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
+			        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
+			        		flag=true;
+			        	} 
+			        	map.put("RESJSON", result);
 			        	 
 					} 
 				}else{
 					 map.put("ERROR", "根据ID"+fid+"找不到对应的供应商信息,没有同步到中间库。");
 					 System.out.println("########  ERROR ########根据ID："+fid+"找不到对应的供应商信息,没有同步到中间库");
 				} 
-					
-				flag=true;
+					 
 				getlogInfo(ctx , map ,  DateBasetype.Supplier ,processType,flag,loginfo);
     			
     			
@@ -281,12 +348,24 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						mapTo.put("fIsOUSealUp",rsCopy.getString("FISOUSEALUP") );
 						mapTo.put("FcreateTime",rsCopy.getString("FCREATETIME") );
 						mapTo.put("FupdateType",rsCopy.getString("FUPDATETYPE") ); 
-						String datajsonStr = JSONObject.toJSONString(mapTo);
+						
+						mapEAS.put("data",mapTo);
+						String datajsonStr = JSONObject.toJSONString(mapEAS);
 						
 						map.put("FNUMBER", mapTo.get("fNumber"));
 			        	map.put("FNAME", mapTo.get("fName")); 
 			        	map.put("JSON", datajsonStr);
-			        	 
+			        	
+			        	
+			        	String  result = sendBaseDataToB2B(ctx ,datajsonStr);
+			        	
+			        	logger.info("发送组织通知给B2B系统，result：" + result);  
+			        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
+			        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
+			        		flag=true;
+			        	} 
+			        	
+			        	map.put("RESJSON", result);
 					} 
 					
 				}else{
@@ -384,20 +463,28 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						mapTo.put("fCreateTime",rsCopy.getString("FCREATETIME") ); 
 						mapTo.put("fUpdateType",rsCopy.getString("FUPDATETYPE") ); 
 						mapTo.put("fEmpNumber",rsCopy.getString("FEMPNUMBER") );  
-						String datajsonStr = JSONObject.toJSONString(mapTo);
+						
+						mapEAS.put("data",mapTo);
+						String datajsonStr = JSONObject.toJSONString(mapEAS);
 						
 						map.put("FNUMBER", mapTo.get("fNumber"));
 			        	map.put("FNAME", mapTo.get("fName")); 
 			        	map.put("JSON", datajsonStr);
-			        	 
-					}
-					
+			        	
+			        	String  result = sendBaseDataToB2B(ctx ,datajsonStr);
+			        	map.put("RESJSON", result);
+			        	
+			        	logger.info("发送人员通知给B2B系统，result：" + result);  
+			        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
+			        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
+			        		flag=true;
+			        	}  
+					} 
 					
 				}else{
 					 map.put("ERROR", "根据ID"+fid+"找不到对应的人员信息,没有同步到中间库。");
 					 System.out.println("########  ERROR ########根据ID："+fid+"找不到对应的人员信息,没有同步到中间库。");
-				}  
-				flag=true;
+				}   
 				getlogInfo(ctx , map ,  DateBasetype.Person ,processType,flag,loginfo);
 	    		 
     		}else if(type ==5){//仓库  newOrDele : 0:新增 ; 1启用 ; 2:禁用
@@ -412,8 +499,8 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     			}else if(newOrDele == 2){ 
     				fUpdateType = 2;
     			}
-    			HashMap<String, String> mapData = new HashMap<String, String>(); 
-				
+    			HashMap<String, String> mapB2B = new HashMap<String, String>(); 
+    			HashMap<String, String> mapHIS = new HashMap<String, String>(); 
     			try{
     				
     			}catch (Exception e) {
@@ -426,58 +513,77 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				  "	inner join  T_PM_User  cuser on cuser.fid=wah.FCREATORID  "+ 
 				  " where wah.fid = '"+fid+"' ";  
     			IRowSet  rsData = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
-    			IRowSet  rs = rsData.createCopy(); 
-    			String orgid = rs.getString("FORGTID");
-    			if(rs!=null && rs.size() > 0){
-    				while(rs.next()){    
-    					orgid = rs.getString("FORGTID");
-    					if( "jbYAAAMU2SvM567U".equals(orgid)){
-    						mapData.put("fId",rs.getString("FID") );
-    						mapData.put("fNumber",rs.getString("FNUMBER") );
-    						mapData.put("fName",rs.getString("FNAME") );
-    						mapData.put("fOrgtid",rs.getString("FORGID") );
-    						mapData.put("fOrgNumber",rs.getString("FORGNUMBER") );
-    						mapData.put("fOrgName",rs.getString("FORGNAME") );
-    						mapData.put("fStatus",rs.getString("FSTATUS") );
-    						mapData.put("fCreator",rs.getString("FCREATOR") );
-    						mapData.put("fCreateTime",rs.getString("FCREATETIME") );
-    						mapData.put("fUpdateType",rs.getString("FUPDATETYPE") );
-    						mapData.put("fUpdateTime",rs.getString("FUPDATETIME") ); 
-						}else{
-							mapData.put("fid",rs.getString("FID") );
-							mapData.put("fstatus",rs.getString("FSTATUS") );
-							mapData.put("fnumber",rs.getString("FNUMBER") );
-							mapData.put("fname",rs.getString("FNAME") );
+    			IRowSet  rsB2B = rsData.createCopy(); 
+    			IRowSet  rsHIS = rsData.createCopy(); 
+    			String orgid = rsData.getString("FORGTID");
+    			if(rsData!=null && rsData.size() > 0){
+    				while(rsData.next()){    
+    					orgid = rsData.getString("FORGTID");
+    					
+    					mapB2B.put("fId",rsData.getString("FID") );
+						mapB2B.put("fNumber",rsData.getString("FNUMBER") );
+						mapB2B.put("fName",rsData.getString("FNAME") );
+						mapB2B.put("fOrgtid",rsData.getString("FORGID") );
+						mapB2B.put("fOrgNumber",rsData.getString("FORGNUMBER") );
+						mapB2B.put("fOrgName",rsData.getString("FORGNAME") );
+						mapB2B.put("fStatus",rsData.getString("FSTATUS") );
+						mapB2B.put("fCreator",rsData.getString("FCREATOR") );
+						mapB2B.put("fCreateTime",rsData.getString("FCREATETIME") );
+						mapB2B.put("fUpdateType",rsData.getString("FUPDATETYPE") );
+						mapB2B.put("fUpdateTime",rsData.getString("FUPDATETIME") ); 
+						
+    					if( !"jbYAAAMU2SvM567U".equals(orgid)){
+    						mapHIS.put("fid",rsData.getString("FID") );
+    						mapHIS.put("fstatus",rsData.getString("FSTATUS") );
+    						mapHIS.put("fnumber",rsData.getString("FNUMBER") );
+    						mapHIS.put("fname",rsData.getString("FNAME") );
 							/*map.put("forgtid",rs.getString("FORGTID") );
 							map.put("forgNumber",rs.getString("FORGNUMBER") );
 							map.put("forgName",rs.getString("FORGNAME") );*/
-							mapData.put("forgId",rs.getString("FORGTID") );
+    						mapHIS.put("forgId",rsData.getString("FORGTID") );
 						} 
-    					String datajsonStr = JSONObject.toJSONString(mapData);
-    					map.put("FNUMBER", mapData.get("fNumber"));
-			        	map.put("FNAME", mapData.get("fName"));
-			        	map.put("JSON", datajsonStr);
+    					String datajsonStrHis = JSONObject.toJSONString(mapHIS);
+    					
+    					
+    					mapEAS.put("data",mapB2B);
+						String datajsonStrB2B = JSONObject.toJSONString(mapEAS);
+						
+						String  result = sendBaseDataToB2B(ctx ,datajsonStrB2B);
+			        	map.put("RESJSON", result);
+			        	
+			        	 
+						logger.info("发送仓库通知给B2B系统，result：" + result);   
+			        	mapRet = (Map) JSONObject.parse(result);  
+			        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
+			        		flag=true;
+			        	} 
+			        	
+    					map.put("FNUMBER", mapB2B.get("fNumber"));
+			        	map.put("FNAME", mapB2B.get("fName"));
+			        	map.put("JSON", datajsonStrB2B);
 			        	
     				}
 		       }   
+    		
     			
-    			if( "jbYAAAMU2SvM567U".equals(orgid)){//B2B
-    				String selectSuppSql = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Cent where fid='"+fid+"' ";
-    				List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
-    				if(retsSup.size() == 0 ){//没有 
-    					
-    				}else{
-    					String selectDelete = " delete  EAS_Warehouse_Cent where fid='"+fid+"' ";
-    					EAISynTemplate.execute(ctx, dataBase, selectDelete);
-    				}  
-    				if(rs!=null && rs.size() > 0){
-    					String sqlInsert = insertMidTable(ctx,  "EAS_Warehouse_Cent", rs,"fSign");
-    					map.put("ERROR",sqlInsert);
-    					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
-    				}else{
-    					 map.put("ERROR", "根据ID"+fid+"找不到对应的仓库信息,没有同步到中间库。");
-    				}   
-    			}else{
+    			String selectSuppSqlB2B = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Cent where fid='"+fid+"' ";
+				List<Map<String, Object>> retsSupB2B = EAISynTemplate.query(ctx,dataBase, selectSuppSqlB2B);
+				if(retsSupB2B.size() == 0 ){//没有 
+					
+				}else{
+					String selectDelete = " delete  EAS_Warehouse_Cent where fid='"+fid+"' ";
+					EAISynTemplate.execute(ctx, dataBase, selectDelete);
+				}  
+				if(rsB2B!=null && rsB2B.size() > 0){
+					String sqlInsert = insertMidTable(ctx,  "EAS_Warehouse_Cent", rsB2B,"fSign");
+					map.put("ERROR",sqlInsert);
+					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
+				}else{
+					 map.put("ERROR", "根据ID"+fid+"找不到对应的仓库信息,没有同步到中间库。");
+				}   
+				
+				
+    			if( !"jbYAAAMU2SvM567U".equals(orgid)){//his
     				String selectSuppSql = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Clinic where fid='"+fid+"' ";
     				List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
     				if(retsSup.size() == 0 ){//没有 
@@ -486,32 +592,34 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     					String selectDelete = " delete    EAS_Warehouse_Clinic where fid='"+fid+"' ";
     					EAISynTemplate.execute(ctx, dataBase, selectDelete);
     				} 
-    				if(rs!=null && rs.size() > 0){
-    					String sqlInsert = insertMidTable(ctx,  "EAS_Warehouse_Clinic", rs,"fSign");
+    				if(rsHIS!=null && rsHIS.size() > 0){
+    					String sqlInsert = insertMidTable(ctx,  "EAS_Warehouse_Clinic", rsHIS,"fSign");
     					map.put("ERROR",sqlInsert);
     					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
     					
     					
     					List<Map<String,String>> eMps = new ArrayList<Map<String,String>>();
     					if(newOrDele == 0 ){
-    						eMps.add(mapData);
+    						eMps.add(mapHIS);
     						Map<String,Object> mp = new HashMap<String,Object>();
     						mp.put("subList", eMps);
     						
     						System.out.println("########  body ########"+JSONObject.toJSONString(eMps));
     						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 , warurl);
-    						logger.info("发送仓库,"+mapData+"通知给his系统，result：" + result);
+    						logger.info("发送仓库,"+mapHIS+"通知给his系统，result：" + result);
     						System.out.println("########  result ########"+result);
     						
     						mapRet = (Map) JSONObject.parse(result);  
     						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
     							flag=true;
+    						}else{
+    							flag=false;
     						}
     						map.put("RESJSON", result);
     						map.put("JSON", JSONObject.toJSONString(eMps)); 
     					}else if(newOrDele == 1 ){ 
     						Map<String, String> mapNew = new  HashMap<String, String>();
-    						mapNew.put("fid",mapData.get("fid").toString()); 
+    						mapNew.put("fid",mapHIS.get("fid").toString()); 
     						mapNew.put("fstatus","1" );
     						
     						eMps.add(mapNew);
@@ -520,17 +628,19 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     						
     						System.out.println("########  body ########"+JSONObject.toJSONString(eMps));
     						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 ,warJinYongurl);
-    						logger.info("发送仓库启用信息,"+mapData+"通知给his系统，result：" + result);
+    						logger.info("发送仓库启用信息,"+mapHIS+"通知给his系统，result：" + result);
     						System.out.println("########  result ########"+result);
     						mapRet = (Map) JSONObject.parse(result);  
     						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
     							flag=true;
+    						}else{
+    							flag=false;
     						}
     						map.put("RESJSON", result);
     						map.put("JSON", JSONObject.toJSONString(eMps)); 
     					}else if(newOrDele == 2 ){ 
     						Map<String, String> mapNew = new  HashMap<String, String>();
-    						mapNew.put("fid",mapData.get("fid").toString()); 
+    						mapNew.put("fid",mapHIS.get("fid").toString()); 
     						mapNew.put("fstatus","2" );
     						
     						eMps.add(mapNew);
@@ -539,22 +649,23 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     						
     						System.out.println("########  body ########"+JSONObject.toJSONString(eMps));
     						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 ,warJinYongurl);
-    						logger.info("发送仓库禁用信息,"+mapData+"通知给his系统，result：" + result);
+    						logger.info("发送仓库禁用信息,"+mapHIS+"通知给his系统，result：" + result);
     						System.out.println("########  result ########"+result);
     						mapRet = (Map) JSONObject.parse(result);  
     						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
     							flag=true;
+    						}else{
+    							flag=false;
     						}
-    						map.put("RESJSON", result);
+    						map.put("RESJSON", "B2B:"+map.get("RESJSON")+";HIS:"+result);
     						map.put("JSON", JSONObject.toJSONString(eMps)); 
     					}
     					
     				}else{
     					 map.put("ERROR", "根据ID"+fid+"找不到对应的仓库信息,没有同步到中间库。");
-    				}   
-    				flag=true;
-					getlogInfo(ctx , map,DateBasetype.FreeItem ,processType,flag ,loginfo);
-    			}  
+    				}    
+					getlogInfo(ctx , map,DateBasetype.WAREHOUSE ,processType,flag ,loginfo);
+    			} 
     			
     		}
 		} catch (EASBizException e) {
@@ -574,7 +685,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				}else if(type ==4){
 					getlogInfo(ctx , map,DateBasetype.Person ,processType,flag ,loginfo);
 				}else if(type ==5){
-					getlogInfo(ctx , map,DateBasetype.FreeItem ,processType,flag ,loginfo);
+					getlogInfo(ctx , map,DateBasetype.WAREHOUSE ,processType,flag ,loginfo);
 				}
 			}catch (EASBizException e) {
 				// TODO Auto-generated catch block
@@ -1279,8 +1390,12 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			super._doCangkuMid(ctx);
 			
 			
-			Map<String, String> namemap = new  HashMap<String, String>();
-			Map<String, String> statusmap = new  HashMap<String, String>();
+			Map<String, String> namemapB2B = new  HashMap<String, String>();
+			Map<String, String> statusmapB2B = new  HashMap<String, String>();
+			
+			
+			Map<String, String> namemapHIS = new  HashMap<String, String>();
+			Map<String, String> statusmapHIS = new  HashMap<String, String>();
 			
 			List<String> updatesqls = new ArrayList<String>();
 			List<String> sqls = new ArrayList<String>();
@@ -1292,8 +1407,8 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					String fid = map.get("FID").toString(); 
 					String name = map.get("FNAME")==null? "": map.get("FNAME").toString();
 					String status = map.get("FSTATUS")==null? "0":map.get("FSTATUS").toString();
-					namemap.put( fid, name);
-					statusmap.put( fid, status);
+					namemapB2B.put( fid, name);
+					statusmapB2B.put( fid, status);
 				}
 			} 
 			
@@ -1304,8 +1419,8 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					String fid = map.get("FID").toString(); 
 					String name = map.get("FNAME")==null? "": map.get("FNAME").toString();
 					String status = map.get("FSTATUS")==null? "0":map.get("FSTATUS").toString();
-					namemap.put( fid, name);
-					statusmap.put( fid, status);
+					namemapHIS.put( fid, name);
+					statusmapHIS.put( fid, status);
 				}
 			} 
 			
@@ -1326,42 +1441,70 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						 
 						String orgid = rsData.getString("FORGID");
 						
-						String table = "";
-						if( "jbYAAAMU2SvM567U".equals(orgid)){
-							table = "EAS_Warehouse_Cent";
+						String  table = "EAS_Warehouse_Cent";
+						if( null==namemapB2B.get(fid) ||"".equals(namemapB2B.get(fid))  ){// 需要新增
+							String sqlInsert = insertMidTableAll(ctx,  table, rsData ,"fSign");
+							sqls.add(sqlInsert);
 						}else{
+							String midName = namemapB2B.get(fid);
+							String midStatus= statusmapB2B.get(fid);
+							boolean flag = false;
+							String sqlUpdate = " update "+table+" set ";
+							if(!name.equals(midName)){
+								sqlUpdate = sqlUpdate+" FNAME = '"+name+"',";
+								flag = true;
+							}
+							if(!status.equals(midStatus)){ 
+								if("1".equals(status)){
+									sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
+									flag = true;
+								}else if("0".equals(status)){
+									sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
+									flag = true;
+								} else if("2".equals(status)){
+									sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =2,";
+									flag = true;
+								} 
+							}
+							if(flag){
+								sqlUpdate = sqlUpdate+" fSign = 0, FsynTime =sysdate where fid = '"+fid+"'";
+								updatesqls.add(sqlUpdate);
+							}
+						} 
+						
+						if( !"jbYAAAMU2SvM567U".equals(orgid)){ 
 							table = "EAS_Warehouse_Clinic";
-						}   
-						if( null==namemap.get(fid) ||"".equals(namemap.get(fid))  ){// 需要新增
-							 String sqlInsert = insertMidTableAll(ctx,  table, rsData ,"fSign");
-							 sqls.add(sqlInsert);
-						 }else{
-							 String midName = namemap.get(fid);
-							 String midStatus= statusmap.get(fid);
-							 boolean flag = false;
-							 String sqlUpdate = " update "+table+" set ";
-							 if(!name.equals(midName)){
-								 sqlUpdate = sqlUpdate+" FNAME = '"+name+"',";
-								 flag = true;
-							 }
-							 if(!status.equals(midStatus)){ 
-								 if("1".equals(status)){
-									 sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
-									 flag = true;
-								 }else if("0".equals(status)){
-									 sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
-									 flag = true;
-								 } else if("2".equals(status)){
-									 sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =2,";
-									 flag = true;
-								 } 
-							 }
-							 if(flag){
-								 sqlUpdate = sqlUpdate+" fSign = 0, FsynTime =sysdate where fid = '"+fid+"'";
-								 updatesqls.add(sqlUpdate);
-							 }
-						 }
-			        	
+							
+							if( null==namemapHIS.get(fid) ||"".equals(namemapHIS.get(fid))  ){// 需要新增
+								 String sqlInsert = insertMidTableAll(ctx,  table, rsData ,"fSign");
+								 sqls.add(sqlInsert);
+							}else{
+								String midName = namemapHIS.get(fid);
+								String midStatus= statusmapHIS.get(fid);
+								boolean flag = false;
+								String sqlUpdate = " update "+table+" set ";
+								if(!name.equals(midName)){
+									sqlUpdate = sqlUpdate+" FNAME = '"+name+"',";
+									flag = true;
+								}
+								if(!status.equals(midStatus)){ 
+									if("1".equals(status)){
+										sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
+										flag = true;
+									}else if("0".equals(status)){
+										sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
+										flag = true;
+									} else if("2".equals(status)){
+										sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =2,";
+										flag = true;
+									} 
+								}
+								if(flag){
+									sqlUpdate = sqlUpdate+" fSign = 0, FsynTime =sysdate where fid = '"+fid+"'";
+									updatesqls.add(sqlUpdate);
+								}
+							}
+						}    
 					}
 				}catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -1893,7 +2036,6 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 									mp.put("cusna", rs.getString("cusna"));
 									mp.put("cateno", rs.getString("cateno"));
 									mp.put("isinner", rs.getString("isinner"));
-									mp.put("catena", rs.getString("catena"));
 									if(rs.getObject("eascompanyid") !=null && !"".equals(rs.getObject("eascompanyid").toString()))
 										mp.put("eascompanyid", rs.getObject("eascompanyid").toString());
 									else
@@ -1929,5 +2071,20 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 		}
     
 	    
+		
+		protected String  sendBaseDataToB2B(Context ctx, String jsonStr)
+		throws BOSException {
+			//return super._savePaymentBill(ctx, jsonStr);
+			String result = "";
+			try {
+				HttpClient httpClient = new HTTPSTrustClient().init();
+				result += HTTPSClientUtil.doPostJson(httpClient, InterfaceResource.sap_base_url, jsonStr);			
+			} catch (Exception e) {
+					e.printStackTrace();
+			} 
+			return result;
+		}
+		
+		 
 	    
 }

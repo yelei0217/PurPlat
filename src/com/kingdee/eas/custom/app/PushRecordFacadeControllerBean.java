@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.kingdee.bos.*;
 import com.kingdee.bos.util.BOSObjectType;
 import com.kingdee.bos.util.BOSUuid;
@@ -36,6 +38,8 @@ import com.kingdee.eas.custom.IPushRecord;
 import com.kingdee.eas.custom.PushRecordCollection;
 import com.kingdee.eas.custom.PushRecordFactory;
 import com.kingdee.eas.custom.PushRecordInfo;
+import com.kingdee.eas.custom.app.dao.VMISaleOrderSupport;
+import com.kingdee.eas.custom.app.dto.VMISaleOrderDTO;
 import com.kingdee.eas.custom.app.unit.AppUnit;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.framework.CoreBaseCollection;
@@ -158,8 +162,19 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 										
 										//栗喆-采购入库 （EAS自动）	VMI_U_LZ_PI 
 										
-										//栗喆-销售出库 （EAS自动）	VMI_U_LZ_SS	 
-										
+										//栗喆-销售出库 （EAS自动）	VMI_U_LZ_SS	
+										String reqStr = pushInfo.getReq();
+										Gson gson = new Gson();
+										VMISaleOrderDTO m =null;
+ 										try {
+											m = gson.fromJson(reqStr, VMISaleOrderDTO.class);
+											VMISaleOrderSupport.doGengerBill(ctx, m);
+
+										} catch (JsonSyntaxException e) {
+											//purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+						 					e.printStackTrace();
+						 					pushInfo.setPushStatus(PushStatusEnum.doFail);
+										}
 									}
 								//	IObjectPK issPK = iSaleIssue.submit(saleIssInfo);
 									if(issPK != null && !"".equals(issPK.toString())){

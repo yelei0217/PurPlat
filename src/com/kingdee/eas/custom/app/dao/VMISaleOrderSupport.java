@@ -75,7 +75,7 @@ public class VMISaleOrderSupport {
 	 *  插入 eas表
 	 * @param ctx
 	 */
-	public static void doInsertBill(Context ctx,VMISaleOrderDTO m,String busCode){
+	public static void doInsertBill(Context ctx,VMISaleOrderDTO m,String busCode,String reqStr){
 		ExecutorService pool = Executors.newFixedThreadPool(6);
 	    ParallelSqlExecutor pe = new ParallelSqlExecutor(pool); 
 	    StringBuffer sbr = new StringBuffer("/*dialect*/insert into T_SD_SALEORDER (FID,FCREATORID,FCREATETIME,FMODIFIERID,FMODIFICATIONTIME,FLASTUPDATEUSERID,FLASTUPDATETIME," +
@@ -91,7 +91,7 @@ public class VMISaleOrderSupport {
 		String bizTypeId = "d8e80652-010e-1000-e000-04c5c0a812202407435C"; // 普通销售
 		String billTypeId = "510b6503-0105-1000-e000-0113c0a812fd463ED552";//销售订单
 		String paymentTypeId = "91f078d7-fb90-4827-83e2-3538237b67a06BCA0AB5";//赊销
-		
+		String customerId= "svL0ZnRPS86qelCx023QZ78MBA4="; //零售客户
 		String settlementTypeId ="jbYAAAA0YHXpayuO" ;//对公付款
 		String currencyId ="dfd38d11-00fd-1000-e000-1ebdc0a8100dDEB58FDC" ;//人民币
 		
@@ -109,7 +109,7 @@ public class VMISaleOrderSupport {
 		String ctrlOrgId = PurPlatUtil.getCtrlOrgId(ctx, "PUR", m.getFstorageorgunitid()); //控制单元
 		sbr.append(ctrlOrgId).append("','").append(m.getFnumber()).append("',to_date('").append(bizDateStr).append("','yyyy-MM-dd'),'").append(m.getFdescription()).append("',0,'");
 		sbr.append(userId).append("',sysdate,4,'").append(bizTypeId).append("','").append(billTypeId).append("','").append(bizDateStr.substring(0, 4)).append("','").append(Integer.parseInt(bizDateStr.substring(5,7))).append("',0,'");
-		sbr.append(m.getFcustomerid()).append("','").append(m.getFstorageorgunitid()).append("','").append(deliverTYpeId).append("',0,'").append(currencyId).append("',1,'").append(paymentTypeId).append("','").append(settlementTypeId).append("'");
+		sbr.append(customerId).append("','").append(m.getFstorageorgunitid()).append("','").append(deliverTYpeId).append("',0,'").append(currencyId).append("',1,'").append(paymentTypeId).append("','").append(settlementTypeId).append("'");
 		sbr.append(",0,0,'").append(m.getFstorageorgunitid()).append("','jbYAAAAB7DOA733t','").append(m.getFadminorgunitid()).append("',").append(m.getFtotalamount()).append(",").append(m.getFtotaltax()).append(",").append(m.getFtotaltaxamount());
 		sbr.append(",0,0,'").append(m.getFsendaddress()).append("',0,0,").append(m.getFtotalamount()).append(",").append(m.getFtotaltaxamount());
 		sbr.append(",'").append( m.getFstorageorgunitid()).append("',").append(isInTax).append(",0,0,0,0,0,0,0,0,0,'").append(m.getId()).append("') ");
@@ -200,6 +200,7 @@ public class VMISaleOrderSupport {
 				CtrlUnitInfo control = new CtrlUnitInfo();
 				control.setId(BOSUuid.read(ctrlOrgId));
 				rInfo.setCU(control);
+				rInfo.setReq(reqStr);
 				PushRecordFactory.getLocalInstance(ctx).addnew(rInfo); 
 				
 			} catch (EASBizException e) { 
@@ -374,10 +375,37 @@ public class VMISaleOrderSupport {
     PurInWarehsBillInfo info = new PurInWarehsBillInfo();
     
     String storageOrgId = m.getFstorageorgunitid();
-    if(isCollpur==1)
-    	storageOrgId ="jbYAAAMU2SvM567U";
-    else
-    	storageOrgId = m.getFstorageorgunitid();
+     SupplierInfo supplierInfo = new SupplierInfo();
+
+    if(isCollpur==1){
+    	//supplier = m.getFsupplierid();
+     	storageOrgId ="jbYAAAMU2SvM567U";
+     	  supplierInfo.setId(BOSUuid.read("jbYAAAVlObc3xn38"));
+          info.setSupplier(supplierInfo);
+          info.put("iscollpur", Integer.valueOf(1));
+    } else{
+     	//supplier ="jbYAAAVlObc3xn38";
+     	storageOrgId = m.getFstorageorgunitid();
+     	 supplierInfo.setId(BOSUuid.read(m.getFsupplierid()));
+         info.setSupplier(supplierInfo);
+         info.put("iscollpur", Integer.valueOf(0));
+    }
+    
+    
+//    
+//    if (isCollpur == 1)
+//    {
+//      supplierInfo.setId(BOSUuid.read("jbYAAAVlObc3xn38"));
+//      info.setSupplier(supplierInfo);
+//      info.put("iscollpur", Integer.valueOf(1));
+//    }
+//    else
+//    {
+//      supplierInfo.setId(BOSUuid.read(m.getFsupplierid()));
+//      info.setSupplier(supplierInfo);
+//      info.put("iscollpur", Integer.valueOf(0));
+//    }
+    
     
     ObjectUuidPK orgPK = new ObjectUuidPK(storageOrgId);
     StorageOrgUnitInfo storageorginfo = StorageOrgUnitFactory.getLocalInstance(ctx).getStorageOrgUnitInfo(orgPK);
@@ -437,23 +465,10 @@ public class VMISaleOrderSupport {
     BigDecimal totalAmount = new BigDecimal(0);
     
    //int isCollpur = 0;
-    SupplierInfo supplierInfo = new SupplierInfo();
-  
-    if (isCollpur == 1)
-    {
-      supplierInfo.setId(BOSUuid.read("jbYAAAVlObc3xn38"));
-      info.setSupplier(supplierInfo);
-      info.put("iscollpur", Integer.valueOf(1));
-    }
-    else
-    {
-      supplierInfo.setId(BOSUuid.read(m.getFsupplierid()));
-      info.setSupplier(supplierInfo);
-      info.put("iscollpur", Integer.valueOf(0));
-    }
+ 
     info.put("MsgId", m.getId());
 
-    info.put("factory", m.getFsupplierid());
+    //info.put("factory", m.getFsupplierid());
      for (VMISaleOrderDetailDTO entry : m.getDetails())
     {
         PurInWarehsEntryInfo entryInfo = createEntryInfo(ctx,entry,isCollpur);

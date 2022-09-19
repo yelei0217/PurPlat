@@ -53,6 +53,7 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
     protected com.kingdee.bos.ctrl.swing.KDLabelContainer contprocessType;
     protected com.kingdee.bos.ctrl.swing.KDLabelContainer contdateBaseType;
     protected com.kingdee.bos.ctrl.swing.KDLabelContainer contPushStatus;
+    protected com.kingdee.bos.ctrl.swing.KDLabelContainer contreq;
     protected com.kingdee.bos.ctrl.swing.KDTextField txtNumber;
     protected com.kingdee.bos.ctrl.extendcontrols.KDBizMultiLangBox txtName;
     protected com.kingdee.bos.ctrl.swing.KDTextField txtSimpleName;
@@ -60,6 +61,8 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
     protected com.kingdee.bos.ctrl.swing.KDComboBox processType;
     protected com.kingdee.bos.ctrl.swing.KDComboBox dateBaseType;
     protected com.kingdee.bos.ctrl.swing.KDComboBox PushStatus;
+    protected com.kingdee.bos.ctrl.swing.KDScrollPane scrollPanereq;
+    protected com.kingdee.bos.ctrl.swing.KDTextArea txtreq;
     protected com.kingdee.bos.ctrl.swing.KDWorkButton btnGenerPurOrder;
     protected com.kingdee.bos.ctrl.swing.KDWorkButton btnGenerPurInBIll;
     protected com.kingdee.eas.custom.PushRecordInfo editData = null;
@@ -107,6 +110,7 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
         this.contprocessType = new com.kingdee.bos.ctrl.swing.KDLabelContainer();
         this.contdateBaseType = new com.kingdee.bos.ctrl.swing.KDLabelContainer();
         this.contPushStatus = new com.kingdee.bos.ctrl.swing.KDLabelContainer();
+        this.contreq = new com.kingdee.bos.ctrl.swing.KDLabelContainer();
         this.txtNumber = new com.kingdee.bos.ctrl.swing.KDTextField();
         this.txtName = new com.kingdee.bos.ctrl.extendcontrols.KDBizMultiLangBox();
         this.txtSimpleName = new com.kingdee.bos.ctrl.swing.KDTextField();
@@ -114,6 +118,8 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
         this.processType = new com.kingdee.bos.ctrl.swing.KDComboBox();
         this.dateBaseType = new com.kingdee.bos.ctrl.swing.KDComboBox();
         this.PushStatus = new com.kingdee.bos.ctrl.swing.KDComboBox();
+        this.scrollPanereq = new com.kingdee.bos.ctrl.swing.KDScrollPane();
+        this.txtreq = new com.kingdee.bos.ctrl.swing.KDTextArea();
         this.btnGenerPurOrder = new com.kingdee.bos.ctrl.swing.KDWorkButton();
         this.btnGenerPurInBIll = new com.kingdee.bos.ctrl.swing.KDWorkButton();
         this.kDLabelContainer1.setName("kDLabelContainer1");
@@ -123,6 +129,7 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
         this.contprocessType.setName("contprocessType");
         this.contdateBaseType.setName("contdateBaseType");
         this.contPushStatus.setName("contPushStatus");
+        this.contreq.setName("contreq");
         this.txtNumber.setName("txtNumber");
         this.txtName.setName("txtName");
         this.txtSimpleName.setName("txtSimpleName");
@@ -130,6 +137,8 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
         this.processType.setName("processType");
         this.dateBaseType.setName("dateBaseType");
         this.PushStatus.setName("PushStatus");
+        this.scrollPanereq.setName("scrollPanereq");
+        this.txtreq.setName("txtreq");
         this.btnGenerPurOrder.setName("btnGenerPurOrder");
         this.btnGenerPurInBIll.setName("btnGenerPurInBIll");
         // CoreUI		
@@ -170,6 +179,11 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
         this.contPushStatus.setBoundLabelLength(100);		
         this.contPushStatus.setBoundLabelUnderline(true);		
         this.contPushStatus.setVisible(true);
+        // contreq		
+        this.contreq.setBoundLabelText(resHelper.getString("contreq.boundLabelText"));		
+        this.contreq.setBoundLabelLength(100);		
+        this.contreq.setBoundLabelUnderline(true);		
+        this.contreq.setVisible(true);
         // txtNumber		
         this.txtNumber.setMaxLength(80);
         // txtName
@@ -188,13 +202,18 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
         this.PushStatus.setVisible(true);		
         this.PushStatus.addItems(EnumUtils.getEnumList("com.kingdee.eas.custom.app.PushStatusEnum").toArray());		
         this.PushStatus.setRequired(false);
+        // scrollPanereq
+        // txtreq		
+        this.txtreq.setVisible(true);		
+        this.txtreq.setRequired(false);		
+        this.txtreq.setMaxLength(255);
         // btnGenerPurOrder
         this.btnGenerPurOrder.setAction((IItemAction)ActionProxyFactory.getProxy(actionGenerPurOrder, new Class[] { IItemAction.class }, getServiceContext()));		
         this.btnGenerPurOrder.setText(resHelper.getString("btnGenerPurOrder.text"));
         // btnGenerPurInBIll
         this.btnGenerPurInBIll.setAction((IItemAction)ActionProxyFactory.getProxy(actionGenerPurInBIll, new Class[] { IItemAction.class }, getServiceContext()));		
         this.btnGenerPurInBIll.setText(resHelper.getString("btnGenerPurInBIll.text"));
-        this.setFocusTraversalPolicy(new com.kingdee.bos.ui.UIFocusTraversalPolicy(new java.awt.Component[] {processType,dateBaseType,PushStatus}));
+        this.setFocusTraversalPolicy(new com.kingdee.bos.ui.UIFocusTraversalPolicy(new java.awt.Component[] {processType,dateBaseType,PushStatus,txtreq}));
         this.setFocusCycleRoot(true);
 		//Register control's property binding
 		registerBindings();
@@ -220,22 +239,25 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
      */
     public void initUIContentLayout()
     {
-        this.setBounds(new Rectangle(0, 0, 359, 270));
-        this.setLayout(null);
+        this.setBounds(new Rectangle(0, 0, 844, 288));
+        this.setLayout(new KDLayout());
+        this.putClientProperty("OriginalBounds", new Rectangle(0, 0, 844, 288));
         kDLabelContainer1.setBounds(new Rectangle(44, 18, 270, 19));
-        this.add(kDLabelContainer1, null);
+        this.add(kDLabelContainer1, new KDLayout.Constraints(44, 18, 270, 19, KDLayout.Constraints.ANCHOR_TOP | KDLayout.Constraints.ANCHOR_LEFT | KDLayout.Constraints.ANCHOR_RIGHT_SCALE));
         kDLabelContainer2.setBounds(new Rectangle(44, 53, 270, 19));
-        this.add(kDLabelContainer2, null);
+        this.add(kDLabelContainer2, new KDLayout.Constraints(44, 53, 270, 19, KDLayout.Constraints.ANCHOR_TOP | KDLayout.Constraints.ANCHOR_LEFT | KDLayout.Constraints.ANCHOR_RIGHT_SCALE));
         kDLabelContainer3.setBounds(new Rectangle(44, 193, 270, 19));
-        this.add(kDLabelContainer3, null);
+        this.add(kDLabelContainer3, new KDLayout.Constraints(44, 193, 270, 19, KDLayout.Constraints.ANCHOR_TOP | KDLayout.Constraints.ANCHOR_LEFT | KDLayout.Constraints.ANCHOR_RIGHT_SCALE));
         kDLabelContainer4.setBounds(new Rectangle(44, 231, 270, 19));
-        this.add(kDLabelContainer4, null);
+        this.add(kDLabelContainer4, new KDLayout.Constraints(44, 231, 270, 19, KDLayout.Constraints.ANCHOR_TOP | KDLayout.Constraints.ANCHOR_LEFT | KDLayout.Constraints.ANCHOR_RIGHT_SCALE));
         contprocessType.setBounds(new Rectangle(44, 88, 270, 19));
-        this.add(contprocessType, null);
+        this.add(contprocessType, new KDLayout.Constraints(44, 88, 270, 19, KDLayout.Constraints.ANCHOR_TOP | KDLayout.Constraints.ANCHOR_LEFT | KDLayout.Constraints.ANCHOR_RIGHT_SCALE));
         contdateBaseType.setBounds(new Rectangle(44, 123, 270, 19));
-        this.add(contdateBaseType, null);
+        this.add(contdateBaseType, new KDLayout.Constraints(44, 123, 270, 19, KDLayout.Constraints.ANCHOR_TOP | KDLayout.Constraints.ANCHOR_LEFT | KDLayout.Constraints.ANCHOR_RIGHT_SCALE));
         contPushStatus.setBounds(new Rectangle(44, 158, 270, 19));
-        this.add(contPushStatus, null);
+        this.add(contPushStatus, new KDLayout.Constraints(44, 158, 270, 19, KDLayout.Constraints.ANCHOR_TOP | KDLayout.Constraints.ANCHOR_LEFT | KDLayout.Constraints.ANCHOR_RIGHT_SCALE));
+        contreq.setBounds(new Rectangle(329, 10, 492, 242));
+        this.add(contreq, new KDLayout.Constraints(329, 10, 492, 242, KDLayout.Constraints.ANCHOR_TOP | KDLayout.Constraints.ANCHOR_LEFT_SCALE | KDLayout.Constraints.ANCHOR_RIGHT));
         //kDLabelContainer1
         kDLabelContainer1.setBoundEditor(txtNumber);
         //kDLabelContainer2
@@ -250,6 +272,10 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
         contdateBaseType.setBoundEditor(dateBaseType);
         //contPushStatus
         contPushStatus.setBoundEditor(PushStatus);
+        //contreq
+        contreq.setBoundEditor(scrollPanereq);
+        //scrollPanereq
+        scrollPanereq.getViewport().add(txtreq, null);
 
     }
 
@@ -368,7 +394,8 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
 		dataBinder.registerBinding("description", String.class, this.txtDescription, "_multiLangItem");
 		dataBinder.registerBinding("processType", com.kingdee.eas.custom.app.DateBaseProcessType.class, this.processType, "selectedItem");
 		dataBinder.registerBinding("dateBaseType", com.kingdee.eas.custom.app.DateBasetype.class, this.dateBaseType, "selectedItem");
-		dataBinder.registerBinding("PushStatus", com.kingdee.eas.custom.app.PushStatusEnum.class, this.PushStatus, "selectedItem");		
+		dataBinder.registerBinding("PushStatus", com.kingdee.eas.custom.app.PushStatusEnum.class, this.PushStatus, "selectedItem");
+		dataBinder.registerBinding("req", String.class, this.txtreq, "text");		
 	}
 	//Regiester UI State
 	private void registerUIState(){
@@ -521,7 +548,8 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
 		getValidateHelper().registerBindProperty("description", ValidateHelper.ON_SAVE);    
 		getValidateHelper().registerBindProperty("processType", ValidateHelper.ON_SAVE);    
 		getValidateHelper().registerBindProperty("dateBaseType", ValidateHelper.ON_SAVE);    
-		getValidateHelper().registerBindProperty("PushStatus", ValidateHelper.ON_SAVE);    		
+		getValidateHelper().registerBindProperty("PushStatus", ValidateHelper.ON_SAVE);    
+		getValidateHelper().registerBindProperty("req", ValidateHelper.ON_SAVE);    		
 	}
 
 
@@ -567,6 +595,7 @@ public abstract class AbstractPushRecordEditUI extends com.kingdee.eas.framework
         sic.add(new SelectorItemInfo("processType"));
         sic.add(new SelectorItemInfo("dateBaseType"));
         sic.add(new SelectorItemInfo("PushStatus"));
+        sic.add(new SelectorItemInfo("req"));
         return sic;
     }        
     	

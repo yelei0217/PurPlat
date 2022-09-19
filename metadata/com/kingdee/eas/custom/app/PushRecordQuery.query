@@ -608,6 +608,37 @@
                 <key name="name" value="PushRecordQuery" />
             </query>
         </queryField>
+        <queryField>
+            <name>req</name>
+            <userDefined>true</userDefined>
+            <formulaString>#0</formulaString>
+            <constString />
+            <displayName>joinQuery[com.kingdee.eas.custom.app.PushRecordQuery].units.queryField[req].displayName</displayName>
+            <groupType />
+            <isSelector>true</isSelector>
+            <isFilter>true</isFilter>
+            <isSorter>true</isSorter>
+            <isParameter>false</isParameter>
+            <returnType>String</returnType>
+            <propertyRefs>
+                <propertyRef>
+                    <key>8d7f83d4-ee8b-4a82-b5e4-fe3021abb0fc</key>
+                    <parentUnit>
+                        <key name="name" value="req" />
+                    </parentUnit>
+                    <subEntity>
+                        <key name="name" value="PushRecord" />
+                    </subEntity>
+                    <refProperty>
+                        <key name="name" value="req" />
+                    </refProperty>
+                </propertyRef>
+            </propertyRefs>
+            <query>
+                <key name="package" value="com.kingdee.eas.custom.app" />
+                <key name="name" value="PushRecordQuery" />
+            </query>
+        </queryField>
     </units>
     <defaultFilter>
         <name>defaultFilter</name>
@@ -1182,6 +1213,22 @@
             <lang locale="zh_TW" value="true" />
         </rs>
         <rs key="joinQuery[com.kingdee.eas.custom.app.PushRecordQuery].units.queryField[processType].extendedProperty.isCommonQuerySorter">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="joinQuery[com.kingdee.eas.custom.app.PushRecordQuery].units.queryField[req].displayName">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="请求参数" />
+            <lang locale="zh_HK" value="請求參數" />
+            <lang locale="zh_TW" value="請求參數" />
+        </rs>
+        <rs key="joinQuery[com.kingdee.eas.custom.app.PushRecordQuery].units.queryField[req].extendedProperty.isCommonQueryFilter">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="joinQuery[com.kingdee.eas.custom.app.PushRecordQuery].units.queryField[req].extendedProperty.isCommonQuerySorter">
             <lang locale="en_US" value="true" />
             <lang locale="zh_CN" value="true" />
             <lang locale="zh_TW" value="true" />

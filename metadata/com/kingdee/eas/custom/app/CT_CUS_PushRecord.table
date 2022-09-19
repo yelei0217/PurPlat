@@ -189,6 +189,20 @@
             <scale>0</scale>
             <precision>0</precision>
         </column>
+        <column>
+            <name>CFReq</name>
+            <alias>dataTable[com.kingdee.eas.custom.app.CT_CUS_PushRecord].columns.column[CFReq].alias</alias>
+            <description>dataTable[com.kingdee.eas.custom.app.CT_CUS_PushRecord].columns.column[CFReq].description</description>
+            <userDefined>true</userDefined>
+            <isMultilingual>false</isMultilingual>
+            <isEncoded>false</isEncoded>
+            <isNullable>true</isNullable>
+            <defaultValue />
+            <sqlType>CLOB</sqlType>
+            <length>1000</length>
+            <scale>0</scale>
+            <precision>0</precision>
+        </column>
     </columns>
     <primaryKey>
         <name>CPK_CUS_PushRID2eq</name>
@@ -304,6 +318,18 @@
             <lang locale="zh_CN" value="下推状态" />
             <lang locale="zh_HK" value="下推狀態" />
             <lang locale="zh_TW" value="下推狀態" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PushRecord].columns.column[CFReq].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="请求参数" />
+            <lang locale="zh_HK" value="請求參數" />
+            <lang locale="zh_TW" value="請求參數" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PushRecord].columns.column[CFReq].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="请求参数" />
+            <lang locale="zh_HK" value="請求參數" />
+            <lang locale="zh_TW" value="請求參數" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PushRecord].columns.column[FControlUnitID].alias">
             <lang locale="en_US" value="null" />

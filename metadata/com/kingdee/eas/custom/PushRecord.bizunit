@@ -106,9 +106,9 @@
             <lang locale="zh_TW" value="com.kingdee.eas.custom.client.PushRecordListUI" />
         </rs>
         <rs key="bizUnit[com.kingdee.eas.custom.PushRecord].extendedProperty.maxFieldIndex">
-            <lang locale="en_US" value="3" />
-            <lang locale="zh_CN" value="3" />
-            <lang locale="zh_TW" value="3" />
+            <lang locale="en_US" value="4" />
+            <lang locale="zh_CN" value="4" />
+            <lang locale="zh_TW" value="4" />
         </rs>
         <rs key="bizUnit[com.kingdee.eas.custom.PushRecord].extendedProperty.userDefined">
             <lang locale="en_US" value="true" />

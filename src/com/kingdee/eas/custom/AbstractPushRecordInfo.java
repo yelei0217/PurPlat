@@ -56,6 +56,17 @@ public class AbstractPushRecordInfo extends com.kingdee.eas.framework.DataBaseIn
         setString("PushStatus", item.getValue());
 		}
     }
+    /**
+     * Object:下推记录's 请求参数property 
+     */
+    public String getReq()
+    {
+        return getString("req");
+    }
+    public void setReq(String item)
+    {
+        setString("req", item);
+    }
     public BOSObjectType getBOSType()
     {
         return new BOSObjectType("F6221410");

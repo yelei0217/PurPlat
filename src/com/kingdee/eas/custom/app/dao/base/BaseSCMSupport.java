@@ -83,7 +83,7 @@ public class BaseSCMSupport {
 						// ÅÐ¶ÏmsgId ÊÇ·ñ´æÔÚSaleOrderDTO
 						if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
 							result = VMISaleOrderSupport.judgeModel(ctx,m,busCode);
-							VMISaleOrderSupport.doInsertBill(ctx, m, busCode);
+							VMISaleOrderSupport.doInsertBill(ctx, m, busCode,jsonStr);
 						}else
 							purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
 					}else

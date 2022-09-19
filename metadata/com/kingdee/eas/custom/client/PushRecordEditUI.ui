@@ -26,10 +26,15 @@
             <userDefined>false</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDPanel</classType>
             <isContainer>true</isContainer>
-            <constraints>0,0,359,270</constraints>
+            <constraints>0,0,844,288</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
+            <layoutInfo>
+                <name>xYLayout1</name>
+                <type>KDLayout</type>
+                <value />
+            </layoutInfo>
         </component>
         <component>
             <name>kDLabelContainer1</name>
@@ -37,7 +42,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>44,18,270,19</constraints>
+            <constraints>44,18,270,19,261</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -79,7 +84,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>44,53,270,19</constraints>
+            <constraints>44,53,270,19,261</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -121,7 +126,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>44,193,270,19</constraints>
+            <constraints>44,193,270,19,261</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -163,7 +168,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>44,231,270,19</constraints>
+            <constraints>44,231,270,19,261</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -219,7 +224,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>44,88,270,19</constraints>
+            <constraints>44,88,270,19,261</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -268,7 +273,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>44,123,270,19</constraints>
+            <constraints>44,123,270,19,261</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -317,7 +322,7 @@
             <userDefined>true</userDefined>
             <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
             <isContainer>true</isContainer>
-            <constraints>44,158,270,19</constraints>
+            <constraints>44,158,270,19,261</constraints>
             <tabIndex>0</tabIndex>
             <herited>false</herited>
             <bimUIObjectPK />
@@ -352,6 +357,55 @@
                     <name>visible</name>
                     <type>boolean</type>
                     <value>uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[contPushStatus].properties.property[visible].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+            </properties>
+            <parent>
+                <key name="name" value="CoreUI" />
+            </parent>
+        </component>
+        <component>
+            <name>contreq</name>
+            <alias>uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[contreq].alias</alias>
+            <userDefined>true</userDefined>
+            <classType>com.kingdee.bos.ctrl.swing.KDLabelContainer</classType>
+            <isContainer>true</isContainer>
+            <constraints>329,10,492,242,137</constraints>
+            <tabIndex>0</tabIndex>
+            <herited>false</herited>
+            <bimUIObjectPK />
+            <layoutInfo>
+                <name />
+                <type>LabelContainerLayout</type>
+                <value />
+            </layoutInfo>
+            <properties>
+                <property>
+                    <name>boundLabelText</name>
+                    <type>java.lang.String</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[contreq].properties.property[boundLabelText].value</value>
+                    <isMultiLan>true</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>boundLabelLength</name>
+                    <type>int</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[contreq].properties.property[boundLabelLength].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>boundLabelUnderline</name>
+                    <type>boolean</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[contreq].properties.property[boundLabelUnderline].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>visible</name>
+                    <type>boolean</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[contreq].properties.property[visible].value</value>
                     <isMultiLan>false</isMultiLan>
                     <userDefined>true</userDefined>
                 </property>
@@ -657,6 +711,75 @@
             </propertyBindings>
         </component>
         <component>
+            <name>scrollPanereq</name>
+            <alias>uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[scrollPanereq].alias</alias>
+            <userDefined>true</userDefined>
+            <classType>com.kingdee.bos.ctrl.swing.KDScrollPane</classType>
+            <isContainer>true</isContainer>
+            <constraints>7</constraints>
+            <tabIndex>0</tabIndex>
+            <herited>false</herited>
+            <bimUIObjectPK />
+            <layoutInfo>
+                <name />
+                <type>SameGridLayout</type>
+                <value>1,1,0,0,0,0</value>
+            </layoutInfo>
+            <parent>
+                <key name="name" value="contreq" />
+            </parent>
+        </component>
+        <component>
+            <name>txtreq</name>
+            <alias>uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[txtreq].alias</alias>
+            <userDefined>true</userDefined>
+            <classType>com.kingdee.bos.ctrl.swing.KDTextArea</classType>
+            <isContainer>false</isContainer>
+            <constraints>0,0,1,1</constraints>
+            <tabIndex>13</tabIndex>
+            <herited>false</herited>
+            <bimUIObjectPK />
+            <properties>
+                <property>
+                    <name>visible</name>
+                    <type>boolean</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[txtreq].properties.property[visible].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>required</name>
+                    <type>boolean</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[txtreq].properties.property[required].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+                <property>
+                    <name>maxLength</name>
+                    <type>int</type>
+                    <value>uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[txtreq].properties.property[maxLength].value</value>
+                    <isMultiLan>false</isMultiLan>
+                    <userDefined>true</userDefined>
+                </property>
+            </properties>
+            <parent>
+                <key name="name" value="scrollPanereq" />
+            </parent>
+            <propertyBindings>
+                <propertyBinding>
+                    <propertyName>text</propertyName>
+                    <propertyType>java.lang.String</propertyType>
+                    <bindingObject>editData</bindingObject>
+                    <bindingField>req</bindingField>
+                    <fieldType>String</fieldType>
+                    <accessType>2</accessType>
+                    <autoMode>false</autoMode>
+                    <herited>false</herited>
+                    <userDefined>true</userDefined>
+                </propertyBinding>
+            </propertyBindings>
+        </component>
+        <component>
             <name>btnPrint</name>
             <alias>uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[btnPrint].alias</alias>
             <userDefined>false</userDefined>
@@ -826,11 +949,9 @@
             <herited>false</herited>
             <daemonRun>false</daemonRun>
             <actionExtendProperty>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;ExtendProperty&gt;&lt;item key="canForewarn" value="true" /&gt;&lt;item key="userDefined" value="true" /&gt;&lt;item key="isObjectUpdateLock" value="false" /&gt;&lt;/ExtendProperty&gt;
-</actionExtendProperty>
+&lt;ExtendProperty&gt;&lt;item key="canForewarn" value="true" /&gt;&lt;item key="userDefined" value="true" /&gt;&lt;item key="isObjectUpdateLock" value="false" /&gt;&lt;/ExtendProperty&gt;</actionExtendProperty>
             <services>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;root&gt;&lt;service class="com.kingdee.eas.framework.client.service.PermissionService" /&gt;&lt;service class="com.kingdee.eas.framework.client.service.ForewarnService" /&gt;&lt;/root&gt;
-</services>
+&lt;root&gt;&lt;service class="com.kingdee.eas.framework.client.service.PermissionService" /&gt;&lt;service class="com.kingdee.eas.framework.client.service.ForewarnService" /&gt;&lt;/root&gt;</services>
             <userDefined>true</userDefined>
             <userDefinedLogic />
             <oprtIntent />
@@ -859,11 +980,9 @@
             <herited>false</herited>
             <daemonRun>false</daemonRun>
             <actionExtendProperty>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;ExtendProperty&gt;&lt;item key="canForewarn" value="true" /&gt;&lt;item key="userDefined" value="true" /&gt;&lt;item key="isObjectUpdateLock" value="false" /&gt;&lt;/ExtendProperty&gt;
-</actionExtendProperty>
+&lt;ExtendProperty&gt;&lt;item key="canForewarn" value="true" /&gt;&lt;item key="userDefined" value="true" /&gt;&lt;item key="isObjectUpdateLock" value="false" /&gt;&lt;/ExtendProperty&gt;</actionExtendProperty>
             <services>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;root&gt;&lt;service class="com.kingdee.eas.framework.client.service.PermissionService" /&gt;&lt;service class="com.kingdee.eas.framework.client.service.ForewarnService" /&gt;&lt;/root&gt;
-</services>
+&lt;root&gt;&lt;service class="com.kingdee.eas.framework.client.service.PermissionService" /&gt;&lt;service class="com.kingdee.eas.framework.client.service.ForewarnService" /&gt;&lt;/root&gt;</services>
             <userDefined>true</userDefined>
             <userDefinedLogic />
             <oprtIntent />
@@ -1238,6 +1357,36 @@
             <lang locale="zh_HK" value="true" />
             <lang locale="zh_TW" value="true" />
         </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[contreq].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[contreq].properties.property[boundLabelLength].value">
+            <lang locale="en_US" value="100" />
+            <lang locale="zh_CN" value="100" />
+            <lang locale="zh_HK" value="100" />
+            <lang locale="zh_TW" value="100" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[contreq].properties.property[boundLabelText].value">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="请求参数" />
+            <lang locale="zh_HK" value="請求參數" />
+            <lang locale="zh_TW" value="請求參數" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[contreq].properties.property[boundLabelUnderline].value">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_HK" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[contreq].properties.property[visible].value">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_HK" value="true" />
+            <lang locale="zh_TW" value="true" />
+        </rs>
         <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[dateBaseType].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="数据类型" />
@@ -1418,6 +1567,12 @@
             <lang locale="zh_HK" value="true" />
             <lang locale="zh_TW" value="true" />
         </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[scrollPanereq].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
         <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[txtDescription].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="描述" />
@@ -1453,6 +1608,30 @@
             <lang locale="zh_CN" value="80" />
             <lang locale="zh_HK" value="80" />
             <lang locale="zh_TW" value="80" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[txtreq].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="请求参数" />
+            <lang locale="zh_HK" value="請求參數" />
+            <lang locale="zh_TW" value="請求參數" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[txtreq].properties.property[maxLength].value">
+            <lang locale="en_US" value="255" />
+            <lang locale="zh_CN" value="255" />
+            <lang locale="zh_HK" value="255" />
+            <lang locale="zh_TW" value="255" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[txtreq].properties.property[required].value">
+            <lang locale="en_US" value="false" />
+            <lang locale="zh_CN" value="false" />
+            <lang locale="zh_HK" value="false" />
+            <lang locale="zh_TW" value="false" />
+        </rs>
+        <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].components.component[txtreq].properties.property[visible].value">
+            <lang locale="en_US" value="true" />
+            <lang locale="zh_CN" value="true" />
+            <lang locale="zh_HK" value="true" />
+            <lang locale="zh_TW" value="true" />
         </rs>
         <rs key="uiObject[com.kingdee.eas.custom.client.PushRecordEditUI].description">
             <lang locale="en_US" value="null" />

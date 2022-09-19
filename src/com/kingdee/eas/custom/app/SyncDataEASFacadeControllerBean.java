@@ -512,10 +512,10 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				  " from  T_DB_WAREHOUSE wah inner  join T_ORG_Storage admin on admin.fid = wah.FstorageOrgID "+
 				  "	inner join  T_PM_User  cuser on cuser.fid=wah.FCREATORID  "+ 
 				  " where wah.fid = '"+fid+"' ";  
+    			String orgid ="";
     			IRowSet  rsData = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
     			IRowSet  rsB2B = rsData.createCopy(); 
-    			IRowSet  rsHIS = rsData.createCopy(); 
-    			String orgid = rsData.getString("FORGTID");
+    			IRowSet  rsHIS = rsData.createCopy();  
     			if(rsData!=null && rsData.size() > 0){
     				while(rsData.next()){    
     					orgid = rsData.getString("FORGTID");
@@ -834,7 +834,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					String message = rs.getString("MESSAGE");
 					typemap.put(fid, type);
 					msgmap.put(fid, message);
-					ids= ids.append(fid+"',"); 
+					ids= ids.append(fid+"','"); 
 				}  
 			}
 			
@@ -842,7 +842,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				 
 				Map<String, String> deleMap = new  HashMap<String, String>();
 				
-				ids = new StringBuffer().append( ids.substring(0, ids.length()-1) );
+				ids = new StringBuffer().append( ids.substring(0, ids.length()-2) );
 				String upsql = " update CT_CUS_PurPlatSyncdbLog set cfIsSync = 1 where  fid in ("+ids+") ";
 				com.kingdee.eas.custom.util.DBUtil.execute(ctx,upsql);
 				

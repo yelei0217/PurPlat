@@ -778,12 +778,12 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					String message = rs.getString("MESSAGE");
 					typemap.put(fid, type);
 					msgmap.put(fid, message);
-					ids= ids.append(fid+"',"); 
+					ids= ids.append(fid+"','"); 
 				}  
 			}
 			
 			if(ids.length() > 1 ){
-				ids = new StringBuffer().append( ids.substring(0, ids.length()-1) );
+				ids = new StringBuffer().append( ids.substring(0, ids.length()-2) );
 				String upsql = " update CT_CUS_PurPlatSyncdbLog set cfIsSync = 1 where  fid in ("+ids+") ";
 				com.kingdee.eas.custom.util.DBUtil.execute(ctx,upsql);
 				

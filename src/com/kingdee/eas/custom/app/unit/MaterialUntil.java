@@ -43,6 +43,7 @@ import com.kingdee.eas.basedata.master.material.UsedStatusEnum;
 import com.kingdee.eas.basedata.org.CtrlUnitFactory;
 import com.kingdee.eas.basedata.org.CtrlUnitInfo;
 import com.kingdee.eas.common.EASBizException;
+import com.kingdee.eas.custom.PurPlatSyncdbLogCollection;
 import com.kingdee.eas.custom.PurPlatSyncdbLogFactory;
 import com.kingdee.eas.custom.PurPlatSyncdbLogInfo;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
@@ -87,16 +88,21 @@ public class MaterialUntil {
 			}
 		}
 		try {
-			PurPlatSyncdbLogInfo  log = PurPlatSyncdbLogFactory.getLocalInstance(ctx).getPurPlatSyncdbLogInfo( " where name = '"+msgid+"' ");
-			if(!"".equals(error)){
-				log.setStatus(false);
-				log.setErrorMessage(error);
-				log.setSendCount(1);
-			}else{
-				log.setStatus(true);
-				log.setSendCount(1);
-			}
-			PurPlatSyncdbLogFactory.getLocalInstance(ctx).save(log);
+			PurPlatSyncdbLogCollection  logColl = PurPlatSyncdbLogFactory.getLocalInstance(ctx).getPurPlatSyncdbLogCollection( " where name = '"+msgid+"' ");
+			
+			
+			 for(int i= 0 ; i < logColl.size() ; i++ ){
+				 PurPlatSyncdbLogInfo  log  = logColl.get(i);
+				 if(!"".equals(error)){
+						log.setStatus(false);
+						log.setErrorMessage(error);
+						log.setSendCount(1);
+					}else{
+						log.setStatus(true);
+						log.setSendCount(1);
+					}
+					PurPlatSyncdbLogFactory.getLocalInstance(ctx).save(log);
+			 } 
 		} catch (EASBizException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -579,15 +585,15 @@ public class MaterialUntil {
 				e1.printStackTrace();
 				error = error+e1.getMessage()+";";
 			}
+			 
+		  
+		  	
 			MaterialInfo material = new MaterialInfo();
+			FilterInfo filter = new FilterInfo();
 			EntityViewInfo view = new EntityViewInfo();
-			view.getSelector().add(new SelectorItemInfo("number"));
-			try {
-				view.setFilter(new FilterInfo(number));
-			} catch (ParserException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
+			filter.getFilterItems().add(new FilterItemInfo("number",number,CompareType.EQUALS)); // 
+			view.setFilter(filter);
 			MaterialCollection materialColl = imbiz.getMaterialCollection(view);
 			if(materialColl.size()>0){
 				material = materialColl.get(0);
@@ -623,15 +629,14 @@ public class MaterialUntil {
 					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的物料类别不存在";  
 					continue;
 				}
-				
+				 
+				FilterInfo filterNew = new FilterInfo();
 				EntityViewInfo viewGroup = new EntityViewInfo();
 				viewGroup.getSelector().add(new SelectorItemInfo("number"));
-				try {
-					viewGroup.setFilter(new FilterInfo(dataMap.get("fMaterialGroup").toString()));
-				} catch (ParserException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				
+				filterNew.getFilterItems().add(new FilterItemInfo("number",dataMap.get("fMaterialGroup").toString(),CompareType.EQUALS)); 
+				viewGroup.setFilter(filterNew);
+				
 				MaterialGroupInfo materialGroup = new MaterialGroupInfo();
 				MaterialGroupCollection maco =  MaterialGroupFactory.getLocalInstance(ctx).getMaterialGroupCollection(viewGroup);
 				if(maco.size()>0){

@@ -39,13 +39,17 @@ public class PurPlatSyncdbLogListUI extends AbstractPurPlatSyncdbLogListUI
     public void actionHelp_actionPerformed(ActionEvent e) throws Exception {
      	//super.actionHelp_actionPerformed(e);
      	ISyncDataEASFacade  is = SyncDataEASFacadeFactory.getRemoteInstance();
+     	//is.materialSyncFun("");
     	//is.doCustomerMid();
      	//is.doOrgMid();
      	//is.doSuppMid();
      	//is.doCangkuMid();
      	//is.doPersonMid();
      	
-     	is.DoErrorJon("");
+     	//is.syncDateByType( 2 , "" , 0  , "" ,"+WTOjqOTQEuPXFlQEYMe1DfGffw=" ); 
+     	is.DoMaterialJson( ""); 
+     	
+     	//is.DoErrorJon("");
     }
     
     /**

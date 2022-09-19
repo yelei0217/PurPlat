@@ -1,6 +1,7 @@
 package com.kingdee.eas.custom.app.dao;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,6 +69,8 @@ import com.kingdee.eas.scm.im.inv.SaleIssueBillInfo;
 import com.kingdee.eas.scm.im.inv.SaleIssueEntryInfo;
 import com.kingdee.eas.scm.ws.app.importbill.ScmbillImportUtils;
 import com.kingdee.eas.util.app.ContextUtil;
+import com.kingdee.eas.util.app.DbUtil;
+import com.kingdee.jdbc.rowset.IRowSet;
 
 public class VMISaleOrderSupport {
 
@@ -163,7 +166,7 @@ public class VMISaleOrderSupport {
 			sbr1.append(dvo.getFactualprice()).append(",").append(dvo.getFactualtaxprice()).append(",").append(dvo.getFtaxrate()).append(",").append(dvo.getFtax()).append(",").append(dvo.getFtaxamount()).append(",");
 			sbr1.append("to_date('").append(sendDateStr).append("','yyyy-MM-dd')").append(",to_date('").append(deliveDateStr).append("','yyyy-MM-dd'),'").append(m.getFstorageorgunitid()).append("','").append(m.getFstorageorgunitid()).append("',0,0,0,0,0,0,0,0,0,'").append(sId).append("',0,0,0,0,");
 			sbr1.append(dvo.getFqty()).append(",").append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",").append(dvo.getFqty()).append(",0,0,0,").append(dvo.getFtax()).append(",").append(dvo.getFtaxamount()).append(",0,0,").append(dvo.getFqty());
-			sbr1.append(",0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,'").append(m.getFcustomerid()).append("','").append(m.getFcustomerid()).append("','").append(m.getFcustomerid()).append("',");
+			sbr1.append(",0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,'").append(customerId).append("','").append(customerId).append("','").append(customerId).append("',");
 			sbr1.append("0,0,0,").append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",0,0,0,0,0,'").append(m.getFstorageorgunitid()).append("',to_date('").append(bizDateStr).append("','yyyy-MM-dd'),-1,0,0,'");
 			sbr1.append(m.getFstorageorgunitid()).append("',0,0,0,0,0,'").append(mmp.get("pp")).append("','").append(mmp.get("hh")).append("',0,0,");
 			sbr1.append(dvo.getFqty()).append(",").append(dvo.getFbaseqty()).append(",0,0,").append(dvo.getFtaxamount()).append(",").append(dvo.getFtaxamount()).append(",'").append(dvo.getId());
@@ -373,25 +376,20 @@ public class VMISaleOrderSupport {
     throws EASBizException, BOSException
   {
     PurInWarehsBillInfo info = new PurInWarehsBillInfo();
-    
     String storageOrgId = m.getFstorageorgunitid();
-     SupplierInfo supplierInfo = new SupplierInfo();
-
+    SupplierInfo supplierInfo = new SupplierInfo();
+    String supplierId ="";
     if(isCollpur==1){
-    	//supplier = m.getFsupplierid();
+    	supplierId = m.getFsupplierid();
      	storageOrgId ="jbYAAAMU2SvM567U";
-     	  supplierInfo.setId(BOSUuid.read("jbYAAAVlObc3xn38"));
-          info.setSupplier(supplierInfo);
-          info.put("iscollpur", Integer.valueOf(1));
+        info.put("iscollpur", Integer.valueOf(1));
     } else{
-     	//supplier ="jbYAAAVlObc3xn38";
+    	supplierId ="jbYAAAVlObc3xn38";
      	storageOrgId = m.getFstorageorgunitid();
-     	 supplierInfo.setId(BOSUuid.read(m.getFsupplierid()));
-         info.setSupplier(supplierInfo);
-         info.put("iscollpur", Integer.valueOf(0));
+        info.put("iscollpur", Integer.valueOf(0));
     }
-    
-    
+	  supplierInfo.setId(BOSUuid.read(supplierId));
+	  info.setSupplier(supplierInfo);
 //    
 //    if (isCollpur == 1)
 //    {
@@ -426,12 +424,11 @@ public class VMISaleOrderSupport {
     info.setBillType(billtype);
     
     PurchaseOrgUnitInfo purchaseorginfo = new PurchaseOrgUnitInfo();
-    purchaseorginfo.setId(BOSUuid.read(m.getFstorageorgunitid()));
+    purchaseorginfo.setId(BOSUuid.read(storageOrgId));
     
     info.setCreator(ContextUtil.getCurrentUserInfo(ctx));
     info.setCreateTime(new Timestamp(new Date().getTime()));
     SimpleDateFormat formmat = new SimpleDateFormat("yyyy-MM-dd");
-
     try {
 		info.setBizDate(formmat.parse(m.getFbizdate()));
 	} catch (ParseException e) {
@@ -515,10 +512,32 @@ public class VMISaleOrderSupport {
 //    material = imaterial.getMaterialInfo(pk);
     
     String warehouseId = dvo.getFwarehouseid();
-    if(isCollpur==1) 
+    BigDecimal qty = dvo.getFqty();
+    BigDecimal baseQty = dvo.getFbaseqty();
+    BigDecimal price = BigDecimal.ZERO; 
+    BigDecimal taxprice = BigDecimal.ZERO; 
+    BigDecimal taxrate = BigDecimal.ZERO; 
+    BigDecimal amount = BigDecimal.ZERO; 
+    BigDecimal tax = BigDecimal.ZERO; 
+    BigDecimal taxamount = BigDecimal.ZERO; 
+    
+    if(isCollpur==1){ 
     	warehouseId = "jbYAAAac+li76fiu";
-    else 	
+    	price = dvo.getFlzpprice(); 
+    	taxprice = dvo.getFlzptaxprice(); 
+    	taxrate = dvo.getFlzptaxrate(); 
+    	amount = dvo.getFlzpamount(); 
+    	tax =  dvo.getFlzptax(); 
+    	taxamount = dvo.getFlzptaxamount(); 
+    }else{ 	
     	warehouseId = dvo.getFwarehouseid();
+    	price = dvo.getFprice(); 
+    	taxprice = dvo.getFtaxprice(); 
+    	taxrate = dvo.getFtaxrate(); 
+    	amount = dvo.getFamount(); 
+    	tax =  dvo.getFtax(); 
+    	taxamount = dvo.getFtaxamount(); 
+    }
   
     
 	EntityViewInfo view = new EntityViewInfo();
@@ -548,14 +567,14 @@ public class VMISaleOrderSupport {
     entryInfo.setMaterial(material);
     entryInfo.setBaseUnit(baseUnitInfo);
     entryInfo.setUnit(unitInfo);
-    entryInfo.setQty(dvo.getFqty());
-    entryInfo.setBaseQty(dvo.getFbaseqty());
+    entryInfo.setQty(qty);
+    entryInfo.setBaseQty(baseQty);
     entryInfo.setAssociateQty(BigDecimal.ZERO);
-    entryInfo.setWrittenOffQty(dvo.getFqty());
-    entryInfo.setWrittenOffBaseQty(dvo.getFbaseqty());
-    entryInfo.setUnWriteOffQty(dvo.getFqty());
-    entryInfo.setUnWriteOffBaseQty(dvo.getFbaseqty());
-    entryInfo.setUnVmiSettleBaseQty(dvo.getFqty());
+    entryInfo.setWrittenOffQty(price);
+    entryInfo.setWrittenOffBaseQty(baseQty);
+    entryInfo.setUnWriteOffQty(qty);
+    entryInfo.setUnWriteOffBaseQty(baseQty);
+    entryInfo.setUnVmiSettleBaseQty(baseQty);
     entryInfo.setUnReturnedBaseQty(BigDecimal.ZERO);
     entryInfo.setCanDirectReqBaseQty(BigDecimal.ZERO);
     entryInfo.setCanDirectReqQty(BigDecimal.ZERO);
@@ -563,25 +582,25 @@ public class VMISaleOrderSupport {
     entryInfo.put("MsgId", dvo.getId());
     //entryInfo.setStandardCost(BigDecimal.ZERO);
    
-	entryInfo.setTaxRate(dvo.getFtaxrate());
-	entryInfo.setTax(dvo.getFtax());
-	entryInfo.setLocalTax(dvo.getFtax());
-    entryInfo.setAmount(dvo.getFamount());
-	entryInfo.setLocalAmount(dvo.getFamount());
-	    entryInfo.setWrittenOffAmount(dvo.getFamount());
-	    entryInfo.setTaxPrice(dvo.getFtaxprice());
-	    entryInfo.setPrice(dvo.getFprice());
-	    entryInfo.setActualPrice(dvo.getFtaxprice());
-	    entryInfo.setActualTaxPrice(dvo.getFtaxprice());
-	    entryInfo.setTaxAmount(dvo.getFtaxamount());
-	    entryInfo.setLocalTaxAmount(dvo.getFtaxamount());
-	    entryInfo.setUnWriteOffAmount(dvo.getFamount());
-	    entryInfo.setUnitStandardCost(dvo.getFprice());
-	    entryInfo.setStandardCost(dvo.getFamount());
-	    entryInfo.setUnitActualCost(dvo.getFprice());
-	    entryInfo.setActualCost(dvo.getFamount());
-	    entryInfo.setUnitPurchaseCost(dvo.getFprice());
-	    entryInfo.setPurchaseCost(dvo.getFamount());
+	entryInfo.setTaxRate(taxrate);
+	entryInfo.setTax(tax);
+	entryInfo.setLocalTax(tax);
+    entryInfo.setAmount(amount);
+	entryInfo.setLocalAmount(amount);
+	    entryInfo.setWrittenOffAmount(amount);
+	    entryInfo.setTaxPrice(taxprice);
+	    entryInfo.setPrice(price);
+	    entryInfo.setActualPrice(taxprice);
+	    entryInfo.setActualTaxPrice(taxprice);
+	    entryInfo.setTaxAmount(taxamount);
+	    entryInfo.setLocalTaxAmount(taxamount);
+	    entryInfo.setUnWriteOffAmount(amount);
+	    entryInfo.setUnitStandardCost(price);
+	    entryInfo.setStandardCost(amount);
+	    entryInfo.setUnitActualCost(price);
+	    entryInfo.setActualCost(amount);
+	    entryInfo.setUnitPurchaseCost(price);
+	    entryInfo.setPurchaseCost(amount);
 
     entryInfo.put("huohao", material.get("huohao"));
     entryInfo.put("pinpai", material.get("pinpai"));
@@ -593,13 +612,22 @@ public class VMISaleOrderSupport {
   throws BOSException, EASBizException
 {
 	    String storageOrgId = m.getFstorageorgunitid();
-	    if(isCollpur==1)
+	    String customerId ="";
+	    if(isCollpur==1){
 	    	storageOrgId ="jbYAAAMU2SvM567U";
-	    else
+	    	customerId = getInnerCustIdByComId(ctx,m.getFstorageorgunitid());
+	    }
+	    else{
+	    	 customerId= "svL0ZnRPS86qelCx023QZ78MBA4="; //零售客户
 	    	storageOrgId = m.getFstorageorgunitid();
+	    }
+	    	 
 	    
+	    CustomerInfo customerInfo = new CustomerInfo();
+	    customerInfo.setId(BOSUuid.read(customerId));
+ 
   SaleIssueBillInfo info = new SaleIssueBillInfo();
-  ObjectUuidPK orgPK = new ObjectUuidPK(m.getFstorageorgunitid());
+  ObjectUuidPK orgPK = new ObjectUuidPK(storageOrgId);
   
   StorageOrgUnitInfo storageorginfo = StorageOrgUnitFactory.getLocalInstance(ctx).getStorageOrgUnitInfo(orgPK);
   CompanyOrgUnitInfo xmcompany = ScmbillImportUtils.getCompanyInfo(ctx, storageorginfo, 4);
@@ -620,7 +648,7 @@ public class VMISaleOrderSupport {
   info.setBillType(billtype);
   
   SaleOrgUnitInfo saleOrgInfo = new SaleOrgUnitInfo();
-  saleOrgInfo.setId(BOSUuid.read(m.getFstorageorgunitid()));
+  saleOrgInfo.setId(BOSUuid.read(storageOrgId));
   
   info.setCreator(ContextUtil.getCurrentUserInfo(ctx));
   info.setCreateTime(new Timestamp(new Date().getTime()));
@@ -643,9 +671,7 @@ public class VMISaleOrderSupport {
   info.setCurrency(currency);
   info.setExchangeRate(new BigDecimal("1.00"));
   
-  CustomerInfo customerInfo = new CustomerInfo();
-  customerInfo.setId(BOSUuid.read(m.getFcustomerid()));
-  info.setCustomer(customerInfo);
+
   
   BizTypeInfo bizTypeinfo = new BizTypeInfo();
   bizTypeinfo.setId(BOSUuid.read(biztypeId)); //普通销售
@@ -656,18 +682,20 @@ public class VMISaleOrderSupport {
   info.setTransactionType(transinfo);
   
   info.put("MsgId", m.getId());
-
+  info.setCustomer(customerInfo);
+  
+  
   BillTypeInfo sourceBillTypeInfo = null ;
   if(sourceBilltypeId != null && !"".equals(sourceBilltypeId)){
 	    sourceBillTypeInfo = new BillTypeInfo();
 	    sourceBillTypeInfo.setId(BOSUuid.read(sourceBilltypeId));
   }
 
-  SupplierInfo supplierInfo =null;
-  if(m.getFsupplierid() != null && !"".equals(m.getFsupplierid())){
-  	supplierInfo = new SupplierInfo();
-      supplierInfo.setId(BOSUuid.read(m.getFsupplierid()));
-  }
+//  SupplierInfo supplierInfo =null;
+//  if(m.getFsupplierid() != null && !"".equals(m.getFsupplierid())){
+//  	supplierInfo = new SupplierInfo();
+//      supplierInfo.setId(BOSUuid.read(m.getFsupplierid()));
+//  }
   
  // BigDecimal totalAmount = new BigDecimal(0);
   for (VMISaleOrderDetailDTO entry : m.getDetails())
@@ -678,8 +706,8 @@ public class VMISaleOrderSupport {
       entryInfo.setBizDate(info.getBizDate());
       entryInfo.setBalanceCustomer(customerInfo);
       entryInfo.setSaleOrgUnit(saleOrgInfo);
-  	  if(supplierInfo !=null)
-	    	entryInfo.setSupplier(supplierInfo);
+//  	  if(supplierInfo !=null)
+//	    	entryInfo.setSupplier(supplierInfo);
 	    
       info.getEntries().addObject(entryInfo);
     }
@@ -692,10 +720,32 @@ private static SaleIssueEntryInfo createSaleEntryInfo(Context ctx, VMISaleOrderD
 {
     SaleIssueEntryInfo entryInfo = new SaleIssueEntryInfo();
     String warehouseId = dvo.getFwarehouseid();
-    if(isCollpur==1) 
+    BigDecimal qty = dvo.getFqty();
+    BigDecimal baseQty = dvo.getFbaseqty();
+    BigDecimal price = BigDecimal.ZERO; 
+    BigDecimal taxprice = BigDecimal.ZERO; 
+    BigDecimal taxrate = BigDecimal.ZERO; 
+    BigDecimal amount = BigDecimal.ZERO; 
+    BigDecimal tax = BigDecimal.ZERO; 
+    BigDecimal taxamount = BigDecimal.ZERO; 
+     if(isCollpur==1) {
     	warehouseId = "jbYAAAac+li76fiu";
-    else 	
-    	warehouseId = dvo.getFwarehouseid();
+    	price = dvo.getFlzsprice();
+     	taxprice = dvo.getFlzstaxprice(); 
+    	taxrate = dvo.getFlzstaxrate(); 
+    	amount = dvo.getFlzsamount(); 
+    	tax =  dvo.getFlzstax(); 
+    	taxamount = dvo.getFlzstaxamount(); 
+    }else {	
+     	warehouseId = dvo.getFwarehouseid();
+    	price = dvo.getFprice(); 
+    	taxprice = dvo.getFtaxprice(); 
+    	taxrate = dvo.getFtaxrate(); 
+    	amount = dvo.getFamount(); 
+    	tax =  dvo.getFtax(); 
+    	taxamount = dvo.getFtaxamount(); 
+    }
+   
   
 	EntityViewInfo view = new EntityViewInfo();
 	FilterInfo filter = new FilterInfo();
@@ -705,7 +755,7 @@ private static SaleIssueEntryInfo createSaleEntryInfo(Context ctx, VMISaleOrderD
    MaterialCollection materialColl =  MaterialFactory.getLocalInstance(ctx).getMaterialCollection(view);
    MaterialInfo material = materialColl.get(0);
    
-   IObjectPK pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
+  IObjectPK pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
   MeasureUnitInfo unitInfo = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitInfo(pk);
   
   pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
@@ -724,38 +774,57 @@ private static SaleIssueEntryInfo createSaleEntryInfo(Context ctx, VMISaleOrderD
   entryInfo.setMaterial(material);
   entryInfo.setBaseUnit(baseUnitInfo);
   entryInfo.setUnit(unitInfo);
-  entryInfo.setQty(dvo.getFqty());
-  entryInfo.setBaseQty(dvo.getFbaseqty());
+  entryInfo.setQty(qty);
+  entryInfo.setBaseQty(baseQty);
   entryInfo.setAssociateQty(BigDecimal.ZERO);
-  entryInfo.setWrittenOffQty(dvo.getFqty());
-  entryInfo.setWrittenOffBaseQty(dvo.getFbaseqty());
-  entryInfo.setUnWriteOffQty(dvo.getFqty());
-  entryInfo.setUnWriteOffBaseQty(dvo.getFbaseqty());
-  entryInfo.setUnSettleQty(dvo.getFqty());
-  entryInfo.setUnSettleBaseQty(dvo.getFbaseqty());
-  entryInfo.setUnVmiSettleBaseQty(dvo.getFqty());
+  entryInfo.setWrittenOffQty(qty);
+  entryInfo.setWrittenOffBaseQty(baseQty);
+  entryInfo.setUnWriteOffQty(qty);
+  entryInfo.setUnWriteOffBaseQty(baseQty);
+  entryInfo.setUnSettleQty(qty);
+  entryInfo.setUnSettleBaseQty(baseQty);
+  entryInfo.setUnVmiSettleBaseQty(qty);
   entryInfo.setUnReturnedBaseQty(BigDecimal.ZERO);
   entryInfo.setAssistQty(BigDecimal.ZERO);
  
-  	entryInfo.setTaxRate(dvo.getFtaxrate());
- 	    entryInfo.setTax(dvo.getFtax());
- 	    entryInfo.setLocalTax(dvo.getFtax());
-	    entryInfo.setTax(BigDecimal.ZERO);
-	    entryInfo.setAmount(dvo.getFamount());
-	    entryInfo.setLocalAmount(dvo.getFamount());
-	    entryInfo.setWrittenOffAmount(dvo.getFamount());
-	    entryInfo.setTaxPrice(dvo.getFtaxprice());
-	    entryInfo.setPrice(dvo.getFprice());
-	    entryInfo.setActualPrice(dvo.getFtaxprice());
-	    entryInfo.setUnWriteOffAmount(dvo.getFamount());
-	    entryInfo.setUnitStandardCost(dvo.getFprice());
-	    entryInfo.setStandardCost(dvo.getFamount());    
-	    entryInfo.setUnitActualCost(dvo.getFprice());
-	    entryInfo.setActualCost(dvo.getFamount());
- 
-  entryInfo.put("huohao", material.get("huohao"));
+  entryInfo.setTaxRate(taxrate);
+  entryInfo.setTax(tax);
+ 	    entryInfo.setLocalTax(tax);
+ 	    entryInfo.setAmount(amount);
+	    entryInfo.setLocalAmount(amount);
+	    entryInfo.setWrittenOffAmount(amount);
+	    entryInfo.setTaxPrice(taxprice);
+	    entryInfo.setPrice(price);
+	    entryInfo.setActualPrice(taxprice);
+	    entryInfo.setUnWriteOffAmount(amount);
+	    entryInfo.setUnitStandardCost(price);
+	    entryInfo.setStandardCost(amount);    
+	    entryInfo.setUnitActualCost(price);
+	    entryInfo.setActualCost(amount);
+	    
+	    entryInfo.put("huohao", material.get("huohao"));
   entryInfo.put("pinpai", material.get("pinpai"));
   entryInfo.put("MsgId", dvo.getId());
   return entryInfo;
 } 
+
+
+private static String getInnerCustIdByComId(Context ctx,String companyId){
+	String fid ="";
+	if(VerifyUtil.notNull(companyId) ){
+		String	 sql = " select FID from t_bd_customer where FINTERNALCOMPANYID = '"+companyId+"' and FIsInternalCompany=1 and  FUsedStatus =1";
+		     try {
+		         IRowSet rs = DbUtil.executeQuery(ctx, sql);
+		         if (rs.next() &&  rs.getObject("FID") != null && !"".equals(rs.getObject("FID").toString())) 
+		        	 fid = rs.getObject("FID").toString();
+		       }
+		       catch (BOSException e) {
+		         e.printStackTrace();
+		       } catch (SQLException e) {
+		         e.printStackTrace();
+		       } 
+	}
+	
+	return fid ;
+}
 }

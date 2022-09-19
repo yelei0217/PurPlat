@@ -1,5 +1,6 @@
 package com.kingdee.eas.custom.app;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import javax.ejb.*;
 import java.rmi.RemoteException;
@@ -9,7 +10,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.kingdee.bos.*;
 import com.kingdee.bos.util.BOSObjectType;
@@ -146,8 +152,8 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 							String botpId = PurPlatUtil.getMappIdByFName(ctx,"INM-004"); // 销售订单下推销售出库
 						 	if(botpId!=null && !"".equals(botpId) && saleOrderInfo.getBaseStatus() == BillBaseStatusEnum.AUDITED){
 						 		sourceColl.add(saleOrderInfo);
- 						 		List<IObjectPK> pks = AppUnit.botp(ctx, "CC3E933B", sourceColl, botpId);
-// 						 		List<IObjectPK> pks = AppUnit.botpSave(ctx, "CC3E933B", sourceColl, botpId);
+// 						 		List<IObjectPK> pks = AppUnit.botp(ctx, "CC3E933B", sourceColl, botpId);
+ 						 		List<IObjectPK> pks = AppUnit.botpSave(ctx, "CC3E933B", sourceColl, botpId);
 						 		sourceColl.clear();
 						 		if(pks !=null && pks.size() >0){
 						 			// 如果类型未  VMI_U_MZ_SO 需要修改明细行的更改类型
@@ -163,13 +169,14 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 										//栗喆-采购入库 （EAS自动）	VMI_U_LZ_PI 
 										
 										//栗喆-销售出库 （EAS自动）	VMI_U_LZ_SS	
-										String reqStr = pushInfo.getReq();
+ 									//	String reqStr =StringEscapeUtils.escapeJson(pushInfo.getReq()); 
 										Gson gson = new Gson();
 										VMISaleOrderDTO m =null;
  										try {
-											m = gson.fromJson(reqStr, VMISaleOrderDTO.class);
+											JsonObject dataJson = new JsonParser().parse(pushInfo.getReq()).getAsJsonObject(); 
+											JsonElement modelJE = dataJson.get("data"); // 请求参数data
+											m = gson.fromJson(modelJE, VMISaleOrderDTO.class);
 											VMISaleOrderSupport.doGengerBill(ctx, m);
-
 										} catch (JsonSyntaxException e) {
 											//purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
 						 					e.printStackTrace();

@@ -1338,7 +1338,8 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 		;
 		Map<String, String> retMap= getHisMap(ctx,map,0);
 		String retStr = JSONObject.toJSONString(retMap);
-		returnMap.put("code", "success"); 
+		returnMap.put("code", "success");  
+		
 		if(retMap.get("result")!=null && !retMap.get("result").equals("")){
 			returnMap.put("msg","新增成功。"+"HIS返回信息:"+retMap.get("result"));
 		}else{
@@ -1372,8 +1373,8 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 	
 	public Map<String, String> getHisMap(Context ctx,Map<String, String> map,int  type) {
 		HashMap<String, String> hismap = new  HashMap<String, String>();
-		String yichi = map.get("FYICHI").toString();
-		String yinxing = map.get("FYINXING").toString();  
+		//String yichi = map.get("FYICHI").toString();
+		//String yinxing = map.get("FYINXING").toString();  
 		String isgroupOa = map.get("FISGROUP").toString();  
 		
 		
@@ -1389,7 +1390,7 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 			hismap.put("fupdatetype", "1");
 		}  
 		
-		 
+		System.out.println("*********************getHisMap 参数 flag:"+flag);
 		try {
 //			if(oatype.indexOf("7") >=0  ){
 //				String oldyichi = map.get("OLDYICHI").toString();
@@ -1436,7 +1437,7 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 			String suppid =  map.get("supplier").toString();
 			hismap = getSupById(  ctx,   suppid , map,  hismap ,isgroupOa );
 			flag = true;
-			
+			System.out.println("*********************getHisMap 参数 hismap:"+hismap);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1493,7 +1494,7 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 				ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
 				is.syncDateByType( 2 , datajsonStr , Integer.parseInt(hismap.get("fupdatetype"))  , map.get("fName") ,map.get("supplier") ); 
 			}*/
-
+			System.out.println("########  supplier ########"+map.get("supplier"));
 			ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
 			if("0".equals(oatype) ){ //新增
 				is.syncDateByType( 2 , "" , 0  , map.get("fName") ,map.get("supplier") ); 

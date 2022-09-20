@@ -45,7 +45,7 @@ public class WarehouseControllerBeanEx extends WarehouseControllerBean{
 		}
 		IObjectPK  id = super._submit(ctx, model);
 		if(isNew){
-			ISyncDataEASFacade is = SyncDataEASFacadeFactory.getRemoteInstance();
+			ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
 			is.syncDateByType( 5 , "" , 0  , "" ,id.toString());
 //			HashMap<String, String> map = new HashMap<String, String>(); 
 //			String sql  = " /*dialect*/ select wah.fid fId , wah.fnumber fNumber, wah.fname_l2 fName ,admin.fid fOrgtid,admin.fnumber fOrgNumber, admin.fname_l2 fOrgName, "+

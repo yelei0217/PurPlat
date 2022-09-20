@@ -275,7 +275,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			        	 
 			        	logger.info("发送供应商通知给B2B系统，result：" + result);  
 			        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
-			        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
+			        	if(mapRet !=null && mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
 			        		flag=true;
 			        	} 
 			        	map.put("RESJSON", result);

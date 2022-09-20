@@ -35,8 +35,21 @@ public class BaseSCMDetailDTO implements Serializable{
 	private BigDecimal      fbaseqty;
 	private String  fremark;
 	private String fwarehouseid ;
+	private String fmfg ;
+	private String fexp ;
 	
-	
+	public String getFmfg() {
+		return fmfg;
+	}
+	public void setFmfg(String fmfg) {
+		this.fmfg = fmfg;
+	}
+	public String getFexp() {
+		return fexp;
+	}
+	public void setFexp(String fexp) {
+		this.fexp = fexp;
+	}
 	public String getId() {
 		return id;
 	}

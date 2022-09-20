@@ -207,7 +207,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				 " inner join  T_BD_SupplierCompanyInfo supcom  on supcom.FSUPPLIERID  = supp.fid and supcom.FComOrgID  = 'jbYAAAMU2SvM567U'"+
 				 "    where supp.fid ='"+fid+"'   "; 
 				 
-				CompanyOrgUnitInfo companyInfo = CompanyOrgUnitFactory.getLocalInstance(ctx).getCompanyOrgUnitInfo("where id='jbYAAAMU2SvM567U''");
+				CompanyOrgUnitInfo companyInfo = CompanyOrgUnitFactory.getLocalInstance(ctx).getCompanyOrgUnitInfo("where id='jbYAAAMU2SvM567U'");
 			  		  
 				IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
 				IRowSet  rsCopy=  rs.createCopy();
@@ -230,8 +230,8 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					
 					String bankStr = "";
 					String bankAccountStr = "";
-					String bankSql = " select  FBank BANK , FBankAccount BANKACCOUNT  from  T_BD_SupplierCompanyBank   supbank "+
-					" inner  join  T_BD_SupplierCompanyInfo supcom  on   supcom.FSUPPLIERID ="+fid+"   and  supcom.FComOrgID  = 'jbYAAAMU2SvM567U'  and  supcom.fid = supbank.FSupplierCompanyInfoID";
+					String bankSql = " select  supbank.FBank BANK , supbank.FBankAccount BANKACCOUNT  from  T_BD_SupplierCompanyBank   supbank "+
+					" inner  join  T_BD_SupplierCompanyInfo supcom  on   supcom.FSUPPLIERID ='"+fid+"'   and  supcom.FComOrgID  = 'jbYAAAMU2SvM567U'  and  supcom.fid = supbank.FSupplierCompanyInfoID";
 					IRowSet  rsBk = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,bankSql);
 					while(rsBk.next()){	
 						bankStr = bankStr+ rsBk.getString("BANK");

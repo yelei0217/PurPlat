@@ -1389,51 +1389,53 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 			hismap.put("fupdatetype", "1");
 		}  
 		
-		/*if(map.get("FSTATUS").toString().equals("1")){
-			hismap.put("fupdatetype", "2");
-		}*/
+		 
 		try {
-			if(oatype.indexOf("7") >=0  ){
-				String oldyichi = map.get("OLDYICHI").toString();
-				String oldyinxing = map.get("OLDYINXING").toString();  
-				
-				if("0".equals(oldyichi) && "0".equals(oldyinxing) && "0".equals(yichi) && "0".equals(yinxing)  ){
-					 
-					System.out.println(map.get("FNUMBER").toString()+"==============================供应商不需要传递给HIS===========");
-				}else{
-					String suppid =  map.get("supplier").toString();
-					hismap = getSupById(  ctx,   suppid , map,  hismap ,isgroupOa );
-					flag = true;
-					if("0".equals(yichi) && "0".equals(yinxing)){
-						hismap.put("fupdatetype", "2");
-					}
-				}
-			}else{
-				String suppid =  map.get("supplier").toString();
-				String cityid = map.get("FORGNUMBER").toString();
-				StringBuffer  sqlSup  = new StringBuffer();
-				
-				String oldyichi ="0"; 
-				String oldyinxing = "0";    
-				if("0".equals(isgroupOa)){ 
-					sqlSup.append("/*dialect*/ select distinct  nvl(CFKDCheckBox2,'0')  OLDYICHI, nvl(CFKDCheckBox3,'0')   OLDYINXING ")
-					.append("   from T_BD_SupplierPurchaseInfo  where FSupplierID = '"+suppid+"' and     FCONTROLUNITID = '"+cityid+"' "); 
-					 
-				}else{ 
-					sqlSup.append("/*dialect*/ select distinct nvl(CFKDCheckBox2,'0')  OLDYICHI, nvl(CFKDCheckBox3,'0')   OLDYINXING ")
-					.append("   from T_BD_SupplierPurchaseInfo  where FSupplierID = '"+suppid+"' ");
-				}  
-				IRowSet rowsSup = DbUtil.executeQuery(ctx, sqlSup.toString()); 
-				while (rowsSup.next()) {
-					oldyichi = rowsSup.getString("OLDYICHI"); 
-					oldyinxing = rowsSup.getString("OLDYINXING");   
-				} 
-				if("1".equals(oldyichi) || "1".equals(oldyinxing) ){
-					hismap = getSupById(  ctx,   suppid , map,  hismap ,isgroupOa );
-					flag = true;
-				}
-				
-			}
+//			if(oatype.indexOf("7") >=0  ){
+//				String oldyichi = map.get("OLDYICHI").toString();
+//				String oldyinxing = map.get("OLDYINXING").toString();  
+//				
+//				if("0".equals(oldyichi) && "0".equals(oldyinxing) && "0".equals(yichi) && "0".equals(yinxing)  ){
+//					 
+//					System.out.println(map.get("FNUMBER").toString()+"==============================供应商不需要传递给HIS===========");
+//				}else{
+//					String suppid =  map.get("supplier").toString();
+//					hismap = getSupById(  ctx,   suppid , map,  hismap ,isgroupOa );
+//					flag = true;
+//					if("0".equals(yichi) && "0".equals(yinxing)){
+//						hismap.put("fupdatetype", "2");
+//					}
+//				}
+//			}else{
+//				String suppid =  map.get("supplier").toString();
+//				String cityid = map.get("FORGNUMBER").toString();
+//				StringBuffer  sqlSup  = new StringBuffer();
+//				
+//				String oldyichi ="0"; 
+//				String oldyinxing = "0";    
+//				if("0".equals(isgroupOa)){ 
+//					sqlSup.append("/*dialect*/ select distinct  nvl(CFKDCheckBox2,'0')  OLDYICHI, nvl(CFKDCheckBox3,'0')   OLDYINXING ")
+//					.append("   from T_BD_SupplierPurchaseInfo  where FSupplierID = '"+suppid+"' and     FCONTROLUNITID = '"+cityid+"' "); 
+//					 
+//				}else{ 
+//					sqlSup.append("/*dialect*/ select distinct nvl(CFKDCheckBox2,'0')  OLDYICHI, nvl(CFKDCheckBox3,'0')   OLDYINXING ")
+//					.append("   from T_BD_SupplierPurchaseInfo  where FSupplierID = '"+suppid+"' ");
+//				}  
+//				IRowSet rowsSup = DbUtil.executeQuery(ctx, sqlSup.toString()); 
+//				while (rowsSup.next()) {
+//					oldyichi = rowsSup.getString("OLDYICHI"); 
+//					oldyinxing = rowsSup.getString("OLDYINXING");   
+//				} 
+//				if("1".equals(oldyichi) || "1".equals(oldyinxing) ){
+//					hismap = getSupById(  ctx,   suppid , map,  hismap ,isgroupOa );
+//					flag = true;
+//				}
+//				
+//			}
+			
+			String suppid =  map.get("supplier").toString();
+			hismap = getSupById(  ctx,   suppid , map,  hismap ,isgroupOa );
+			flag = true;
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1456,11 +1458,11 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 			hismap.put("result", result);
 		}
 		try {
-			CompanyOrgUnitInfo companyInfo = CompanyOrgUnitFactory.getLocalInstance(ctx).getCompanyOrgUnitInfo("where id='jbYAAAMU2SvM567U''");
+			//CompanyOrgUnitInfo companyInfo = CompanyOrgUnitFactory.getLocalInstance(ctx).getCompanyOrgUnitInfo("where id='jbYAAAMU2SvM567U''");
 			 
-			Map<String, String> mapNew = new HashMap<String, String>();
-			String supsql = " /*dialect*/ SELECT supplier.fid  fId, supplier.fnumber fNumber, supplier.fname_l2  fName ,'' fOpenBank , '' fBankAccount  ,  "+
-			  " cuser.fname_l2  fCreator ,  to_char( supplier.FCREATETIME ,'yyyy-mm-dd' ) fCreateTime ,to_char( supplier.FLASTUPDATETIME  ,'yyyy-mm-dd' ) fUpdateTime   "+
+			//Map<String, String> mapNew = new HashMap<String, String>();
+			//String supsql = " /*dialect*/ SELECT supplier.fid  fId, supplier.fnumber fNumber, supplier.fname_l2  fName ,'' fOpenBank , '' fBankAccount  ,  "+
+			/*  " cuser.fname_l2  fCreator ,  to_char( supplier.FCREATETIME ,'yyyy-mm-dd' ) fCreateTime ,to_char( supplier.FLASTUPDATETIME  ,'yyyy-mm-dd' ) fUpdateTime   "+
 			  " FROM   T_BD_Supplier supplier   "+
 			  " inner join  T_PM_User  cuser on cuser.fid= supplier.FCREATORID  " +
 			  " inner join  T_BD_SupplierCompanyInfo supcom  on supcom.FSUPPLIERID  = supplier.fid and supcom.FComOrgID  = 'jbYAAAMU2SvM567U'"+
@@ -1489,16 +1491,24 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 				
 				String datajsonStr = JSONObject.toJSONString(mapNew);
 				ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
-				is.syncDateByType( 2 , datajsonStr , Integer.parseInt(hismap.get("fupdatetype"))  , map.get("fName") ,map.get("fNumber") );
-				
+				is.syncDateByType( 2 , datajsonStr , Integer.parseInt(hismap.get("fupdatetype"))  , map.get("fName") ,map.get("supplier") ); 
+			}*/
+
+			ISyncDataEASFacade is = SyncDataEASFacadeFactory.getLocalInstance(ctx);
+			if("0".equals(oatype) ){ //新增
+				is.syncDateByType( 2 , "" , 0  , map.get("fName") ,map.get("supplier") ); 
+			}else if(oatype.indexOf("2") >=0  ){ //修改
+				if("1".equals(osstatus)){
+					is.syncDateByType( 2 , "" , 2 , map.get("fName") ,map.get("supplier") ); //禁用
+				}else{
+					is.syncDateByType( 2 , "" , 1 , map.get("fName") ,map.get("supplier") ); //启用
+				}
+			}else if(oatype.indexOf("1") >=0  || oatype.indexOf("5") >=0 || oatype.indexOf("6") >=0 ){ //修改
+				is.syncDateByType( 2 , "" , 1  , map.get("fName") ,map.get("supplier") ); 
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			
 		} catch (BOSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EASBizException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

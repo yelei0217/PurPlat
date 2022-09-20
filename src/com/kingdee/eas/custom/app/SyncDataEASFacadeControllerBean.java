@@ -506,6 +506,9 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     			}catch (Exception e) {
 					// TODO: handle exception
 				}
+
+				
+				
 				
     			String sql  = " /*dialect*/ select wah.fid fId , wah.fnumber fNumber, wah.fname_l2 fName ,admin.fid fOrgid,admin.fnumber fOrgNumber, admin.fname_l2 fOrgName, "+
 				  "	wah.FWhState fStatus ,cuser.fname_l2  fCreator ,  to_char( wah.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' ) fCreateTime ,  "+fUpdateType+" fUpdateType ,to_char( wah.FLASTUPDATETIME  ,'yyyy-mm-dd hh24:mi:ss' ) fUpdateTime ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime  "+
@@ -516,9 +519,28 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     			IRowSet  rsData = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
     			IRowSet  rsB2B = rsData.createCopy(); 
     			IRowSet  rsHIS = rsData.createCopy();  
-    			if(rsData!=null && rsData.size() > 0){
+    			
+    			String selectSuppSqlB2B = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Cent where fid='"+fid+"' ";
+				List<Map<String, Object>> retsSupB2B = EAISynTemplate.query(ctx,dataBase, selectSuppSqlB2B);
+				if(retsSupB2B.size() == 0 ){//没有 
+					
+				}else{
+					String selectDelete = " delete  EAS_Warehouse_Cent where fid='"+fid+"' ";
+					EAISynTemplate.execute(ctx, dataBase, selectDelete);
+				}  
+				if(rsB2B!=null && rsB2B.size() > 0){
+					String sqlInsert = insertMidTable(ctx,  "EAS_Warehouse_Cent", rsB2B,"fSign");
+					map.put("ERROR",sqlInsert);
+					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
+				}else{
+					 map.put("ERROR", "根据ID"+fid+"找不到对应的仓库信息,没有同步到中间库。");
+				}   
+				
+				
+				
+    			if(rsData!=null && rsData.size() > 0){  
     				while(rsData.next()){    
-    					orgid = rsData.getString("FORGTID");
+    					orgid = rsData.getString("FORGID");
     					
     					mapB2B.put("fId",rsData.getString("FID") );
 						mapB2B.put("fNumber",rsData.getString("FNUMBER") );
@@ -540,7 +562,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 							/*map.put("forgtid",rs.getString("FORGTID") );
 							map.put("forgNumber",rs.getString("FORGNUMBER") );
 							map.put("forgName",rs.getString("FORGNAME") );*/
-    						mapHIS.put("forgId",rsData.getString("FORGTID") );
+    						mapHIS.put("forgId",rsData.getString("FORGID") );
 						} 
     					String datajsonStrHis = JSONObject.toJSONString(mapHIS);
     					
@@ -554,7 +576,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			        	 
 						logger.info("发送仓库通知给B2B系统，result：" + result);   
 			        	mapRet = (Map) JSONObject.parse(result);  
-			        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
+			        	if(mapRet !=null && mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
 			        		flag=true;
 			        	} 
 			        	
@@ -565,23 +587,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     				}
 		       }   
     		
-    			
-    			String selectSuppSqlB2B = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Cent where fid='"+fid+"' ";
-				List<Map<String, Object>> retsSupB2B = EAISynTemplate.query(ctx,dataBase, selectSuppSqlB2B);
-				if(retsSupB2B.size() == 0 ){//没有 
-					
-				}else{
-					String selectDelete = " delete  EAS_Warehouse_Cent where fid='"+fid+"' ";
-					EAISynTemplate.execute(ctx, dataBase, selectDelete);
-				}  
-				if(rsB2B!=null && rsB2B.size() > 0){
-					String sqlInsert = insertMidTable(ctx,  "EAS_Warehouse_Cent", rsB2B,"fSign");
-					map.put("ERROR",sqlInsert);
-					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
-				}else{
-					 map.put("ERROR", "根据ID"+fid+"找不到对应的仓库信息,没有同步到中间库。");
-				}   
-				
+    			 
 				
     			if( !"jbYAAAMU2SvM567U".equals(orgid)){//his
     				String selectSuppSql = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Clinic where fid='"+fid+"' ";

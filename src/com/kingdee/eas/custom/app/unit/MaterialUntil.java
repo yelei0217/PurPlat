@@ -216,7 +216,7 @@ public class MaterialUntil {
 			String  number  = dataMap.get("fNumber").toString() ;
 			try {
 				if (  imbiz.exists("where number = '"+number+"'") ) { 
-					error = error+ "物料编码已存在;"; flag = false;
+					error = error+ "物料编码"+number+"已存在;"; flag = false;
 					continue;
 				}
 			} catch (EASBizException e1) {
@@ -225,7 +225,7 @@ public class MaterialUntil {
 			}
 			
 			if (dataMap.get("fName")== null  || "".equals(dataMap.get("fName").toString()) ) { 
-				error = error+ "编码为"+dataMap.get("fNumber").toString()+"的名称不能为空"; flag = false;
+				error = error+ "编码为"+dataMap.get("fNumber").toString()+"的名称不能为空;"; flag = false;
 				continue;
 			}  
 			String fModel = "";
@@ -242,7 +242,7 @@ public class MaterialUntil {
 			}
 			
 			if (dataMap.get("fCreateTime")== null || "".equals(dataMap.get("fCreateTime").toString()) ) { 
-				error = error+ "编码为"+dataMap.get("fNumber").toString()+"的创建时间不能为空"; flag = false;
+				error = error+ "编码为"+dataMap.get("fNumber").toString()+"的创建时间不能为空;"; flag = false;
 				continue;
 			}
 			String createTime = dataMap.get("fCreateTime").toString();
@@ -257,7 +257,7 @@ public class MaterialUntil {
 				
 			}
 			if (dataMap.get("fUpdateTime")== null || "".equals(dataMap.get("fUpdateTime").toString()) ) { 
-				error = error+  "编码为"+dataMap.get("fNumber").toString()+"的最后修改时间不能为空"; flag = false;
+				error = error+  "编码为"+dataMap.get("fNumber").toString()+"的最后修改时间不能为空;"; flag = false;
 				continue;
 			}
 			String updateTime = dataMap.get("fUpdateTime").toString(); 
@@ -272,12 +272,12 @@ public class MaterialUntil {
 			}
 			
 			if (dataMap.get("fKAClass")== null || "".equals(dataMap.get("fKAClass").toString()) ) { 
-				error = error+  "编码为"+dataMap.get("fNumber").toString()+"的记账分类不能为空"; flag = false;
+				error = error+  "编码为"+dataMap.get("fNumber").toString()+"的记账分类不能为空;"; flag = false;
 				continue;
 			}
 			try {
 				if(!KAClassficationFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fKAClass").toString()+"'")){
-					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的记账分类不存在"; flag = false;
+					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的记账分类不存在;"; flag = false;
 					continue;
 				}
 			} catch (EASBizException e) {
@@ -285,12 +285,12 @@ public class MaterialUntil {
 				e.printStackTrace();
 			}
 			if (dataMap.get("fBaseUnit")== null || "".equals(dataMap.get("fBaseUnit").toString()) ) { 
-				error = error+  "编码为"+dataMap.get("fNumber").toString()+"的基本计量单位不能为空"; flag = false;
+				error = error+  "编码为"+dataMap.get("fNumber").toString()+"的基本计量单位不能为空;"; flag = false;
 				continue;
 			} 
 			try {
 				if(!MeasureUnitFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fBaseUnit").toString()+"'")){
-					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的基本计量单位不存在"; flag = false;
+					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的基本计量单位不存在;"; flag = false;
 					continue;
 				}
 			} catch (EASBizException e) {
@@ -299,13 +299,13 @@ public class MaterialUntil {
 			}
 			
 			if (dataMap.get("fInvUnit")== null || "".equals(dataMap.get("fInvUnit").toString()) ) { 
-				error = error+  "编码为"+dataMap.get("fNumber").toString()+"的库存计量单位不能为空"; flag = false;
+				error = error+  "编码为"+dataMap.get("fNumber").toString()+"的库存计量单位不能为空;"; flag = false;
 				continue;
 			}
 			
 			try {
 				if(!MeasureUnitFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fInvUnit").toString()+"'")){
-					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的库存计量单位不存在"; flag = false;
+					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的库存计量单位不存在;"; flag = false;
 					continue;
 				}
 			} catch (EASBizException e) {
@@ -316,7 +316,7 @@ public class MaterialUntil {
 			
 			
 			if (dataMap.get("fPurUnit")== null || "".equals(dataMap.get("fPurUnit").toString()) ) { 
-				error = error+ "编码为"+dataMap.get("fNumber").toString()+"的采购计量单位不能为空"; flag = false;
+				error = error+ "编码为"+dataMap.get("fNumber").toString()+"的采购计量单位不能为空;"; flag = false;
 				continue;
 			}
 			
@@ -332,12 +332,12 @@ public class MaterialUntil {
 			}
 			
 			if (dataMap.get("fSaleUnit")== null || "".equals(dataMap.get("fSaleUnit").toString()) ) { 
-				error = error+  "编码为"+dataMap.get("fNumber").toString()+"的销售计量单位不能为空"; flag = false;
+				error = error+  "编码为"+dataMap.get("fNumber").toString()+"的销售计量单位不能为空;"; flag = false;
 				continue;
 			} 
 			try {
 				if(!MeasureUnitFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fSaleUnit").toString()+"'")){
-					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的销售计量单位不存在"; flag = false;
+					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的销售计量单位不存在;"; flag = false;
 					continue;
 				}
 			} catch (EASBizException e) {
@@ -577,7 +577,7 @@ public class MaterialUntil {
 			String  number  = dataMap.get("fNumber").toString() ;
 			try {
 				if (  !imbiz.exists("where number = '"+number+"'") ) { 
-					error = error+ "根据物料编码查询找不到对应物料信息;"; 
+					error = error+ "根据物料编码"+number+"查询找不到对应物料信息;"; 
 					continue;
 				}
 			} catch (EASBizException e1) {
@@ -620,13 +620,13 @@ public class MaterialUntil {
 				 
 			}
 			if (dataMap.get("fMaterialGroup")== null || "".equals(dataMap.get("fMaterialGroup").toString()) ) { 
-				error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的物料类别不能为空";  
+				error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的物料类别不能为空;";  
 				continue;
 			}
 			String magroup = dataMap.get("fMaterialGroup").toString();
 			try {
 				if(!MaterialGroupFactory.getLocalInstance(ctx).exists(" where number = '"+magroup+"'")){
-					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的物料类别不存在";  
+					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的物料类别不存在;";  
 					continue;
 				}
 				 

@@ -289,11 +289,11 @@ public class PurInWarehsSupport {
 				if("GZB_MZ_PI".equals(busCode)||"GZB_LZ_PI".equals(busCode)||"DZB_MZ_PI".equals(busCode)
 						||"VMI2CB_LZ_PI".equals(busCode)||"VMIB_MZ_PI".equals(busCode)){
 					//根据 id 和明细id 查询 采购入库单是否存在
-					
+				 
 					// 判断msgId 是否存在SaleOrderDTO
-					if(PurPlatUtil.judgeMsgIdExists(ctx, busCode, m.getBid())){
+					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
 						 try {
-							 PurInWarehsBillCollection coll = PurInWarehsBillFactory.getLocalInstance(ctx).getPurInWarehsBillCollection("where MsgId='"+m.getBid()+"'");
+							 PurInWarehsBillCollection coll = PurInWarehsBillFactory.getLocalInstance(ctx).getPurInWarehsBillCollection("where bid='"+m.getBid()+"'");
 							 List<PurInDetailDTO> list = m.getDetails();
 							 Map<String,BigDecimal> entryMp =null;
 							 if(list !=null && list.size() > 0){
@@ -318,16 +318,18 @@ public class PurInWarehsSupport {
 									 Iterator it = entryColl.iterator();
 									 while(it.hasNext()){
 										 PurInWarehsEntryInfo entryInfo = (PurInWarehsEntryInfo) it.next();
-										 if(entryInfo.get("MsgId") !=null && !"".equals( entryInfo.get("MsgId").toString() )){
-											 if(entryMp.get(entryInfo.get("MsgId").toString())!=null){
-												 BigDecimal curRetrunQty =  entryMp.get(entryInfo.get("MsgId").toString());
+										 if(entryInfo.get("bid") !=null && !"".equals( entryInfo.get("bid").toString() )){
+											 if(entryMp.get(entryInfo.get("bid").toString())!=null){
+												 BigDecimal curRetrunQty =  entryMp.get(entryInfo.get("bid").toString());
 												 if(entryInfo.getQty().subtract(entryInfo.getReturnsQty()).subtract(curRetrunQty).compareTo(BigDecimal.ZERO) >=0)
 												 {
 													 PurInWarehsEntryInfo ec = (PurInWarehsEntryInfo) entryInfo.clone();
 													 ec.setQty(curRetrunQty);
 													 tempEntryColl.add(ec);
-												 } 
-											 }
+												 }else
+													 result = PurPlatSyncEnum.BACK_NUM_MAX.getAlias();	 
+											 }else
+												 result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
 										 }else
 												result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
 									 }
@@ -338,7 +340,7 @@ public class PurInWarehsSupport {
 									 }
 								}
 								if(sourceColl !=null && sourceColl.size() > 0){
-									 List<IObjectPK> pks = AppUnit.botpSave(ctx, "783061E3", sourceColl, "JV7MYpL+QEKaxoy2KYZKzwRRIsQ=");
+									 List<IObjectPK> pks = AppUnit.botp(ctx, "783061E3", sourceColl, "JV7MYpL+QEKaxoy2KYZKzwRRIsQ=");
 									 sourceColl.clear();
 									 purPlatMenu = PurPlatSyncEnum.SUCCESS;
 								}else
@@ -491,6 +493,7 @@ public class PurInWarehsSupport {
 
     info.put("factory", m.getFsupplierid());
   //  BigDecimal qty = new BigDecimal(1);
+    String orderId = ""; //b2b订单ID
     for (BaseSCMDetailDTO entry : m.getDetails())
     {
         PurInWarehsEntryInfo entryInfo = createEntryInfo(ctx,  entry,busCode);
@@ -500,7 +503,7 @@ public class PurInWarehsSupport {
         entryInfo.setReceiveStorageOrgUnit(storageorginfo);
         entryInfo.setBalanceSupplier(supplierInfo);
         entryInfo.setPurchaseOrgUnit(purchaseorginfo);
-        
+        orderId = entry.getFsourcebillid();
         if(sourceBilltypeId!=null && !"".equals(sourceBilltypeId)){
             Map<String,String> orderEmp = PurPlatUtil.getOrderEntryMapByMsgId(ctx,m.getFstorageorgunitid(),entry.getFsourcebillentryid(),"P");
             if(orderEmp !=null && orderEmp.size() > 0){
@@ -515,11 +518,12 @@ public class PurInWarehsSupport {
             }
         	  entryInfo.setSourceBillType(sourceBillTypeInfo);
         }
-        
+       
         totalAmount = totalAmount.add(entry.getFamount());
         info.getEntries().addObject(entryInfo);
        
     }
+    info.put("bid", orderId);
     info.setTotalQty(m.getFtotalqty().multiply(factor));
     if(!busCode.contains("VMI")){
 	    info.setTotalAmount(totalAmount);
@@ -592,6 +596,7 @@ public class PurInWarehsSupport {
     entryInfo.setCanDirectReqQty(BigDecimal.ZERO);
     entryInfo.setAssistQty(BigDecimal.ZERO);
     entryInfo.put("MsgId", dvo.getId());
+    entryInfo.put("bid", dvo.getFsourcebillentryid());
     //entryInfo.setStandardCost(BigDecimal.ZERO);
    if(!busCode.contains("VMI")){
 	    entryInfo.setTaxRate(dvo.getFtaxrate());

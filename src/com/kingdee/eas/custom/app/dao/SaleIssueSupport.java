@@ -297,9 +297,9 @@ public class SaleIssueSupport {
 		 		if("GZB_LZ_SS".equals(busCode)||"VMIB_LZ_SS".equals(busCode)){
 					//根据 id 和明细id 查询 采购入库单是否存在
 		 		// 判断msgId 是否存在SaleOrderDTO
-					if(PurPlatUtil.judgeMsgIdExists(ctx, busCode, m.getBid())){
+					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
 						 try {
-							 SaleIssueBillCollection coll = SaleIssueBillFactory.getLocalInstance(ctx).getSaleIssueBillCollection("where MsgId='"+m.getBid()+"'");
+							 SaleIssueBillCollection coll = SaleIssueBillFactory.getLocalInstance(ctx).getSaleIssueBillCollection("where bid='"+m.getBid()+"'");
 							 List<SaleIssDetailDTO> list = m.getDetails();
 							 Map<String,BigDecimal> entryMp =null;
 							 if(list !=null && list.size() > 0){
@@ -324,16 +324,18 @@ public class SaleIssueSupport {
 									 Iterator it = entryColl.iterator();
 									 while(it.hasNext()){
 										 SaleIssueEntryInfo entryInfo = (SaleIssueEntryInfo) it.next();
-										 if(entryInfo.get("MsgId") !=null && !"".equals( entryInfo.get("MsgId").toString() )){
-											 if(entryMp.get(entryInfo.get("MsgId").toString())!=null){
-												 BigDecimal curRetrunQty =  entryMp.get(entryInfo.get("MsgId").toString());
+										 if(entryInfo.get("bid") !=null && !"".equals( entryInfo.get("bid").toString() )){
+											 if(entryMp.get(entryInfo.get("bid").toString())!=null){
+												 BigDecimal curRetrunQty =  entryMp.get(entryInfo.get("bid").toString());
 												 if(entryInfo.getQty().subtract(entryInfo.getReturnsQty()).subtract(curRetrunQty).compareTo(BigDecimal.ZERO) >=0)
 												 {
 													 SaleIssueEntryInfo ec = (SaleIssueEntryInfo) entryInfo.clone();
 													 ec.setQty(curRetrunQty);
 													 tempEntryColl.add(ec);
-												 } 
-											 }
+												 } else
+													 result = PurPlatSyncEnum.BACK_NUM_MAX.getAlias();	 
+											 }else
+												 result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
 										 }else
 											 result = PurPlatSyncEnum.NOTEXISTS_BILL.getAlias();
 									 }
@@ -488,7 +490,7 @@ public class SaleIssueSupport {
 	    	supplierInfo = new SupplierInfo();
 	        supplierInfo.setId(BOSUuid.read(m.getFsupplierid()));
 	    }
-	    
+	    String orderId = ""; //b2b订单ID
 	   // BigDecimal totalAmount = new BigDecimal(0);
 	    for (BaseSCMDetailDTO entry : m.getDetails())
 	    {
@@ -500,6 +502,7 @@ public class SaleIssueSupport {
 	      //  entryInfo.setInvUpdateType(invUpdateType);
 	        entryInfo.setBalanceCustomer(customerInfo);
 	        entryInfo.setSaleOrgUnit(saleOrgInfo);
+	        orderId = entry.getFsourcebillid();
 	        //totalAmount = totalAmount.add(entry.getAmount());
 		    if(sourceBilltypeId != null && !"".equals(sourceBilltypeId)){
 		        Map<String,String> orderEmp = PurPlatUtil.getOrderEntryMapByMsgId(ctx,m.getFstorageorgunitid(),entry.getFsourcebillentryid(),"S");
@@ -518,9 +521,10 @@ public class SaleIssueSupport {
 		    
 		    if(supplierInfo !=null)
 		    	entryInfo.setSupplier(supplierInfo);
-		    
+		  
 	        info.getEntries().addObject(entryInfo);
 	      }
+	    info.put("bid", orderId);
 	    if(!busCode.contains("VMI")){
 		    info.setTotalAmount(m.getFtotalamount());
 		    info.setTotalLocalAmount(m.getFtotalamount());
@@ -588,6 +592,7 @@ public class SaleIssueSupport {
 	    entryInfo.setUnVmiSettleBaseQty(dvo.getFqty().multiply(factor));
 	    entryInfo.setUnReturnedBaseQty(BigDecimal.ZERO);
 	    entryInfo.setAssistQty(BigDecimal.ZERO);
+	    entryInfo.put("bid", dvo.getFsourcebillentryid());
 	    if(!busCode.contains("VMI")){
 	    	entryInfo.setTaxRate(dvo.getFtaxrate());
 	   	    entryInfo.setTax(dvo.getFtax());

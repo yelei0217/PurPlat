@@ -139,6 +139,10 @@ public class PurPlatUtil {
             put("YX_CK_MZ_AP","145");
             put("YX_CK_MZ_CJ","146");
             put("YX_CK_MZ_P","147");
+            put("GZ_MZ_PI","148");
+            put("WAREHOUSE","150");
+            put("WareClinicRale_S","39");
+            
         }
     };
 	 
@@ -212,7 +216,7 @@ public class PurPlatUtil {
 	         IRowSet rs = DbUtil.executeQuery(ctx, sql);
 	         if (rs.next() && 
 	           rs.getObject("C") != null && !"".equals(rs.getObject("C").toString()) && 
-	           Integer.valueOf(rs.getObject("C").toString()).compareTo(Integer.valueOf(1)) >= 0) {
+	           Integer.valueOf(rs.getObject("C").toString()).compareTo(Integer.valueOf(1)) > 0) {
 	           flag = true;
 	         }
 	       }
@@ -240,7 +244,7 @@ public class PurPlatUtil {
  		    		 sql = " select count(1) C from T_BD_Material where FNumber ='"+fid+"' and FStatus =1 ";
  		    	 } else if("MP".equals(oper)){
 //		    		 sql = " select count(1) C from T_BD_MaterialPurchasing where FMaterialID ='"+fid+"' and FOrgUnit = '"+orgId+"' ";
-		    		 sql = "  select count(1) C from T_BD_Material a inner join T_BD_MaterialPurchasing b on a.fid=b.FMATERIALID where a.FID ='"+fid+"' and b.FOrgUnit = '"+orgId+"' ";
+		    		 sql = "  select count(1) C from T_BD_Material a inner join T_BD_MaterialPurchasing b on a.fid=b.FMATERIALID where a.FNumber ='"+fid+"' and b.FOrgUnit = '"+orgId+"' ";
  		    	 }else if("UNIT".equals(oper)){
 		    		 sql = " select count(1) C from T_BD_MeasureUnit where FNumber ='"+fid+"' and FGroupID ='CUYZGEtVTzqROJAmOrUCEBwqyGg=' ";
  		    	 }else if("USER".equals(oper)){
@@ -369,7 +373,7 @@ public class PurPlatUtil {
  			String sql ="select m.FID,m.FNUMBER,m.FNAME_L2,m.CFPINGPAI,m.CFHUOHAO,m.FMODEL,m.CFXINGHAO,mg.FNAME_L2 goupName " +
  					" from T_BD_MATERIAL m " +
  					" inner join t_bd_materialGroup mg on m.FMATERIALGROUPID = mg.FID " +
- 					" where m.FID ='"+mId+"'";
+ 					" where m.FNumber ='"+mId+"'";
 			     try {
 			         IRowSet rs = DbUtil.executeQuery(ctx, sql);
 			         if (rs.next()){

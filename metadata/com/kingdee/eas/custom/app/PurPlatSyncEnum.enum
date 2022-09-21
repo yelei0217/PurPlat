@@ -56,6 +56,12 @@
             <userDefined>true</userDefined>
             <value>-7</value>
         </enumValue>
+        <enumValue>
+            <name>BACK_NUM_MAX</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[BACK_NUM_MAX].alias</alias>
+            <userDefined>true</userDefined>
+            <value>-8</value>
+        </enumValue>
     </enumValues>
     <resource>
         <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].alias">
@@ -69,6 +75,12 @@
             <lang locale="zh_CN" value="采购平台同步枚举" />
             <lang locale="zh_HK" value="採購平臺同步枚舉" />
             <lang locale="zh_TW" value="採購平臺同步枚舉" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[BACK_NUM_MAX].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="退货数量不能大于申请数量" />
+            <lang locale="zh_HK" value="退貨數量不能大於申請數量" />
+            <lang locale="zh_TW" value="退貨數量不能大於申請數量" />
         </rs>
         <rs key="bizEnum[com.kingdee.eas.custom.app.PurPlatSyncEnum].enumValues.enumValue[BUSCODE_EXCEPTION].alias">
             <lang locale="en_US" value="null" />

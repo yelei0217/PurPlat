@@ -149,7 +149,13 @@ public class PurOrderSupport {
 					"FPLANRECEIVEQTY,FTOTALSUPPLYSTOCKQTY,FTOTALCANCELLEDSTOCKQTY,FTOTALSUPPLYSTOCKBASEQTY,FTOTALPREPAYAMT,FTOTALREQPAYAMT,FISREQPREPAYGTPREPAY,FNONUMMATERIALMODEL," +
 					"FMATCHEDAMOUNT,FPURCHASEORGUNITID,FBIZDATE,FUSEADMINORGUNITID,CFPINPAI,CFHUOHAO,CFXINGHAO,CFWULIAOLEIBIE,CFMsgId ) values (");
 			
-			String deliveDateStr = dvo.getFdeliverydate();
+			String deliveDateStr = "";
+			
+			if( dvo.getFdeliverydate()!=null && !"".equals( dvo.getFdeliverydate()))
+				deliveDateStr = dvo.getFdeliverydate();
+			else
+				deliveDateStr = bizDateStr;
+			
 			Map<String,String> mmp = PurPlatUtil.getMaterialInfoByMId(ctx, dvo.getFmaterialid());
 			
 			int isPresent = 0;

@@ -746,6 +746,12 @@
             <userDefined>true</userDefined>
             <value>150</value>
         </enumValue>
+        <enumValue>
+            <name>GZ_MZ_PI</name>
+            <alias>bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_MZ_PI].alias</alias>
+            <userDefined>true</userDefined>
+            <value>148</value>
+        </enumValue>
     </enumValues>
     <resource>
         <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].alias">
@@ -951,6 +957,12 @@
             <lang locale="zh_CN" value="高值-栗喆销售出库单" />
             <lang locale="zh_HK" value="高值-栗喆銷售出庫單" />
             <lang locale="zh_TW" value="高值-栗喆銷售出庫單" />
+        </rs>
+        <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_MZ_PI].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="门诊采购入库单" />
+            <lang locale="zh_HK" value="門診採購入庫單" />
+            <lang locale="zh_TW" value="門診採購入庫單" />
         </rs>
         <rs key="bizEnum[com.kingdee.eas.custom.app.DateBasetype].enumValues.enumValue[GZ_MZ_PO].alias">
             <lang locale="en_US" value="null" />

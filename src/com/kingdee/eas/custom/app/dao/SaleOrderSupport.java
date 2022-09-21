@@ -110,8 +110,20 @@ public class SaleOrderSupport {
 				sbr1.append(",FWarehouseID  ");
 			}
 			 sbr1.append(") values (");
-			String deliveDateStr =  dvo.getFdeliverydate();
+			 
+			 
+			String deliveDateStr = "";
 			String sendDateStr =   dvo.getFsenddate();
+			
+			if( dvo.getFdeliverydate()!=null && !"".equals( dvo.getFdeliverydate()))
+				deliveDateStr = dvo.getFdeliverydate();
+			else
+				deliveDateStr = bizDateStr;
+			
+			if( dvo.getFsenddate()!=null && !"".equals( dvo.getFsenddate()))
+				sendDateStr = dvo.getFsenddate();
+			else
+				sendDateStr = bizDateStr;
 
 			Map<String,String> mmp = PurPlatUtil.getMaterialInfoByMId(ctx, dvo.getFmaterialid());
 			int isPresent = 0;
@@ -159,7 +171,6 @@ public class SaleOrderSupport {
 				pe.executeUpdate(ctx); 
 				pool.shutdown(); 
 				DateBasetype dataseBaseType = DateBasetype.CGZ_U_MZ_SO;
-
 				PushRecordInfo rInfo = new PushRecordInfo();
 				rInfo.setNumber(m.getId());
 				rInfo.setName(sId);

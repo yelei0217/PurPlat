@@ -21,6 +21,7 @@ public class PurPlatSyncEnum extends StringEnum
     public static final String FIELD_NULL_VALUE = "-5";//alias=参数为空
     public static final String NOTEXISTS_BILL_VALUE = "-6";//alias=业务单据不存在
     public static final String BUSCODE_EXCEPTION_VALUE = "-7";//alias=业务类型异常
+    public static final String BACK_NUM_MAX_VALUE = "-8";//alias=退货数量不能大于申请数量
 
     public static final PurPlatSyncEnum SUCCESS = new PurPlatSyncEnum("SUCCESS", SUCCESS_VALUE);
     public static final PurPlatSyncEnum JSON_ERROR = new PurPlatSyncEnum("JSON_ERROR", JSON_ERROR_VALUE);
@@ -30,6 +31,7 @@ public class PurPlatSyncEnum extends StringEnum
     public static final PurPlatSyncEnum FIELD_NULL = new PurPlatSyncEnum("FIELD_NULL", FIELD_NULL_VALUE);
     public static final PurPlatSyncEnum NOTEXISTS_BILL = new PurPlatSyncEnum("NOTEXISTS_BILL", NOTEXISTS_BILL_VALUE);
     public static final PurPlatSyncEnum BUSCODE_EXCEPTION = new PurPlatSyncEnum("BUSCODE_EXCEPTION", BUSCODE_EXCEPTION_VALUE);
+    public static final PurPlatSyncEnum BACK_NUM_MAX = new PurPlatSyncEnum("BACK_NUM_MAX", BACK_NUM_MAX_VALUE);
 
     /**
      * construct function

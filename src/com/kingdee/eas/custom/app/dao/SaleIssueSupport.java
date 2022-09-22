@@ -429,12 +429,12 @@ public class SaleIssueSupport {
 			 billtypeId = "50957179-0105-1000-e000-015bc0a812fd463ED552";//单据类型
 			 sourceBilltypeId = "";//来源单据类型
 			 biztypeId = "d8e80652-010e-1000-e000-04c5c0a812202407435C";//业务类型
-			 transinfoId ="DawAAAAPoAywCNyn";//事务类型
+			 transinfoId ="DawAAAAPoAywCNyn";//事务类型 
 		}else if("VMIB_LZ_SS".equals(busCode)){
 			 billtypeId = "50957179-0105-1000-e000-015bc0a812fd463ED552";//单据类型
 			 sourceBilltypeId = "";//来源单据类型
 			 biztypeId = "d8e80652-0110-1000-e000-04c5c0a812202407435C";//业务类型
-			 transinfoId ="DawAAAAPoA2wCNyn";//事务类型
+			 transinfoId ="DawAAAAPoA2wCNyn";//事务类型  
 		}
 	    
 	    BillTypeInfo billtype = new BillTypeInfo();

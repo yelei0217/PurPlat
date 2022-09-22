@@ -411,17 +411,17 @@ public class PurInWarehsSupport {
 		 biztypeId = "d8e80652-0106-1000-e000-04c5c0a812202407435C";//业务类型
 		 transinfoId ="DawAAAAPoACwCNyn";//事务类型
 		 factor = new BigDecimal(1);
-	}else if("VMI_MZ_PI".equals(busCode)||"VMI_U_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)){
+	}else if("VMI_MZ_PI".equals(busCode)||"VMI_U_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)||"VMI2C_LZ_PI".equals(busCode)){
 		 billtypeId = "50957179-0105-1000-e000-015fc0a812fd463ED552";//单据类型
 		 sourceBilltypeId = "";//来源单据类型
 		 biztypeId = "LAdiD6Y5Sim6q6bmixITqSQHQ1w=";//业务类型
-		 transinfoId ="CeUAAAAIdB+wCNyn";//事务类型
+		 transinfoId ="CeUAAAAIdB+wCNyn";//事务类型  
 		 factor = new BigDecimal(1);
-	}else if("VMIB_MZ_PI".equals(busCode)){
+	}else if("VMIB_MZ_PI".equals(busCode)||"VMI2CB_LZ_PI".equals(busCode)){
 		 billtypeId = "50957179-0105-1000-e000-015fc0a812fd463ED552";//单据类型
 		 sourceBilltypeId = "";//来源单据类型
 		 biztypeId = "3IS1Qaa0R32+3JPxlVZg5iQHQ1w=";//业务类型
-		 transinfoId ="CeUAAAAMEoywCNyn";//事务类型
+		 transinfoId ="CeUAAAAMEoywCNyn";//事务类型 
 		 factor = new BigDecimal(-1);
 	}
 	
@@ -568,10 +568,10 @@ public class PurInWarehsSupport {
 			"YX_MZ_PI".equals(busCode)||"YX_LZ_PI".equals(busCode)||"YC_PI".equals(busCode)||"DZ_MZ_PI".equals(busCode)){
 			invUpdateTypeId = "8r0AAAAEaOjC73rf";
 			factor = new BigDecimal(1);
-	}else if("VMI_MZ_PI".equals(busCode)||"VMI_U_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)){
+	}else if("VMI_MZ_PI".equals(busCode)||"VMI_U_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)||"VMI2C_LZ_PI".equals(busCode)){
 			invUpdateTypeId = "CeUAAAAIdBrC73rf";
 			factor = new BigDecimal(1);
-	}else if("VMIB_MZ_PI".equals(busCode)){
+	}else if("VMIB_MZ_PI".equals(busCode)||"VMI2CB_LZ_PI".equals(busCode)){
 		invUpdateTypeId = "CeUAAAAIdBrC73rf";
 		factor = new BigDecimal(-1);
 	}

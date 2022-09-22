@@ -324,7 +324,20 @@ public class PurInWarehsSupport {
 												 if(entryInfo.getQty().subtract(entryInfo.getReturnsQty()).subtract(curRetrunQty).compareTo(BigDecimal.ZERO) >=0)
 												 {
 													 PurInWarehsEntryInfo ec = (PurInWarehsEntryInfo) entryInfo.clone();
+ 													 ec.setUnWriteOffQty(entryInfo.getQty());
+													 ec.setUnWriteOffBaseQty(entryInfo.getBaseQty());
+													 ec.setWrittenOffQty(BigDecimal.ZERO);
+													 ec.setWrittenOffBaseQty(BigDecimal.ZERO);
+													 ec.setReturnBaseQty(BigDecimal.ZERO);
+													 ec.setReturnsQty(BigDecimal.ZERO);
+													 ec.setUnVmiSettleBaseQty(entryInfo.getBaseQty());
+													 ec.setUnReturnedBaseQty(BigDecimal.ZERO);
+													 ec.setCanDirectReqBaseQty(BigDecimal.ZERO);
+													 ec.setCanDirectReqQty(BigDecimal.ZERO);
+													 ec.setAssistQty(BigDecimal.ZERO); 
 													 ec.setQty(curRetrunQty);
+													 ec.setBaseQty(curRetrunQty);
+ 													 
 													 tempEntryColl.add(ec);
 												 }else
 													 result = PurPlatSyncEnum.BACK_NUM_MAX.getAlias();	 
@@ -340,7 +353,7 @@ public class PurInWarehsSupport {
 									 }
 								}
 								if(sourceColl !=null && sourceColl.size() > 0){
-									 List<IObjectPK> pks = AppUnit.botp(ctx, "783061E3", sourceColl, "JV7MYpL+QEKaxoy2KYZKzwRRIsQ=");
+									 List<IObjectPK> pks = AppUnit.botpSave(ctx, "783061E3", sourceColl, "JV7MYpL+QEKaxoy2KYZKzwRRIsQ=");
 									 sourceColl.clear();
 									 purPlatMenu = PurPlatSyncEnum.SUCCESS;
 								}else

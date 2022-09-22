@@ -580,10 +580,10 @@ public class SaleIssueSupport {
 	    entryInfo.setMaterial(material);
 	    entryInfo.setBaseUnit(baseUnitInfo);
 	    entryInfo.setUnit(unitInfo);
-	    entryInfo.setQty(dvo.getFqty());
-	    entryInfo.setBaseQty(dvo.getFbaseqty());
+	    entryInfo.setQty(dvo.getFqty().multiply(factor));
+	    entryInfo.setBaseQty(dvo.getFbaseqty().multiply(factor));
 	    entryInfo.setAssociateQty(BigDecimal.ZERO);
-	    entryInfo.setWrittenOffQty(dvo.getFqty());
+	    entryInfo.setWrittenOffQty(dvo.getFqty().multiply(factor));
 	    entryInfo.setWrittenOffBaseQty(dvo.getFbaseqty());
 	    entryInfo.setUnWriteOffQty(dvo.getFqty().multiply(factor));
 	    entryInfo.setUnWriteOffBaseQty(dvo.getFbaseqty().multiply(factor));

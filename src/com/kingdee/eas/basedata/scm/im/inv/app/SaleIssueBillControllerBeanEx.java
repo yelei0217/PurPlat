@@ -144,9 +144,9 @@ public class SaleIssueBillControllerBeanEx extends SaleIssueBillControllerBean {
 	protected IObjectPK _submit(Context arg0, IObjectValue arg1)
 			throws BOSException, EASBizException {
  		System.out.println("########SaleIssueBillControllerBeanEx _submit 111 ########");
- 		//checkBillFields(arg0,(SaleIssueBillInfo)arg1);
+ 		checkBillFields(arg0,(SaleIssueBillInfo)arg1);
  		IObjectPK pk = super._submit(arg0, arg1);
- 		//snedsendMessageToHIS(arg0,pk,"audit");
+ 		snedsendMessageToHIS(arg0,pk,"audit");
  		return pk;
 	}
 	

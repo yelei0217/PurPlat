@@ -561,47 +561,50 @@ public class SaleIssueSyncTool {
 	}
 	
 	public static void doCostSync(Context ctx){
-		List  ls  = getCompanyAndPeriod(ctx);
-		if(ls!=null &&  ls.size() > 0){
-			try {
-				ISaleIssueBill isf = SaleIssueBillFactory.getLocalInstance(ctx);
-				String companyid="";
-				String periodNum = "";
-				String year="";
-				String month = "";
-				CoreBaseCollection logCollectoin = new CoreBaseCollection();
-				ISaleIssueHisLog ish = SaleIssueHisLogFactory.getLocalInstance(ctx);
-				for(int j =0 ; j <ls.size() ; j++){
-					  Map mp = (Map) ls.get(j);
-					  companyid = (String) mp.get("companyid");
-					  periodNum = (String) mp.get("periodnum").toString(); 
-					  year = periodNum.substring(0, 4);
-					  month = periodNum.substring(4);
-						List<String> billNumberList = getBillNumberByComIDAndPeriod(ctx,companyid,periodNum);
-						if(billNumberList != null && billNumberList.size()>0){
-							  delSaleIssueHisLog(ctx,companyid,year,month);  //批量删除销售出库记录单数据
-							  delSalaIssueMid(ctx,"04",companyid,year,month); //批量删除中间表记录
-							for(String issnumber : billNumberList){ 
-								//delSalaIssueByNumber(ctx,issnumber,"04");// 删除中间表
-								if(isf.exists("where number='"+issnumber+"'")){
-									SaleIssueBillInfo info = isf.getSaleIssueBillInfo("where number='"+issnumber+"'");
-									CoreBaseInfo logInfo = createHisLog(ctx,info,status.Cost);
-									if(logInfo != null){
-										logCollectoin.add(logInfo);
-									}
-								} 
-						}
-					}
-				}
-				if(logCollectoin.size()>0){
-					ish.addnewBatchData(logCollectoin);
-				}
-			} catch (BOSException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+//		List  ls  = getCompanyAndPeriod(ctx);
+//		if(ls!=null &&  ls.size() > 0){
+//			try {
+//				ISaleIssueBill isf = SaleIssueBillFactory.getLocalInstance(ctx);
+//				String companyid="";
+//				String periodNum = "";
+//				String year="";
+//				String month = "";
+//				CoreBaseCollection logCollectoin = new CoreBaseCollection();
+//				ISaleIssueHisLog ish = SaleIssueHisLogFactory.getLocalInstance(ctx);
+//				for(int j =0 ; j <ls.size() ; j++){
+//					  Map mp = (Map) ls.get(j);
+//					  companyid = (String) mp.get("companyid");
+//					  periodNum = (String) mp.get("periodnum").toString(); 
+//					  year = periodNum.substring(0, 4);
+//					  month = periodNum.substring(4);
+//						List<String> billNumberList = getBillNumberByComIDAndPeriod(ctx,companyid,periodNum);
+//						if(billNumberList != null && billNumberList.size()>0){
+//							  delSaleIssueHisLog(ctx,companyid,year,month);  //批量删除销售出库记录单数据
+//							  delSalaIssueMid(ctx,"04",companyid,year,month); //批量删除中间表记录
+//							for(String issnumber : billNumberList){ 
+//								//delSalaIssueByNumber(ctx,issnumber,"04");// 删除中间表
+//								if(isf.exists("where number='"+issnumber+"'")){
+//									SaleIssueBillInfo info = isf.getSaleIssueBillInfo("where number='"+issnumber+"'");
+//									CoreBaseInfo logInfo = createHisLog(ctx,info,status.Cost);
+//									if(logInfo != null){
+//										logCollectoin.add(logInfo);
+//									}
+//								} 
+//						}
+//					}
+//				}
+//				if(logCollectoin.size()>0){
+//					ish.addnewBatchData(logCollectoin);
+//				}
+//			} catch (BOSException e) {
+//				e.printStackTrace();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+		
+		
+		
 	}
 	 
 	private static List<Map> getCompanyAndPeriodFromLog(Context ctx,String oper){

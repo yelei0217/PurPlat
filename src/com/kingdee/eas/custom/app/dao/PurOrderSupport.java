@@ -147,7 +147,7 @@ public class PurOrderSupport {
 					"FLOCALTAX,FLOCALTAXAMOUNT,FSALEORDERNUMBER,FPREPAIDAMOUNT,FREQUESTORGUNITID,FREQUESTCOMPANYORGUNITID,FISREQUESTTORECEIVED,FTOTALMOVEQTY,FTOTALINVOICEDAMT," +
 					"FPREPAYMENT,FPRERECEIVED,FUNPRERECEIVEDAM,FVERSION,FCANINVMOVEQTY,FUNORDEREDQTY,FISBETWEENCOMPANYREC,FROWTYPEID,FDESTINATIONTYPE,FMATERIALNAME,FISREQCOMEQLRECCOM," +
 					"FPLANRECEIVEQTY,FTOTALSUPPLYSTOCKQTY,FTOTALCANCELLEDSTOCKQTY,FTOTALSUPPLYSTOCKBASEQTY,FTOTALPREPAYAMT,FTOTALREQPAYAMT,FISREQPREPAYGTPREPAY,FNONUMMATERIALMODEL," +
-					"FMATCHEDAMOUNT,FPURCHASEORGUNITID,FBIZDATE,FUSEADMINORGUNITID,CFPINPAI,CFHUOHAO,CFXINGHAO,CFWULIAOLEIBIE,CFMsgId ) values (");
+					"FMATCHEDAMOUNT,FPURCHASEORGUNITID,FBIZDATE,CFPINPAI,CFHUOHAO,CFXINGHAO,CFWULIAOLEIBIE,CFMsgId ) values (");
 			
 			String deliveDateStr = "";
 			
@@ -186,7 +186,7 @@ public class PurOrderSupport {
 			sbr1.append(dvo.getFbaseqty()).append(",").append(dvo.getFqty()).append(",0,0,").append(dvo.getFtax()).append(",").append(dvo.getFtaxamount()).append(",0,0,'");
 			sbr1.append(m.getFstorageorgunitid()).append("','").append(m.getFstorageorgunitid()).append("',1,0,0,0,0,0,0,").append(dvo.getFqty()).append(",").append(dvo.getFqty()).append(",0,'").append(rowType).append("',10,'");
 			sbr1.append(mmp.get("name")).append("',1,0,0,0,0,0,0,0,'").append(mmp.get("gg")).append("',0,'").append(m.getFstorageorgunitid()).append("',to_date('").append(bizDateStr).append("','yyyy-MM-dd'),'");
-			sbr1.append(m.getFadminorgunitid()).append("','").append(mmp.get("pp")).append("','").append(mmp.get("hh")).append("','").append(mmp.get("xh")).append("','").append(mmp.get("gn")).append("','").append(dvo.getId()).append("' ) ");;
+			sbr1.append(mmp.get("pp")).append("','").append(mmp.get("hh")).append("','").append(mmp.get("xh")).append("','").append(mmp.get("gn")).append("','").append(dvo.getId()).append("' ) ");;
 			pe.getSqlList().add(sbr1);
 		}
 	  

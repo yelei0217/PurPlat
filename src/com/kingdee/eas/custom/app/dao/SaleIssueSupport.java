@@ -362,7 +362,7 @@ public class SaleIssueSupport {
 					}else
 						purPlatMenu = PurPlatSyncEnum.NOTEXISTS_BILL;
 				}else
-					purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+					purPlatMenu = PurPlatSyncEnum.BUSCODE_EXCEPTION;
 			}else
 				purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
 		}else

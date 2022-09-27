@@ -188,7 +188,8 @@ public class PurPlatUtil {
 	    		 tableName =" T_IM_PurInWarehsBill ";
 	    	 }else if("GZ_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMIB_LZ_SS".equals(busCode)||"SO_LZ_SS".equals(busCode)
 	    			 ||"CGZ_U_MZ_SS".equals(busCode)||"CDZ_U_MZ_SS".equals(busCode)||"VMI_U_MZ_SS_VMI".equals(busCode)||"VMI_U_MZ_SS".equals(busCode)
-	    			 ||"VMI_U_LZ_SS".equals(busCode)||"YX_LZ_SS".equals(busCode)||"YX_MZ_SS".equals(busCode)||"ZZ_YC_LZ_SS".equals(busCode)||"ZZ_YC_MZ_SS".equals(busCode)){
+	    			 ||"VMI_U_LZ_SS".equals(busCode)||"YX_LZ_SS".equals(busCode)||"YX_MZ_SS".equals(busCode)||"ZZ_YC_LZ_SS".equals(busCode)||
+	    			 "ZZ_YC_MZ_SS".equals(busCode)||"GZB_LZ_SS".equals(busCode)){
 	    		 tableName =" T_IM_SaleIssueBill ";
 	    	 }else if("GZ_CK_LZ_CJ".equals(busCode)||"VMI_CK_LZ_CJ".equals(busCode)||"VMI_CK_MZ_CJ".equals(busCode)||"DZ_CK_MZ_CJ".equals(busCode)||
 	    			 "YC_CK_MZ_CJ".equals(busCode)||"YX_CK_LZ_CJ".equals(busCode)||"YX_CK_MZ_CJ".equals(busCode)){
@@ -406,9 +407,9 @@ public class PurPlatUtil {
 			        	 
 			        	 
 			        	 if(rs.getObject("CFXINGHAO")!=null &&!"".equals(rs.getObject("CFXINGHAO").toString()))
-			        		 mp.put("xx", rs.getObject("CFXINGHAO").toString()); 
+			        		 mp.put("xh", rs.getObject("CFXINGHAO").toString()); 
 			        	 else
-			        		 mp.put("xx","");  
+			        		 mp.put("xh","");  
 			        	 
 			        	 
 			        	 if(rs.getObject("goupName")!=null &&!"".equals(rs.getObject("goupName").toString()))

@@ -94,7 +94,8 @@ public class PurInCGWSupport {
 				reqTime = reqTimeJE.getAsString() ;
   				//baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
 				// ¼ÇÂ¼ÈÕÖ¾
-				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+//				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+				PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), "", "", "");
 				PurInDTO m =null;
 				try {
 					m = gson.fromJson(modelJE, PurInDTO.class);

@@ -283,8 +283,9 @@ public class PurInWarehsSupport {
 				reqTime = reqTimeJE.getAsString() ;
   				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
 				// 记录日志
-				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
-				PurInDTO m = gson.fromJson(modelJE, PurInDTO.class);
+//				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+  				 PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), "", "", "");
+  				PurInDTO m = gson.fromJson(modelJE, PurInDTO.class);
 				//采购入库单-退货业务流程
 				if("GZB_MZ_PI".equals(busCode)||"GZB_LZ_PI".equals(busCode)||"DZB_MZ_PI".equals(busCode)
 						||"VMI2CB_LZ_PI".equals(busCode)||"VMIB_MZ_PI".equals(busCode)){
@@ -293,7 +294,23 @@ public class PurInWarehsSupport {
 					// 判断msgId 是否存在SaleOrderDTO
 					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
 						 try {
-							 PurInWarehsBillCollection coll = PurInWarehsBillFactory.getLocalInstance(ctx).getPurInWarehsBillCollection("where bid='"+m.getBid()+"'");
+							 
+							 int isInTax = 0;//门诊为0，栗喆为1
+							 if(busCode.contains("LZ"))
+									isInTax = 1;
+							 else if(busCode.contains("MZ"))
+							  isInTax = 0; 
+								
+						     EntityViewInfo viewInfo = new EntityViewInfo();
+						     FilterInfo filter = new FilterInfo();
+						     filter.getFilterItems().add(new FilterItemInfo("bid",m.getBid(),CompareType.EQUALS)); 
+						     if(isInTax==1)
+							     filter.getFilterItems().add(new FilterItemInfo("StorageOrgUnit.id","jbYAAAMU2SvM567U",CompareType.EQUALS));
+						     else
+						     filter.getFilterItems().add(new FilterItemInfo("StorageOrgUnit.id","jbYAAAMU2SvM567U",CompareType.NOTEQUALS));
+						     viewInfo.setFilter(filter);
+						     
+							 PurInWarehsBillCollection coll = PurInWarehsBillFactory.getLocalInstance(ctx).getPurInWarehsBillCollection(viewInfo);
 							 List<PurInDetailDTO> list = m.getDetails();
 							 Map<String,BigDecimal> entryMp =null;
 							 if(list !=null && list.size() > 0){

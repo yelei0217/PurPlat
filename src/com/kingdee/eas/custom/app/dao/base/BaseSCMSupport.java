@@ -69,8 +69,8 @@ public class BaseSCMSupport {
 				reqTime = reqTimeJE.getAsString() ;
 				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
 				// ¼ÇÂ¼ÈÕÖ¾
-				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
-	
+			//	IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+				PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), "", "", "");
 				if("VMI_U_MZ_SO".equals(busCode)){
 					VMISaleOrderDTO m =null;
 					try {

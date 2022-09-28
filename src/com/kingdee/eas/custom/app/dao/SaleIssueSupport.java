@@ -30,7 +30,6 @@ import com.kingdee.eas.basedata.assistant.MeasureUnitInfo;
 import com.kingdee.eas.basedata.assistant.PaymentTypeInfo;
 import com.kingdee.eas.basedata.master.cssp.CustomerInfo;
 import com.kingdee.eas.basedata.master.cssp.SupplierInfo;
-import com.kingdee.eas.basedata.master.material.IMaterial;
 import com.kingdee.eas.basedata.master.material.MaterialCollection;
 import com.kingdee.eas.basedata.master.material.MaterialFactory;
 import com.kingdee.eas.basedata.master.material.MaterialInfo;
@@ -50,7 +49,6 @@ import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.DateBaseProcessType;
 import com.kingdee.eas.custom.app.DateBasetype;
 import com.kingdee.eas.custom.app.PurPlatSyncEnum;
-import com.kingdee.eas.custom.app.dto.PurInDetailDTO;
 import com.kingdee.eas.custom.app.dto.SaleIssDTO;
 import com.kingdee.eas.custom.app.dto.SaleIssDetailDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseResponseDTO;
@@ -61,11 +59,6 @@ import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.framework.CoreBillBaseCollection;
 import com.kingdee.eas.scm.im.inv.ISaleIssueBill;
-import com.kingdee.eas.scm.im.inv.PurInWarehsBillCollection;
-import com.kingdee.eas.scm.im.inv.PurInWarehsBillFactory;
-import com.kingdee.eas.scm.im.inv.PurInWarehsBillInfo;
-import com.kingdee.eas.scm.im.inv.PurInWarehsEntryCollection;
-import com.kingdee.eas.scm.im.inv.PurInWarehsEntryInfo;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillCollection;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillFactory;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillInfo;
@@ -291,7 +284,9 @@ public class SaleIssueSupport {
   				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
 				
 				// 记录日志
-				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+				//IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+				  PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), "", "", "");
+
 				SaleIssDTO m = gson.fromJson(modelJE, SaleIssDTO.class);
 				//采购入库单-退货业务流程
 		 		if("GZB_LZ_SS".equals(busCode)||"VMIB_LZ_SS".equals(busCode)){
@@ -299,7 +294,23 @@ public class SaleIssueSupport {
 		 		// 判断msgId 是否存在SaleOrderDTO
 					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
 						 try {
-							 SaleIssueBillCollection coll = SaleIssueBillFactory.getLocalInstance(ctx).getSaleIssueBillCollection("where bid='"+m.getBid()+"'");
+							 
+								int isInTax = 0;//门诊为0，栗喆为1
+								if(busCode.contains("LZ"))
+									isInTax = 1;
+								 else if(busCode.contains("MZ"))
+									 isInTax = 0; 
+								
+						     EntityViewInfo viewInfo = new EntityViewInfo();
+						     FilterInfo filter = new FilterInfo();
+						     filter.getFilterItems().add(new FilterItemInfo("bid",m.getBid(),CompareType.EQUALS)); 
+						     if(isInTax==1)
+							     filter.getFilterItems().add(new FilterItemInfo("StorageOrgUnit.id","jbYAAAMU2SvM567U",CompareType.EQUALS));
+						     else
+						     filter.getFilterItems().add(new FilterItemInfo("StorageOrgUnit.id","jbYAAAMU2SvM567U",CompareType.NOTEQUALS));
+						     viewInfo.setFilter(filter);
+						     
+							 SaleIssueBillCollection coll = SaleIssueBillFactory.getLocalInstance(ctx).getSaleIssueBillCollection(viewInfo);
 							 List<SaleIssDetailDTO> list = m.getDetails();
 							 Map<String,BigDecimal> entryMp =null;
 							 if(list !=null && list.size() > 0){

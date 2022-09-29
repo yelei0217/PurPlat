@@ -255,11 +255,22 @@ public class SaleOrderSupport {
 						      if (sbr1.length() > 1) {
 						        eids = sbr1.substring(0, sbr1.length() - 1);
 						      }  
-
+								 
+						 
+									 
 						      ISaleOrderEntry ibize = SaleOrderEntryFactory.getLocalInstance(ctx);
 						      StringBuffer sbr = new StringBuffer("/*dialect*/ select distinct FID,FBaseStatus from T_SD_SALEORDERENTRY where FPARENTID in ( select FID from T_SD_SALEORDER where CFMsgId  ='").append(id).append("'");
-						      sbr.append(") and CFMsgId in (").append(eids).append(")");
-						      IRowSet rs = DbUtil.executeQuery(ctx, sbr.toString());
+						      if(busCode.contains("LZ"))
+							  		sbr.append(" and FCOMPANYORGUNITID ='jbYAAAMU2SvM567U' ");
+							     else if(busCode.contains("MZ"))
+								   sbr.append(" and FCOMPANYORGUNITID !='jbYAAAMU2SvM567U' ");
+						      sbr.append(" ) and CFMsgId in (").append(eids).append(")");
+						      if(busCode.contains("LZ"))
+							  		sbr.append(" and FSTORAGEORGUNITID ='jbYAAAMU2SvM567U' ");
+							     else if(busCode.contains("MZ"))
+								   sbr.append(" and FSTORAGEORGUNITID !='jbYAAAMU2SvM567U' ");
+						    
+						  	 IRowSet rs = DbUtil.executeQuery(ctx, sbr.toString());
 						      List<String> reasonLists = new ArrayList();
 						      List<IObjectPK> pkLists = new ArrayList();
 						      if ((rs != null) && (rs.size() > 0))

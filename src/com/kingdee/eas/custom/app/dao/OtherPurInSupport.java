@@ -161,10 +161,10 @@ public class OtherPurInSupport {
 						ispresent = false;
 						
 					if(ispresent){//是赠品
-						updateTypeInfo.setId(BOSUuid.read("8r0AAAAEaPbC73rf"));
+						updateTypeInfo.setId(BOSUuid.read("8r0AAAAEaPXC73rf"));
 					}else{//不是赠品
 						//8r0AAAAEaOjC73rf  8r0AAAAEaOjC73rf
-						updateTypeInfo.setId(BOSUuid.read("8r0AAAAEaOnC73rf"));
+						updateTypeInfo.setId(BOSUuid.read("8r0AAAAEaOjC73rf"));  
 					}
 					 entryInfo.setIsPresent(ispresent);
 					 entryInfo.setInvUpdateType(updateTypeInfo); 

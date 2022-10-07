@@ -13,8 +13,6 @@ import com.kingdee.eas.util.app.DbUtil;
 import com.kingdee.jdbc.rowset.IRowSet;
 
 public class PurPlatUtil {
-	
-
 
     public final static Map<String, String> dateTypeMenuMp = new HashMap<String, String>() {
         {

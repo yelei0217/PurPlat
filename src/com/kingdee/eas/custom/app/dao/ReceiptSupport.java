@@ -160,7 +160,7 @@ public class ReceiptSupport {
 		PaymentTypeInfo paymenttypeinfo = new PaymentTypeInfo();
 		paymenttypeinfo.setId(BOSUuid.read("91f078d7-fb90-4827-83e2-3538237b67a06BCA0AB5"));
 		rbInfo.setPaymentType(paymenttypeinfo);
- 
+		//结算方式 电汇
 		SettlementTypeInfo settlementTypeInfo = new SettlementTypeInfo();
 		settlementTypeInfo.setId(BOSUuid.read("e09a62cd-00fd-1000-e000-0b33c0a8100dE96B2B8E"));
 		rbInfo.setSettlementType(settlementTypeInfo); 

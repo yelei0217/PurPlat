@@ -2078,7 +2078,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     
 	    
 		
-		protected String  sendBaseDataToB2B(Context ctx, String jsonStr)
+		protected String sendBaseDataToB2B(Context ctx, String jsonStr)
 		throws BOSException {
 			//return super._savePaymentBill(ctx, jsonStr);
 			String result = "";

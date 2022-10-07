@@ -240,7 +240,7 @@
             <isEncoded>false</isEncoded>
             <isNullable>true</isNullable>
             <defaultValue />
-            <sqlType>NVARCHAR</sqlType>
+            <sqlType>BLOB</sqlType>
             <length>2000</length>
             <scale>0</scale>
             <precision>0</precision>
@@ -378,216 +378,259 @@
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="业务单据同步记录" />
-            <lang locale="zh_TW" value="基礎資料同步記錄" />
+            <lang locale="zh_HK" value="業務單據同步記錄" />
+            <lang locale="zh_TW" value="業務單據同步記錄" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFDateBaseType].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="数据类型" />
+            <lang locale="zh_HK" value="數據類型" />
             <lang locale="zh_TW" value="數據類型" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFDateBaseType].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="数据类型" />
+            <lang locale="zh_HK" value="數據類型" />
             <lang locale="zh_TW" value="數據類型" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFErrorMessage].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="失败信息" />
+            <lang locale="zh_HK" value="失敗信息" />
             <lang locale="zh_TW" value="失敗信息" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFErrorMessage].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="失败信息" />
+            <lang locale="zh_HK" value="失敗信息" />
             <lang locale="zh_TW" value="失敗信息" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFIsSync].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="是否正在同步" />
+            <lang locale="zh_HK" value="是否正在同步" />
             <lang locale="zh_TW" value="是否正在同步" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFIsSync].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="是否正在同步" />
+            <lang locale="zh_HK" value="是否正在同步" />
             <lang locale="zh_TW" value="是否正在同步" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFMessage].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="信息" />
+            <lang locale="zh_HK" value="信息" />
             <lang locale="zh_TW" value="信息" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFMessage].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="信息" />
+            <lang locale="zh_HK" value="信息" />
             <lang locale="zh_TW" value="信息" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFProcessType].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="处理类型" />
+            <lang locale="zh_HK" value="處理類型" />
             <lang locale="zh_TW" value="處理類型" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFProcessType].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="处理类型" />
+            <lang locale="zh_HK" value="處理類型" />
             <lang locale="zh_TW" value="處理類型" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFRespond].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="响应信息" />
+            <lang locale="zh_HK" value="回應信息" />
             <lang locale="zh_TW" value="回應信息" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFRespond].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="异常信息" />
+            <lang locale="zh_HK" value="異常信息" />
             <lang locale="zh_TW" value="異常信息" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFSendCount].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="请求次数" />
+            <lang locale="zh_HK" value="請求次數" />
             <lang locale="zh_TW" value="請求次數" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFSendCount].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="请求次数" />
+            <lang locale="zh_HK" value="請求次數" />
             <lang locale="zh_TW" value="請求次數" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFStatus].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="同步状态" />
+            <lang locale="zh_HK" value="同步狀態" />
             <lang locale="zh_TW" value="同步狀態" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFStatus].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="同步状态" />
+            <lang locale="zh_HK" value="同步狀態" />
             <lang locale="zh_TW" value="同步狀態" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFUpdateDate].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="更新日期" />
+            <lang locale="zh_HK" value="更新日期" />
             <lang locale="zh_TW" value="更新日期" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFUpdateDate].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="更新日期" />
+            <lang locale="zh_HK" value="更新日期" />
             <lang locale="zh_TW" value="更新日期" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFUpdatetime].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="同步时间" />
+            <lang locale="zh_HK" value="同步時間" />
             <lang locale="zh_TW" value="同步時間" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFUpdatetime].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="同步时间" />
+            <lang locale="zh_HK" value="同步時間" />
             <lang locale="zh_TW" value="同步時間" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFVersion].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="版本" />
+            <lang locale="zh_HK" value="版本" />
             <lang locale="zh_TW" value="版本" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[CFVersion].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="版本" />
+            <lang locale="zh_HK" value="版本" />
             <lang locale="zh_TW" value="版本" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FControlUnitID].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="控制单元" />
+            <lang locale="zh_HK" value="控制單元" />
             <lang locale="zh_TW" value="控制單元" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FControlUnitID].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="控制单元" />
+            <lang locale="zh_HK" value="控制單元" />
             <lang locale="zh_TW" value="控制單元" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FCreateTime].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="创建时间" />
+            <lang locale="zh_HK" value="創建時間" />
             <lang locale="zh_TW" value="創建時間" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FCreateTime].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="创建时间" />
+            <lang locale="zh_HK" value="創建時間" />
             <lang locale="zh_TW" value="創建時間" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FCreatorID].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="创建者" />
+            <lang locale="zh_HK" value="創建者" />
             <lang locale="zh_TW" value="創建者" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FCreatorID].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="创建者" />
+            <lang locale="zh_HK" value="創建者" />
             <lang locale="zh_TW" value="創建者" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FDescription].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="描述" />
+            <lang locale="zh_HK" value="描述" />
             <lang locale="zh_TW" value="描述" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FDescription].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="描述" />
+            <lang locale="zh_HK" value="描述" />
             <lang locale="zh_TW" value="描述" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FID].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
             <lang locale="zh_TW" value="null" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FID].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
             <lang locale="zh_TW" value="null" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FLastUpdateTime].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="最后修改时间" />
+            <lang locale="zh_HK" value="最後修改時間" />
             <lang locale="zh_TW" value="最後修改時間" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FLastUpdateTime].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="最后修改时间" />
+            <lang locale="zh_HK" value="最後修改時間" />
             <lang locale="zh_TW" value="最後修改時間" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FLastUpdateUserID].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="最后修改者" />
+            <lang locale="zh_HK" value="最後修改者" />
             <lang locale="zh_TW" value="最後修改者" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FLastUpdateUserID].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="最后修改者" />
+            <lang locale="zh_HK" value="最後修改者" />
             <lang locale="zh_TW" value="最後修改者" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FName].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="名称" />
+            <lang locale="zh_HK" value="名稱" />
             <lang locale="zh_TW" value="名稱" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FName].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="名称" />
+            <lang locale="zh_HK" value="名稱" />
             <lang locale="zh_TW" value="名稱" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FNumber].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="编码" />
+            <lang locale="zh_HK" value="編碼" />
             <lang locale="zh_TW" value="編碼" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FNumber].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="编码" />
+            <lang locale="zh_HK" value="編碼" />
             <lang locale="zh_TW" value="編碼" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FSimpleName].alias">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="简称" />
+            <lang locale="zh_HK" value="簡稱" />
             <lang locale="zh_TW" value="簡稱" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].columns.column[FSimpleName].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="简称" />
+            <lang locale="zh_HK" value="簡稱" />
             <lang locale="zh_TW" value="簡稱" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncBusLog].description">

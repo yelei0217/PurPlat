@@ -82,6 +82,8 @@ public class BaseFISupport {
 								ArOtherSupport.doSaveBill(ctx, m,busCode);
 							else if(busCode.contains("_R"))
 								ReceiptSupport.doInsertBill(ctx,m,busCode);
+							else if(busCode.contains("_P"))
+								ReceiptSupport.doInsertBill(ctx,m,busCode);
 	 						 purPlatMenu = PurPlatSyncEnum.SUCCESS;
 						}else
 							purPlatMenu = PurPlatSyncEnum.EXCEPTION_SERVER;

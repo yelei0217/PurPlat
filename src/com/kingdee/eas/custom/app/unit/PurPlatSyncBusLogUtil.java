@@ -56,6 +56,41 @@ public class PurPlatSyncBusLogUtil {
 	} 
 	
 	/**
+	 * 
+	 * @param ctx
+	 * @param processType
+	 * @param baseType
+	 * @param name
+	 * @param number
+	 * @param request
+	 * @param respond
+	 * @param errMsg
+	 */
+	public static IObjectPK insertLog(Context ctx, DateBaseProcessType processType,DateBasetype baseType,String name,String number,String message){
+		IObjectPK logPk = null;
+		try {
+			PurPlatSyncBusLogInfo loginfo=new PurPlatSyncBusLogInfo();
+			loginfo.setProcessType(processType);
+			loginfo.setNumber(number);
+			loginfo.setName(name);
+			loginfo.setSimpleName(number);
+			loginfo.setDateBaseType(baseType);
+			loginfo.setVersion(System.currentTimeMillis()+"");
+			loginfo.setUpdateDate(new Date());
+			loginfo.setStatus(true);
+ 			loginfo.setMessage(message); // 请求信息 
+ 			loginfo.setIsSync(false);
+			logPk = PurPlatSyncBusLogFactory.getLocalInstance(ctx).save(loginfo);
+		} catch (EASBizException e) {
+ 			e.printStackTrace();
+		} catch (BOSException e) {
+ 			e.printStackTrace();
+		}
+		return logPk;
+	} 
+	
+	
+	/**
 	 * 修改 生成单据
 	 * @param fid
 	 * @param respond

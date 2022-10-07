@@ -18,14 +18,18 @@ public class CostAdjusDTO  implements Serializable{
 	private String  fstorageorgunitid;
 	private String  fadminorgunitid;
 	private BigDecimal  ftotalamount;
-	private BigDecimal  ftotaltax;
-	private BigDecimal  ftotaltaxamount;
+//	private BigDecimal  ftotaltax;
+//	private BigDecimal  ftotaltaxamount;
 	private BigDecimal  ftotalqty;
-	private String  fsendaddress;
-	private String  fdescription;
-	private String  fcreatorid;
-	private String	fsupplierid ;
-	
+ 	private String  fcreatorid;
+	private String	fsupplierid ; 
+ 
+	public String getFstorageorgunitid() {
+		return fstorageorgunitid;
+	}
+	public void setFstorageorgunitid(String fstorageorgunitid) {
+		this.fstorageorgunitid = fstorageorgunitid;
+	}
 	public BigDecimal getFtotalqty() {
 		return ftotalqty;
 	}
@@ -57,12 +61,7 @@ public class CostAdjusDTO  implements Serializable{
 	public void setFcustomerid(String fcustomerid) {
 		this.fcustomerid = fcustomerid;
 	}
-	public String getFstorageorgunitid() {
-		return fstorageorgunitid;
-	}
-	public void setFstorageorgunitid(String fstorageorgunitid) {
-		this.fstorageorgunitid = fstorageorgunitid;
-	}
+ 
 	public String getFadminorgunitid() {
 		return fadminorgunitid;
 	}
@@ -75,30 +74,19 @@ public class CostAdjusDTO  implements Serializable{
 	public void setFtotalamount(BigDecimal ftotalamount) {
 		this.ftotalamount = ftotalamount;
 	}
-	public BigDecimal getFtotaltax() {
-		return ftotaltax;
-	}
-	public void setFtotaltax(BigDecimal ftotaltax) {
-		this.ftotaltax = ftotaltax;
-	}
-	public BigDecimal getFtotaltaxamount() {
-		return ftotaltaxamount;
-	}
-	public void setFtotaltaxamount(BigDecimal ftotaltaxamount) {
-		this.ftotaltaxamount = ftotaltaxamount;
-	}
-	public String getFsendaddress() {
-		return fsendaddress;
-	}
-	public void setFsendaddress(String fsendaddress) {
-		this.fsendaddress = fsendaddress;
-	}
-	public String getFdescription() {
-		return fdescription;
-	}
-	public void setFdescription(String fdescription) {
-		this.fdescription = fdescription;
-	}
+//	public BigDecimal getFtotaltax() {
+//		return ftotaltax;
+//	}
+//	public void setFtotaltax(BigDecimal ftotaltax) {
+//		this.ftotaltax = ftotaltax;
+//	}
+//	public BigDecimal getFtotaltaxamount() {
+//		return ftotaltaxamount;
+//	}
+//	public void setFtotaltaxamount(BigDecimal ftotaltaxamount) {
+//		this.ftotaltaxamount = ftotaltaxamount;
+//	}
+ 
 	public String getFcreatorid() {
 		return fcreatorid;
 	}

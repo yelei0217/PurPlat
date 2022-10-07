@@ -16,21 +16,10 @@ import com.kingdee.eas.custom.app.DateBasetype;
 import com.kingdee.eas.custom.app.PurPlatSyncEnum;
 import com.kingdee.eas.custom.app.dao.ApOtherSupport;
 import com.kingdee.eas.custom.app.dao.ArOtherSupport;
-import com.kingdee.eas.custom.app.dao.PurInWarehsSupport;
-import com.kingdee.eas.custom.app.dao.PurOrderSupport;
 import com.kingdee.eas.custom.app.dao.ReceiptSupport;
-import com.kingdee.eas.custom.app.dao.SaleIssueSupport;
-import com.kingdee.eas.custom.app.dao.SaleOrderSupport;
-import com.kingdee.eas.custom.app.dto.PurInDTO;
-import com.kingdee.eas.custom.app.dto.PurOrderDTO;
-import com.kingdee.eas.custom.app.dto.SaleIssDTO;
-import com.kingdee.eas.custom.app.dto.SaleOrderDTO;
-import com.kingdee.eas.custom.app.dto.SaleOrderDetailDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseFIDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseFIDetailDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseResponseDTO;
-import com.kingdee.eas.custom.app.dto.base.BaseSCMDTO;
-import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 import com.kingdee.eas.custom.app.unit.PurPlatSyncBusLogUtil;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 
@@ -71,8 +60,10 @@ public class BaseFISupport {
   				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
 				
 				// 记录日志
-				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
-				BaseFIDTO m = null;
+//				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+  				PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(),"", "", "");
+
+  				BaseFIDTO m = null;
 				try {
 					m = gson.fromJson(modelJE, BaseFIDTO.class);
 				} catch (JsonSyntaxException e) {
@@ -112,50 +103,6 @@ public class BaseFISupport {
 			respondDTO.setMsg(purPlatMenu.getAlias());
 		return gson.toJson(respondDTO);
 	}
-	
-//	public static String judgeJsonStr(Context ctx,String jsonStr){
-//		String result = null;
-//		if(jsonStr != null && !"".equals(jsonStr)){
-//		    System.out.println("************************json begin****************************");
-//		    System.out.println("#####################jsonStr################=" + jsonStr);
-//			DateBaseProcessType processType = DateBaseProcessType.AddNew;
-//			DateBasetype baseType = DateBasetype.GZ_LZ_SS;
-//			String msgId = "";
-//			String busCode ="";
-//			String reqTime ="";
-//			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
-//			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
-//			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
-//			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-//			Gson gson = new Gson();
-//			JsonElement modelJE = returnData.get("data"); // 请求参数data
-//			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
-//					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
-//					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
-//				msgId = msgIdJE.getAsString() ;
-//				busCode = busCodeJE.getAsString() ;
-//				reqTime = reqTimeJE.getAsString() ;
-//				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
-//				// 记录日志
-//				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
-//				BaseSCMDTO m = gson.fromJson(modelJE, BaseSCMDTO.class);
-//				// 判断msgId 是否存在SaleOrderDTO
-////				if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-////					result = judgeModel(ctx,m,busCode);
-////					if("".equals(result))
-////					{
-////					//	SaleOrderSupport.doInsertBill(ctx,m,busCode);
-////						result = "success";
-////					}
-////				}else
-////					result = PurPlatSyncEnum.EXISTS_BILL.getAlias();
-//			}else
-//				result = PurPlatSyncEnum.FIELD_NULL.getAlias();
-//		}else
-//			result = PurPlatSyncEnum.FIELD_NULL.getAlias();
-//		
-//		return result;
-//	}
 
 	/**
 	 * 校验 实体是否正确
@@ -166,8 +113,8 @@ public class BaseFISupport {
 	private static String judgeModel(Context ctx,BaseFIDTO m,String busCode ){
 		 String result = "";
 		 //组织是否存在
-		 if(m.getFstorageorgunitid() != null && !"".equals(m.getFstorageorgunitid()) ){
-			 IObjectPK orgPK = new  ObjectUuidPK(m.getFstorageorgunitid());
+		 if(m.getFcompanyorgunitid() != null && !"".equals(m.getFcompanyorgunitid()) ){
+			 IObjectPK orgPK = new  ObjectUuidPK(m.getFcompanyorgunitid());
 			try {
 				if(!PurchaseOrgUnitFactory.getLocalInstance(ctx).exists(orgPK))
 					result = result +"财务组织不存在,";
@@ -192,7 +139,7 @@ public class BaseFISupport {
 				 result = result +"供应商不能为空,";
 				 else{
 					if(PurPlatUtil.judgeExists(ctx, "S", "", m.getFsupplierid())){
-						if(!PurPlatUtil.judgeExists(ctx, "SP",m.getFstorageorgunitid()  , m.getFsupplierid()))
+						if(!PurPlatUtil.judgeExists(ctx, "SP",m.getFcompanyorgunitid()  , m.getFsupplierid()))
 							 result = result +"供应商未分配当前组织,";
 						}else
 							 result = result +"供应商不存在,";
@@ -204,7 +151,7 @@ public class BaseFISupport {
 				 result = result +"客户不能为空,";
 			 else{
 				if(PurPlatUtil.judgeExists(ctx, "CUS", "", m.getFcustomerid())){
-					if(!PurPlatUtil.judgeExists(ctx, "CUSS",m.getFstorageorgunitid(), m.getFcustomerid()))
+					if(!PurPlatUtil.judgeExists(ctx, "CUSS",m.getFcompanyorgunitid(), m.getFcustomerid()))
 						 result = result +"客户未分配当前组织,";
 					}else
 						 result = result +"客户不存在,";
@@ -226,7 +173,7 @@ public class BaseFISupport {
 						 result = result +"第"+j+1+"行物料ID不能为空,";
 					 }else{
 						 if(PurPlatUtil.judgeExists(ctx, "M", "",dvo.getFmaterialid())){
-							 if(!PurPlatUtil.judgeExists(ctx, "MP",m.getFstorageorgunitid()  , dvo.getFmaterialid()))
+							 if(!PurPlatUtil.judgeExists(ctx, "MP",m.getFcompanyorgunitid()  , dvo.getFmaterialid()))
 								 result = result +"第"+j+1+"物料未分配当前组织,";
 						 }else
 							 result = result +"第"+j+1+"行 物料ID不存在,";

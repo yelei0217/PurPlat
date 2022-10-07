@@ -17,8 +17,8 @@ public class BaseFIDTO implements Serializable{
 	private String    fbizdate;
 	private String	fsupplierid ;
 	private String  fcustomerid;
-	private String  fstorageorgunitid;
-	private String  fadminorgunitid;
+	private String  fcompanyorgunitid;
+	//private String  fadminorgunitid;
 	private BigDecimal  ftotalamount;
 	private BigDecimal  ftotaltax;
 	private BigDecimal  ftotalqty;
@@ -26,8 +26,8 @@ public class BaseFIDTO implements Serializable{
 	private String  fsendaddress;
 	private String  fdescription;
 	private String  fcreatorid;
-	private String	fpurchasepersonid ;
-	private String	fstockerid;
+//	private String	fpersonid ;
+//	private String	fstockerid;
 	private String	finvoicenumber;
 	private String fbank;
 	private String fbankaccount;
@@ -77,18 +77,7 @@ public class BaseFIDTO implements Serializable{
 	public void setFcustomerid(String fcustomerid) {
 		this.fcustomerid = fcustomerid;
 	}
-	public String getFstorageorgunitid() {
-		return fstorageorgunitid;
-	}
-	public void setFstorageorgunitid(String fstorageorgunitid) {
-		this.fstorageorgunitid = fstorageorgunitid;
-	}
-	public String getFadminorgunitid() {
-		return fadminorgunitid;
-	}
-	public void setFadminorgunitid(String fadminorgunitid) {
-		this.fadminorgunitid = fadminorgunitid;
-	}
+ 
 	public BigDecimal getFtotalamount() {
 		return ftotalamount;
 	}
@@ -131,18 +120,13 @@ public class BaseFIDTO implements Serializable{
 	public void setFcreatorid(String fcreatorid) {
 		this.fcreatorid = fcreatorid;
 	}
-	public String getFpurchasepersonid() {
-		return fpurchasepersonid;
-	}
-	public void setFpurchasepersonid(String fpurchasepersonid) {
-		this.fpurchasepersonid = fpurchasepersonid;
-	}
-	public String getFstockerid() {
-		return fstockerid;
-	}
-	public void setFstockerid(String fstockerid) {
-		this.fstockerid = fstockerid;
-	}
+	 
+//	public String getFstockerid() {
+//		return fstockerid;
+//	}
+//	public void setFstockerid(String fstockerid) {
+//		this.fstockerid = fstockerid;
+//	}
 	public String getFinvoicenumber() {
 		return finvoicenumber;
 	}
@@ -155,5 +139,18 @@ public class BaseFIDTO implements Serializable{
 	public void setDetails(List<BaseFIDetailDTO> details) {
 		this.details = details;
 	}
+	public String getFcompanyorgunitid() {
+		return fcompanyorgunitid;
+	}
+	public void setFcompanyorgunitid(String fcompanyorgunitid) {
+		this.fcompanyorgunitid = fcompanyorgunitid;
+	}
+//	public String getFpersonid() {
+//		return fpersonid;
+//	}
+//	public void setFpersonid(String fpersonid) {
+//		this.fpersonid = fpersonid;
+//	}
+	
 	
 }

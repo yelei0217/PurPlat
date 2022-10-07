@@ -450,7 +450,6 @@ public class SaleIssueSupport {
 			 sourceBilltypeId = "";//来源单据类型
 			 biztypeId = "d8e80652-010e-1000-e000-04c5c0a812202407435C";//业务类型
 			 transinfoId ="DawAAAAPoAywCNyn";//事务类型
-			
 		}
 	    
 	    BillTypeInfo billtype = new BillTypeInfo();
@@ -577,7 +576,7 @@ public class SaleIssueSupport {
 	    IWarehouse iwarehouse = WarehouseFactory.getLocalInstance(ctx);
 	    WarehouseInfo warehouseinfo = iwarehouse.getWarehouseInfo(pk);
 	    entryInfo.setWarehouse(warehouseinfo);
-	    
+	  
 	    String invUpdateTypeId = "'";
 	    BigDecimal factor = new BigDecimal(1);
 		if("GZ_LZ_SS".equals(busCode)){

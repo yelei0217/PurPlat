@@ -14,25 +14,24 @@ public class CostAdjusDetailDTO  implements Serializable{
 	private String fseq ;
 	private String fmaterialid ;
  	private String	funitid ;
-	private String	fbaseunitid ;
+//	private String	fbaseunitid ;
 	private String fwarehouseid ;
-	private String fstockerid ;
-	private Boolean	fispresent ;
+//	private String fstockerid ;
+//	private Boolean	fispresent ;
 	private String fparentid ;
 	private BigDecimal fprice;
-	private BigDecimal factualprice;
-	private BigDecimal ftaxprice;
-	private BigDecimal factualtaxprice;
+//	private BigDecimal factualprice;
+//	private BigDecimal ftaxprice;
+//	private BigDecimal factualtaxprice;
 	private BigDecimal famount;
-	private BigDecimal ftaxamount;
-	private BigDecimal ftaxrate;
-	private BigDecimal ftax;
+//	private BigDecimal ftaxamount;
+//	private BigDecimal ftaxrate;
+//	private BigDecimal ftax;
 	private BigDecimal fqty;
-	private BigDecimal fbaseqty;
-	private String fmfg ;
-	private String fexp ;
-	private String fremark ;
-	
+//	private BigDecimal fbaseqty;
+//	private String fmfg ;
+//	private String fexp ;
+//	private String fremark ;
 	public String getId() {
 		return id;
 	}
@@ -57,47 +56,17 @@ public class CostAdjusDetailDTO  implements Serializable{
 	public void setFunitid(String funitid) {
 		this.funitid = funitid;
 	}
-	public String getFbaseunitid() {
-		return fbaseunitid;
-	}
-	public void setFbaseunitid(String fbaseunitid) {
-		this.fbaseunitid = fbaseunitid;
-	}
 	public String getFwarehouseid() {
 		return fwarehouseid;
 	}
 	public void setFwarehouseid(String fwarehouseid) {
 		this.fwarehouseid = fwarehouseid;
 	}
-	public String getFstockerid() {
-		return fstockerid;
-	}
-	public void setFstockerid(String fstockerid) {
-		this.fstockerid = fstockerid;
-	}
-	public Boolean getFispresent() {
-		return fispresent;
-	}
-	public void setFispresent(Boolean fispresent) {
-		this.fispresent = fispresent;
-	}
 	public String getFparentid() {
 		return fparentid;
 	}
 	public void setFparentid(String fparentid) {
 		this.fparentid = fparentid;
-	}
-	public BigDecimal getFqty() {
-		return fqty;
-	}
-	public void setFqty(BigDecimal fqty) {
-		this.fqty = fqty;
-	}
-	public BigDecimal getFbaseqty() {
-		return fbaseqty;
-	}
-	public void setFbaseqty(BigDecimal fbaseqty) {
-		this.fbaseqty = fbaseqty;
 	}
 	public BigDecimal getFprice() {
 		return fprice;
@@ -111,60 +80,11 @@ public class CostAdjusDetailDTO  implements Serializable{
 	public void setFamount(BigDecimal famount) {
 		this.famount = famount;
 	}
-	public String getFmfg() {
-		return fmfg;
+	public BigDecimal getFqty() {
+		return fqty;
 	}
-	public void setFmfg(String fmfg) {
-		this.fmfg = fmfg;
+	public void setFqty(BigDecimal fqty) {
+		this.fqty = fqty;
 	}
-	public String getFexp() {
-		return fexp;
-	}
-	public void setFexp(String fexp) {
-		this.fexp = fexp;
-	}
-	public String getFremark() {
-		return fremark;
-	}
-	public void setFremark(String fremark) {
-		this.fremark = fremark;
-	}
-	public BigDecimal getFactualprice() {
-		return factualprice;
-	}
-	public void setFactualprice(BigDecimal factualprice) {
-		this.factualprice = factualprice;
-	}
-	public BigDecimal getFtaxprice() {
-		return ftaxprice;
-	}
-	public void setFtaxprice(BigDecimal ftaxprice) {
-		this.ftaxprice = ftaxprice;
-	}
-	public BigDecimal getFactualtaxprice() {
-		return factualtaxprice;
-	}
-	public void setFactualtaxprice(BigDecimal factualtaxprice) {
-		this.factualtaxprice = factualtaxprice;
-	}
-	public BigDecimal getFtaxamount() {
-		return ftaxamount;
-	}
-	public void setFtaxamount(BigDecimal ftaxamount) {
-		this.ftaxamount = ftaxamount;
-	}
-	public BigDecimal getFtaxrate() {
-		return ftaxrate;
-	}
-	public void setFtaxrate(BigDecimal ftaxrate) {
-		this.ftaxrate = ftaxrate;
-	}
-	public BigDecimal getFtax() {
-		return ftax;
-	}
-	public void setFtax(BigDecimal ftax) {
-		this.ftax = ftax;
-	}
-
-	
+	  
 }

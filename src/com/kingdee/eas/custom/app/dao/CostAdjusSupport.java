@@ -16,10 +16,15 @@ import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
+import com.kingdee.bos.metadata.entity.EntityViewInfo;
+import com.kingdee.bos.metadata.entity.FilterInfo;
+import com.kingdee.bos.metadata.entity.FilterItemInfo;
+import com.kingdee.bos.metadata.query.util.CompareType;
 import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.eas.basedata.assistant.MeasureUnitFactory;
 import com.kingdee.eas.basedata.assistant.MeasureUnitInfo;
 import com.kingdee.eas.basedata.master.material.IMaterial;
+import com.kingdee.eas.basedata.master.material.MaterialCollection;
 import com.kingdee.eas.basedata.master.material.MaterialFactory;
 import com.kingdee.eas.basedata.master.material.MaterialInfo;
 import com.kingdee.eas.basedata.org.CompanyOrgUnitInfo;
@@ -51,6 +56,7 @@ import com.kingdee.eas.scm.cal.CostAdjustBillEntryInfo;
 import com.kingdee.eas.scm.cal.CostAdjustBillFactory;
 import com.kingdee.eas.scm.cal.CostAdjustBillInfo;
 import com.kingdee.eas.scm.cal.ICostAdjustBill;
+import com.kingdee.eas.scm.cal.IssueTypeEnum;
 import com.kingdee.eas.scm.common.BillBaseStatusEnum;
 import com.kingdee.eas.scm.common.EntryBaseStatusEnum;
 import com.kingdee.eas.scm.ws.app.importbill.ScmbillImportUtils;
@@ -72,7 +78,6 @@ public class CostAdjusSupport {
 		    System.out.println("#####################jsonStr################=" + jsonStr);
 			DateBaseProcessType processType = DateBaseProcessType.AddNew;
 			DateBasetype baseType = DateBasetype.GZ_CK_LZ_CJ;
-
 			
 			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
 			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
@@ -85,7 +90,7 @@ public class CostAdjusSupport {
 				msgId = msgIdJE.getAsString() ;
 				busCode = busCodeJE.getAsString() ;
 				reqTime = reqTimeJE.getAsString() ;
-				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+reqTime, jsonStr, "", "");
+//				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+reqTime, jsonStr, "", "");
 				try {
 					CostAdjusDTO m = null;
 					try {
@@ -105,7 +110,7 @@ public class CostAdjusSupport {
 								IObjectPK pk = ibiz.addnew(info);
 								ibiz.submit(pk.toString());
 							}else 
-						    	  purPlatMenu = PurPlatSyncEnum.NOTEXISTS_BILL;
+						    	  purPlatMenu = PurPlatSyncEnum.EXCEPTION_SERVER;
 						}else 
 					    	  purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
 					}else
@@ -148,18 +153,18 @@ public class CostAdjusSupport {
 			 result = result +"库存组织不能为空,";
 		 }
 		 
-		 if(m.getFnumber() ==null || "".equals(m.getFnumber())) 
-			 result = result +"单据编号不能为空,";
+//		 if(m.getFnumber() ==null || "".equals(m.getFnumber())) 
+//			 result = result +"单据编号不能为空,";
 		 
 		 
 		 if(m.getFbizdate() == null || "".equals(m.getFbizdate()))
 			 result = result +"业务日期不能为空,";
 		 
-		 if(m.getFtotaltaxamount() == null || m.getFtotaltax() == null || m.getFtotalamount() == null)
-			 result = result +"价税合计、金额、税额 都不允许为空,";
+		 if( m.getFtotalamount() == null)
+			 result = result +"金额不允许为空,";
 		 else{
-			 if(m.getFtotaltaxamount().compareTo( m.getFtotaltax().add(m.getFtotalamount() )) != 0)
-				 result = result +"价税合计等于金额加税额的合计,";
+			 if(m.getFtotalamount().compareTo(BigDecimal.ZERO) < 0)
+				 result = result +"金额不能等于零,";
 		 }
 		 
 			if(m.getDetails() !=null && m.getDetails().size() > 0 ){	 
@@ -181,12 +186,12 @@ public class CostAdjusSupport {
 							 result = result +"第"+j+1+"行计量单位"+dvo.getFunitid()+"不存在,";
 					 }
 					 
-					 if(dvo.getFbaseunitid() ==null || "".equals(dvo.getFbaseunitid()) ){
-						 result = result +"第"+j+1+"行基本计量单位不能为空,";
-					 }else{
-						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFbaseunitid())) 
-							 result = result +"第"+j+1+"行基本计量单位"+dvo.getFbaseunitid()+"不存在,";
-					 }
+//					 if(dvo.getFbaseunitid() ==null || "".equals(dvo.getFbaseunitid()) ){
+//						 result = result +"第"+j+1+"行基本计量单位不能为空,";
+//					 }else{
+//						 if(!PurPlatUtil.judgeExists(ctx, "UNIT", "",dvo.getFbaseunitid())) 
+//							 result = result +"第"+j+1+"行基本计量单位"+dvo.getFbaseunitid()+"不存在,";
+//					 }
 				 }
 			}else					
 				result = result +"至少有一条明细行的数据,";
@@ -209,13 +214,12 @@ public class CostAdjusSupport {
 //
 			 CalculateKindEnum kind = null;
 			if("GZ_CK_LZ_CJ".equals(busCode)){
-				kind = CalculateKindEnum.OUTPUT_WAREHOUSE;
+				kind = CalculateKindEnum.OUTPUT_WAREHOUSE; 
 				  billtypeId = "3a3b5446-0106-1000-e000-01bcc0a812e6463ED552";//单据类型
-				  storeTypeId = "181875d5-0105-1000-e000-0111c0a812fd97D461A6"; // 库存类型
-				  storeStatusId = "181875d5-0105-1000-e000-012ec0a812fd62A73FA5"; // 库存状态
+				  storeTypeId = "181875d5-0105-1000-e000-0111c0a812fd97D461A6"; // 库存类型 普通
+				  storeStatusId = "181875d5-0105-1000-e000-012ec0a812fd62A73FA5"; // 库存状态 可用
 			}else{
-				kind = CalculateKindEnum.INPUT_WAREHOUSE;
-				
+				kind = CalculateKindEnum.INPUT_WAREHOUSE; 
 				
 			}
 			StoreTypeInfo storeTypeInfo = new StoreTypeInfo();
@@ -245,11 +249,10 @@ public class CostAdjusSupport {
 				} catch (ParseException e) {
 			 		e.printStackTrace();
 				}
-				
-				
+				 
 				info.setCreateType(com.kingdee.eas.scm.cal.CostAdjuestCreateTypeEnum.USERINPUT);
-				
 				info.setCalculateKind(kind);
+				info.setIssueType(IssueTypeEnum.SALEISSUEBILL); 
 				
 //			    CurrencyInfo currency = new CurrencyInfo();
 //			    currency.setId(BOSUuid.read("dfd38d11-00fd-1000-e000-1ebdc0a8100dDEB58FDC"));
@@ -289,34 +292,46 @@ public class CostAdjusSupport {
 	  private static CostAdjustBillEntryInfo createCostEntryInfo(Context ctx, CostAdjusDetailDTO dvo,String busCode )
 	    throws BOSException, EASBizException
 	  {
-		  CostAdjustBillEntryInfo entryInfo = new CostAdjustBillEntryInfo();
-
-		  IMaterial imaterial = MaterialFactory.getLocalInstance(ctx);
-
-		    MaterialInfo material = null;
-		    IObjectPK pk = new ObjectUuidPK(BOSUuid.read(dvo.getFmaterialid()));
-		    material = imaterial.getMaterialInfo(pk);
-		    entryInfo.setMaterial(material);
-		    
-		    pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
+		    CostAdjustBillEntryInfo entryInfo = new CostAdjustBillEntryInfo();
+	   		EntityViewInfo view = new EntityViewInfo();
+	 	 	FilterInfo filter = new FilterInfo();
+	 	 	filter.getFilterItems().add(new FilterItemInfo("number",dvo.getFmaterialid(),CompareType.EQUALS)); //
+	 	  	view.setFilter(filter);
+	 	 	
+	 	    MaterialCollection materialColl =  MaterialFactory.getLocalInstance(ctx).getMaterialCollection(view);
+	 	    MaterialInfo material = materialColl.get(0); 
+	 	    entryInfo.setMaterial(material);
+	 	   
+	 	    IObjectPK  pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
 		    MeasureUnitInfo unitInfo = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitInfo(pk);
 		    entryInfo.setUnit(unitInfo);
 		    
-		    pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
-		    MeasureUnitInfo baseUnitInfo = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitInfo(pk);
-		    entryInfo.setBaseUnit(baseUnitInfo);
+//		    pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
+//		    MeasureUnitInfo baseUnitInfo = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitInfo(pk);
+		    entryInfo.setBaseUnit(unitInfo);
 		    
 		    pk = new ObjectUuidPK(BOSUuid.read(dvo.getFwarehouseid()));
 		    IWarehouse iwarehouse = WarehouseFactory.getLocalInstance(ctx);
 		    WarehouseInfo warehouseinfo = iwarehouse.getWarehouseInfo(pk);
 		    entryInfo.setWarehouse(warehouseinfo);
 		    
-		    entryInfo.setBaseQty(dvo.getFbaseqty());
-		    entryInfo.setQty(dvo.getFqty());
-		    entryInfo.setBaseQty(dvo.getFbaseqty());
-		    entryInfo.setAssociateQty(BigDecimal.ZERO);
-		    entryInfo.setAmount(dvo.getFamount());
-		    entryInfo.setActualCost(dvo.getFamount());
+//		    BigDecimal baseQty = BigDecimal.ZERO;
+		    BigDecimal qty = BigDecimal.ZERO;
+		    BigDecimal amount = BigDecimal.ZERO;
+	 
+		    if(dvo.getFqty() !=null )
+		    	qty = dvo.getFqty();	
+		    if(dvo.getFamount() !=null )
+		    	amount = dvo.getFamount(); 	
+		    
+		    entryInfo.setBaseQty(qty);
+		    entryInfo.setQty(qty);
+ 		    entryInfo.setAssociateQty(qty); 
+ 		    
+		    entryInfo.setAmount(amount);
+		    entryInfo.setActualCost(amount);
+		    entryInfo.setStandardCost(amount);
+		    
 		    entryInfo.put("MsgId", dvo.getId());
 		    entryInfo.setBaseStatus(EntryBaseStatusEnum.ADD); 
 		  return entryInfo;

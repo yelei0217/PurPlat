@@ -22,19 +22,12 @@ import com.kingdee.eas.basedata.master.cssp.CustomerInfo;
 import com.kingdee.eas.basedata.org.CompanyOrgUnitFactory;
 import com.kingdee.eas.basedata.org.CompanyOrgUnitInfo;
 import com.kingdee.eas.basedata.org.CtrlUnitInfo;
-import com.kingdee.eas.basedata.org.SaleOrgUnitInfo;
 import com.kingdee.eas.common.EASBizException;
-import com.kingdee.eas.custom.EASPayTypeInfo;
 import com.kingdee.eas.custom.app.dto.base.BaseFIDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseFIDetailDTO;
-import com.kingdee.eas.custom.entity.Receipt;
-import com.kingdee.eas.fi.ap.IOtherBill;
-import com.kingdee.eas.fi.ap.OtherBillFactory;
-import com.kingdee.eas.fi.ar.OtherBillentryInfo;
 import com.kingdee.eas.fi.cas.BankCheckStatus;
 import com.kingdee.eas.fi.cas.CasRecPayBillTypeEnum;
 import com.kingdee.eas.fi.cas.IReceivingBill;
-import com.kingdee.eas.fi.cas.PaymentBillInfo;
 import com.kingdee.eas.fi.cas.ReceivingBillEntryInfo;
 import com.kingdee.eas.fi.cas.ReceivingBillFactory;
 import com.kingdee.eas.fi.cas.ReceivingBillInfo;
@@ -42,7 +35,6 @@ import com.kingdee.eas.fi.cas.ReceivingBillTypeInfo;
 import com.kingdee.eas.fi.cas.SettlementStatusEnum;
 import com.kingdee.eas.fi.cas.SourceTypeEnum;
 import com.kingdee.eas.fi.cas.VcStatusEnum;
-import com.kingdee.eas.framework.CoreBaseCollection;
 import com.kingdee.eas.util.app.ContextUtil;
 
 public class ReceiptSupport {
@@ -77,7 +69,7 @@ public class ReceiptSupport {
 		// 创建时间
 		rbInfo.setCreateTime(new java.sql.Timestamp(currentDate.getTime()));
 		// 公司ID
-		ObjectUuidPK orgpk = new ObjectUuidPK(m.getFstorageorgunitid());
+		ObjectUuidPK orgpk = new ObjectUuidPK(m.getFcompanyorgunitid());
 		
 		// 组织单元
 		CompanyOrgUnitInfo xmcompany = CompanyOrgUnitFactory.getLocalInstance(

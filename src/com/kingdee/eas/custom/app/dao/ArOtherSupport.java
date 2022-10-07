@@ -10,6 +10,10 @@ import com.kingdee.bos.Context;
 import com.kingdee.bos.dao.IObjectPK;
 import com.kingdee.bos.dao.IObjectValue;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
+import com.kingdee.bos.metadata.entity.EntityViewInfo;
+import com.kingdee.bos.metadata.entity.FilterInfo;
+import com.kingdee.bos.metadata.entity.FilterItemInfo;
+import com.kingdee.bos.metadata.query.util.CompareType;
 import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.eas.basedata.assistant.CurrencyInfo;
 import com.kingdee.eas.basedata.assistant.MeasureUnitFactory;
@@ -18,7 +22,7 @@ import com.kingdee.eas.basedata.assistant.PaymentTypeInfo;
 import com.kingdee.eas.basedata.master.auxacct.AsstActTypeInfo;
 import com.kingdee.eas.basedata.master.cssp.CustomerFactory;
 import com.kingdee.eas.basedata.master.cssp.CustomerInfo;
-import com.kingdee.eas.basedata.master.material.IMaterial;
+import com.kingdee.eas.basedata.master.material.MaterialCollection;
 import com.kingdee.eas.basedata.master.material.MaterialFactory;
 import com.kingdee.eas.basedata.master.material.MaterialInfo;
 import com.kingdee.eas.basedata.org.CompanyOrgUnitFactory;
@@ -29,8 +33,8 @@ import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.app.dto.base.BaseFIDTO;
 import com.kingdee.eas.custom.app.dto.base.BaseFIDetailDTO;
 import com.kingdee.eas.custom.app.unit.PurPlatUtil;
-import com.kingdee.eas.fi.ap.IOtherBill;
-import com.kingdee.eas.fi.ap.OtherBillFactory;
+import com.kingdee.eas.fi.ar.IOtherBill;
+import com.kingdee.eas.fi.ar.OtherBillFactory;
 import com.kingdee.eas.fi.ar.OtherBillInfo;
 import com.kingdee.eas.fi.ar.OtherBillTypeEnum;
 import com.kingdee.eas.fi.ar.OtherBillentryInfo;
@@ -70,7 +74,7 @@ public class ArOtherSupport {
 		// 创建时间
 		billinfo.setCreateTime(new java.sql.Timestamp(currentDate.getTime()));
 		// 公司ID
-		ObjectUuidPK orgpk = new ObjectUuidPK(m.getFstorageorgunitid());
+		ObjectUuidPK orgpk = new ObjectUuidPK(m.getFcompanyorgunitid());
 		
 		// 组织单元
 		CompanyOrgUnitInfo xmcompany = CompanyOrgUnitFactory.getLocalInstance(
@@ -81,7 +85,7 @@ public class ArOtherSupport {
 		billinfo.setCU(cuInfo);// 管理单元
 		
 		SaleOrgUnitInfo saleorg = new SaleOrgUnitInfo();
-		saleorg.setId(BOSUuid.read(m.getFstorageorgunitid().toString()));
+		saleorg.setId(BOSUuid.read(m.getFcompanyorgunitid().toString()));
 		billinfo.setSaleOrg(saleorg);// 销售组织
 		
 		// 业务日期
@@ -149,7 +153,7 @@ public class ArOtherSupport {
 			entryInfo.setRecAsstActNumber(customer.getName());// 送货客户名称
 			entryInfo.setRecAsstActNumber(customer.getNumber());// 送货客户编码
 			
-			entryInfo.setCompany(m.getFstorageorgunitid());
+			entryInfo.setCompany(m.getFcompanyorgunitid());
 			entryInfo.setBillDate(currentDate);
 			
 			billinfo.getEntries().addObject((IObjectValue)entryInfo);
@@ -202,17 +206,19 @@ public class ArOtherSupport {
           entryInfo.setUnInvoiceReqAmountLocal(taxAmount);
           entryInfo.setUnwriteOffBaseQty(baseqty);
 
-          IMaterial imaterial = MaterialFactory.getLocalInstance(ctx);
- 
-	  	   MaterialInfo material = null;
-	  	   IObjectPK pk = new ObjectUuidPK(BOSUuid.read(dvo.getFmaterialid()));
-	  	   material = imaterial.getMaterialInfo(pk);
-	       entryInfo.setMaterial(material);
+	   		EntityViewInfo view = new EntityViewInfo();
+	 	 	FilterInfo filter = new FilterInfo();
+	 	 	filter.getFilterItems().add(new FilterItemInfo("number",dvo.getFmaterialid(),CompareType.EQUALS)); //
+	 	  	view.setFilter(filter);
+	 	 	
+	 	    MaterialCollection materialColl =  MaterialFactory.getLocalInstance(ctx).getMaterialCollection(view);
+	 	    MaterialInfo material = materialColl.get(0); 
+	 	   entryInfo.setMaterial(material);
 
 	       entryInfo.setMaterialName(material.getName());
 	       entryInfo.setMaterialModel(material.getModel());
 	       
-	  	   pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
+	       IObjectPK pk = new ObjectUuidPK(BOSUuid.read(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())));
 	  	   MeasureUnitInfo unitInfo = MeasureUnitFactory.getLocalInstance(ctx).getMeasureUnitInfo(pk);
 	  	   entryInfo.setMeasureUnit(unitInfo);
 	  	    

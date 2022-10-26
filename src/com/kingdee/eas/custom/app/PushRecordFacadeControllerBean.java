@@ -1,49 +1,32 @@
 package com.kingdee.eas.custom.app;
 
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.log4j.Logger;
-import javax.ejb.*;
-import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import org.apache.log4j.Logger;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.kingdee.bos.*;
-import com.kingdee.bos.util.BOSObjectType;
-import com.kingdee.bos.util.BOSUuid;
-import com.kingdee.bos.metadata.IMetaDataPK;
+import com.kingdee.bos.BOSException;
+import com.kingdee.bos.Context;
+import com.kingdee.bos.dao.IObjectPK;
+import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
 import com.kingdee.bos.metadata.entity.EntityViewInfo;
 import com.kingdee.bos.metadata.entity.FilterInfo;
 import com.kingdee.bos.metadata.entity.FilterItemInfo;
 import com.kingdee.bos.metadata.query.util.CompareType;
-import com.kingdee.bos.metadata.rule.RuleExecutor;
-import com.kingdee.bos.metadata.MetaDataPK;
-//import com.kingdee.bos.metadata.entity.EntityViewInfo;
-import com.kingdee.bos.framework.ejb.AbstractEntityControllerBean;
-import com.kingdee.bos.framework.ejb.AbstractBizControllerBean;
-//import com.kingdee.bos.dao.IObjectPK;
-import com.kingdee.bos.dao.IObjectPK;
-import com.kingdee.bos.dao.IObjectValue;
-import com.kingdee.bos.dao.IObjectCollection;
-import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
-import com.kingdee.bos.service.ServiceContext;
-import com.kingdee.bos.service.IServiceContext;
-import com.kingdee.eas.basedata.org.CtrlUnitInfo;
-import com.kingdee.eas.basedata.scm.im.inv.InvUpdateTypeInfo;
+import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.IPushRecord;
 import com.kingdee.eas.custom.PushRecordCollection;
 import com.kingdee.eas.custom.PushRecordFactory;
 import com.kingdee.eas.custom.PushRecordInfo;
+import com.kingdee.eas.custom.app.dao.PaymentSupport;
 import com.kingdee.eas.custom.app.dao.VMISaleOrderSupport;
 import com.kingdee.eas.custom.app.dto.VMISaleOrderDTO;
 import com.kingdee.eas.custom.app.unit.AppUnit;
@@ -51,32 +34,23 @@ import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.framework.CoreBaseCollection;
 import com.kingdee.eas.framework.CoreBillBaseCollection;
 import com.kingdee.eas.scm.common.BillBaseStatusEnum;
-import com.kingdee.eas.scm.im.inv.IPurInWarehsBill;
 import com.kingdee.eas.scm.im.inv.ISaleIssueBill;
-import com.kingdee.eas.scm.im.inv.PurInWarehsBillFactory;
-import com.kingdee.eas.scm.im.inv.PurInWarehsBillInfo;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillFactory;
 import com.kingdee.eas.scm.im.inv.SaleIssueBillInfo;
-import com.kingdee.eas.scm.im.inv.SaleIssueEntryCollection;
-import com.kingdee.eas.scm.im.inv.SaleIssueEntryInfo;
 import com.kingdee.eas.scm.sd.sale.ISaleOrder;
 import com.kingdee.eas.scm.sd.sale.SaleOrderFactory;
 import com.kingdee.eas.scm.sd.sale.SaleOrderInfo;
 import com.kingdee.eas.util.app.DbUtil;
 import com.kingdee.util.UuidException;
 
-
 public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeControllerBean
 {
-    
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2038896682094063859L;
 	
 	private static Logger logger = Logger.getLogger("com.kingdee.eas.custom.app.PushRecordFacadeControllerBean");
-
-	
 	
 	@Override
 	protected void _generPurInBIll(Context ctx) throws BOSException {
@@ -229,6 +203,34 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 			}
 		}
 	
+	}
+
+	/**
+	 * 根据付款单ID 保存传递JSON至日志记录表
+	 * @param id 付款单ID
+	 * @param busCode 业务类型
+	 */
+	@Override
+	protected void _savePayment2PurLog(Context ctx, String id, String busCode)throws BOSException {
+		 if(id !=null && !"".equals(id) && busCode !=null && !"".equals(busCode) ){
+			 DateBasetype type = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
+			if( PaymentSupport.baseTypeSets.contains(type)){
+				try {
+					PaymentSupport.insertBillToLog(ctx, id, busCode);
+				} catch (EASBizException e) {
+ 					e.printStackTrace();
+				}
+			}  
+		 }
+	}
+
+	/**
+	 * 
+	 * 同步付款单JSON 至B2B 系统
+	 */
+	@Override
+	protected void _syncPurLog2B2B(Context ctx) throws BOSException {
+		PaymentSupport.doSendPayMentToB2B(ctx);
 	}
 	
     

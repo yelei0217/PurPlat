@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -62,6 +63,18 @@ import com.kingdee.jdbc.rowset.IRowSet;
 
 public class PaymentSupport {
 	 
+	  public final static Set<DateBasetype> baseTypeSets = new HashSet<DateBasetype>(){
+		  {
+			  add(DateBasetype.GZ_CK_LZ_P);
+			  add(DateBasetype.GZ_CK_MZ_P);
+			  add(DateBasetype.VMI_CK_LZ_P);
+			  add(DateBasetype.VMI_CK_MZ_P);
+			  add(DateBasetype.DZ_CK_MZ_P);
+			  add(DateBasetype.YC_CK_MZ_P);
+			  add(DateBasetype.YX_CK_LZ_P);
+			  add(DateBasetype.YX_CK_MZ_P);
+		  }
+	  };
 	public static String doSendPayMentToB2B(Context ctx){
 		BaseResponseDTO respondDTO = new BaseResponseDTO();
 		PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
@@ -72,16 +85,16 @@ public class PaymentSupport {
  	 	FilterInfo filter = new FilterInfo();
  	 	filter.getFilterItems().add(new FilterItemInfo("isSync",false,CompareType.EQUALS)); //
  	 	filter.getFilterItems().add(new FilterItemInfo("processType",DateBaseProcessType.AddNew,CompareType.EQUALS)); 
- 	 	Set<DateBasetype> baseTypeSets = new HashSet<DateBasetype>();
- 	 	baseTypeSets.add(DateBasetype.GZ_CK_LZ_P);
- 	 	baseTypeSets.add(DateBasetype.GZ_CK_MZ_P);
- 	 	baseTypeSets.add(DateBasetype.VMI_CK_LZ_P);
- 	 	baseTypeSets.add(DateBasetype.VMI_CK_MZ_P);
- 	 	baseTypeSets.add(DateBasetype.DZ_CK_MZ_P);
- 	 	baseTypeSets.add(DateBasetype.YC_CK_MZ_P);
- 	 	baseTypeSets.add(DateBasetype.YX_CK_LZ_P);
- 	 	baseTypeSets.add(DateBasetype.YX_CK_MZ_P);
- 	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType",baseTypeSets,CompareType.INCLUDE)); //
+ 	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType",DateBasetype.GZ_CK_LZ_P,CompareType.EQUALS)); //
+ 	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType",DateBasetype.GZ_CK_MZ_P,CompareType.EQUALS)); //
+ 	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType",DateBasetype.VMI_CK_LZ_P,CompareType.EQUALS)); //
+ 	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType",DateBasetype.VMI_CK_MZ_P,CompareType.EQUALS)); //
+ 	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType",DateBasetype.DZ_CK_MZ_P,CompareType.EQUALS)); //
+ 	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType",DateBasetype.YC_CK_MZ_P,CompareType.EQUALS)); //
+ 	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType",DateBasetype.YX_CK_LZ_P,CompareType.EQUALS)); //
+ 	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType",DateBasetype.YX_CK_MZ_P,CompareType.EQUALS)); //
+ 	 	
+ 	 	filter.setMaskString("#0 and #1 and (#2 or #3 or #4 or #5 or #6 or #7 or #8  or #9)");
  	  	view.setFilter(filter);
  	  	try {
  	 	  	IPurPlatSyncBusLog ibiz = PurPlatSyncBusLogFactory.getLocalInstance(ctx);
@@ -137,8 +150,7 @@ public class PaymentSupport {
 		PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
 		String result = "";
 		String msgId =PurPlatUtil.getCurrentTimeStrS();
-		Gson gson = new Gson();
-		
+		Gson gson = new Gson(); 
 		if(id !=null && !"".equals(id)){
 			 IObjectPK pk = new  ObjectUuidPK(id);
 			if( PaymentBillFactory.getLocalInstance(ctx).exists(pk)){
@@ -180,18 +192,19 @@ public class PaymentSupport {
 	}
 	
 	
-	public static List<Map<String,String>> getPaymentEntryList(Context ctx,String pId){
+	private static List<Map<String,String>> getPaymentEntryList(Context ctx,String pId){
 		List<Map<String,String>> list = null;
 		if(VerifyUtil.notNull(pId) ){
 			String sql = "select b.fid,b.FSEQ,d.FNUMBER facctviewnumber,d.FNAME_L2 facctviewname, b.FAmount,b.FLocalAmount "+
 			" from T_CAS_PAYMENTBILL a "+
 			" inner join T_CAS_PAYMENTBILLENTRY b on b.FPAYMENTBILLID = a.FID "+
 			//" inner join T_BD_Currency c on a.FCurrencyID = c.FID "+
-			" inner join T_BD_AccountView d on b.FOppAccountID = d.FID --and d.FCOMPANYID = a.FCOMPANYID "+
+			" inner join T_BD_AccountView d on b.FOppAccountID = d.FID and d.FCOMPANYID = a.FCOMPANYID "+
 			" where a.FID='"+pId+"' ";
 			try {
 				IRowSet rs = DbUtil.executeQuery(ctx, sql);
 				if(rs !=null && rs.size() >0 ){
+					list = new ArrayList<Map<String,String>>();
 					while(rs.next()){
 						Map<String,String> mp = new HashMap<String,String>();
 						 if(rs.getObject("fid")!=null &&!"".equals(rs.getObject("fid").toString()))
@@ -218,15 +231,15 @@ public class PaymentSupport {
 		}
 		return list; 
 	}
-	public static Map<String,Object> getPaymentBillMap(Context ctx,String pId){
+	private static Map<String,Object> getPaymentBillMap(Context ctx,String pId){
 		 Map<String,Object> mp = null ;
 		if(VerifyUtil.notNull(pId) ){
-			String sql ="select a.FID,a.FNUMBER,to_char(a.fbizdate,'yyyy-MM-dd') FBIZDATE "+
+			String sql ="/*dialect*/select a.FID,a.FNUMBER,to_char(a.fbizdate,'yyyy-MM-dd') FBIZDATE "+
 			" ,a.FCOMPANYID fcompanyorgunitid,c.FNUMBER fcompanyorgnumber,c.FNAME_L2 fcompanyorgname, "+
 			" d.FNAME_L2 fbankname,e.FBANKACCOUNTNUMBER fbankaccountnumber,f.FNAME_L2 fasstacttypename, "+
 			" a.FPayeeID ,a.FPayeeNumber,a.FPayeeName,a.FPayeeBank,a.FPayeeAccountBank,g.FNAME_L2 fpersonname, "+
 			" decode(FBillStatus,10,'保存',11,'已提交',12,'已审批',14,'已收款',15,'已付款',6,'审批中',8,'已审核','未知') FBillStatus, "+
-			" c.FNAME_L2 fcurrencyname,a.FAmount,a.FLocalAmount,a.FUsage,a.FDESCRIPTION "+
+			" h.FNAME_L2 fcurrencyname,a.FAmount,a.FLocalAmount,a.FUsage,a.FDESCRIPTION "+
 			" from T_CAS_PAYMENTBILL a "+
 			" inner join t_org_company c on a.FCOMPANYID = c.FID "+
 			" inner join T_BD_Bank d on a.FPayerBankID = d.FID "+

@@ -9,6 +9,7 @@ import com.kingdee.bos.orm.template.ORMObject;
 import com.kingdee.bos.Context;
 import com.kingdee.bos.BOSException;
 import com.kingdee.eas.custom.app.*;
+import java.lang.String;
 import com.kingdee.bos.framework.*;
 import com.kingdee.bos.util.*;
 
@@ -123,6 +124,32 @@ public class PushRecordFacade extends AbstractBizCtrl implements IPushRecordFaca
     {
         try {
             getController().noCommonInitData(getContext());
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
+    /**
+     *付款单保存至记录表-User defined method
+     *@param id 付款单ID
+     *@param busCode 业务类型
+     */
+    public void savePayment2PurLog(String id, String busCode) throws BOSException
+    {
+        try {
+            getController().savePayment2PurLog(getContext(), id, busCode);
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
+    /**
+     *同步付款单至B2B-User defined method
+     */
+    public void syncPurLog2B2B() throws BOSException
+    {
+        try {
+            getController().syncPurLog2B2B(getContext());
         }
         catch(RemoteException err) {
             throw new EJBRemoteException(err);

@@ -20,6 +20,7 @@ import com.kingdee.eas.framework.LineResult;
 import com.kingdee.eas.framework.exception.EASMultiException;
 import com.kingdee.bos.dao.ormapping.ObjectUuidPK;
 
+import java.lang.String;
 
 
 
@@ -190,6 +191,46 @@ public abstract class AbstractPushRecordFacadeControllerBean extends AbstractBiz
         }
     }
     protected void _noCommonInitData(Context ctx) throws BOSException
+    {    	
+        return;
+    }
+
+    public void savePayment2PurLog(Context ctx, String id, String busCode) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("8b4e3edf-738e-4bc4-977d-6fb8a216577c"), new Object[]{ctx, id, busCode});
+            invokeServiceBefore(svcCtx);
+              if(!svcCtx.invokeBreak()) {
+            _savePayment2PurLog(ctx, id, busCode);
+            }
+            invokeServiceAfter(svcCtx);
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected void _savePayment2PurLog(Context ctx, String id, String busCode) throws BOSException
+    {    	
+        return;
+    }
+
+    public void syncPurLog2B2B(Context ctx) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("e3ccceae-9bee-4a2f-bf28-c4606ff33be5"), new Object[]{ctx});
+            invokeServiceBefore(svcCtx);
+              if(!svcCtx.invokeBreak()) {
+            _syncPurLog2B2B(ctx);
+            }
+            invokeServiceAfter(svcCtx);
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected void _syncPurLog2B2B(Context ctx) throws BOSException
     {    	
         return;
     }

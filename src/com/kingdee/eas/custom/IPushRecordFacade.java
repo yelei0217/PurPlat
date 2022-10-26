@@ -8,6 +8,7 @@ import com.kingdee.bos.Context;
 
 import com.kingdee.bos.Context;
 import com.kingdee.bos.BOSException;
+import java.lang.String;
 import com.kingdee.bos.framework.*;
 import com.kingdee.bos.util.*;
 
@@ -21,4 +22,6 @@ public interface IPushRecordFacade extends IBizCtrl
     public void cancelPrice() throws BOSException;
     public void noCommonPush() throws BOSException;
     public void noCommonInitData() throws BOSException;
+    public void savePayment2PurLog(String id, String busCode) throws BOSException;
+    public void syncPurLog2B2B() throws BOSException;
 }

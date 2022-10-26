@@ -57,11 +57,11 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     private static Logger logger =
         Logger.getLogger("com.kingdee.eas.custom.app.SyncDataEASFacadeControllerBean");
 
-
+     
     String dataBase = "04";
-    private static String warurl = "http://sr.wellekq.com:10090/his-war/notify/receiveClinicStore"; //测试地址
+    private static String warurl = "http://sr.wellekq.com:10091/his-war/notify/receiveClinicStore"; //测试地址
 
-    private static String warJinYongurl = "http://sr.wellekq.com:10090/his-war/notify/updateClinicStoreStatus"; //测试地址
+    private static String warJinYongurl = "http://sr.wellekq.com:10091/his-war/notify/updateClinicStoreStatus"; //测试地址
     
     /**
      * type   :  1:客户  2：供应商  3：组织  4 人员  5 仓库   
@@ -172,10 +172,17 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			        	
 			        	String  result = sendBaseDataToB2B(ctx ,datajsonStr);
 			        	logger.info("发送客户通知给B2B系统，result：" + result);  
-			        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
-			        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
-			        		flag=true;
-			        	}  
+			        	try{
+
+				        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
+				        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
+				        		flag=true;
+				        	}  
+						}catch (Exception e) {
+							// TODO: handle exception
+							logger.info("发送客户通知给B2B系统，接口调用异常：" + result);
+						}
+						
 			        	map.put("RESJSON", result);
 					}
 					
@@ -274,10 +281,16 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			        	String  result = sendBaseDataToB2B(ctx ,datajsonStr);
 			        	 
 			        	logger.info("发送供应商通知给B2B系统，result：" + result);  
-			        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
-			        	if(mapRet !=null && mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
-			        		flag=true;
-			        	} 
+			        	
+						try{ 
+				        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
+				        	if(mapRet !=null && mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
+				        		flag=true;
+				        	}  
+						}catch (Exception e) {
+							// TODO: handle exception
+							logger.info("发送供应商通知给B2B系统，接口调用异常：" + result);
+						}
 			        	map.put("RESJSON", result);
 			        	 
 					} 
@@ -360,10 +373,19 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			        	String  result = sendBaseDataToB2B(ctx ,datajsonStr);
 			        	
 			        	logger.info("发送组织通知给B2B系统，result：" + result);  
-			        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
-			        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
-			        		flag=true;
-			        	} 
+			        	
+						try{
+
+				        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
+				        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
+				        		flag=true;
+				        	} 
+				        	 
+						}catch (Exception e) {
+							// TODO: handle exception
+							logger.info("发送组织通知给B2B系统，接口调用异常：" + result);
+						}
+						
 			        	
 			        	map.put("RESJSON", result);
 					} 
@@ -475,10 +497,17 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			        	map.put("RESJSON", result);
 			        	
 			        	logger.info("发送人员通知给B2B系统，result：" + result);  
-			        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
-			        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
-			        		flag=true;
-			        	}  
+			        	
+						try{ 
+				        	Map<String, String> mapRet = (Map) JSONObject.parse(result);  
+				        	if(mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
+				        		flag=true;
+				        	}  
+						}catch (Exception e) {
+							// TODO: handle exception
+							logger.info("发送人员通知给B2B系统，接口调用异常：" + result);
+						}
+						
 					} 
 					
 				}else{
@@ -501,15 +530,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     			}
     			HashMap<String, String> mapB2B = new HashMap<String, String>(); 
     			HashMap<String, String> mapHIS = new HashMap<String, String>(); 
-    			try{
-    				
-    			}catch (Exception e) {
-					// TODO: handle exception
-				}
-
-				
-				
-				
+    			
     			String sql  = " /*dialect*/ select wah.fid fId , wah.fnumber fNumber, wah.fname_l2 fName ,admin.fid fOrgid,admin.fnumber fOrgNumber, admin.fname_l2 fOrgName, "+
 				  "	wah.FWhState fStatus ,cuser.fname_l2  fCreator ,  to_char( wah.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' ) fCreateTime ,  "+fUpdateType+" fUpdateType ,to_char( wah.FLASTUPDATETIME  ,'yyyy-mm-dd hh24:mi:ss' ) fUpdateTime ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime  "+
 				  " from  T_DB_WAREHOUSE wah inner  join T_ORG_Storage admin on admin.fid = wah.FstorageOrgID "+
@@ -519,7 +540,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     			IRowSet  rsData = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
     			IRowSet  rsB2B = rsData.createCopy(); 
     			IRowSet  rsHIS = rsData.createCopy();  
-    			
+    			System.out.println("发送仓库sqlrsData.size()：" + (rsData.size()));   
     			String selectSuppSqlB2B = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Cent where fid='"+fid+"' ";
 				List<Map<String, Object>> retsSupB2B = EAISynTemplate.query(ctx,dataBase, selectSuppSqlB2B);
 				if(retsSupB2B.size() == 0 ){//没有 
@@ -537,7 +558,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				}   
 				
 				
-				
+				String  retudnMsg = "";
     			if(rsData!=null && rsData.size() > 0){  
     				while(rsData.next()){    
     					orgid = rsData.getString("FORGID");
@@ -569,17 +590,24 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     					
     					mapEAS.put("data",mapB2B);
 						String datajsonStrB2B = JSONObject.toJSONString(mapEAS);
-						
+						System.out.println("发送仓库通知给B2B系统，datajsonStrB2B：" + datajsonStrB2B);   
 						String  result = sendBaseDataToB2B(ctx ,datajsonStrB2B);
 			        	map.put("RESJSON", result);
-			        	
+			        	retudnMsg = result;
 			        	 
 						logger.info("发送仓库通知给B2B系统，result：" + result);   
-			        	mapRet = (Map) JSONObject.parse(result);  
-			        	if(mapRet !=null && mapRet.get("code") != null && "200".equals(String.valueOf(mapRet.get("code")))){
-			        		flag=true;
-			        	} 
-			        	
+						System.out.println("发送仓库通知给B2B系统，result：" + result);   
+						try{ 
+				        	mapRet = (Map) JSONObject.parse(result);  
+				        	if(mapRet !=null && mapRet.get("code") != null && (  "200".equals(String.valueOf(mapRet.get("code"))) || ( "500".equals(String.valueOf(mapRet.get("code"))) &&  "该仓库fid已存在".equals(String.valueOf(mapRet.get("message"))))  )){
+				        		flag=true;
+				        	} 
+				        	 
+						}catch (Exception e) {
+							// TODO: handle exception
+							logger.info("发送仓库通知给B2B系统，接口调用异常：" + result);
+							System.out.println("发送仓库通知给B2B系统，接口调用异常：" + result);
+						}
     					map.put("FNUMBER", mapB2B.get("fNumber"));
 			        	map.put("FNAME", mapB2B.get("fName"));
 			        	map.put("JSON", datajsonStrB2B);
@@ -603,7 +631,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     					map.put("ERROR",sqlInsert);
     					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
     					
-    					
+    					flag=false;
     					List<Map<String,String>> eMps = new ArrayList<Map<String,String>>();
     					if(newOrDele == 0 ){
     						eMps.add(mapHIS);
@@ -615,13 +643,26 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     						logger.info("发送仓库,"+mapHIS+"通知给his系统，result：" + result);
     						System.out.println("########  result ########"+result);
     						
-    						mapRet = (Map) JSONObject.parse(result);  
-    						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
-    							flag=true;
+    						
+    						try{
+    							mapRet = (Map) JSONObject.parse(result);  
+    							if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
+        							flag=true;
+        						}else{
+        							flag=false;
+        						}
+    						}catch (Exception e) {
+								// TODO: handle exception
+    							logger.info("发送仓库,"+mapHIS+"通知给his系统，接口调用异常：" + result);
+    							System.out.println("发送仓库,"+mapHIS+"通知给his系统，接口调用异常：" + result);
+							}
+    						
+    						if(result.length() >0){
+    							map.put("RESJSON", "B2B:"+retudnMsg+";HIS:"+result); 
     						}else{
-    							flag=false;
-    						}
-    						map.put("RESJSON", result);
+    							map.put("RESJSON", result);
+    						} 
+    						
     						map.put("JSON", JSONObject.toJSONString(eMps)); 
     					}else if(newOrDele == 1 ){ 
     						Map<String, String> mapNew = new  HashMap<String, String>();
@@ -636,13 +677,24 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 ,warJinYongurl);
     						logger.info("发送仓库启用信息,"+mapHIS+"通知给his系统，result：" + result);
     						System.out.println("########  result ########"+result);
-    						mapRet = (Map) JSONObject.parse(result);  
-    						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
-    							flag=true;
-    						}else{
-    							flag=false;
+    						
+    						try{ 
+        						mapRet = (Map) JSONObject.parse(result);  
+        						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
+        							flag=true;
+        						}else{
+        							flag=false;
+        						}
+    						}catch (Exception e) {
+    							// TODO: handle exception
+    							logger.info("发送仓库启用信息,"+mapHIS+"通知给his系统，接口调用异常：" + result);
     						}
-    						map.put("RESJSON", result);
+    						
+    						if(result.length() >0){
+    							map.put("RESJSON", "B2B:"+retudnMsg+";HIS:"+result); 
+    						}else{
+    							map.put("RESJSON", result);
+    						} 
     						map.put("JSON", JSONObject.toJSONString(eMps)); 
     					}else if(newOrDele == 2 ){ 
     						Map<String, String> mapNew = new  HashMap<String, String>();
@@ -657,22 +709,33 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     						String result =  sendMessageToHISPost(JSONObject.toJSONString(eMps),1 ,warJinYongurl);
     						logger.info("发送仓库禁用信息,"+mapHIS+"通知给his系统，result：" + result);
     						System.out.println("########  result ########"+result);
-    						mapRet = (Map) JSONObject.parse(result);  
-    						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
-    							flag=true;
-    						}else{
-    							flag=false;
+    						
+    						try{ 
+        						mapRet = (Map) JSONObject.parse(result);  
+        						if(mapRet.get("flag") != null && "1".equals(String.valueOf(mapRet.get("flag")))){
+        							flag=true;
+        						}else{
+        							flag=false;
+        						}
+   				        	 
+    						}catch (Exception e) {
+    							// TODO: handle exception
+    							logger.info("发送仓库禁用信息,"+mapHIS+"通知给his系统，接口调用异常：" + result);
     						}
-    						map.put("RESJSON", "B2B:"+map.get("RESJSON")+";HIS:"+result);
+    						if(result.length() >0){
+    							map.put("RESJSON", "B2B:"+retudnMsg+";HIS:"+result); 
+    						}else{
+    							map.put("RESJSON", result);
+    						} 
     						map.put("JSON", JSONObject.toJSONString(eMps)); 
     					}
     					
     				}else{
     					 map.put("ERROR", "根据ID"+fid+"找不到对应的仓库信息,没有同步到中间库。");
     				}    
-					getlogInfo(ctx , map,DateBasetype.WAREHOUSE ,processType,flag ,loginfo);
+					
     			} 
-    			
+    			getlogInfo(ctx , map,DateBasetype.WAREHOUSE ,processType,flag ,loginfo);
     		}
 		} catch (EASBizException e) {
 			e.printStackTrace();
@@ -932,7 +995,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			throws BOSException {
 		// TODO Auto-generated method stub
 		//return super._materialSyncFun(ctx, data); 
-		//data  ="{\"msgId\":\"pkKBgt311111\",\"operType\":0,\"reqCount\":1,\"reqTime\":\"20220715121020\",\"data\":[{\"fNumber\":\"CSqq001\",\"fName\":\"测试物料001\",\"fModel\":\"型号\",\"fMaterialGroup\":\"W303\",\"fArtNo\":\"fArtNo\",\"fBrand\":\"fBrand\",\"fCreateTime\":\"2022-07-20\",\"fUpdateTime\":\"2022-07-20\",\"fKAClass\":\"erjg\",\"fBaseUnit\":\"G01\",\"fInvUnit\":\"G04\",\"fPurUnit\":\"G04\",\"fSaleUnit\":\"G04\"}]}";
+		data  ="{\"msgId\":\"20221021160707\",\"reqCount\":\"1\",\"operType\":\"0\",\"reqTime\":\"20221021160707\",\"data\":[{\"fArtNo\":\"普通\",\"fBaseUnit\":\"包子\",\"fBrand\":\"医宁\",\"fCreateTime\":\"2022-10-21\",\"fInvUnit\":\"瓶\",\"fKAClass\":\"G01\",\"fMaterialGroup\":\"W303\",\"fModel\":\"普通\",\"fName\":\"10/21 测试商品 222\",\"fNumber\":\"411\",\"fPurUnit\":\"12\",\"fSaleUnit\":\"12\",\"fSpec\":\"普通\",\"fUpdateTime\":\"2022-10-21\"}]}";
 		Map map = (Map) JSONObject.parse(data);
 		 
 		HashMap<String, String> returnMap =new  HashMap<String, String>();
@@ -2078,7 +2141,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     
 	    
 		
-		protected String sendBaseDataToB2B(Context ctx, String jsonStr)
+		protected String  sendBaseDataToB2B(Context ctx, String jsonStr)
 		throws BOSException {
 			//return super._savePaymentBill(ctx, jsonStr);
 			String result = "";

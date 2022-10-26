@@ -132,6 +132,56 @@
             <userDefinedLogic />
             <configured>false</configured>
         </method>
+        <method>
+            <name>savePayment2PurLog</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[savePayment2PurLog].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[savePayment2PurLog].description</description>
+            <innerID>8b4e3edf-738e-4bc4-977d-6fb8a216577c</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>id</name>
+                    <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[savePayment2PurLog].parameters.parameter[id].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[savePayment2PurLog].parameters.parameter[id].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+                <parameter>
+                    <name>busCode</name>
+                    <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[savePayment2PurLog].parameters.parameter[busCode].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[savePayment2PurLog].parameters.parameter[busCode].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>syncPurLog2B2B</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[syncPurLog2B2B].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[syncPurLog2B2B].description</description>
+            <innerID>e3ccceae-9bee-4a2f-bf28-c4606ff33be5</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
     </methods>
     <resource>
         <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].alias">
@@ -231,6 +281,51 @@
         <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[noCommonPush].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[savePayment2PurLog].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="付款单保存至记录表" />
+            <lang locale="zh_HK" value="付款單保存至記錄表" />
+            <lang locale="zh_TW" value="付款單保存至記錄表" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[savePayment2PurLog].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[savePayment2PurLog].parameters.parameter[busCode].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="业务类型" />
+            <lang locale="zh_HK" value="業務類型" />
+            <lang locale="zh_TW" value="業務類型" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[savePayment2PurLog].parameters.parameter[busCode].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[savePayment2PurLog].parameters.parameter[id].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="付款单ID" />
+            <lang locale="zh_HK" value="付款單ID" />
+            <lang locale="zh_TW" value="付款單ID" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[savePayment2PurLog].parameters.parameter[id].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[syncPurLog2B2B].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="同步付款单至B2B" />
+            <lang locale="zh_HK" value="同步付款單至B2B" />
+            <lang locale="zh_TW" value="同步付款單至B2B" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[syncPurLog2B2B].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="null" />
+            <lang locale="zh_HK" value="null" />
             <lang locale="zh_TW" value="null" />
         </rs>
         <rs key="facade[com.kingdee.eas.custom.app.PushRecordFacade].methods.method[syncSaleOrder].alias">

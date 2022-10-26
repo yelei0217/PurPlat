@@ -8,6 +8,7 @@ import com.kingdee.bos.Context;
 
 import com.kingdee.bos.Context;
 import com.kingdee.bos.BOSException;
+import java.lang.String;
 import com.kingdee.bos.framework.*;
 import com.kingdee.bos.util.*;
 
@@ -24,4 +25,6 @@ public interface PushRecordFacadeController extends BizController
     public void cancelPrice(Context ctx) throws BOSException, RemoteException;
     public void noCommonPush(Context ctx) throws BOSException, RemoteException;
     public void noCommonInitData(Context ctx) throws BOSException, RemoteException;
+    public void savePayment2PurLog(Context ctx, String id, String busCode) throws BOSException, RemoteException;
+    public void syncPurLog2B2B(Context ctx) throws BOSException, RemoteException;
 }

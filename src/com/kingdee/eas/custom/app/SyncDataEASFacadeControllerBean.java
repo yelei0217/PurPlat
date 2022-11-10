@@ -2107,6 +2107,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 									mp.put("cusno", rs.getString("cusno"));
 									mp.put("cusna", rs.getString("cusna"));
 									mp.put("cateno", rs.getString("cateno"));
+									mp.put("catena", rs.getString("catena"));
 									mp.put("isinner", rs.getString("isinner"));
 									if(rs.getObject("eascompanyid") !=null && !"".equals(rs.getObject("eascompanyid").toString()))
 										mp.put("eascompanyid", rs.getObject("eascompanyid").toString());

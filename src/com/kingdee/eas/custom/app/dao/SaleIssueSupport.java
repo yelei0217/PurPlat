@@ -393,7 +393,7 @@ public class SaleIssueSupport {
 					ISaleIssueBill ibiz =SaleIssueBillFactory.getLocalInstance(ctx);
 					IObjectPK pk = ibiz.save(info);
 					ibiz.submit(pk.toString());
-					if(!busCode.contains("VMI")){
+					if(!busCode.contains("VMI")|| !PurPlatUtil.process_BusCode_List.contains(busCode) ){
 						String fromID = info.getEntry().get(0).getSourceBillId();
 						if(fromID !=null && !"".equals(fromID)){
 						   String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
@@ -445,7 +445,7 @@ public class SaleIssueSupport {
 			 sourceBilltypeId = "";//来源单据类型
 			 biztypeId = "d8e80652-0110-1000-e000-04c5c0a812202407435C";//业务类型
 			 transinfoId ="DawAAAAPoA2wCNyn";//事务类型  
-		}else if("CDZ_U_MZ_SS".equals(busCode)){
+		}else if("CDZ_U_MZ_SS".equals(busCode)||PurPlatUtil.process_BusCode_List.contains(busCode)){
 			 billtypeId = "50957179-0105-1000-e000-015bc0a812fd463ED552";//单据类型
 			 sourceBilltypeId = "";//来源单据类型
 			 biztypeId = "d8e80652-010e-1000-e000-04c5c0a812202407435C";//业务类型
@@ -588,7 +588,7 @@ public class SaleIssueSupport {
 		}else if("VMIB_LZ_SS".equals(busCode)){
 			invUpdateTypeId ="CeUAAAAIdBvC73rf";
 			factor =  new BigDecimal(-1);
-		}else if("CDZ_U_MZ_SS".equals(busCode)){
+		}else if("CDZ_U_MZ_SS".equals(busCode) || PurPlatUtil.process_BusCode_List.contains(busCode)){
 			invUpdateTypeId ="8r0AAAAEaOnC73rf";
 			factor =  new BigDecimal(1);
 		}
@@ -628,6 +628,12 @@ public class SaleIssueSupport {
 		    entryInfo.setUnitActualCost(dvo.getFprice());
 		    entryInfo.setActualCost(dvo.getFamount());
 	    }
+	    if(PurPlatUtil.process_BusCode_List.contains(busCode)){
+			entryInfo.setLot(dvo.getFlot())	;
+			entryInfo.setMfg(PurPlatUtil.getDateFormat(dvo.getFmfg()));
+			entryInfo.setExp(PurPlatUtil.getDateFormat(dvo.getFexp()));
+	   } 
+	    
 	    entryInfo.put("huohao", material.get("huohao"));
 	    entryInfo.put("pinpai", material.get("pinpai"));
 	    entryInfo.put("MsgId", dvo.getId());

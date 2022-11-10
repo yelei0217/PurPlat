@@ -38,6 +38,15 @@ public class BaseSCMDetailDTO implements Serializable{
 	private String fmfg ;
 	private String fexp ;
 	
+	private String flot ;
+	
+	
+	public String getFlot() {
+		return flot;
+	}
+	public void setFlot(String flot) {
+		this.flot = flot;
+	}
 	public String getFmfg() {
 		return fmfg;
 	}

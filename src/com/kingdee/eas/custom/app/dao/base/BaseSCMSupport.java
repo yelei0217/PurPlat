@@ -191,7 +191,6 @@ public class BaseSCMSupport {
 						 result = result +"客户不存在,";
 			  }
 		 }
-		 
 			
 			 if(m.getFtotaltaxamount() == null || m.getFtotaltax() == null || m.getFtotalamount() == null)
 				 result = result +"价税合计、金额、税额 都不允许为空,";
@@ -221,6 +220,29 @@ public class BaseSCMSupport {
 								 result = result +"第"+j+1+"行仓库ID不存在,";
 						 } 
 					 }
+					 if(PurPlatUtil.process_BusCode_List.contains(busCode)){
+						 if(dvo.getFlot() ==null || "".equals(dvo.getFlot()))
+							 result = result +"第"+j+1+"行批次不能为空,";
+						 else{
+	 						if(PurPlatUtil.judgeLotExists(ctx, busCode, m.getFstorageorgunitid(), dvo.getFmaterialid(), dvo.getFlot()))
+								 result = result +"第"+j+1+"行批次"+ dvo.getFlot()+"已存在,";
+						 } 
+						 
+						 if(dvo.getFmfg()==null || "".equals(dvo.getFmfg()))
+							 result = result +"第"+j+1+"行生产日期不能为空,";
+						  else{
+							  if(!PurPlatUtil.judgeDateFormat(dvo.getFmfg()))
+								  result = result +"第"+j+1+"行生产日期格式错误,";
+						  } 
+						 
+						 if(dvo.getFexp()==null || "".equals(dvo.getFexp()))  
+							 result = result +"第"+j+1+"行到期日期不能为空,";
+						  else{
+							  if(!PurPlatUtil.judgeDateFormat(dvo.getFexp()))
+								  result = result +"第"+j+1+"行到期日期格式错误,";
+						  }
+					 } 
+					 
 					 if(dvo.getFunitid() ==null || "".equals(dvo.getFunitid()) ){
 						 result = result +"第"+j+1+"行计量单位不能为空,";
 					 }else{

@@ -202,7 +202,41 @@ public class PurPlatSyncBusLogListUI extends AbstractPurPlatSyncBusLogListUI
     	
     	// PushRecordFacadeFactory.getRemoteInstance().savePayment2PurLog("W8RsrujrQQaOMdgxk7arV0AoToE=","GZ_CK_LZ_P");
     	 
-    	 PushRecordFacadeFactory.getRemoteInstance().syncPurLog2B2B();
+//    	 PushRecordFacadeFactory.getRemoteInstance().syncPurLog2B2B();
+    	//义齿加工-采购入库单 
+//    	String jsonStr = "{\"msgId\":\"202211071116002\",\"busCode\":\"YC_PI\",\"reqTime\":\"202211071116002\",\"data\":{\"details\":[{\"factualprice\":6666,\"factualtaxprice\":7399.26,\"famount\":6666,\"fassociateqty\":1,\"fbaseqty\":1,\"fbaseunitid\":\"G01\",\"fdeliverydate\":\"2022-11-07\",\"fexp\":\"2022-11-07\",\"fispresent\":\"0\",\"flot\":\"\",\"fmaterialid\":\"W210061\",\"fmfg\":\"2022-11-07\",\"fprice\":6666,\"fqty\":1,\"fseq\":1,\"ftax\":733.26,\"ftaxamount\":7399.26,\"ftaxprice\":7399.26,\"ftaxrate\":11,\"funitid\":\"G01\",\"fwarehouseid\":\"jbYAAAAF8SO76fiu\",\"flot\":\"202211071116002\",\"id\":\"1658\"}],\"fadminorgunitid\":\"\",\"fbizdate\":\"2022-11-07\",\"fcreatorid\":\"\",\"fnumber\":\"202211071116002\",\"fpurchasepersonid\":\"\",\"fstockerid\":\"\",\"fstorageorgunitid\":\"+dryvYY9QwWpQdJSTAHAesznrtQ=\",\"fsupplierid\":\"aSV7TOELRfGo3sTm+wGaszfGffw=\",\"ftotalamount\":6666,\"ftotalqty\":1,\"ftotaltax\":733.26,\"ftotaltaxamount\":7399.26,\"id\":\"202211071116002\"}}";
+//    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().savePurInWare(jsonStr);
+//        System.out.println("savePurInWare"+result);
+    	
+        
+    	//义齿加工-销售出库单 
+//    	String jsonStr = "{\"msgId\":\"202211071116003\",\"busCode\":\"YC_SS\",\"reqTime\":\"202211071116003\",\"data\":{\"details\":[{\"factualprice\":6666,\"factualtaxprice\":7399.26,\"famount\":6666,\"fassociateqty\":1,\"fbaseqty\":1,\"fbaseunitid\":\"G01\",\"fdeliverydate\":\"2022-11-07\",\"fexp\":\"2022-11-07\",\"fispresent\":\"0\",\"flot\":\"202211071116002\",\"fmaterialid\":\"W210061\",\"fmfg\":\"2022-11-07\",\"fprice\":6666,\"fqty\":1,\"fseq\":1,\"ftax\":733.26,\"ftaxamount\":7399.26,\"ftaxprice\":7399.26,\"ftaxrate\":11,\"funitid\":\"G01\",\"fwarehouseid\":\"jbYAAAAF8SO76fiu\",\"id\":\"202211071116003-1\"}],\"fadminorgunitid\":\"\",\"fbizdate\":\"2022-11-07\",\"fcreatorid\":\"\",\"fnumber\":\"202211071116003\",\"fpurchasepersonid\":\"\",\"fstockerid\":\"\",\"fstorageorgunitid\":\"+dryvYY9QwWpQdJSTAHAesznrtQ=\",\"fcustomerid\":\"svL0ZnRPS86qelCx023QZ78MBA4=\",\"ftotalamount\":6666,\"ftotalqty\":1,\"ftotaltax\":733.26,\"ftotaltaxamount\":7399.26,\"id\":\"202211071116003\"}}";
+//    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().saveSaleIss(jsonStr);
+//        System.out.println("saveSaleIss"+result);
+        
+    	
+    	//隐形矫正加-门诊采购入库单 
+//    	String jsonStr = "{\"msgId\":\"202211071630001\",\"busCode\":\"YX_MZ_PI\",\"reqTime\":\"202211071630001\",\"data\":{\"details\":[{\"factualprice\":6666,\"factualtaxprice\":7399.26,\"famount\":6666,\"fassociateqty\":1,\"fbaseqty\":1,\"fbaseunitid\":\"G01\",\"fdeliverydate\":\"2022-11-07\",\"fexp\":\"2022-11-07\",\"fispresent\":\"0\",\"flot\":\"\",\"fmaterialid\":\"W206978\",\"fmfg\":\"2022-11-07\",\"fprice\":6666,\"fqty\":1,\"fseq\":1,\"ftax\":733.26,\"ftaxamount\":7399.26,\"ftaxprice\":7399.26,\"ftaxrate\":11,\"funitid\":\"G01\",\"fwarehouseid\":\"jbYAAAAF8SO76fiu\",\"flot\":\"202211071630001\",\"id\":\"1658\"}],\"fadminorgunitid\":\"\",\"fbizdate\":\"2022-11-07\",\"fcreatorid\":\"\",\"fnumber\":\"202211071630001\",\"fpurchasepersonid\":\"\",\"fstockerid\":\"\",\"fstorageorgunitid\":\"+dryvYY9QwWpQdJSTAHAesznrtQ=\",\"fsupplierid\":\"aSV7TOELRfGo3sTm+wGaszfGffw=\",\"ftotalamount\":6666,\"ftotalqty\":1,\"ftotaltax\":733.26,\"ftotaltaxamount\":7399.26,\"id\":\"202211071630001\"}}";
+//    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().savePurInWare(jsonStr);
+//        System.out.println("savePurInWare"+result);
+    	
+        
+    	//隐形矫正加-门诊销售出库 
+//    	String jsonStr = "{\"msgId\":\"202211071630002\",\"busCode\":\"YX_MZ_SS\",\"reqTime\":\"202211071630002\",\"data\":{\"details\":[{\"factualprice\":6666,\"factualtaxprice\":7399.26,\"famount\":6666,\"fassociateqty\":1,\"fbaseqty\":1,\"fbaseunitid\":\"G01\",\"fdeliverydate\":\"2022-11-07\",\"fexp\":\"2022-11-07\",\"fispresent\":\"0\",\"flot\":\"202211071630001\",\"fmaterialid\":\"W206978\",\"fmfg\":\"2022-11-07\",\"fprice\":6666,\"fqty\":1,\"fseq\":1,\"ftax\":733.26,\"ftaxamount\":7399.26,\"ftaxprice\":7399.26,\"ftaxrate\":11,\"funitid\":\"G01\",\"fwarehouseid\":\"jbYAAAAF8SO76fiu\",\"id\":\"202211071630002-1\"}],\"fadminorgunitid\":\"\",\"fbizdate\":\"2022-11-07\",\"fcreatorid\":\"\",\"fnumber\":\"202211071630002\",\"fpurchasepersonid\":\"\",\"fstockerid\":\"\",\"fstorageorgunitid\":\"+dryvYY9QwWpQdJSTAHAesznrtQ=\",\"fcustomerid\":\"svL0ZnRPS86qelCx023QZ78MBA4=\",\"ftotalamount\":6666,\"ftotalqty\":1,\"ftotaltax\":733.26,\"ftotaltaxamount\":7399.26,\"id\":\"202211071630002\"}}";
+//    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().saveSaleIss(jsonStr);
+//        System.out.println("saveSaleIss"+result);
+    	
+    	
+        //种植原厂基台-门诊-采购入库单成果物  ZZ_YC_MZ_PI_C
+//    	String jsonStr = "{\"msgId\":\"202211071701001\",\"busCode\":\"ZZ_YC_MZ_PI_C\",\"reqTime\":\"202211071701001\",\"data\":{\"details\":[{\"factualprice\":6666,\"factualtaxprice\":7399.26,\"famount\":6666,\"fassociateqty\":1,\"fbaseqty\":1,\"fbaseunitid\":\"G01\",\"fdeliverydate\":\"2022-11-07\",\"fexp\":\"2022-11-07\",\"fispresent\":\"0\",\"flot\":\"\",\"fmaterialid\":\"101195\",\"fmfg\":\"2022-11-07\",\"fprice\":6666,\"fqty\":1,\"fseq\":1,\"ftax\":733.26,\"ftaxamount\":7399.26,\"ftaxprice\":7399.26,\"ftaxrate\":11,\"funitid\":\"G01\",\"fwarehouseid\":\"jbYAAAAF8SO76fiu\",\"flot\":\"202211071701001\",\"id\":\"202211071701001-1\"}],\"fadminorgunitid\":\"\",\"fbizdate\":\"2022-11-07\",\"fcreatorid\":\"\",\"fnumber\":\"202211071701001\",\"fpurchasepersonid\":\"\",\"fstockerid\":\"\",\"fstorageorgunitid\":\"+dryvYY9QwWpQdJSTAHAesznrtQ=\",\"fsupplierid\":\"aSV7TOELRfGo3sTm+wGaszfGffw=\",\"ftotalamount\":6666,\"ftotalqty\":1,\"ftotaltax\":733.26,\"ftotaltaxamount\":7399.26,\"id\":\"202211071701001\"}}";
+//    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().savePurInCGW(jsonStr);
+//     	System.out.println("savePurInWare"+result);
+    	
+    	// 种植个性化基台栗喆-采购入库单 ZZ_GX_LZ_PI
+//    	String jsonStr = "{\"msgId\":\"202211071707001\",\"busCode\":\"ZZ_GX_LZ_PI\",\"reqTime\":\"202211071707001\",\"data\":{\"details\":[{\"factualprice\":6666,\"factualtaxprice\":7399.26,\"famount\":6666,\"fassociateqty\":1,\"fbaseqty\":1,\"fbaseunitid\":\"G01\",\"fdeliverydate\":\"2022-11-07\",\"fexp\":\"2022-11-07\",\"fispresent\":\"0\",\"flot\":\"\",\"fmaterialid\":\"101195\",\"fmfg\":\"2022-11-07\",\"fprice\":6666,\"fqty\":1,\"fseq\":1,\"ftax\":733.26,\"ftaxamount\":7399.26,\"ftaxprice\":7399.26,\"ftaxrate\":11,\"funitid\":\"G01\",\"fwarehouseid\":\"jbYAAAAF8SO76fiu\",\"flot\":\"202211071707001\",\"id\":\"202211071707001-1\"}],\"fadminorgunitid\":\"\",\"fbizdate\":\"2022-11-07\",\"fcreatorid\":\"\",\"fnumber\":\"202211071707001\",\"fpurchasepersonid\":\"\",\"fstockerid\":\"\",\"fstorageorgunitid\":\"+dryvYY9QwWpQdJSTAHAesznrtQ=\",\"fsupplierid\":\"aSV7TOELRfGo3sTm+wGaszfGffw=\",\"ftotalamount\":6666,\"ftotalqty\":1,\"ftotaltax\":733.26,\"ftotaltaxamount\":7399.26,\"id\":\"202211071707001\"}}";
+//    	String result = SyncBill2EASFacadeFactory.getRemoteInstance().savePurInWare(jsonStr);
+//     	System.out.println("savePurInWare"+result);
+        
     }
 
     /**

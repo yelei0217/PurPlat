@@ -402,7 +402,7 @@ public class PurInWarehsSupport {
 					IPurInWarehsBill ibiz = PurInWarehsBillFactory.getLocalInstance(ctx);
 					IObjectPK pk = ibiz.save(info);
 					ibiz.submit(pk.toString());
-					if(!busCode.contains("VMI")){
+					if(!busCode.contains("VMI") || !PurPlatUtil.process_BusCode_List.contains(busCode)){
 						String fromID = info.getEntry().get(0).getSourceBillId();
 						if(fromID !=null && !"".equals(fromID)){
 							String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
@@ -648,8 +648,15 @@ public class PurInWarehsSupport {
 	    entryInfo.setActualCost(dvo.getFamount());
 	    entryInfo.setUnitPurchaseCost(dvo.getFprice());
 	    entryInfo.setPurchaseCost(dvo.getFamount());
+	    
    }
-
+   if(PurPlatUtil.process_BusCode_List.contains(busCode)){
+		entryInfo.setLot(dvo.getFlot())	;
+		entryInfo.setMfg(PurPlatUtil.getDateFormat(dvo.getFmfg()));
+		entryInfo.setExp(PurPlatUtil.getDateFormat(dvo.getFexp()));
+   }
+  
+   
     entryInfo.put("huohao", material.get("huohao"));
     entryInfo.put("pinpai", material.get("pinpai"));
 //    entryInfo.put("huanzheID", entry.getPatientId());

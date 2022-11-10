@@ -1,9 +1,11 @@
 package com.kingdee.eas.custom.app.unit;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import com.kingdee.bos.BOSException;
@@ -227,6 +229,46 @@ public class PurPlatUtil {
 	     }
 	     return flag;
 	  }
+	
+	/**
+	 *  判断 批次是否已存在
+	 * @param ctx
+	 * @param oper 操作类型
+	 * @param orgId 组织ID
+	 * @param mno 物料编码
+	 * @param lot 批次
+	 * @return
+	 */
+	public static boolean judgeLotExists(Context ctx,String busCode,String orgId,String mno,String lot){
+		boolean flag = false;
+		 if (VerifyUtil.notNull(busCode) && VerifyUtil.notNull( mno)&& VerifyUtil.notNull( orgId)&& VerifyUtil.notNull( lot) ) {
+			 String tableName = "";
+			 if(busCode.contains("_PI"))
+				 tableName = "T_IM_PurInWarehsEntry";
+			 else if(busCode.contains("_SS"))
+				 tableName = "T_IM_SaleIssueEntry";
+			 
+			 if(tableName !=null && !"".equals(tableName)){
+				 String sql = "select count(1) C from "+tableName+" a inner join t_bd_material b on a.FMATERIALID =b.FID where a.FSTORAGEORGUNITID ='"+orgId+"' and b.FNUMBER ='"+mno+"' and a.FLOT='"+lot+"' ";
+				 try {
+					IRowSet rs = DbUtil.executeQuery(ctx, sql);
+					 if (rs.next() && 
+					   rs.getObject("C") != null && !"".equals(rs.getObject("C").toString()) && 
+					   Integer.valueOf(rs.getObject("C").toString()).compareTo(Integer.valueOf(1)) > 0) {
+					   flag = true;
+					 }
+				} catch (NumberFormatException e) {
+ 					e.printStackTrace();
+				} catch (BOSException e) {
+ 					e.printStackTrace();
+				} catch (SQLException e) {
+ 					e.printStackTrace();
+				}
+			 }
+			 
+		 }
+		return flag;
+	}
 	
 	public static boolean judgeExists(Context ctx,String oper,String orgId,String fid){
 		  boolean flag = false;
@@ -524,5 +566,62 @@ public class PurPlatUtil {
 		return mappId;
 	}
 	
+	  /**
+	  *  技加工业务类型 集合
+	  */
+	 public final static HashSet<String> process_BusCode_List = new HashSet<String>(){
+	 	{
+	 		add("YC_PI");//	义齿加工-采购入库单 
+	 		add("YC_SS");//	义齿加工-销售出库单 
+	 		add("YX_MZ_PI");//	隐形矫正加-门诊采购入库单 
+	 		add("YX_LZ_PI");//	隐形矫正加-栗喆采购入库单 
+	 		add("YX_LZ_SS");//	隐形矫正加-栗喆销售出库单 
+	 		add("YX_MZ_SS");//	隐形矫正加-门诊销售出库 
+	 		//add("ZZ_GX_LZ_PI");//	种植个性化基台栗喆-采购入库单 
+	 	}
+	 }; 
 	 
+	 /**
+	  * 判断时间格式 格式必须为“YYYY-MM-dd”
+	  * 2004-2-30 是无效的
+	  * 2003-2-29 是无效的
+	  * @param sDate
+	  * @return
+	  */
+	 public static boolean judgeDateFormat(String sDate) {
+	     int legalLen = 10;
+	     if ((sDate == null) || (sDate.length() != legalLen)) {
+	         return false;
+	     } 
+	     DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	     try {
+	         Date date = format.parse(sDate);
+	         return sDate.equals(format.format(date));
+	     } catch (Exception e) {
+	         return false;
+	    }
+	 }
+	 
+	 /**
+	  * 判断时间格式 格式必须为“YYYY-MM-dd”
+	  * 2004-2-30 是无效的
+	  * 2003-2-29 是无效的
+	  * @param sDate
+	  * @return
+	  */
+	 public static Date getDateFormat(String sDate) {
+	     int legalLen = 10;
+	     if ((sDate == null) || (sDate.length() != legalLen)) {
+	         return null;
+	     } 
+	     DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	     try {
+	         return  format.parse(sDate);
+	        // return sDate.equals(format.format(date));
+	     } catch (Exception e) {
+	         return null;
+	    }
+	 }
+	 
+
 }

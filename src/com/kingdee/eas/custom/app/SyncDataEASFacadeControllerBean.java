@@ -995,7 +995,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			throws BOSException {
 		// TODO Auto-generated method stub
 		//return super._materialSyncFun(ctx, data); 
-		data  ="{\"msgId\":\"20221021160707\",\"reqCount\":\"1\",\"operType\":\"0\",\"reqTime\":\"20221021160707\",\"data\":[{\"fArtNo\":\"普通\",\"fBaseUnit\":\"包子\",\"fBrand\":\"医宁\",\"fCreateTime\":\"2022-10-21\",\"fInvUnit\":\"瓶\",\"fKAClass\":\"G01\",\"fMaterialGroup\":\"W303\",\"fModel\":\"普通\",\"fName\":\"10/21 测试商品 222\",\"fNumber\":\"411\",\"fPurUnit\":\"12\",\"fSaleUnit\":\"12\",\"fSpec\":\"普通\",\"fUpdateTime\":\"2022-10-21\"}]}";
+//		data  ="{\"msgId\":\"20221021160707\",\"reqCount\":\"1\",\"operType\":\"0\",\"reqTime\":\"20221021160707\",\"data\":[{\"fArtNo\":\"普通\",\"fBaseUnit\":\"包子\",\"fBrand\":\"医宁\",\"fCreateTime\":\"2022-10-21\",\"fInvUnit\":\"瓶\",\"fKAClass\":\"G01\",\"fMaterialGroup\":\"W303\",\"fModel\":\"普通\",\"fName\":\"10/21 测试商品 222\",\"fNumber\":\"411\",\"fPurUnit\":\"12\",\"fSaleUnit\":\"12\",\"fSpec\":\"普通\",\"fUpdateTime\":\"2022-10-21\"}]}";
 		Map map = (Map) JSONObject.parse(data);
 		 
 		HashMap<String, String> returnMap =new  HashMap<String, String>();

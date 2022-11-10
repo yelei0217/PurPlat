@@ -584,6 +584,8 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 							map.put("forgNumber",rs.getString("FORGNUMBER") );
 							map.put("forgName",rs.getString("FORGNAME") );*/
     						mapHIS.put("forgId",rsData.getString("FORGID") );
+    						mapHIS.put("forgNumber",rsData.getString("FORGNUMBER") );
+    						mapHIS.put("forgName",rsData.getString("FORGNAME") );
 						} 
     					String datajsonStrHis = JSONObject.toJSONString(mapHIS);
     					
@@ -607,6 +609,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 							// TODO: handle exception
 							logger.info("发送仓库通知给B2B系统，接口调用异常：" + result);
 							System.out.println("发送仓库通知给B2B系统，接口调用异常：" + result);
+							retudnMsg = result;
 						}
     					map.put("FNUMBER", mapB2B.get("fNumber"));
 			        	map.put("FNAME", mapB2B.get("fName"));

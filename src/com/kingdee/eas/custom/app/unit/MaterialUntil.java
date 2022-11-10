@@ -694,6 +694,8 @@ public class MaterialUntil {
 			material.setVersion(1);
 			material.setPricePrecision(6);
 			
+			//isb2b	isb2b	²¼¶û	CFIsb2b
+			material.put("isb2b", 1);
 			String createTime = dataMap.get("fCreateTime").toString();
 			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = sdf1.parse(createTime); 

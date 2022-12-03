@@ -585,6 +585,11 @@ public class SaleIssueSupport {
 		}else if("VMI_LZ_SS".equals(busCode)){
 			invUpdateTypeId ="CeUAAAAIdBvC73rf";
 			factor =  new BigDecimal(1);
+			 if(dvo.getFsupplierid() !=null && !"".equals(dvo.getFsupplierid())){
+					SupplierInfo supplierInfo = new SupplierInfo();
+					supplierInfo.setId(BOSUuid.read(dvo.getFsupplierid()));
+					entryInfo.setSupplier(supplierInfo);
+			 } 
 		}else if("VMIB_LZ_SS".equals(busCode)){
 			invUpdateTypeId ="CeUAAAAIdBvC73rf";
 			factor =  new BigDecimal(-1);

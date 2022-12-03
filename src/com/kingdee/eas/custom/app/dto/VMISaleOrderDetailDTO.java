@@ -2,9 +2,6 @@ package com.kingdee.eas.custom.app.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-
-import com.kingdee.eas.custom.app.dto.base.BaseSCMDetailDTO;
 
 public class VMISaleOrderDetailDTO implements Serializable{
 
@@ -48,6 +45,21 @@ public class VMISaleOrderDetailDTO implements Serializable{
 	private BigDecimal flzptaxamount; 	//栗喆采购价税合计
 	private String fwarehouseid;//仓库ID
 	
+	public String getFsnno() {
+		return fsnno;
+	}
+	public void setFsnno(String fsnno) {
+		this.fsnno = fsnno;
+	}
+	private String fsupplierid;//供应商ID
+	private String fsnno ;//snNo
+	
+	public String getFsupplierid() {
+		return fsupplierid;
+	}
+	public void setFsupplierid(String fsupplierid) {
+		this.fsupplierid = fsupplierid;
+	}
 	public String getId() {
 		return id;
 	}

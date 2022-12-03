@@ -519,7 +519,7 @@ public class PurPlatUtil {
 	    		 tableName =" T_SD_SaleOrder ";
 	    	 }
 	    	 
-			String  sql = " select FID,FNUMBER from "+tableName+" where FNumber ='"+mId+"' and FCompanyOrgUnitID ='"+orgId+"' ";
+			String  sql = " select FID,FNUMBER from "+tableName+" where CFMSGID ='"+mId+"' and FCompanyOrgUnitID ='"+orgId+"' ";
 			     try {
 			         IRowSet rs = DbUtil.executeQuery(ctx, sql);
 			         if (rs.next()){

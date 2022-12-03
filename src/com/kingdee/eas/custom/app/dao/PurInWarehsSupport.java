@@ -406,7 +406,7 @@ public class PurInWarehsSupport {
 						String fromID = info.getEntry().get(0).getSourceBillId();
 						if(fromID !=null && !"".equals(fromID)){
 							String sql = "/*dialect*/insert into t_bot_relation (FID,FSrcEntityID,FDestEntityID,FSrcObjectID,FDestObjectID,FDate,FOperatorID,FisEffected,FBOTMappingID,FType) " +
-							" values(newbosid('59302EC6'),'3171BFAD','783061E3','" + fromID + "','" + pk.toString() + "',sysdate,'02','0','5iUfG0tUSoalSLeGmOHURwRRIsQ=','0')";
+							" values(newbosid('59302EC6'),'3171BFAD','783061E3','" + fromID + "','" + pk.toString() + "',sysdate,'02','1','5iUfG0tUSoalSLeGmOHURwRRIsQ=','0')";
 							DbUtil.execute(ctx,sql);
 						}
 					}	
@@ -498,6 +498,7 @@ public class PurInWarehsSupport {
     if(sourceBilltypeId!=null && !"".equals(sourceBilltypeId)){
     	sourceBillTypeInfo = new BillTypeInfo();
         sourceBillTypeInfo.setId(BOSUuid.read(sourceBilltypeId));
+        info.setSourceBillType(sourceBillTypeInfo);
     }
     
     info.put("yisheng", person);
@@ -609,7 +610,7 @@ public class PurInWarehsSupport {
     InvUpdateTypeInfo invUpdateType = new InvUpdateTypeInfo();
     invUpdateType.setId(BOSUuid.read(invUpdateTypeId));
     entryInfo.setInvUpdateType(invUpdateType);
-    
+   
     entryInfo.setMaterial(material);
     entryInfo.setBaseUnit(baseUnitInfo);
     entryInfo.setUnit(unitInfo);

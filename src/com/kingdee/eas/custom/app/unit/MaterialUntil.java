@@ -1,6 +1,6 @@
 package com.kingdee.eas.custom.app.unit;
 
-
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -43,6 +43,7 @@ import com.kingdee.eas.basedata.master.material.UsedStatusEnum;
 import com.kingdee.eas.basedata.org.CtrlUnitFactory;
 import com.kingdee.eas.basedata.org.CtrlUnitInfo;
 import com.kingdee.eas.common.EASBizException;
+import com.kingdee.eas.custom.EAISynTemplate;
 import com.kingdee.eas.custom.PurPlatSyncdbLogCollection;
 import com.kingdee.eas.custom.PurPlatSyncdbLogFactory;
 import com.kingdee.eas.custom.PurPlatSyncdbLogInfo;
@@ -241,6 +242,11 @@ public class MaterialUntil {
 				fBrand = dataMap.get("fBrand").toString();
 			}
 			
+			String fSpec ="";
+			if (dataMap.get("fSpec")!= null && !"".equals(dataMap.get("fSpec").toString()) ) { 
+				fSpec = dataMap.get("fSpec").toString();
+			}
+			
 			if (dataMap.get("fCreateTime")== null || "".equals(dataMap.get("fCreateTime").toString()) ) { 
 				error = error+ "编码为"+dataMap.get("fNumber").toString()+"的创建时间不能为空;"; flag = false;
 				continue;
@@ -313,6 +319,30 @@ public class MaterialUntil {
 				e.printStackTrace();
 				error = error+  e.getMessage()+";"; flag = false;
 			}
+			String fInvUnitNum =dataMap.get("fInvUnit").toString();
+			String fBaseUnitNum =dataMap.get("fBaseUnit").toString();
+			boolean  flagZhuanHuanLv = false;
+			if(!fBaseUnitNum.equals(fInvUnitNum)){ 
+				if (dataMap.get("fUnitRatio")== null || "".equals(dataMap.get("fUnitRatio").toString()) ) { 
+					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的转换率不能为空;"; flag = false;
+					continue;
+				}
+				
+				try {
+					BigDecimal num = new BigDecimal(dataMap.get("fUnitRatio").toString());
+					if(num.compareTo(BigDecimal.ONE) <0){
+						error = error+  "编码为"+dataMap.get("fNumber").toString()+"的转换率必须大于1;"; flag = false;
+						continue;
+					}
+					
+					flagZhuanHuanLv = true;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的转换率必须是数字;"; flag = false;
+					continue;
+				} 
+			}
 			
 			
 			if (dataMap.get("fPurUnit")== null || "".equals(dataMap.get("fPurUnit").toString()) ) { 
@@ -363,6 +393,15 @@ public class MaterialUntil {
 			    ParallelSqlExecutor pe = new ParallelSqlExecutor(pool); 
 				ArrayList<String> ctrlOrgIds = getAllCtrlOrgIDs(ctx);
 				 
+				
+				if(flagZhuanHuanLv){
+					BigDecimal num = new BigDecimal(dataMap.get("fUnitRatio").toString());
+					String matUnitSql = " update T_BD_MultiMeasureUnit set FBASECONVSRATE = "+num+"  where FMATERIALID = '"+pk+"' and FMEASUREUNITID ='"+kcmeasure.get(0).getId().toString()+"' ";
+					
+					com.kingdee.eas.custom.util.DBUtil.execute(ctx,matUnitSql);
+					
+				}
+				
 				for(String cid:ctrlOrgIds){
 					
 					StringBuffer sbrdA  = new StringBuffer("insert into T_BD_DataBaseDAssign(fid,fcreatorid,fcreatetime,flastupdateuserid,flastupdatetime,fcontrolunitid,fdatabasedid,fassigncuid,fbosobjecttype,fstatus)");
@@ -619,6 +658,11 @@ public class MaterialUntil {
 				material.put("pinpai",dataMap.get("fBrand").toString());flag  = true;
 				 
 			}
+			if (dataMap.get("fSpec")!= null && !"".equals(dataMap.get("fSpec").toString())
+					&& !"".equals( material.getModel()) && !material.getModel().equals(dataMap.get("fSpec").toString())  ) { 
+				material.setModel(dataMap.get("fSpec").toString());flag  = true; 
+			}
+			
 			if (dataMap.get("fMaterialGroup")== null || "".equals(dataMap.get("fMaterialGroup").toString()) ) { 
 				error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的物料类别不能为空;";  
 				continue;
@@ -707,12 +751,30 @@ public class MaterialUntil {
 			Timestamp updatets = new Timestamp(updatedate.getTime());
 			material.setCreateTime(updatets);
 			
-			material.setModel(dataMap.get("fModel").toString());
+			
+			if (dataMap.get("fModel")!= null && !"".equals(dataMap.get("fModel").toString())   ) { 
+				material.setModel(dataMap.get("fModel").toString());
+				 
+			}
+			if (dataMap.get("fArtNo")!= null && !"".equals(dataMap.get("fArtNo").toString())  ) { 
+				material.put("huohao", dataMap.get("fArtNo").toString());
+			}
+			
+			if (dataMap.get("fBrand")!= null && !"".equals(dataMap.get("fBrand").toString())   ) { 
+				material.put("pinpai", dataMap.get("fBrand").toString());
+				 
+			}
+			
+			
+			if (dataMap.get("fSpec")!= null && !"".equals(dataMap.get("fSpec").toString())   ) { 
+				material.setModel(dataMap.get("fSpec").toString());
+				 
+			}
 			
 			//material.setModel(dataMap.get("fModel").toString());
 			
-			material.put("huohao", dataMap.get("fArtNo").toString());
-			material.put("pinpai", dataMap.get("fBrand").toString());
+			
+			
 			 
 			
 		}

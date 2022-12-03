@@ -133,7 +133,7 @@ public class VMISaleOrderSupport {
 					" FSUPPLYMODE,FTOTALTRANSFERQTY,FTOTALTRANSFERBASEQTY,FTOTALUNTRANSFERQTY,FTOTALUNTRANSFERBASEQTY,CFPINPAI,CFHUOHAO," +
 					" FINVOICEREQQTY,FINVOICEREQBASEQTY,FUNINVOICEREQQTY,FUNINVOICEREQBASEQTY,FINVOICEREQAMOUNT,FINVOICEREQAMOUNTLOCAL,FUNINVOICEREQAMOUNT,FUNINVOICEREQAMOUNTLOCAL,CFMsgId");
 		
- 				   sbr1.append(",FWarehouseID,cflzsprice,cflzstaxprice,cflzsamount,cflzstaxrate,cflzstax,cflzstaxamount,cflzpprice,cflzptaxprice,cflzpamount,cflzptaxrate,cflzptax,cflzptaxamount");
+ 				   sbr1.append(",FWarehouseID,cflzsprice,cflzstaxprice,cflzsamount,cflzstaxrate,cflzstax,cflzstaxamount,cflzpprice,cflzptaxprice,cflzpamount,cflzptaxrate,cflzptax,cflzptaxamount,cffsupplierid");
 			 
 			 sbr1.append(") values (");
 			String deliveDateStr =  dvo.getFdeliverydate();
@@ -161,7 +161,7 @@ public class VMISaleOrderSupport {
 			}
 			
 			sbr1.append("'").append(eid).append("',").append(dvo.getFseq()).append(",'").append(material.getId().toString()).append("','").append(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFunitid())).append("',4,");
-			sbr1.append(dvo.getFqty()).append(",'").append(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFbaseunitid())).append("','").append(dvo.getFremark()).append("',").append(isPresent).append(",").append(dvo.getFbaseqty()).append(",").append(dvo.getFqty());
+			sbr1.append(dvo.getFqty()).append(",'").append(PurPlatUtil.getMeasureUnitFIdByFNumber(ctx, dvo.getFbaseunitid())).append("','").append(dvo.getFsnno()).append("',").append(isPresent).append(",").append(dvo.getFbaseqty()).append(",").append(dvo.getFqty());
 			sbr1.append(",").append(dvo.getFprice()).append(",").append(dvo.getFtaxprice()).append(",-1,0,0,0,").append(dvo.getFamount()).append(",").append(dvo.getFamount()).append(",");
 			sbr1.append(dvo.getFactualprice()).append(",").append(dvo.getFactualtaxprice()).append(",").append(dvo.getFtaxrate()).append(",").append(dvo.getFtax()).append(",").append(dvo.getFtaxamount()).append(",");
 			sbr1.append("to_date('").append(sendDateStr).append("','yyyy-MM-dd')").append(",to_date('").append(deliveDateStr).append("','yyyy-MM-dd'),'").append(m.getFstorageorgunitid()).append("','").append(m.getFstorageorgunitid()).append("',0,0,0,0,0,0,0,0,0,'").append(sId).append("',0,0,0,0,");
@@ -183,6 +183,7 @@ public class VMISaleOrderSupport {
 			sbr1.append("','").append(dvo.getFlzptaxrate());
 			sbr1.append("','").append(dvo.getFlzptax());
 			sbr1.append("','").append(dvo.getFlzptaxamount());
+			sbr1.append("','").append(dvo.getFsupplierid());
 			sbr1.append("' )");
 			
 			pe.getSqlList().add(sbr1);

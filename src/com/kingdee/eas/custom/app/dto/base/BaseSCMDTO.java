@@ -27,6 +27,7 @@ public class BaseSCMDTO implements Serializable{
 	private String  fcreatorid;
 	private String	fpurchasepersonid ;
 	private String	fstockerid;
+	private String	fbiztype;
 	
 	private List<BaseSCMDetailDTO> details;
 	
@@ -132,6 +133,12 @@ public class BaseSCMDTO implements Serializable{
 	}
 	public void setDetails(List<BaseSCMDetailDTO> details) {
 		this.details = details;
+	}
+	public String getFbiztype() {
+		return fbiztype;
+	}
+	public void setFbiztype(String fbiztype) {
+		this.fbiztype = fbiztype;
 	}
 	
 }

@@ -67,7 +67,7 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
     private static Logger logger =  Logger.getLogger("com.kingdee.eas.custom.app.SupplySyncServiceControllerBean");
 
     private static String url = "http://sr.wellekq.com:10091/his-war/notify/syncSupplier"; //测试地址
-    //private static String url = "http://his5.meiweigroup.com/his-war/notify/syncSupplier";  //生产地址
+    //private static String url = "https://his5.meiweigroup.com/his-war/notify/syncSupplier";  //生产地址
 
 	@Override
 	public String SyncSupplyJT(Context ctx, String data) throws BOSException {

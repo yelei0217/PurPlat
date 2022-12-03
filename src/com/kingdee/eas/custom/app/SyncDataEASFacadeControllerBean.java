@@ -56,15 +56,13 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 	
     private static Logger logger =
         Logger.getLogger("com.kingdee.eas.custom.app.SyncDataEASFacadeControllerBean");
-
      
     String dataBase = "04";
-    private static String warurl = "http://sr.wellekq.com:10091/his-war/notify/receiveClinicStore"; //测试地址
-
+    private static String warurl = "http://sr.wellekq.com:10091/his-war/notify/receiveClinicStore"; //测试地址 
     private static String warJinYongurl = "http://sr.wellekq.com:10091/his-war/notify/updateClinicStoreStatus"; //测试地址
     
     /**
-     * type   :  1:客户  2：供应商  3：组织  4 人员  5 仓库   
+     * type   :  1:客户  2：供应商  3：组织  4 人员  5 仓库    
      * newOrDele : 0:新增 ; 1启用 ; 2:禁用
      */
     
@@ -207,14 +205,14 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
    			
 				String sql  = " /*dialect*/ SELECT supp.fid  fid , supp.fnumber fnumber ,supp.fname_l2 Fname ,  gro.fname_l2 FCLASSNAME ,'' FOpenBank ,  '' FBankAccount, "+
 				 "  supp.FCREATORID  Fcreator , to_char( supp.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' )   FcreateTime , to_char( supp.FLASTUPDATETIME ,'yyyy-mm-dd hh24:mi:ss' )  FupdateTime,  supp.FIsInternalCompany  FISGroup , "+
-				 "  admin.FNUMBER  ForgNumber ,admin.FName_l2 ForgName , (case when supp.FUsedStatus = 1 then 0 else  1 end ) FStatus ,admin.Fid Forgtid, "+newOrDele+"  FupdateType ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime "+
+				 "  admin.FNUMBER  ForgNumber ,  admin.FName_l2 ForgName , (case when supp.FUsedStatus = 1 then 0 else  1 end ) FStatus ,admin.Fid Forgtid, "+newOrDele+"  FupdateType ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime "+
 				 "   FROM  T_BD_Supplier  supp    "+
-				 "  inner  join  T_BD_CSSPGroup gro on gro.fid =supp.FBrowseGroupID "+
+				 "  inner  join  T_BD_CSSPGroup gro on gro.fid =supp.FBrowseGroupID and  gro.fnumber  in (  'G101' ,'G102','G103' ) "+
 				 " inner join  T_ORG_admin    admin  on admin.fid = supp.FCONTROLUNITID "+
-				 " inner join  T_BD_SupplierCompanyInfo supcom  on supcom.FSUPPLIERID  = supp.fid and supcom.FComOrgID  = 'jbYAAAMU2SvM567U'"+
+				// " inner join  T_BD_SupplierCompanyInfo supcom  on supcom.FSUPPLIERID  = supp.fid and supcom.FComOrgID  = 'jbYAAAMU2SvM567U'"+
 				 "    where supp.fid ='"+fid+"'   "; 
 				 
-				CompanyOrgUnitInfo companyInfo = CompanyOrgUnitFactory.getLocalInstance(ctx).getCompanyOrgUnitInfo("where id='jbYAAAMU2SvM567U'");
+				
 			  		  
 				IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
 				IRowSet  rsCopy=  rs.createCopy();
@@ -238,7 +236,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					String bankStr = "";
 					String bankAccountStr = "";
 					String bankSql = " select  supbank.FBank BANK , supbank.FBankAccount BANKACCOUNT  from  T_BD_SupplierCompanyBank   supbank "+
-					" inner  join  T_BD_SupplierCompanyInfo supcom  on   supcom.FSUPPLIERID ='"+fid+"'   and  supcom.FComOrgID  = 'jbYAAAMU2SvM567U'  and  supcom.fid = supbank.FSupplierCompanyInfoID";
+					" inner  join  T_BD_SupplierCompanyInfo supcom  on   supcom.FSUPPLIERID ='"+fid+"'   and  supcom.FComOrgID  =  '00000000-0000-0000-0000-000000000000CCE7AED4'   and  supcom.fid = supbank.FSupplierCompanyInfoID";
 					IRowSet  rsBk = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,bankSql);
 					while(rsBk.next()){	
 						bankStr = bankStr+ rsBk.getString("BANK");
@@ -265,9 +263,17 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						mapTo.put("fCreateTime",rsCopy.getString("FCREATETIME") );
 						mapTo.put("fUpdateTime",rsCopy.getString("FUPDATETIME") );
 						mapTo.put("fIsGroup",rsCopy.getString("FISGROUP") );
+						
+						/*CompanyOrgUnitInfo companyInfo = CompanyOrgUnitFactory.getLocalInstance(ctx).getCompanyOrgUnitInfo("where id='jbYAAAMU2SvM567U'");
 						mapTo.put("fOrgtId",companyInfo.getId().toString() );
 						mapTo.put("fOrgNumber",companyInfo.getNumber() );
-						mapTo.put("fOrgName",companyInfo.getName() );
+						mapTo.put("fOrgName",companyInfo.getName() );*/
+						
+						
+						mapTo.put("fOrgtId",rsCopy.getString("FORGTID") );
+						mapTo.put("fOrgNumber",rsCopy.getString("FORGNUMBER") );
+						mapTo.put("fOrgName",rsCopy.getString("FORGNAME") );
+						
 						mapTo.put("fStatus",rsCopy.getString("FSTATUS") );
 						mapTo.put("fUpdateType",rsCopy.getString("FUPDATETYPE") ); 
 
@@ -518,9 +524,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 	    		 
     		}else if(type ==5){//仓库  newOrDele : 0:新增 ; 1启用 ; 2:禁用
  
-    			Map<String, String> mapRet = new  HashMap<String, String>();
-    			
-    			
+    			Map<String, String> mapRet = new  HashMap<String, String>(); 
     			 
     			int fUpdateType = 0;
     			if(newOrDele == 1){ 
@@ -540,24 +544,9 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     			IRowSet  rsData = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
     			IRowSet  rsB2B = rsData.createCopy(); 
     			IRowSet  rsHIS = rsData.createCopy();  
+    			
+				
     			System.out.println("发送仓库sqlrsData.size()：" + (rsData.size()));   
-    			String selectSuppSqlB2B = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Cent where fid='"+fid+"' ";
-				List<Map<String, Object>> retsSupB2B = EAISynTemplate.query(ctx,dataBase, selectSuppSqlB2B);
-				if(retsSupB2B.size() == 0 ){//没有 
-					
-				}else{
-					String selectDelete = " delete  EAS_Warehouse_Cent where fid='"+fid+"' ";
-					EAISynTemplate.execute(ctx, dataBase, selectDelete);
-				}  
-				if(rsB2B!=null && rsB2B.size() > 0){
-					String sqlInsert = insertMidTable(ctx,  "EAS_Warehouse_Cent", rsB2B,"fSign");
-					map.put("ERROR",sqlInsert);
-					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
-				}else{
-					 map.put("ERROR", "根据ID"+fid+"找不到对应的仓库信息,没有同步到中间库。");
-				}   
-				
-				
 				String  retudnMsg = "";
     			if(rsData!=null && rsData.size() > 0){  
     				while(rsData.next()){    
@@ -575,18 +564,19 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						mapB2B.put("fUpdateType",rsData.getString("FUPDATETYPE") );
 						mapB2B.put("fUpdateTime",rsData.getString("FUPDATETIME") ); 
 						
-    					if( !"jbYAAAMU2SvM567U".equals(orgid)){
-    						mapHIS.put("fid",rsData.getString("FID") );
-    						mapHIS.put("fstatus",rsData.getString("FSTATUS") );
-    						mapHIS.put("fnumber",rsData.getString("FNUMBER") );
-    						mapHIS.put("fname",rsData.getString("FNAME") );
-							/*map.put("forgtid",rs.getString("FORGTID") );
-							map.put("forgNumber",rs.getString("FORGNUMBER") );
-							map.put("forgName",rs.getString("FORGNAME") );*/
-    						mapHIS.put("forgId",rsData.getString("FORGID") );
-    						mapHIS.put("forgNumber",rsData.getString("FORGNUMBER") );
-    						mapHIS.put("forgName",rsData.getString("FORGNAME") );
-						} 
+    					/*if( !"jbYAAAMU2SvM567U".equals(orgid)){
+    						
+						} */
+						mapHIS.put("fid",rsData.getString("FID") );
+						mapHIS.put("fstatus",rsData.getString("FSTATUS") );
+						mapHIS.put("fnumber",rsData.getString("FNUMBER") );
+						mapHIS.put("fname",rsData.getString("FNAME") );
+						/*map.put("forgtid",rs.getString("FORGTID") );
+						map.put("forgNumber",rs.getString("FORGNUMBER") );
+						map.put("forgName",rs.getString("FORGNAME") );*/
+						mapHIS.put("forgId",rsData.getString("FORGID") );
+						mapHIS.put("forgNumber",rsData.getString("FORGNUMBER") );
+						mapHIS.put("forgName",rsData.getString("FORGNAME") );
     					String datajsonStrHis = JSONObject.toJSONString(mapHIS);
     					
     					
@@ -614,26 +604,51 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     					map.put("FNUMBER", mapB2B.get("fNumber"));
 			        	map.put("FNAME", mapB2B.get("fName"));
 			        	map.put("JSON", datajsonStrB2B);
+			        	 
 			        	
     				}
 		       }   
     		
     			 
-				
-    			if( !"jbYAAAMU2SvM567U".equals(orgid)){//his
-    				String selectSuppSql = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Clinic where fid='"+fid+"' ";
+    			if( "jbYAAAMU2SvM567U".equals(orgid)){//EAS_Warehouse_Cent
+	        		
+	    			String selectSuppSqlB2B = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Cent where fid='"+fid+"' ";
+					List<Map<String, Object>> retsSupB2B = EAISynTemplate.query(ctx,dataBase, selectSuppSqlB2B);
+					if(retsSupB2B.size() == 0 ){//没有 
+						
+					}else{
+						String selectDelete = " delete  EAS_Warehouse_Cent where fid='"+fid+"' ";
+						EAISynTemplate.execute(ctx, dataBase, selectDelete);
+					}  
+					if(rsB2B!=null && rsB2B.size() > 0){
+						String sqlInsert = insertMidTable(ctx,  "EAS_Warehouse_Cent", rsB2B,"fSign");
+						map.put("ERROR",sqlInsert);
+						EAISynTemplate.execute(ctx, dataBase, sqlInsert);
+					}else{
+						 map.put("ERROR", "根据ID"+fid+"找不到对应的仓库信息,没有同步到中间库。");
+					}   
+	        	}else{//EAS_Warehouse_Clinic
+	        		String selectSuppSql = " /*dialect*/ select  FNUMBER from  EAS_Warehouse_Clinic where fid='"+fid+"' ";
     				List<Map<String, Object>> retsSup = EAISynTemplate.query(ctx,dataBase, selectSuppSql);
     				if(retsSup.size() == 0 ){//没有 
     					
     				}else{
     					String selectDelete = " delete    EAS_Warehouse_Clinic where fid='"+fid+"' ";
     					EAISynTemplate.execute(ctx, dataBase, selectDelete);
-    				} 
+    				}
+    				
     				if(rsHIS!=null && rsHIS.size() > 0){
     					String sqlInsert = insertMidTable(ctx,  "EAS_Warehouse_Clinic", rsHIS,"fSign");
     					map.put("ERROR",sqlInsert);
     					EAISynTemplate.execute(ctx, dataBase, sqlInsert);
-    					
+    				} 
+	        	}
+    			
+    			
+    			//if( !"jbYAAAMU2SvM567U".equals(orgid)){//his
+    				 
+    				if(rsHIS!=null && rsHIS.size() > 0){
+    					  
     					flag=false;
     					List<Map<String,String>> eMps = new ArrayList<Map<String,String>>();
     					if(newOrDele == 0 ){
@@ -737,7 +752,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
     					 map.put("ERROR", "根据ID"+fid+"找不到对应的仓库信息,没有同步到中间库。");
     				}    
 					
-    			} 
+    		//	} 
     			getlogInfo(ctx , map,DateBasetype.WAREHOUSE ,processType,flag ,loginfo);
     		}
 		} catch (EASBizException e) {
@@ -1001,6 +1016,9 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 //		data  ="{\"msgId\":\"20221021160707\",\"reqCount\":\"1\",\"operType\":\"0\",\"reqTime\":\"20221021160707\",\"data\":[{\"fArtNo\":\"普通\",\"fBaseUnit\":\"包子\",\"fBrand\":\"医宁\",\"fCreateTime\":\"2022-10-21\",\"fInvUnit\":\"瓶\",\"fKAClass\":\"G01\",\"fMaterialGroup\":\"W303\",\"fModel\":\"普通\",\"fName\":\"10/21 测试商品 222\",\"fNumber\":\"411\",\"fPurUnit\":\"12\",\"fSaleUnit\":\"12\",\"fSpec\":\"普通\",\"fUpdateTime\":\"2022-10-21\"}]}";
 		Map map = (Map) JSONObject.parse(data);
 		 
+		Map mapInData = (Map) JSONObject.parse(data);;
+		mapInData.remove("data");
+		
 		HashMap<String, String> returnMap =new  HashMap<String, String>();
 		returnMap.put("code", "-1");
 		
@@ -1009,7 +1027,8 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			String jsonStr = JSONObject.toJSONString(returnMap);
 			return jsonStr;  
 		}
-		returnMap.put("msgId", map.get("msgId").toString() );
+		String  msgId = map.get("msgId").toString();
+		returnMap.put("msgId", msgId );
 		if (map.get("reqCount")== null || "".equals(map.get("reqCount").toString()) ) { 
 			returnMap.put("msg", "请求数量不能为空。");
 			String jsonStr = JSONObject.toJSONString(returnMap);
@@ -1028,234 +1047,97 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			return jsonStr;  
 		}
 		IMaterial imbiz = MaterialFactory.getLocalInstance(ctx);
-		String  error = new String();
+	 
 		com.alibaba.fastjson.JSONArray  jsonArr = (com.alibaba.fastjson.JSONArray) map.get("data");   
 		//JsonArray returnData = new JsonParser().parse(aa).getAsJsonArray();  
-		boolean flag = true;
+	 
+		int inCount = 1;
+		
+		int thisCount = 0; 
+		com.alibaba.fastjson.JSONArray  thisjsonArr = new com.alibaba.fastjson.JSONArray();
+		
+		StringBuffer thisError = new StringBuffer();
+		StringBuffer allError = new StringBuffer();
 		int  size = jsonArr.size();
 		for( int i = 0 ; i < size ; i++ ){
 			Map dataMap = (Map) jsonArr.get(i);  
 			
-			if("0".equals(map.get("operType").toString())){
-				if (dataMap.get("fNumber")== null || "".equals(dataMap.get("fNumber").toString()) ) { 
-					error = error+ "物料编码不能为空;"; flag = false;
-					continue;
-				}
-				
-				 
-				String  number  = dataMap.get("fNumber").toString() ;
-				try {
-					if ( !"0".equals(map.get("operType").toString()) && imbiz.exists("where number = '"+number+"'") ) { 
-						error = error+ "物料编码已存在;"; flag = false;
-						continue;
-					}
-				} catch (EASBizException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				if (dataMap.get("fName")== null || "".equals(dataMap.get("fName").toString()) ) { 
-					error = error+ "编码为"+dataMap.get("fNumber").toString()+"的名称不能为空"; flag = false;
-					continue;
-				}  
-				/*if (dataMap.get("fModel")== null || "".equals(dataMap.get("fModel").toString()) ) { 
-					error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的型号不能为空";  flag = false;
-					continue;
-				}
-				if (dataMap.get("fArtNo")== null || "".equals(dataMap.get("fArtNo").toString()) ) { 
-					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的货号不能为空"; flag = false;
-					continue;
-				}
-				
-				if (dataMap.get("fBrand")== null || "".equals(dataMap.get("fBrand").toString()) ) { 
-					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的品牌不能为空"; flag = false;
-					continue;
-				}*/
-				if (dataMap.get("fMaterialGroup")== null || "".equals(dataMap.get("fMaterialGroup").toString()) ) { 
-					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的物料类别不能为空"; flag = false;
-					continue;
-				}
-				try {
-					if(!MaterialGroupFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fMaterialGroup").toString()+"'")){
-						error = error+  "编码为"+dataMap.get("fNumber").toString()+"的物料类别不存在"; flag = false;
-						continue;
-					}
-				} catch (EASBizException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-				
-				if (dataMap.get("fCreateTime")!= null &&  !"".equals(dataMap.get("fCreateTime").toString()) ) { 
-					String createTime = dataMap.get("fCreateTime").toString();
-					
-					try {
-						Date date = sdf1.parse(createTime);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						//e.printStackTrace();
-						error = error+ "编码为"+dataMap.get("fNumber").toString()+"的创建时间格式不正确;"; flag = false;
-						continue;
-						
-					}
-				}
-				
-				if (dataMap.get("fUpdateTime")!= null && !"".equals(dataMap.get("fUpdateTime").toString()) ) { 
-					String updateTime = dataMap.get("fUpdateTime").toString(); 
-					try {
-						Date date = sdf1.parse(updateTime);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						//e.printStackTrace();
-						error = error+ "编码为"+dataMap.get("fNumber").toString()+"的最后修改时间格式不正确;"; flag = false;
-						continue;
-						
-					}
-					
-				}
-				
-				if (dataMap.get("fKAClass")== null || "".equals(dataMap.get("fKAClass").toString()) ) { 
-					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的记账分类不能为空"; flag = false;
-					continue;
-				}
-				try {
-					if(!KAClassficationFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fKAClass").toString()+"'")){
-						error = error+  "编码为"+dataMap.get("fNumber").toString()+"的记账分类不存在"; flag = false;
-						continue;
-					}
-				} catch (EASBizException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (dataMap.get("fBaseUnit")== null || "".equals(dataMap.get("fBaseUnit").toString()) ) { 
-					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的基本计量单位不能为空"; flag = false;
-					continue;
-				} 
-				try {
-					if(!MeasureUnitFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fBaseUnit").toString()+"'")){
-						error = error+  "编码为"+dataMap.get("fNumber").toString()+"的基本计量单位不存在"; flag = false;
-						continue;
-					}
-				} catch (EASBizException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				if (dataMap.get("fInvUnit")== null || "".equals(dataMap.get("fInvUnit").toString()) ) { 
-					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的库存计量单位不能为空"; flag = false;
-					continue;
-				}
-				
-				try {
-					if(!MeasureUnitFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fInvUnit").toString()+"'")){
-						error = error+  "编码为"+dataMap.get("fNumber").toString()+"的库存计量单位不存在"; flag = false;
-						continue;
-					}
-				} catch (EASBizException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				
-				if (dataMap.get("fPurUnit")== null || "".equals(dataMap.get("fPurUnit").toString()) ) { 
-					error = error+ "编码为"+dataMap.get("fNumber").toString()+"的采购计量单位不能为空"; flag = false;
-					continue;
-				}
-				
-				try {
-					if(!MeasureUnitFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fPurUnit").toString()+"'")){
-						error = error+  "编码为"+dataMap.get("fNumber").toString()+"的采购计量单位不存在"; flag = false;
-						continue;
-					}
-				} catch (EASBizException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				if (dataMap.get("fSaleUnit")== null || "".equals(dataMap.get("fSaleUnit").toString()) ) { 
-					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的销售计量单位不能为空"; flag = false;
-					continue;
-				} 
-				try {
-					if(!MeasureUnitFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fSaleUnit").toString()+"'")){
-						error = error+  "编码为"+dataMap.get("fNumber").toString()+"的销售计量单位不存在"; flag = false;
-						continue;
-					}
-				} catch (EASBizException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}if("1".equals(map.get("operType").toString())){//修改
-				
-				if (dataMap.get("fNumber")== null || "".equals(dataMap.get("fNumber").toString()) ) { 
-					error = error+ "物料编码不能为空;"; flag = false;
-					continue;
-				}
-				
-				 
-				String  number  = dataMap.get("fNumber").toString() ;
-				try {
-					if (  !imbiz.exists("where number = '"+number+"'") ) { 
-						error = error+ "物料编码不存在;"; flag = false;
-						continue;
-					}
-				} catch (EASBizException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				if (dataMap.get("fName")== null || "".equals(dataMap.get("fName").toString()) ) { 
-					error = error+ "编码为"+dataMap.get("fNumber").toString()+"的名称不能为空"; flag = false;
-					continue;
-				}  
-				/*if (dataMap.get("fModel")== null || "".equals(dataMap.get("fModel").toString()) ) { 
-					error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的型号不能为空";  flag = false;
-					continue;
-				}
-				if (dataMap.get("fArtNo")== null || "".equals(dataMap.get("fArtNo").toString()) ) { 
-					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的货号不能为空"; flag = false;
-					continue;
-				}
-				
-				if (dataMap.get("fBrand")== null || "".equals(dataMap.get("fBrand").toString()) ) { 
-					error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的品牌不能为空"; flag = false;
-					continue;
-				}*/
-				if (dataMap.get("fMaterialGroup")== null || "".equals(dataMap.get("fMaterialGroup").toString()) ) { 
-					error = error+  "编码为"+dataMap.get("fNumber").toString()+"的物料类别不能为空"; flag = false;
-					continue;
-				}
-				try {
-					if(!MaterialGroupFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fMaterialGroup").toString()+"'")){
-						error = error+  "编码为"+dataMap.get("fNumber").toString()+"的物料类别不存在"; flag = false;
-						continue;
-					}
-				} catch (EASBizException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				
-			}else if("2".equals(map.get("operType").toString())){
-				if (dataMap.get("fNumber")== null || "".equals(dataMap.get("fNumber").toString()) ) { 
-					error = error+ "物料编码不能为空;"; flag = false;
-					continue;
-				}
-			}
 			
+			thisError = chaeckMaterial(  ctx,  imbiz,dataMap,map,thisError  );
+			thisjsonArr.add(jsonArr.get(i));
+			if(thisCount == 5 ||  i == (size-1)){
+				thisCount = 0;
+				thisError = new StringBuffer();
+				
+				String jsonStr =  new String();
+				if(thisError.length() ==0){
+					returnMap.put("code", "200");
+					jsonStr = JSONObject.toJSONString(returnMap);
+				}else{
+					returnMap.put("msg", thisError.toString());
+					jsonStr = JSONObject.toJSONString(returnMap);
+					
+					allError = allError.append(thisError);
+				}
+				
+				
+				mapInData.put("msgId", msgId+"-"+inCount);
+				mapInData.put("data", thisjsonArr);
+				thisjsonArr = new com.alibaba.fastjson.JSONArray();
+				
+				Calendar cal = Calendar.getInstance();
+				PurPlatSyncdbLogInfo loginfo = new PurPlatSyncdbLogInfo();
+				cal.setTime(new Date());
+				loginfo.setNumber(cal.getTimeInMillis() + "." + msgId+"-"+inCount);
+				loginfo.setName(msgId+"-"+inCount);
+				loginfo.setSimpleName(msgId+"-"+inCount);
+				loginfo.setDateBaseType(DateBasetype.Material);
+				String version = String.valueOf(cal.getTimeInMillis());
+				loginfo.setVersion(version);
+				loginfo.setUpdateDate(new Date());
+				loginfo.setMessage(com.alibaba.fastjson.JSONObject.toJSONString(mapInData));
+				loginfo.setRespond(jsonStr);
+				loginfo.setStatus(false);
+				loginfo.setIsSync(false);
+				
+				String type = map.get("operType").toString();
+				//0-新增，1-修改，2-禁用
+				if("0".equals(type)){
+					loginfo.setProcessType(DateBaseProcessType.AddNew);
+				}else if("2".equals(type)){
+					loginfo.setProcessType(DateBaseProcessType.Update);
+				}else if("3".equals(type)){
+					loginfo.setProcessType(DateBaseProcessType.DisAble);
+				}
+				
+				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				 
+				String updatetime = sdf1.format(new Date()).substring(11);
+				loginfo.setUpdatetime(Time.valueOf(updatetime));
+				try {
+					PurPlatSyncdbLogFactory.getLocalInstance(ctx).save(loginfo);
+				} catch (EASBizException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				inCount++;
+			}else{
+				thisCount++;
+			}
 			
 		}
 		String jsonStr =  new String();
-		if(flag){
+		if(allError.length() ==0){
 			returnMap.put("code", "200");
 			jsonStr = JSONObject.toJSONString(returnMap);
 		}else{
-			returnMap.put("msg", error);
+			returnMap.put("msg", allError.toString());
 			jsonStr = JSONObject.toJSONString(returnMap);
 		}
 		 
 		
-		Calendar cal = Calendar.getInstance();
+		/*Calendar cal = Calendar.getInstance();
 		PurPlatSyncdbLogInfo loginfo = new PurPlatSyncdbLogInfo();
 		cal.setTime(new Date());
 		loginfo.setNumber(cal.getTimeInMillis() + "." + map.get("msgId"));
@@ -1290,13 +1172,222 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 
+		 */
 		  
 		return jsonStr;  
 	}
 
 	 
-
+	public   StringBuffer chaeckMaterial(Context ctx,IMaterial imbiz,Map dataMap,Map map,StringBuffer error) throws BOSException {
+		if("0".equals(map.get("operType").toString())){
+			if (dataMap.get("fNumber")== null || "".equals(dataMap.get("fNumber").toString()) ) { 
+				error = error.append("物料编码不能为空;");  
+				return error;
+			}
+			
+			 
+			String  number  = dataMap.get("fNumber").toString() ;
+			try {
+				if ( !"0".equals(map.get("operType").toString()) && imbiz.exists("where number = '"+number+"'") ) { 
+					error = error.append("物料编码已存在;");  
+					return error;
+				}
+			} catch (EASBizException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			if (dataMap.get("fName")== null || "".equals(dataMap.get("fName").toString()) ) { 
+				error = error.append("编码为"+dataMap.get("fNumber").toString()+"的名称不能为空");  
+				return error;
+			}  
+			/*if (dataMap.get("fModel")== null || "".equals(dataMap.get("fModel").toString()) ) { 
+				error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的型号不能为空";  flag = false;
+				continue;
+			}
+			if (dataMap.get("fArtNo")== null || "".equals(dataMap.get("fArtNo").toString()) ) { 
+				error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的货号不能为空"; flag = false;
+				continue;
+			}
+			
+			if (dataMap.get("fBrand")== null || "".equals(dataMap.get("fBrand").toString()) ) { 
+				error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的品牌不能为空"; flag = false;
+				continue;
+			}*/
+			if (dataMap.get("fMaterialGroup")== null || "".equals(dataMap.get("fMaterialGroup").toString()) ) { 
+				error = error.append(  "编码为"+dataMap.get("fNumber").toString()+"的物料类别不能为空");  
+				return error;
+			}
+			try {
+				if(!MaterialGroupFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fMaterialGroup").toString()+"'")){
+					error = error.append(  "编码为"+dataMap.get("fNumber").toString()+"的物料类别不存在");  
+					return error;
+				}
+			} catch (EASBizException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+			
+			if (dataMap.get("fCreateTime")!= null &&  !"".equals(dataMap.get("fCreateTime").toString()) ) { 
+				String createTime = dataMap.get("fCreateTime").toString();
+				
+				try {
+					Date date = sdf1.parse(createTime);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					error = error.append( "编码为"+dataMap.get("fNumber").toString()+"的创建时间格式不正确;");  
+					return error;
+					
+				}
+			}
+			
+			if (dataMap.get("fUpdateTime")!= null && !"".equals(dataMap.get("fUpdateTime").toString()) ) { 
+				String updateTime = dataMap.get("fUpdateTime").toString(); 
+				try {
+					Date date = sdf1.parse(updateTime);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+					error = error.append("编码为"+dataMap.get("fNumber").toString()+"的最后修改时间格式不正确;");  
+					return error;
+					
+				}
+				
+			}
+			
+			if (dataMap.get("fKAClass")== null || "".equals(dataMap.get("fKAClass").toString()) ) { 
+				error = error.append( "编码为"+dataMap.get("fNumber").toString()+"的记账分类不能为空");  
+				return error;
+			}
+			try {
+				if(!KAClassficationFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fKAClass").toString()+"'")){
+					error = error.append(  "编码为"+dataMap.get("fNumber").toString()+"的记账分类不存在");  
+					return error;
+				}
+			} catch (EASBizException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (dataMap.get("fBaseUnit")== null || "".equals(dataMap.get("fBaseUnit").toString()) ) { 
+				error = error.append( "编码为"+dataMap.get("fNumber").toString()+"的基本计量单位不能为空");  
+				return error;
+			} 
+			try {
+				if(!MeasureUnitFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fBaseUnit").toString()+"'")){
+					error = error.append( "编码为"+dataMap.get("fNumber").toString()+"的基本计量单位不存在");  
+					return error;
+				}
+			} catch (EASBizException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if (dataMap.get("fInvUnit")== null || "".equals(dataMap.get("fInvUnit").toString()) ) { 
+				error = error.append( "编码为"+dataMap.get("fNumber").toString()+"的库存计量单位不能为空");  
+				return error;
+			}
+			
+			try {
+				if(!MeasureUnitFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fInvUnit").toString()+"'")){
+					error = error.append(  "编码为"+dataMap.get("fNumber").toString()+"的库存计量单位不存在");  
+					return error;
+				}
+			} catch (EASBizException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			if (dataMap.get("fPurUnit")== null || "".equals(dataMap.get("fPurUnit").toString()) ) { 
+				error = error.append( "编码为"+dataMap.get("fNumber").toString()+"的采购计量单位不能为空");  
+				return error;
+			}
+			
+			try {
+				if(!MeasureUnitFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fPurUnit").toString()+"'")){
+					error = error.append(  "编码为"+dataMap.get("fNumber").toString()+"的采购计量单位不存在");  
+					return error;
+				}
+			} catch (EASBizException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if (dataMap.get("fSaleUnit")== null || "".equals(dataMap.get("fSaleUnit").toString()) ) { 
+				error = error.append(  "编码为"+dataMap.get("fNumber").toString()+"的销售计量单位不能为空");  
+				return error;
+			} 
+			try {
+				if(!MeasureUnitFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fSaleUnit").toString()+"'")){
+					error = error.append(  "编码为"+dataMap.get("fNumber").toString()+"的销售计量单位不存在");  
+					return error;
+				}
+			} catch (EASBizException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}if("1".equals(map.get("operType").toString())){//修改
+			
+			if (dataMap.get("fNumber")== null || "".equals(dataMap.get("fNumber").toString()) ) { 
+				error = error.append( "物料编码不能为空;");   
+				return error;
+			}
+			
+			 
+			String  number  = dataMap.get("fNumber").toString() ;
+			try {
+				if (  !imbiz.exists("where number = '"+number+"'") ) { 
+					error = error.append( "物料编码不存在;");  
+					return error;
+				}
+			} catch (EASBizException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			if (dataMap.get("fName")== null || "".equals(dataMap.get("fName").toString()) ) { 
+				error = error.append( "编码为"+dataMap.get("fNumber").toString()+"的名称不能为空");  
+				return error;
+			}  
+			/*if (dataMap.get("fModel")== null || "".equals(dataMap.get("fModel").toString()) ) { 
+				error = error+ "编码为"+dataMap.get("FNUMBER").toString()+"的型号不能为空";  flag = false;
+				continue;
+			}
+			if (dataMap.get("fArtNo")== null || "".equals(dataMap.get("fArtNo").toString()) ) { 
+				error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的货号不能为空"; flag = false;
+				continue;
+			}
+			
+			if (dataMap.get("fBrand")== null || "".equals(dataMap.get("fBrand").toString()) ) { 
+				error = error+  "编码为"+dataMap.get("FNUMBER").toString()+"的品牌不能为空"; flag = false;
+				continue;
+			}*/
+			if (dataMap.get("fMaterialGroup")== null || "".equals(dataMap.get("fMaterialGroup").toString()) ) { 
+				error = error.append( "编码为"+dataMap.get("fNumber").toString()+"的物料类别不能为空");  
+				return error;
+			}
+			try {
+				if(!MaterialGroupFactory.getLocalInstance(ctx).exists(" where number = '"+dataMap.get("fMaterialGroup").toString()+"'")){
+					error = error.append(  "编码为"+dataMap.get("fNumber").toString()+"的物料类别不存在");  
+					return error;
+				}
+			} catch (EASBizException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		}else if("2".equals(map.get("operType").toString())){
+			if (dataMap.get("fNumber")== null || "".equals(dataMap.get("fNumber").toString()) ) { 
+				error = error.append( "物料编码不能为空;");  
+				return error;
+			}
+		}
+       
+       return error;
+   }
 
 	 /**
 	    * 向指定 URL 发送POST方法的请求
@@ -1514,35 +1605,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 						String orgid = rsData.getString("FORGID");
 						
 						String  table = "EAS_Warehouse_Cent";
-						if( null==namemapB2B.get(fid) ||"".equals(namemapB2B.get(fid))  ){// 需要新增
-							String sqlInsert = insertMidTableAll(ctx,  table, rsData ,"fSign");
-							sqls.add(sqlInsert);
-						}else{
-							String midName = namemapB2B.get(fid);
-							String midStatus= statusmapB2B.get(fid);
-							boolean flag = false;
-							String sqlUpdate = " update "+table+" set ";
-							if(!name.equals(midName)){
-								sqlUpdate = sqlUpdate+" FNAME = '"+name+"',";
-								flag = true;
-							}
-							if(!status.equals(midStatus)){ 
-								if("1".equals(status)){
-									sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
-									flag = true;
-								}else if("0".equals(status)){
-									sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
-									flag = true;
-								} else if("2".equals(status)){
-									sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =2,";
-									flag = true;
-								} 
-							}
-							if(flag){
-								sqlUpdate = sqlUpdate+" fSign = 0, FsynTime =sysdate where fid = '"+fid+"'";
-								updatesqls.add(sqlUpdate);
-							}
-						} 
+						 
 						
 						if( !"jbYAAAMU2SvM567U".equals(orgid)){ 
 							table = "EAS_Warehouse_Clinic";
@@ -1553,6 +1616,37 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 							}else{
 								String midName = namemapHIS.get(fid);
 								String midStatus= statusmapHIS.get(fid);
+								boolean flag = false;
+								String sqlUpdate = " update "+table+" set ";
+								if(!name.equals(midName)){
+									sqlUpdate = sqlUpdate+" FNAME = '"+name+"',";
+									flag = true;
+								}
+								if(!status.equals(midStatus)){ 
+									if("1".equals(status)){
+										sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
+										flag = true;
+									}else if("0".equals(status)){
+										sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =1,";
+										flag = true;
+									} else if("2".equals(status)){
+										sqlUpdate = sqlUpdate+" FSTATUS = "+status+", FUPDATETYPE =2,";
+										flag = true;
+									} 
+								}
+								if(flag){
+									sqlUpdate = sqlUpdate+" fSign = 0, FsynTime =sysdate where fid = '"+fid+"'";
+									updatesqls.add(sqlUpdate);
+								}
+							}
+						}else{
+							table = "EAS_Warehouse_Cent";
+							if( null==namemapB2B.get(fid) ||"".equals(namemapB2B.get(fid))  ){// 需要新增
+								String sqlInsert = insertMidTableAll(ctx,  table, rsData ,"fSign");
+								sqls.add(sqlInsert);
+							}else{
+								String midName = namemapB2B.get(fid);
+								String midStatus= statusmapB2B.get(fid);
 								boolean flag = false;
 								String sqlUpdate = " update "+table+" set ";
 								if(!name.equals(midName)){
@@ -1870,7 +1964,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			 "  supp.FCREATORID  Fcreator , to_char( supp.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' )   FcreateTime , to_char( supp.FLASTUPDATETIME ,'yyyy-mm-dd hh24:mi:ss' )  FupdateTime,  supp.FIsInternalCompany  FISGroup , "+
 			 "  admin.FNUMBER  ForgNumber ,admin.FName_l2 ForgName , (case when supp.FUsedStatus = 1 then 0 else  1 end ) FStatus ,admin.Fid Forgtid, (case when supp.FUsedStatus = 1 then 1 else  2 end )  FupdateType ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime "+
 			 "   FROM  T_BD_Supplier  supp    "+
-			 "  inner  join  T_BD_CSSPGroup gro on gro.fid =supp.FBrowseGroupID "+
+			 "  inner  join  T_BD_CSSPGroup gro on gro.fid =supp.FBrowseGroupID  and  gro.fnumber  in (  'G101' ,'G102','G103' ) "+
 			 " inner join  T_ORG_admin    admin  on admin.fid = supp.FCONTROLUNITID "; 
 			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);  
 			if(rs!=null && rs.size() > 0){

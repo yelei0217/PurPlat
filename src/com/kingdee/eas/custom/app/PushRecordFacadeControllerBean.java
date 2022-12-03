@@ -91,19 +91,18 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
  			e.printStackTrace();
 		}
 	}
-
-	@Override
-	protected void _generSaleIssueBill(Context ctx) throws BOSException {
-		IPushRecord ibiz = PushRecordFactory.getLocalInstance(ctx);
-	 	EntityViewInfo view = new EntityViewInfo();
-	 	FilterInfo filter = new FilterInfo();
-	 	filter.getFilterItems().add(new FilterItemInfo("processType", DateBaseProcessType.GSaleIss,CompareType.EQUALS)); //
-	 	filter.getFilterItems().add(new FilterItemInfo("PushStatus", PushStatusEnum.unDo,CompareType.EQUALS)); // 
-	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType", DateBasetype.CGZ_U_MZ_SO,CompareType.EQUALS)); // 
-	 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType", DateBasetype.VMI_U_MZ_SO,CompareType.EQUALS)); // 
-	    filter.setMaskString("#0 and #1 and (#2 or #3)");
-	 	view.setFilter(filter);
+ 
+	//门诊领用 - 门诊高值领用 CGZ_U_MZ_SO 下推 生成 销售出库单
+	private void doGengerSalaIssueBillCGZ(Context ctx){
 	 	try {
+			IPushRecord ibiz = PushRecordFactory.getLocalInstance(ctx);
+		 	EntityViewInfo view = new EntityViewInfo();
+		 	FilterInfo filter = new FilterInfo();
+		 	filter.getFilterItems().add(new FilterItemInfo("processType", DateBaseProcessType.GSaleIss,CompareType.EQUALS)); //
+		 	filter.getFilterItems().add(new FilterItemInfo("PushStatus", PushStatusEnum.unDo,CompareType.EQUALS)); // 
+		 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType", DateBasetype.CGZ_U_MZ_SO,CompareType.EQUALS)); // 
+		    filter.setMaskString("#0 and #1 and #2");
+		 	view.setFilter(filter);
 			PushRecordCollection coll= ibiz.getPushRecordCollection(view);
 			if(coll !=null && coll.size() >0 ){
 				Iterator it = coll.iterator();
@@ -126,39 +125,13 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 							String botpId = PurPlatUtil.getMappIdByFName(ctx,"INM-004"); // 销售订单下推销售出库
 						 	if(botpId!=null && !"".equals(botpId) && saleOrderInfo.getBaseStatus() == BillBaseStatusEnum.AUDITED){
 						 		sourceColl.add(saleOrderInfo);
-// 						 		List<IObjectPK> pks = AppUnit.botp(ctx, "CC3E933B", sourceColl, botpId);
- 						 		List<IObjectPK> pks = AppUnit.botpSave(ctx, "CC3E933B", sourceColl, botpId);
+  						 		List<IObjectPK> pks = AppUnit.botpSave(ctx, "CC3E933B", sourceColl, botpId);
 						 		sourceColl.clear();
 						 		if(pks !=null && pks.size() >0){
-						 			// 如果类型未  VMI_U_MZ_SO 需要修改明细行的更改类型
 						 			IObjectPK issPK = pks.get(0);
-									SaleIssueBillInfo saleIssInfo = iSaleIssue.getSaleIssueBillInfo(issPK);
-									if(pushInfo.getDateBaseType() == DateBasetype.VMI_U_MZ_SO){
-										updateSaleIssInvType(ctx,pks.get(0).toString());
-										
-										//门诊-采购入库 （EAS自动）	VMI_U_MZ_PI 
-										
-										//门诊-销售出库 （EAS自动）	VMI_U_MZ_SS	 
-										
-										//栗喆-采购入库 （EAS自动）	VMI_U_LZ_PI 
-										
-										//栗喆-销售出库 （EAS自动）	VMI_U_LZ_SS	
- 									//	String reqStr =StringEscapeUtils.escapeJson(pushInfo.getReq()); 
-										Gson gson = new Gson();
-										VMISaleOrderDTO m =null;
- 										try {
-											JsonObject dataJson = new JsonParser().parse(pushInfo.getReq()).getAsJsonObject(); 
-											JsonElement modelJE = dataJson.get("data"); // 请求参数data
-											m = gson.fromJson(modelJE, VMISaleOrderDTO.class);
-											VMISaleOrderSupport.doGengerBill(ctx, m);
-										} catch (JsonSyntaxException e) {
-											//purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
-						 					e.printStackTrace();
-						 					pushInfo.setPushStatus(PushStatusEnum.doFail);
-										}
-									}
-								//	IObjectPK issPK = iSaleIssue.submit(saleIssInfo);
+									SaleIssueBillInfo saleIssInfo = iSaleIssue.getSaleIssueBillInfo(issPK); 
 									if(issPK != null && !"".equals(issPK.toString())){
+										//iSaleIssue.submit(saleIssInfo);  //销售出库单 提交
 										PushRecordInfo rInfo = new PushRecordInfo();
 										rInfo.setNumber(saleIssInfo.getNumber());
 										rInfo.setName(issPK.toString());
@@ -189,12 +162,120 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 				e.printStackTrace();
 		} catch (UuidException e) {
 				e.printStackTrace();
+		} catch (BOSException e) {
+ 			e.printStackTrace();
 		} 
+	
+	}
+	
+	//VMI物料领用 - VMI门诊领用 VMI_U_MZ_SO 下推 生成 销售出库单
+	private void doGengerSalaIssueBillVMI(Context ctx){
+	 	try {
+			IPushRecord ibiz = PushRecordFactory.getLocalInstance(ctx);
+		 	EntityViewInfo view = new EntityViewInfo();
+		 	FilterInfo filter = new FilterInfo();
+		 	filter.getFilterItems().add(new FilterItemInfo("processType", DateBaseProcessType.GSaleIss,CompareType.EQUALS)); //
+		 	filter.getFilterItems().add(new FilterItemInfo("PushStatus", PushStatusEnum.unDo,CompareType.EQUALS)); // 
+		 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType", DateBasetype.VMI_U_MZ_SO,CompareType.EQUALS)); // 
+		    filter.setMaskString("#0 and #1 and #2");
+		 	view.setFilter(filter);
+			PushRecordCollection coll= ibiz.getPushRecordCollection(view);
+			if(coll !=null && coll.size() >0 ){
+				Iterator it = coll.iterator();
+				CoreBillBaseCollection sourceColl = new CoreBillBaseCollection();  
+				ISaleOrder iSaleOrder = SaleOrderFactory.getLocalInstance(ctx);
+				ISaleIssueBill iSaleIssue = SaleIssueBillFactory.getLocalInstance(ctx);
+				//IPurInWarehsBill iPurInWarehs = PurInWarehsBillFactory.getLocalInstance(ctx);
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(new Date());
+				CoreBaseCollection updateColl = new CoreBaseCollection();
+				while(it.hasNext()){
+					PushRecordInfo pushInfo = (PushRecordInfo) it.next();
+					if(pushInfo.getName()!=null && !"".equals(pushInfo.getName())){
+						IObjectPK paramIObjectPK = new ObjectUuidPK(BOSUuid.read(pushInfo.getName())); 
+						if(iSaleOrder.exists(paramIObjectPK)){
+							SaleOrderInfo saleOrderInfo = iSaleOrder.getSaleOrderInfo(paramIObjectPK);
+							String botpId = "";//
+							List<IObjectPK> pks = null;//
+							boolean mzFlag = false ;
+							boolean lzFlag = false ;
+							sourceColl.add(saleOrderInfo); 
+							
+							//VMI SO-B2B-LZ-SS 
+							botpId = PurPlatUtil.getMappIdByFName(ctx,"VMI-SO-HIS-MZ-SS");   
+							if(botpId !=null && !"".equals(botpId)){
+								pks = AppUnit.botp(ctx, "CC3E933B", sourceColl, botpId);
+								if(pks!=null && pks.size() > 0){
+									// 门诊 
+									//  // 销售订单-门诊采购入库单（VMI） 
+									botpId = PurPlatUtil.getMappIdByFName(ctx,"SO-HIS-MZ-PI");  
+									if(botpId !=null && !"".equals(botpId)){
+ 										pks = AppUnit.botp(ctx, "783061E3", sourceColl, botpId);
+										if(pks!=null && pks.size() > 0){
+											botpId = PurPlatUtil.getMappIdByFName(ctx,"SO-HIS-MZ-SS"); // 销售订单-门诊销售出库单（VMI）
+											if(botpId !=null && !"".equals(botpId)){
+											pks = AppUnit.botp(ctx, "CC3E933B", sourceColl, botpId);
+											if(pks!=null && pks.size() > 0)
+												mzFlag = true;
+											}
+										}
+									} 
+								
+									// 栗喆
+									botpId = PurPlatUtil.getMappIdByFName(ctx,"SO-HIS-LZ-PI"); // 销售订单-栗喆采购入库单（VMI）
+									if(botpId !=null && !"".equals(botpId)){
+										 pks = AppUnit.botp(ctx, "783061E3", sourceColl, botpId);
+										 if(pks!=null && pks.size() > 0){
+											 botpId = PurPlatUtil.getMappIdByFName(ctx,"SO-HIS-LZ-SS"); // 销售订单-栗喆销售出库单（VMI）
+											 if(botpId !=null && !"".equals(botpId)){
+												 pks = AppUnit.botp(ctx, "CC3E933B", sourceColl, botpId);
+											 if(pks!=null && pks.size() > 0)
+												 lzFlag = true;
+											 }
+										 }
+									}
+								}
+							}
+							sourceColl.clear();
+							if(mzFlag && lzFlag){  
+					 			pushInfo.setPushStatus(PushStatusEnum.doSuccess);
+					 			pushInfo.setDescription(saleOrderInfo.getNumber());
+							}else
+								 pushInfo.setPushStatus(PushStatusEnum.doFail);
+							botpId ="";
+							pks = null;
+						}else
+							 pushInfo.setPushStatus(PushStatusEnum.doFail);
+					}else
+						 pushInfo.setPushStatus(PushStatusEnum.doFail);
+					updateColl.add(pushInfo);
+				}
+				
+				if(updateColl !=null && updateColl.size() >0)
+					ibiz.update(updateColl);
+			}
+		} catch (EASBizException e) {
+				e.printStackTrace();
+		} catch (UuidException e) {
+				e.printStackTrace();
+		} catch (BOSException e) {
+ 			e.printStackTrace();
+		} 
+	
+	}
+	
+	@Override
+	protected void _generSaleIssueBill(Context ctx) throws BOSException { 
+		
+		doGengerSalaIssueBillCGZ(ctx);
+		
+		doGengerSalaIssueBillVMI(ctx);
+		
 	}
     
 	private void updateSaleIssInvType(Context ctx,String fid){
 		if(fid != null && !"".equals(fid)){
-			   String sql = "update T_IM_SaleIssueEntry set FInvUpdateTypeID ='CeUAAAAIdBvC73rf' where FParentID ='"+fid+"'";
+			   String sql = "update T_IM_SaleIssueEntry set FInvUpdateTypeID ='CeUAAAAIdBvC73rf',FSupplierID='jbYAAAVlObc3xn38' where FParentID ='"+fid+"'";
 			   System.out.println(sql);
 			   try {
 				DbUtil.execute(ctx,sql);

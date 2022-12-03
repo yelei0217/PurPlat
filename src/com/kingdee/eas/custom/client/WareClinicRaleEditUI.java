@@ -4,6 +4,8 @@
 package com.kingdee.eas.custom.client;
 
 import java.awt.event.ActionEvent;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -89,7 +91,6 @@ public class WareClinicRaleEditUI extends AbstractWareClinicRaleEditUI
         kdtDEntrys_ClinicName_TextField.setMaxLength(80);
         KDTDefaultCellEditor kdtDEntrys_ClinicName_CellEditor = new KDTDefaultCellEditor(kdtDEntrys_ClinicName_TextField);
         this.kdtDEntrys.getColumn("ClinicName").setEditor(kdtDEntrys_ClinicName_CellEditor);
-   
      
     }
     
@@ -120,7 +121,26 @@ public class WareClinicRaleEditUI extends AbstractWareClinicRaleEditUI
         super.storeFields();
     }
 
-
+	@Override
+	protected void beforeStoreFields(ActionEvent arg0) throws Exception {
+ 		super.beforeStoreFields(arg0); 
+    	Set set = new HashSet();
+ 		for (int i=0,n=kdtEntrys.getRowCount();i<n;i++) {
+			if (com.kingdee.bos.ui.face.UIRuleUtil.isNotNull(kdtEntrys.getCell(i,"warehouse").getValue()))  
+				set.add(kdtEntrys.getCell(i,"warehouse").getValue()); 
+		}
+ 		if(set.size() < kdtEntrys.getRowCount())
+ 			throw new com.kingdee.eas.common.EASBizException(com.kingdee.eas.common.EASBizException.CHECKNUMDUP,new Object[] {"²Ö¿â±àÂë"});
+ 		set.clear();
+ 		for (int i=0,n=kdtDEntrys.getRowCount();i<n;i++) {
+			if (com.kingdee.bos.ui.face.UIRuleUtil.isNotNull(kdtDEntrys.getCell(i,"Clinic").getValue()))  
+				set.add(kdtDEntrys.getCell(i,"Clinic").getValue());
+		}
+ 		if(set.size() < kdtDEntrys.getRowCount())
+ 			throw new com.kingdee.eas.common.EASBizException(com.kingdee.eas.common.EASBizException.CHECKNUMDUP,new Object[] {"ÃÅÕï±àÂë"});
+ 		set.clear();
+	}
+    
     /**
      * output getBizInterface method
      */

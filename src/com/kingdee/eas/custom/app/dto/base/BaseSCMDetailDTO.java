@@ -40,7 +40,15 @@ public class BaseSCMDetailDTO implements Serializable{
 	
 	private String flot ;
 	
+	private String fsupplierid ;
 	
+	
+	public String getFsupplierid() {
+		return fsupplierid;
+	}
+	public void setFsupplierid(String fsupplierid) {
+		this.fsupplierid = fsupplierid;
+	}
 	public String getFlot() {
 		return flot;
 	}

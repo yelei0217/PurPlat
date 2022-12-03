@@ -168,6 +168,25 @@ public class BaseSCMSupport {
 		 if(m.getFbizdate() == null || "".equals(m.getFbizdate()))
 			 result = result +"业务日期不能为空,";
 		
+		 //其他入库类型
+		 if("SK_MZ_OPI".equals(busCode)){
+			 if(m.getFbiztype()== null || "".equals(m.getFbiztype()))
+				 result = result +"需要指定入库类型,";
+			 else{
+				 if(!"3".equals(m.getFbiztype())){
+					 if(m.getFsupplierid() == null || "".equals(m.getFsupplierid()))
+						 result = result +"供应商不能为空,";
+						 else{
+							if(PurPlatUtil.judgeExists(ctx, "S", "", m.getFsupplierid())){
+								if(!PurPlatUtil.judgeExists(ctx, "SP",m.getFstorageorgunitid()  , m.getFsupplierid()))
+									 result = result +"供应商未分配当前组织,";
+								}else
+									 result = result +"供应商不存在,";
+						  }	
+				 }
+			 }
+		 }
+		 
 		 if(busCode.contains("_PO") || busCode.contains("_PI") )	{
 			 if(m.getFsupplierid() == null || "".equals(m.getFsupplierid()))
 				 result = result +"供应商不能为空,";

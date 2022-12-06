@@ -175,57 +175,76 @@ public class PurPlatUtil {
 	     boolean flag = false;
 	     if (VerifyUtil.notNull(msgId) && VerifyUtil.notNull(busCode) ) {
 	    	 String tableName ="";
+	    	 String filed = "";
 	    	 if("GZ_LZ_PO".equals(busCode)||"GZ_MZ_PO".equals(busCode)||"ZZ_YC_LZ_PO".equals(busCode)||"DZ_MZ_PO".equals(busCode)||"ZZ_YC_MZ_PO".equals(busCode)||"SO_LZ_PO".equals(busCode)){
 	    		 tableName =" T_SM_PurOrder ";
+	    		 filed ="FSTORAGEORGUNITID";
 	    	 }else if("GZ_LZ_SO".equals(busCode)||"CGZ_U_MZ_SO".equals(busCode)||"DZ_MZ_SO".equals(busCode)||"CGZ_U_MZ_SO".equals(busCode)||"VMI_U_MZ_SO".equals(busCode)
 	    			 ||"ZZ_YC_LZ_SO".equals(busCode)||"ZZ_YC_MZ_SO".equals(busCode)||"SO_LZ_SO".equals(busCode)||"SOB_LZ_SO".equals(busCode)){
 	    		 tableName =" T_SD_SALEORDER ";
+	    		 filed ="FSTORAGEORGUNITID";
 	    	 }else if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)||"VMIB_MZ_PI".equals(busCode)||"DZ_MZ_PI".equals(busCode)
 	    			 ||"VMI2C_LZ_PI".equals(busCode)||"VMI2CB_LZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)
 	    			 ||"YC_PI".equals(busCode)||"YX_MZ_PI".equals(busCode)||"ZZ_YC_MZ_PI".equals(busCode)
 	    			 ||"GZB_MZ_PI".equals(busCode)||"GZB_LZ_PI".equals(busCode)||"DZB_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)  
 	    			 ||"VMI2CB_LZ_PI".equals(busCode)||"VMIB_MZ_PI".equals(busCode)||"VMI_U_MZ_PI".equals(busCode)||"ZZ_YC_MZ_PI_C".equals(busCode) ){
 	    		 tableName =" T_IM_PurInWarehsBill ";
+	    		 filed ="FSTORAGEORGUNITID";
 	    	 }else if("GZ_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMI_LZ_SS".equals(busCode)||"VMIB_LZ_SS".equals(busCode)||"SO_LZ_SS".equals(busCode)
 	    			 ||"CGZ_U_MZ_SS".equals(busCode)||"CDZ_U_MZ_SS".equals(busCode)||"VMI_U_MZ_SS_VMI".equals(busCode)||"VMI_U_MZ_SS".equals(busCode)
 	    			 ||"VMI_U_LZ_SS".equals(busCode)||"YX_LZ_SS".equals(busCode)||"YX_MZ_SS".equals(busCode)||"ZZ_YC_LZ_SS".equals(busCode)||
 	    			 "ZZ_YC_MZ_SS".equals(busCode)||"GZB_LZ_SS".equals(busCode)){
 	    		 tableName =" T_IM_SaleIssueBill ";
+	    		 filed ="FSTORAGEORGUNITID";
 	    	 }else if("GZ_CK_LZ_CJ".equals(busCode)||"VMI_CK_LZ_CJ".equals(busCode)||"VMI_CK_MZ_CJ".equals(busCode)||"DZ_CK_MZ_CJ".equals(busCode)||
 	    			 "YC_CK_MZ_CJ".equals(busCode)||"YX_CK_LZ_CJ".equals(busCode)||"YX_CK_MZ_CJ".equals(busCode)){
 	    		 tableName =" T_CL_CostAdjustBill ";
+	    		 filed ="FSTORAGEORGUNITID";
 	    	 }else if("GZ_CK_LZ_AP".equals(busCode)||"GZ_CK_MZ_AP".equals(busCode)||"VMI_CK_LZ_AP".equals(busCode)||"VMI_CK_MZ_AP".equals(busCode)||
 	    		  "DZ_CK_MZ_AP".equals(busCode)||"YC_CK_MZ_AP".equals(busCode)||"YX_CK_LZ_AP".equals(busCode)||"YX_CK_MZ_AP".equals(busCode)){
 	    		 tableName =" T_AP_OtherBill ";
+	    		 filed ="FCOMPANYID";
 	    	 }else if("GZ_CK_LZ_P".equals(busCode)||"VMI_CK_LZ_P".equals(busCode)||"DZ_CK_MZ_P".equals(busCode)||"YC_CK_MZ_P".equals(busCode)||
 	    		  "YX_CK_LZ_P".equals(busCode)||"YX_CK_MZ_P".equals(busCode)){
 	    		 tableName =" T_CAS_PaymentBill ";
+	    		 filed ="FCOMPANYID";
 	    	 }else if("GZ_CK_LZ_R".equals(busCode)||"VMI_CK_LZ_R".equals(busCode)||"YX_CK_LZ_R".equals(busCode)){
 	    		 tableName =" T_CAS_ReceivingBill ";
+	    		 filed ="FCOMPANYID";
 	    	 }else if("GZ_CK_LZ_AR".equals(busCode)||"GZ_CK_MZ_AP".equals(busCode)||"VMI_CK_LZ_AR".equals(busCode)){
 	    		 tableName =" T_AR_OtherBill ";
-		     
+	    		 filed ="FCOMPANYID";
 		     }else if("SK_MZ_OPI".equals(busCode)){
-    		 tableName =" T_IM_OtherInWarehsBill ";
-	     
+		    	 tableName =" T_IM_OtherInWarehsBill ";
+		    	 filed ="FSTORAGEORGUNITID";
 		     }else if("SK_MZ_OSS".equals(busCode)){
 		    	 tableName =" T_IM_OtherIssueBill ";
+		    	 filed ="FSTORAGEORGUNITID";
 		     }
 	    	 
-	        try {
-	    		String sql = " select count(1) C from "+tableName+" where CFMsgId = '"+msgId+"' ";
-	         IRowSet rs = DbUtil.executeQuery(ctx, sql);
-	         if (rs.next() && 
-	           rs.getObject("C") != null && !"".equals(rs.getObject("C").toString()) && 
-	           Integer.valueOf(rs.getObject("C").toString()).compareTo(Integer.valueOf(1)) > 0) {
-	           flag = true;
-	         }
-	       }
-	       catch (BOSException e) {
-	         e.printStackTrace();
-	       } catch (SQLException e){
-	         e.printStackTrace();
-	       } 
+	    	 String whereStr ="";
+	    	 	if(busCode.contains("_MZ_"))
+	    	 		whereStr = filed +" !='jbYAAAMU2SvM567U' ";
+	    	 else
+	    		 if(busCode.contains("_LZ_"))
+	    			 whereStr = filed +" ='jbYAAAMU2SvM567U' ";
+	    	 	
+	    	 	if(!"".equals(whereStr)){
+	    	 		 try {
+	    		    		String sql = " select count(1) C from "+tableName+" where "+whereStr+" and CFMsgId = '"+msgId+"' ";
+	    		         IRowSet rs = DbUtil.executeQuery(ctx, sql);
+	    		         if (rs.next() && rs.getObject("C") != null && !"".equals(rs.getObject("C").toString()) ) {
+ 	    		        	if(Integer.parseInt(rs.getObject("C").toString()) > 0) 
+	    		        		flag = true;
+	    		         }
+	    		       }
+	    		       catch (BOSException e) {
+	    		         e.printStackTrace();
+	    		       } catch (SQLException e){
+	    		         e.printStackTrace();
+	    		       } 
+	    	 	}
+	       
 	     }
 	     return flag;
 	  }
@@ -252,11 +271,10 @@ public class PurPlatUtil {
 				 String sql = "select count(1) C from "+tableName+" a inner join t_bd_material b on a.FMATERIALID =b.FID where a.FSTORAGEORGUNITID ='"+orgId+"' and b.FNUMBER ='"+mno+"' and a.FLOT='"+lot+"' ";
 				 try {
 					IRowSet rs = DbUtil.executeQuery(ctx, sql);
-					 if (rs.next() && 
-					   rs.getObject("C") != null && !"".equals(rs.getObject("C").toString()) && 
-					   Integer.valueOf(rs.getObject("C").toString()).compareTo(Integer.valueOf(1)) > 0) {
-					   flag = true;
-					 }
+					 if (rs.next() && rs.getObject("C") != null && !"".equals(rs.getObject("C").toString())) {
+ 				        if(Integer.parseInt(rs.getObject("C").toString()) > 0) 
+				        	flag = true;
+ 					 }
 				} catch (NumberFormatException e) {
  					e.printStackTrace();
 				} catch (BOSException e) {
@@ -297,7 +315,7 @@ public class PurPlatUtil {
  		    	 } else if("CUSS".equals(oper)){
 		    		 sql = " select count(1) C from T_BD_CustomerSaleInfo where FCustomerID ='"+fid+"' and FSaleOrgID ='"+orgId+"' ";
  		    	 } else if("PurOrder".equals(oper)){
-		    		 sql = " select count(1) C from T_SM_PurOrder where FNumber ='"+fid+"' and FPurchaseOrgUnitID ='"+orgId+"' ";
+		    		 sql = " select count(1) C from T_SM_PurOrder where CFMsgId ='"+fid+"' and FPurchaseOrgUnitID ='"+orgId+"' ";
  		    	 }   else if("PurOrderEntry".equals(oper)){
 		    		 sql = " select count(1) C from T_SM_PurOrderEntry where CFMsgId ='"+fid+"' and FStorageOrgUnitID ='"+orgId+"' ";
  		    	 } else if("Warehouse".equals(oper)){
@@ -307,10 +325,9 @@ public class PurPlatUtil {
 		    	 if(VerifyUtil.notNull(oper) ){
 		    	      try {
 					         IRowSet rs = DbUtil.executeQuery(ctx, sql);
-					         if (rs.next() && 
-					           rs.getObject("C") != null && !"".equals(rs.getObject("C").toString()) && 
-					           Integer.valueOf(rs.getObject("C").toString()).compareTo(Integer.valueOf(1)) >= 0) {
-					           flag = true;
+					         if (rs.next() && rs.getObject("C") != null && !"".equals(rs.getObject("C").toString()) ) {
+ 					           if(Integer.parseInt(rs.getObject("C").toString()) > 0) 
+						        	flag = true;
 					         }
 					       }
 					       catch (BOSException e) {

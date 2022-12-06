@@ -81,7 +81,7 @@ public class BaseSCMSupport {
 					}
 					if(m!=null){
 						// 判断msgId 是否存在SaleOrderDTO
-						if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+						if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, m.getId())){
 							result = VMISaleOrderSupport.judgeModel(ctx,m,busCode);
 							VMISaleOrderSupport.doInsertBill(ctx, m, busCode,jsonStr);
 						}else
@@ -98,7 +98,7 @@ public class BaseSCMSupport {
 						}
 						if(m!=null){
 							// 判断msgId 是否存在SaleOrderDTO
-							if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+							if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, m.getId())){
 								result = judgeModel(ctx,m,busCode);
 								if("".equals(result))
 								{
@@ -173,7 +173,7 @@ public class BaseSCMSupport {
 			 if(m.getFbiztype()== null || "".equals(m.getFbiztype()))
 				 result = result +"需要指定入库类型,";
 			 else{
-				 if(!"3".equals(m.getFbiztype())){
+				 if("3".equals(m.getFbiztype())){
 					 if(m.getFsupplierid() == null || "".equals(m.getFsupplierid()))
 						 result = result +"供应商不能为空,";
 						 else{

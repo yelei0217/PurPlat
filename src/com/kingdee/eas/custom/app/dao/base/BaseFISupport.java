@@ -45,53 +45,61 @@ public class BaseFISupport {
 			DateBaseProcessType processType = DateBaseProcessType.AddNew;
 			DateBasetype baseType = DateBasetype.GZ_CK_LZ_AP;
 		
-			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
-			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
-			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
-			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-			
-			JsonElement modelJE = returnData.get("data"); // 请求参数data
-			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
-					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
-					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
-				msgId = msgIdJE.getAsString() ;
-				busCode = busCodeJE.getAsString() ;
-				reqTime = reqTimeJE.getAsString() ;
-  				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
-				
-				// 记录日志
-//				IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
-  				PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(),"", "", "");
+			JsonObject returnData = null ;
+			try {
+				returnData = new JsonParser().parse(jsonStr).getAsJsonObject();
+				if(returnData != null ){
+					JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+					JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+					JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id 
+					JsonElement modelJE = returnData.get("data"); // 请求参数data
+					if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+							busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+							reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+						msgId = msgIdJE.getAsString() ;
+						busCode = busCodeJE.getAsString() ;
+						reqTime = reqTimeJE.getAsString() ;
+		  				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
+						
+						// 记录日志
+//						IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+		  				PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(),"", "", "");
 
-  				BaseFIDTO m = null;
-				try {
-					m = gson.fromJson(modelJE, BaseFIDTO.class);
-				} catch (JsonSyntaxException e) {
-					purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
- 					e.printStackTrace();
-				}
-				if(m != null){
-					// 判断msgId 是否存在SaleOrderDTO
-					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-						result = judgeModel(ctx,m,busCode);
-						if("".equals(result))
-						{
-							if(busCode.contains("_AP"))
-								ApOtherSupport.doSaveBill(ctx,m,busCode);
-							else if(busCode.contains("_AR"))
-								ArOtherSupport.doSaveBill(ctx, m,busCode);
-							else if(busCode.contains("_R"))
-								ReceiptSupport.doInsertBill(ctx,m,busCode);
-	 						 purPlatMenu = PurPlatSyncEnum.SUCCESS;
-						}else
-							purPlatMenu = PurPlatSyncEnum.EXCEPTION_SERVER;
+		  				BaseFIDTO m = null;
+						try {
+							m = gson.fromJson(modelJE, BaseFIDTO.class);
+						} catch (JsonSyntaxException e) {
+							purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+		 					e.printStackTrace();
+						}
+						if(m != null){
+							// 判断msgId 是否存在SaleOrderDTO
+							if(!PurPlatUtil.judgeMsgIdExists(ctx,baseType.getValue(), busCode, msgId)){
+								result = judgeModel(ctx,m,busCode);
+								if("".equals(result))
+								{
+									if(busCode.contains("_AP"))
+										ApOtherSupport.doSaveBill(ctx,m,busCode);
+									else if(busCode.contains("_AR"))
+										ArOtherSupport.doSaveBill(ctx, m,busCode);
+									else if(busCode.contains("_R"))
+										ReceiptSupport.doInsertBill(ctx,m,busCode);
+			 						 purPlatMenu = PurPlatSyncEnum.SUCCESS;
+								}else
+									purPlatMenu = PurPlatSyncEnum.EXCEPTION_SERVER;
+							}else
+								purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
+						}else 
+							purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+					
 					}else
-						purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
-				}else 
-					purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
-			
-			}else
- 			purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+		 			purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+				}
+			} catch (JsonSyntaxException e1) {
+				purPlatMenu = PurPlatSyncEnum.JSON_ERROR; 
+ 				e1.printStackTrace();
+			}
+	
 		}else
 			purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
 		

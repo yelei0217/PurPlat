@@ -47,6 +47,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 		this.timer.reset(); 
 //		 String res =  PurOrderSupport.syncBill(ctx, jsonStr);
 		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
+		 System.out.println(res);
 		 logger.info("do savePurOrder method cost :" + this.timer.msValue());
 		 return res;
 	}
@@ -58,6 +59,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 		this.timer.reset(); 
 		// String res =  SaleOrderSupport.syncBill(ctx, jsonStr);
 		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
+		 System.out.println(res);
 		 logger.info("do _saveSaleOrder method cost :" + this.timer.msValue());
 		 return res;	
 	}
@@ -68,6 +70,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 			throws BOSException {
 		this.timer.reset(); 
 		 String res =  PurOrderSupport.doCloseRow(ctx, jsonStr);
+		 System.out.println(res);
 		 logger.info("do _purOrderCloseRow doCloseRow method cost :" + this.timer.msValue());
 		 return res;	
 	}
@@ -78,6 +81,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 			throws BOSException {
 		this.timer.reset(); 
 		 String res =  SaleOrderSupport.doCloseRow(ctx, jsonStr);
+		 System.out.println(res);
 		 logger.info("do _saleOrderCloseRow doCloseRow method cost :" + this.timer.msValue());
 		 return res;	
 	}
@@ -88,6 +92,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 			throws BOSException {
 		this.timer.reset(); 
 		String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
+		System.out.println(res);
 		logger.info("do _saleOrderCloseRow doCloseRow method cost :" + this.timer.msValue());
 		return res;	
 	}
@@ -99,6 +104,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 		this.timer.reset(); 
 //		 String res =  SaleIssueSupport.doSync(ctx, jsonStr);
 		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
+		 System.out.println(res);
 		 logger.info("do SyncBill2EASFacadeControllerBean saveSaleIss method cost :" + this.timer.msValue());
 		 return res;	
 	}
@@ -108,6 +114,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected String _saveApOtherBill(Context ctx, String jsonStr)
 			throws BOSException {
 		 String res =  BaseFISupport.syncBill(ctx, jsonStr);
+		 System.out.println(res);
 		 logger.info("do BaseFISupport _saveApOtherBill method cost :" + this.timer.msValue());
 		return res;	
 	}
@@ -117,6 +124,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected String _saveArOtherBill(Context ctx, String jsonStr)
 			throws BOSException {
 		String res =  BaseFISupport.syncBill(ctx, jsonStr);
+		System.out.println(res);
 		 logger.info("do BaseFISupport _saveArOtherBill method cost :" + this.timer.msValue());
 		return res;		
 	}
@@ -127,6 +135,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 			throws BOSException {
 		 this.timer.reset(); 
 		 String res =  CostAdjusSupport.doSync(ctx, jsonStr);
+		 System.out.println(res);
 		 logger.info("do _saveCostAdjus _saveCostAdjus method cost :" + this.timer.msValue());
 		 return res;	
 	}
@@ -152,6 +161,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected String _saveReceiveBill(Context ctx, String jsonStr)
 			throws BOSException {
 		String res =  BaseFISupport.syncBill(ctx, jsonStr);
+		System.out.println(res);
 		 logger.info("do BaseFISupport _saveReceiveBill method cost :" + this.timer.msValue());
 		return res;	
 	}
@@ -165,6 +175,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected String _rollBackPurchInBill(Context ctx, String jsonStr)
 			throws BOSException {
 		String res =  PurInWarehsSupport.doRollBackBill(ctx, jsonStr);
+		System.out.println(res);
 		logger.info("do PurInWarehsSupport _rollBackPurchInBill method cost :" + this.timer.msValue());
 		return res;	
 	}
@@ -179,6 +190,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected String _rollBackSaleIssBill(Context ctx, String jsonStr)
 			throws BOSException {
 		String res =  SaleIssueSupport.doRollBackBill(ctx, jsonStr);
+		System.out.println(res);
 		logger.info("do _rollBackSaleIssBill SaleIssueSupport method cost :" + this.timer.msValue());
 		return res;	
 	}
@@ -192,6 +204,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected String _saveOtherPurIn(Context ctx, String jsonStr)
 			throws BOSException {
 		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
+		 System.out.println(res);
 		 logger.info("do SyncBill2EASFacadeControllerBean _saveOtherPurIn method cost :" + this.timer.msValue());
 		 return res;
 	}
@@ -205,6 +218,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected String _saveOtherSaleIss(Context ctx, String jsonStr)
 			throws BOSException {
 		 String res =  BaseSCMSupport.syncBill(ctx, jsonStr);
+		 System.out.println(res);
 		 logger.info("do SyncBill2EASFacadeControllerBean _saveOtherSaleIss method cost :" + this.timer.msValue());
 		 return res;
 	}
@@ -218,6 +232,7 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	@Override
 	protected String _savePurInCGW(Context ctx, String jsonStr)throws BOSException {
 		 String res =  PurInCGWSupport.syncBill(ctx, jsonStr);
+		 System.out.println(res);
  		 logger.info("do SyncBill2EASFacadeControllerBean _savePurInCGW method cost :" + this.timer.msValue());
 		 return res;
  		

@@ -105,7 +105,7 @@ public class PurInCGWSupport {
 				}
 				if(m !=null){
 					// ÅÐ¶ÏmsgId ÊÇ·ñ´æÔÚSaleOrderDTO
-					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+					if(!PurPlatUtil.judgeMsgIdExists(ctx,baseType.getValue(), busCode, msgId)){
 						result = judgeModel(ctx,m,busCode);
 						if("".equals(result))
 						{

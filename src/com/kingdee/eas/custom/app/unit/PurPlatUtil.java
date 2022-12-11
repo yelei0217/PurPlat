@@ -10,12 +10,21 @@ import java.util.Map;
 
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
+import com.kingdee.eas.common.EASBizException;
 import com.kingdee.eas.custom.util.VerifyUtil;
 import com.kingdee.eas.util.app.DbUtil;
 import com.kingdee.jdbc.rowset.IRowSet;
 
 public class PurPlatUtil {
 
+	
+	 public final static Map<String, String> parentTypeValue = new HashMap<String, String>() {
+	 {
+	         put("80","1");
+	            
+	      }
+	 };      
+	            
     public final static Map<String, String> dateTypeMenuMp = new HashMap<String, String>() {
         {
             put("ORGUNIT","1");
@@ -146,6 +155,14 @@ public class PurPlatUtil {
         }
     };
 	 
+    /**
+	 *  获取当前时间 格式化
+	 * @return yyyyMMddHHmmss
+	 */
+	public static String getCurrentDateStr(){
+  		return new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
+	}
+	
 	/**
 	 *  获取当前时间 格式化
 	 * @return yyyyMMddHHmmss
@@ -171,18 +188,18 @@ public class PurPlatUtil {
 	 * @param msgId
 	 * @return
 	 */
-	public static boolean judgeMsgIdExists(Context ctx, String busCode,String msgId) {
+	public static boolean judgeMsgIdExists(Context ctx,String typeVal, String busCode,String msgId) {
 	     boolean flag = false;
 	     if (VerifyUtil.notNull(msgId) && VerifyUtil.notNull(busCode) ) {
 	    	 String tableName ="";
 	    	 String filed = "";
 	    	 if("GZ_LZ_PO".equals(busCode)||"GZ_MZ_PO".equals(busCode)||"ZZ_YC_LZ_PO".equals(busCode)||"DZ_MZ_PO".equals(busCode)||"ZZ_YC_MZ_PO".equals(busCode)||"SO_LZ_PO".equals(busCode)){
 	    		 tableName =" T_SM_PurOrder ";
-	    		 filed ="FSTORAGEORGUNITID";
+	    		 filed ="FCOMPANYORGUNITID";
 	    	 }else if("GZ_LZ_SO".equals(busCode)||"CGZ_U_MZ_SO".equals(busCode)||"DZ_MZ_SO".equals(busCode)||"CGZ_U_MZ_SO".equals(busCode)||"VMI_U_MZ_SO".equals(busCode)
 	    			 ||"ZZ_YC_LZ_SO".equals(busCode)||"ZZ_YC_MZ_SO".equals(busCode)||"SO_LZ_SO".equals(busCode)||"SOB_LZ_SO".equals(busCode)){
 	    		 tableName =" T_SD_SALEORDER ";
-	    		 filed ="FSTORAGEORGUNITID";
+	    		 filed ="FCOMPANYORGUNITID";
 	    	 }else if("GZ_LZ_PI".equals(busCode)||"GZ_MZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)||"VMIB_MZ_PI".equals(busCode)||"DZ_MZ_PI".equals(busCode)
 	    			 ||"VMI2C_LZ_PI".equals(busCode)||"VMI2CB_LZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)||"VMI_U_LZ_PI".equals(busCode)||"VMI_MZ_PI".equals(busCode)
 	    			 ||"YC_PI".equals(busCode)||"YX_MZ_PI".equals(busCode)||"ZZ_YC_MZ_PI".equals(busCode)
@@ -222,7 +239,7 @@ public class PurPlatUtil {
 		    	 filed ="FSTORAGEORGUNITID";
 		     }
 	    	 
-	    	 String whereStr ="";
+	    	 String whereStr =" ";
 	    	 	if(busCode.contains("_MZ_"))
 	    	 		whereStr = filed +" !='jbYAAAMU2SvM567U' ";
 	    	 else
@@ -231,7 +248,7 @@ public class PurPlatUtil {
 	    	 	
 	    	 	if(!"".equals(whereStr)){
 	    	 		 try {
-	    		    		String sql = " select count(1) C from "+tableName+" where "+whereStr+" and CFMsgId = '"+msgId+"' ";
+	    		    	 String sql = " select count(1) C from "+tableName+" where "+whereStr+" and CFBusCode = '"+typeVal+"' and CFMsgId = '"+msgId+"' ";
 	    		         IRowSet rs = DbUtil.executeQuery(ctx, sql);
 	    		         if (rs.next() && rs.getObject("C") != null && !"".equals(rs.getObject("C").toString()) ) {
  	    		        	if(Integer.parseInt(rs.getObject("C").toString()) > 0) 
@@ -493,6 +510,48 @@ public class PurPlatUtil {
 	 * @param purOrgId
 	 * @return
 	 */
+	public static Map<String,String> getOrderRaleMapByMsgId(Context ctx,String orgId,String mId,String entryId,String oper,String typeVal){
+		Map<String,String> mp = null ;
+		if(VerifyUtil.notNull(mId) && VerifyUtil.notNull(orgId) && VerifyUtil.notNull(oper)  && VerifyUtil.notNull(typeVal)  && VerifyUtil.notNull(entryId) ){
+			String  sql = " select a.FID ,a.FNumber,b.FID EntryID,b.FSEQ  from  ";
+			 if("P".endsWith(oper)){
+				 sql =sql+" T_SM_PurOrder a inner join T_SM_PurOrderEntry b ";
+	    	 }else if("S".equals(oper)){
+	    		 sql =sql+" T_SD_SaleOrder a inner join T_SD_SaleOrderEntry b ";
+	    	 } 
+			sql =sql+" on a.FID = b.FParentID where a.CFMSGID = '"+mId+"' and b.CFMSGID ='"+entryId+"'and a.CFBusCode = '"+typeVal+"' and a.FCompanyOrgUnitID = '"+orgId+"' ";
+		     try {
+		    	 mp = new HashMap<String,String>();
+		         IRowSet rs = DbUtil.executeQuery(ctx, sql);
+		         if (rs.next()){
+		        	 if(rs.getObject("FID")!=null &&!"".equals(rs.getObject("FID").toString()))
+		        		 mp.put("id", rs.getObject("FID").toString());
+		        	  
+		        	 if(rs.getObject("FNumber")!=null &&!"".equals(rs.getObject("FNumber").toString()))
+		        		 mp.put("number", rs.getObject("FNumber").toString()); 
+		        	 
+		         	 if(rs.getObject("EntryID")!=null &&!"".equals(rs.getObject("EntryID").toString()))
+		        		 mp.put("eid", rs.getObject("EntryID").toString()); 
+		         	 
+		         	 if(rs.getObject("FSEQ")!=null &&!"".equals(rs.getObject("FSEQ").toString()))
+		        		 mp.put("seq", rs.getObject("FSEQ").toString()); 
+		         }
+		       }
+		       catch (BOSException e) {
+		         e.printStackTrace();
+		       } catch (SQLException e) {
+		         e.printStackTrace();
+		       } 
+			
+		}
+		return mp;
+	}
+	/**
+	 *  通过 采购组织ID 获取 采购组织对应的控制单元ID
+	 * @param ctx
+	 * @param purOrgId
+	 * @return
+	 */
 	public static Map<String,String> getOrderEntryMapByMsgId(Context ctx,String orgId,String mId,String oper){
 		 Map<String,String> mp = null ;
  		if(VerifyUtil.notNull(mId) && VerifyUtil.notNull(orgId) && VerifyUtil.notNull(oper) ){
@@ -640,5 +699,37 @@ public class PurPlatUtil {
 	    }
 	 }
 	 
+	 /**
+	  * 判断仓库是否结束初始化
+	  * @param ctx
+	  * @param storageOrgId
+	  * @param warehouseId
+	  * @return
+	  * @throws EASBizException
+	  */
+		public static boolean getWareIsStarted(Context ctx,String storageOrgId,String warehouseId) throws EASBizException{
+			boolean flag = false;
+			try {
+				if(storageOrgId !=null && !"".equals(storageOrgId) && warehouseId !=null && !"".equals(warehouseId)){
+					String sql ="select sw.FIsStarted from T_DB_SOAccreditWH sw "+
+					" inner join T_DB_WAREHOUSE w on sw.FWAREHOUSEID = w.FID "+
+					" where w.FID ='"+warehouseId+"' and w.FSTORAGEORGID = '"+storageOrgId+"' and w.FWhState = 1 and w.FTransState = 1 ";
+					 IRowSet rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
+					 if(rs!=null && rs.size() > 0){
+						  if(rs.next()){		
+							 if(rs.getObject("FIsStarted")!=null && !"".equals(rs.getObject("FIsStarted").toString()))
+								 if("1".equals(rs.getObject("FIsStarted").toString()))
+									 flag = true;
+						  }
+					 }		
+				}
+			} catch (BOSException e) {
+	 			e.printStackTrace();
+			} catch (SQLException e) {
+	 			e.printStackTrace();
+			}
+			return flag;
+		}
+		
 
 }

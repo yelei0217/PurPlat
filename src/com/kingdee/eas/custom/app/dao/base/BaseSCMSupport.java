@@ -39,7 +39,6 @@ import com.kingdee.eas.custom.app.unit.PurPlatUtil;
  *	供应链 同步基础类
  */
 public class BaseSCMSupport {
-
 	public static String syncBill(Context ctx,String jsonStr){
 		String result = null;
 		Gson gson = new Gson();
@@ -47,85 +46,92 @@ public class BaseSCMSupport {
 		PurPlatSyncEnum purPlatMenu = PurPlatSyncEnum.SUCCESS;
 		String msgId = "";
 		String busCode ="";
-		String reqTime ="";
-		
+		String reqTime =""; 
 		if(jsonStr != null && !"".equals(jsonStr)){
 		    System.out.println("************************json begin****************************");
 		    System.out.println("#####################jsonStr################=" + jsonStr);
 			DateBaseProcessType processType = DateBaseProcessType.AddNew;
-			DateBasetype baseType = DateBasetype.GZ_LZ_SS;
-			
-			JsonObject returnData = new JsonParser().parse(jsonStr).getAsJsonObject();  // json 转成对象
-			JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
-			JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
-			JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
-		
-			JsonElement modelJE = returnData.get("data"); // 请求参数data
-			if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
-					busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
-					reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
-				msgId = msgIdJE.getAsString() ;
-				busCode = busCodeJE.getAsString() ;
-				reqTime = reqTimeJE.getAsString() ;
-				baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
-				// 记录日志
-			//	IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
-				PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), "", "", "");
-				if("VMI_U_MZ_SO".equals(busCode)){
-					VMISaleOrderDTO m =null;
-					try {
-						m = gson.fromJson(modelJE, VMISaleOrderDTO.class);
-					} catch (JsonSyntaxException e) {
-						purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
-	 					e.printStackTrace();
-					}
-					if(m!=null){
-						// 判断msgId 是否存在SaleOrderDTO
-						if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, m.getId())){
-							result = VMISaleOrderSupport.judgeModel(ctx,m,busCode);
-							VMISaleOrderSupport.doInsertBill(ctx, m, busCode,jsonStr);
-						}else
-							purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
-					}else
-						purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
-				}else{
-					  BaseSCMDTO m =null;
-						try {
-							m = gson.fromJson(modelJE, BaseSCMDTO.class);
-						} catch (JsonSyntaxException e) {
-							purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
-		 					e.printStackTrace();
-						}
-						if(m!=null){
-							// 判断msgId 是否存在SaleOrderDTO
-							if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, m.getId())){
-								result = judgeModel(ctx,m,busCode);
-								if("".equals(result))
-								{
-									if(busCode.contains("_SO"))
-										SaleOrderSupport.doInsertBill(ctx,m,busCode);
-									else if(busCode.contains("_PO"))
-										PurOrderSupport.doInsertBill(ctx, m,busCode);
-									else if(busCode.contains("_PI"))
-										PurInWarehsSupport.doSaveBill(ctx,m,busCode);
-									else if(busCode.contains("_SS"))
-										SaleIssueSupport.doSaveBill(ctx,m,busCode);
-									else if("SK_MZ_OPI".equals(busCode))
-										OtherPurInSupport.doSaveBill(ctx,m,busCode);
-									else if("SK_MZ_OSS".equals(busCode))
-										OtherSaleIssSupport.doSaveBill(ctx,m,busCode);
-		 							 purPlatMenu = PurPlatSyncEnum.SUCCESS;
+			DateBasetype baseType = DateBasetype.GZ_LZ_SS; 
+			JsonObject returnData =null;
+			try {
+				returnData = new JsonParser().parse(jsonStr).getAsJsonObject();
+				if(returnData !=null){ 
+					JsonElement msgIdJE = returnData.get("msgId"); // 请求消息Id
+					JsonElement busCodeJE = returnData.get("busCode"); // 业务类型类型
+					JsonElement reqTimeJE = returnData.get("reqTime"); // 请求消息Id
+				
+					JsonElement modelJE = returnData.get("data"); // 请求参数data
+					if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
+							busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
+							reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
+						msgId = msgIdJE.getAsString() ;
+						busCode = busCodeJE.getAsString() ;
+						reqTime = reqTimeJE.getAsString() ;
+						baseType = DateBasetype.getEnum(PurPlatUtil.dateTypeMenuMp.get(busCode));
+						// 记录日志
+					//	IObjectPK logPK = PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), jsonStr, "", "");
+						PurPlatSyncBusLogUtil.insertLog(ctx, processType, baseType, msgId, msgId+PurPlatUtil.getCurrentTimeStrS(), "", "", "");
+						if("VMI_U_MZ_SO".equals(busCode)){
+							VMISaleOrderDTO m =null;
+							try {
+								m = gson.fromJson(modelJE, VMISaleOrderDTO.class);
+							} catch (JsonSyntaxException e) {
+								purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+			 					e.printStackTrace();
+							}
+							if(m!=null){
+								// 判断msgId 是否存在SaleOrderDTO
+								if(!PurPlatUtil.judgeMsgIdExists(ctx, baseType.getValue(),busCode, m.getId())){
+									result = VMISaleOrderSupport.judgeModel(ctx,m,busCode);
+									VMISaleOrderSupport.doInsertBill(ctx, m,baseType.getValue(), busCode,jsonStr);
 								}else
-									purPlatMenu = PurPlatSyncEnum.EXCEPTION_SERVER;
+									purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
 							}else
-								purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
-						}else
-							purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+								purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+						}else{
+							  BaseSCMDTO m =null;
+								try {
+									m = gson.fromJson(modelJE, BaseSCMDTO.class);
+								} catch (JsonSyntaxException e) {
+									purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+				 					e.printStackTrace();
+								}
+								if(m!=null){
+									// 判断msgId 是否存在SaleOrderDTO
+									if(!PurPlatUtil.judgeMsgIdExists(ctx, baseType.getValue(),busCode, m.getId())){
+										result = judgeModel(ctx,m,busCode);
+										if("".equals(result))
+										{
+											if(busCode.contains("_SO"))
+												SaleOrderSupport.doInsertBill(ctx,m,baseType.getValue(),busCode);
+											else if(busCode.contains("_PO"))
+												PurOrderSupport.doInsertBill(ctx, m,baseType.getValue(),busCode);
+											else if(busCode.contains("_PI"))
+												PurInWarehsSupport.doSaveBill(ctx,m,baseType.getValue(),busCode);
+											else if(busCode.contains("_SS"))
+												SaleIssueSupport.doSaveBill(ctx,m,baseType.getValue(),busCode);
+											else if("SK_MZ_OPI".equals(busCode))
+												OtherPurInSupport.doSaveBill(ctx,m,baseType.getValue(),busCode);
+											else if("SK_MZ_OSS".equals(busCode))
+												OtherSaleIssSupport.doSaveBill(ctx,m,baseType.getValue(),busCode);
+				 							 purPlatMenu = PurPlatSyncEnum.SUCCESS;
+										}else
+											purPlatMenu = PurPlatSyncEnum.EXCEPTION_SERVER;
+									}else
+										purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
+								}else
+									purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+						}
+						 
+					}else
+						purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
 				}
 				
-  
-			}else
-				purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
+			} catch (JsonSyntaxException e1) {
+				purPlatMenu = PurPlatSyncEnum.JSON_ERROR;
+				e1.printStackTrace();
+			}
+			   
 		}else
 			purPlatMenu = PurPlatSyncEnum.FIELD_NULL;
 		
@@ -231,12 +237,19 @@ public class BaseSCMSupport {
 							 result = result +"第"+j+1+"行 物料ID不存在,";
 					 }
 					 
-					 if("CGZ_U_MZ_SO".equals(busCode) || busCode.contains("SS")){
+					 if("CGZ_U_MZ_SO".equals(busCode) || busCode.contains("SS")|| busCode.contains("PI")){
 						 if(dvo.getFwarehouseid() ==null || "".equals(dvo.getFwarehouseid()))
 							 result = result +"第"+j+1+"行仓库ID不能为空,";
 						 else{
 	 						if(!PurPlatUtil.judgeExists(ctx, "Warehouse",m.getFstorageorgunitid(), dvo.getFwarehouseid()))
 								 result = result +"第"+j+1+"行仓库ID不存在,";
+							else
+								try {
+									if(!PurPlatUtil.getWareIsStarted(ctx,m.getFstorageorgunitid(), dvo.getFwarehouseid()))
+										 result = result +"第"+j+1+"行仓库未结束初始化,";
+								} catch (EASBizException e) {
+									e.printStackTrace();
+								}
 						 } 
 					 }
 					 if(PurPlatUtil.process_BusCode_List.contains(busCode)){

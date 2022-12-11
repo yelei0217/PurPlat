@@ -101,7 +101,7 @@ public class CostAdjusSupport {
 					}
 					
 					if(m !=null){
-						if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
+						if(!PurPlatUtil.judgeMsgIdExists(ctx,baseType.getValue(), busCode, msgId)){
 							result = judgeModel(ctx,m,busCode);
 							if("".equals(result))
 							{

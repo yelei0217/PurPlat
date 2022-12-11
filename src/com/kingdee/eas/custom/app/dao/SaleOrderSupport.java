@@ -51,7 +51,7 @@ public class SaleOrderSupport {
 	 *  ≤Â»Î eas±Ì
 	 * @param ctx
 	 */
-	public static void doInsertBill(Context ctx,BaseSCMDTO m,String busCode){
+	public static void doInsertBill(Context ctx,BaseSCMDTO m,String typeVal,String busCode){
 		ExecutorService pool = Executors.newFixedThreadPool(6);
 	    ParallelSqlExecutor pe = new ParallelSqlExecutor(pool); 
 	    StringBuffer sbr = new StringBuffer("/*dialect*/insert into T_SD_SALEORDER (FID,FCREATORID,FCREATETIME,FMODIFIERID,FMODIFICATIONTIME,FLASTUPDATEUSERID,FLASTUPDATETIME," +
@@ -60,7 +60,7 @@ public class SaleOrderSupport {
 	    		" FEXCHANGERATE,FPAYMENTTYPEID,FSETTLEMENTTYPEID,FPREPAYMENT,FPREPAYMENTRATE,FSALEORGUNITID,FSALEPERSONID," +
 	    		" FTOTALAMOUNT,FTOTALTAX,FTOTALTAXAMOUNT,FPRERECEIVED,FUNPRERECEIVEDAMOUNT,FSENDADDRESS,FISSYSBILL,FCONVERTMODE,FLOCALTOTALAMOUNT," +
 	    		" FLOCALTOTALTAXAMOUNT,FCOMPANYORGUNITID,FISINTAX,FVERSION,FOLDSTATUS,FISCENTRALBALANCE,FISREVERSE,FBEENPAIDPREPAYMENT," +
-	    		" FISSQUAREBALANCE,FISMATCHEDPROMOTION,FISENTIRESINGLEDISCOUNT,FORIGINALDISCOUNTAMOUNT,CFMsgId ) values ( ");
+	    		" FISSQUAREBALANCE,FISMATCHEDPROMOTION,FISENTIRESINGLEDISCOUNT,FORIGINALDISCOUNTAMOUNT,CFMsgId,CFBusCode ) values ( ");
 		
 	    String sId = BOSUuid.create("C48A423A").toString();
 	    String userId = PurPlatUtil.getUserIdByPersonId(ctx, m.getFcreatorid());
@@ -88,7 +88,7 @@ public class SaleOrderSupport {
 		sbr.append(m.getFcustomerid()).append("','").append(m.getFstorageorgunitid()).append("','").append(deliverTYpeId).append("',0,'").append(currencyId).append("',1,'").append(paymentTypeId).append("','").append(settlementTypeId).append("'");
 		sbr.append(",0,0,'").append(m.getFstorageorgunitid()).append("','jbYAAAAB7DOA733t',").append(m.getFtotalamount()).append(",").append(m.getFtotaltax()).append(",").append(m.getFtotaltaxamount());
 		sbr.append(",0,0,'").append(m.getFsendaddress()).append("',0,0,").append(m.getFtotalamount()).append(",").append(m.getFtotaltaxamount());
-		sbr.append(",'").append( m.getFstorageorgunitid()).append("',").append(isInTax).append(",0,0,0,0,0,0,0,0,0,'").append(m.getId()).append("') ");
+		sbr.append(",'").append( m.getFstorageorgunitid()).append("',").append(isInTax).append(",0,0,0,0,0,0,0,0,0,'").append(m.getId()).append("','").append(typeVal).append("')");
 		pe.getSqlList().add(sbr);
 		
 		for(BaseSCMDetailDTO dvo :  m.getDetails()){

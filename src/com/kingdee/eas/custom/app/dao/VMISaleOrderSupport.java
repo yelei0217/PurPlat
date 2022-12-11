@@ -78,7 +78,7 @@ public class VMISaleOrderSupport {
 	 *  ≤Â»Î eas±Ì
 	 * @param ctx
 	 */
-	public static void doInsertBill(Context ctx,VMISaleOrderDTO m,String busCode,String reqStr){
+	public static void doInsertBill(Context ctx,VMISaleOrderDTO m,String typeVal,String busCode,String reqStr){
 		ExecutorService pool = Executors.newFixedThreadPool(6);
 	    ParallelSqlExecutor pe = new ParallelSqlExecutor(pool); 
 	    StringBuffer sbr = new StringBuffer("/*dialect*/insert into T_SD_SALEORDER (FID,FCREATORID,FCREATETIME,FMODIFIERID,FMODIFICATIONTIME,FLASTUPDATEUSERID,FLASTUPDATETIME," +
@@ -87,7 +87,7 @@ public class VMISaleOrderSupport {
 	    		" FEXCHANGERATE,FPAYMENTTYPEID,FSETTLEMENTTYPEID,FPREPAYMENT,FPREPAYMENTRATE,FSALEORGUNITID,FSALEPERSONID," +
 	    		" FTOTALAMOUNT,FTOTALTAX,FTOTALTAXAMOUNT,FPRERECEIVED,FUNPRERECEIVEDAMOUNT,FSENDADDRESS,FISSYSBILL,FCONVERTMODE,FLOCALTOTALAMOUNT," +
 	    		" FLOCALTOTALTAXAMOUNT,FCOMPANYORGUNITID,FISINTAX,FVERSION,FOLDSTATUS,FISCENTRALBALANCE,FISREVERSE,FBEENPAIDPREPAYMENT," +
-	    		" FISSQUAREBALANCE,FISMATCHEDPROMOTION,FISENTIRESINGLEDISCOUNT,FORIGINALDISCOUNTAMOUNT,CFMsgId ) values ( ");
+	    		" FISSQUAREBALANCE,FISMATCHEDPROMOTION,FISENTIRESINGLEDISCOUNT,FORIGINALDISCOUNTAMOUNT,CFMsgId,CFBusCode ) values ( ");
 		
 	    String sId = BOSUuid.create("C48A423A").toString();
 	    String userId = PurPlatUtil.getUserIdByPersonId(ctx, m.getFcreatorid());
@@ -115,7 +115,7 @@ public class VMISaleOrderSupport {
 		sbr.append(customerId).append("','").append(m.getFstorageorgunitid()).append("','").append(deliverTYpeId).append("',0,'").append(currencyId).append("',1,'").append(paymentTypeId).append("','").append(settlementTypeId).append("'");
 		sbr.append(",0,0,'").append(m.getFstorageorgunitid()).append("','jbYAAAAB7DOA733t',").append(m.getFtotalamount()).append(",").append(m.getFtotaltax()).append(",").append(m.getFtotaltaxamount());
 		sbr.append(",0,0,'").append(m.getFsendaddress()).append("',0,0,").append(m.getFtotalamount()).append(",").append(m.getFtotaltaxamount());
-		sbr.append(",'").append( m.getFstorageorgunitid()).append("',").append(isInTax).append(",0,0,0,0,0,0,0,0,0,'").append(m.getId()).append("') ");
+		sbr.append(",'").append( m.getFstorageorgunitid()).append("',").append(isInTax).append(",0,0,0,0,0,0,0,0,0,'").append(m.getId()).append("','").append(typeVal).append("')");
 		pe.getSqlList().add(sbr);
 		
 		for(VMISaleOrderDetailDTO dvo :  m.getDetails()){
@@ -136,9 +136,20 @@ public class VMISaleOrderSupport {
  				   sbr1.append(",FWarehouseID,cflzsprice,cflzstaxprice,cflzsamount,cflzstaxrate,cflzstax,cflzstaxamount,cflzpprice,cflzptaxprice,cflzpamount,cflzptaxrate,cflzptax,cflzptaxamount,cffsupplierid");
 			 
 			 sbr1.append(") values (");
-			String deliveDateStr =  dvo.getFdeliverydate();
-			String sendDateStr =   dvo.getFsenddate();
+			String deliveDateStr = null ;
+			String sendDateStr =   null;
 
+			if(dvo.getFsenddate() !=null && !"".equals(dvo.getFsenddate() ))
+				sendDateStr =   dvo.getFsenddate();
+			else
+				sendDateStr =   PurPlatUtil.getCurrentDateStr();
+
+			if(dvo.getFdeliverydate() !=null && !"".equals(dvo.getFdeliverydate() ))
+				deliveDateStr =   dvo.getFdeliverydate();
+			else
+				deliveDateStr =   PurPlatUtil.getCurrentDateStr();
+			
+			
 			Map<String,String> mmp = PurPlatUtil.getMaterialInfoByMId(ctx, dvo.getFmaterialid());
 			int isPresent = 0;
  			if(dvo.getFispresent() !=null && !"".equals(dvo.getFispresent())&& "1".equals(dvo.getFispresent()))

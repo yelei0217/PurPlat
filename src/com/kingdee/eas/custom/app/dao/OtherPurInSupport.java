@@ -57,9 +57,9 @@ public class OtherPurInSupport {
 	protected BigDecimal zero = new BigDecimal("0.00");
 	
 	
-	public static void doSaveBill(Context ctx,BaseSCMDTO m,String busCode){
+	public static void doSaveBill(Context ctx,BaseSCMDTO m,String typeVal,String busCode){
 		try {
-				OtherInWarehsBillInfo info = createBillInfo(ctx, m,busCode);
+				OtherInWarehsBillInfo info = createBillInfo(ctx, m,typeVal,busCode);
 				IOtherInWarehsBill ibiz = OtherInWarehsBillFactory.getLocalInstance(ctx);
 				IObjectPK pk = ibiz.save(info);
 				ibiz.submit(pk.toString());
@@ -75,7 +75,7 @@ public class OtherPurInSupport {
 	 * @param brInfo 借入借出实体对象
 	 * @return  其他入库单对象实体
 	 */
-	private static OtherInWarehsBillInfo createBillInfo(Context ctx,BaseSCMDTO m,String busCode){
+	private static OtherInWarehsBillInfo createBillInfo(Context ctx,BaseSCMDTO m,String typeVal,String busCode){
 		OtherInWarehsBillInfo  info = null;
 		 try {
 			 info = new OtherInWarehsBillInfo();
@@ -104,7 +104,7 @@ public class OtherPurInSupport {
 			info.setTotalAmount(m.getFtotalamount());
 			info.setTotalQty(BigDecimal.ZERO);
 		    info.put("MsgId", m.getId());
-
+		    info.put("BusCode", typeVal);
 			//业务类型
 			BizTypeInfo bizTypeInfo = new BizTypeInfo();
 			bizTypeInfo.setId(BOSUuid.read("N5d2igEgEADgAABywKg/GiQHQ1w="));

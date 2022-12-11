@@ -292,18 +292,23 @@ public class SaleIssueSupport {
 		 		if("GZB_LZ_SS".equals(busCode)||"VMIB_LZ_SS".equals(busCode)){
 					//根据 id 和明细id 查询 采购入库单是否存在
 		 		// 判断msgId 是否存在SaleOrderDTO
-					if(!PurPlatUtil.judgeMsgIdExists(ctx, busCode, msgId)){
-						 try {
-							 
-								int isInTax = 0;//门诊为0，栗喆为1
-								if(busCode.contains("LZ"))
-									isInTax = 1;
-								 else if(busCode.contains("MZ"))
-									 isInTax = 0; 
-								
+					if(!PurPlatUtil.judgeMsgIdExists(ctx,baseType.getValue(), busCode, msgId)){
+						 try { 
+								int isInTax = 1;//门诊为0，栗喆为1
+//								if(busCode.contains("LZ"))
+//									isInTax = 1;
+//								 else if(busCode.contains("MZ"))
+//									 isInTax = 0; 
+								String typeVal ="64";
+								if(busCode.contains("GZB_LZ_SS"))
+									 typeVal ="64";
+								  else if(busCode.contains("VMIB_LZ_SS"))	
+									  typeVal ="77";
 						     EntityViewInfo viewInfo = new EntityViewInfo();
 						     FilterInfo filter = new FilterInfo();
 						     filter.getFilterItems().add(new FilterItemInfo("bid",m.getBid(),CompareType.EQUALS)); 
+						     filter.getFilterItems().add(new FilterItemInfo("BusCode",typeVal,CompareType.EQUALS)); 
+
 						     if(isInTax==1)
 							     filter.getFilterItems().add(new FilterItemInfo("StorageOrgUnit.id","jbYAAAMU2SvM567U",CompareType.EQUALS));
 						     else
@@ -387,9 +392,9 @@ public class SaleIssueSupport {
 	}
 	
 	
-	public static void doSaveBill(Context ctx,BaseSCMDTO m,String busCode){
+	public static void doSaveBill(Context ctx,BaseSCMDTO m,String typeVal,String busCode){
 			try { 
-					SaleIssueBillInfo info = createSaleBillInfo(ctx,m,busCode);
+					SaleIssueBillInfo info = createSaleBillInfo(ctx,m,typeVal,busCode);
 					ISaleIssueBill ibiz =SaleIssueBillFactory.getLocalInstance(ctx);
 					IObjectPK pk = ibiz.save(info);
 					ibiz.submit(pk.toString());
@@ -409,7 +414,7 @@ public class SaleIssueSupport {
 	}
 		
 	
-	private static SaleIssueBillInfo createSaleBillInfo(Context ctx, BaseSCMDTO m,String busCode )
+	private static SaleIssueBillInfo createSaleBillInfo(Context ctx, BaseSCMDTO m,String typeVal,String busCode )
 	    throws BOSException, EASBizException
 	  {
 	   
@@ -452,6 +457,11 @@ public class SaleIssueSupport {
 			 transinfoId ="DawAAAAPoAywCNyn";//事务类型
 		}
 	    
+		String ordertypeVal ="";
+		if("GZ_LZ_SS".equals(busCode))
+			ordertypeVal ="61";
+	 
+		
 	    BillTypeInfo billtype = new BillTypeInfo();
 	    billtype.setId(BOSUuid.read(billtypeId));
 	    info.setBillType(billtype);
@@ -519,18 +529,26 @@ public class SaleIssueSupport {
 	        entryInfo.setSaleOrgUnit(saleOrgInfo);
 	        orderId = entry.getFsourcebillid();
 	        //totalAmount = totalAmount.add(entry.getAmount());
-		    if(sourceBilltypeId != null && !"".equals(sourceBilltypeId)){
-		        Map<String,String> orderEmp = PurPlatUtil.getOrderEntryMapByMsgId(ctx,m.getFstorageorgunitid(),entry.getFsourcebillentryid(),"S");
-		        if(orderEmp !=null && orderEmp.size() > 0){
-		        	entryInfo.setSourceBillEntryId(orderEmp.get("id"));
-		        	entryInfo.setSourceBillEntrySeq(Integer.parseInt(orderEmp.get("seq")));
-		        }
-		        
-		        Map<String,String> ordermp = PurPlatUtil.getOrderMapByNumber(ctx,m.getFstorageorgunitid(),entry.getFsourcebillnumber(),"S");
-		        if(ordermp !=null && orderEmp.size() > 0){
-		            entryInfo.setSourceBillId(ordermp.get("id"));
-		            entryInfo.setSourceBillNumber(ordermp.get("number"));
-		        }
+		    if(sourceBilltypeId != null && !"".equals(sourceBilltypeId)  && ordertypeVal!=null && !"".equals(ordertypeVal)){
+//		        Map<String,String> orderEmp = PurPlatUtil.getOrderEntryMapByMsgId(ctx,m.getFstorageorgunitid(),entry.getFsourcebillentryid(),"S");
+//		        if(orderEmp !=null && orderEmp.size() > 0){
+//		        	entryInfo.setSourceBillEntryId(orderEmp.get("id"));
+//		        	entryInfo.setSourceBillEntrySeq(Integer.parseInt(orderEmp.get("seq")));
+//		        }
+//		        
+//		        Map<String,String> ordermp = PurPlatUtil.getOrderMapByNumber(ctx,m.getFstorageorgunitid(),entry.getFsourcebillnumber(),"S");
+//		        if(ordermp !=null && orderEmp.size() > 0){
+//		            entryInfo.setSourceBillId(ordermp.get("id"));
+//		            entryInfo.setSourceBillNumber(ordermp.get("number"));
+//		        }
+		    	
+		     	Map<String,String> orderRaleMap = PurPlatUtil.getOrderRaleMapByMsgId(ctx, m.getFstorageorgunitid(), entry.getFsourcebillnumber(), entry.getFsourcebillentryid(), "S", ordertypeVal);
+	        	 if(orderRaleMap !=null && orderRaleMap.size() > 0){
+	        		 entryInfo.setSourceBillEntryId(orderRaleMap.get("eid"));
+	        		 entryInfo.setSourceBillEntrySeq(Integer.parseInt(orderRaleMap.get("seq")));
+	        		 entryInfo.setSourceBillId(orderRaleMap.get("id"));
+	        		 entryInfo.setSourceBillNumber(orderRaleMap.get("number"));
+	        	 }
 		        entryInfo.setSourceBillType(sourceBillTypeInfo);
 		    }
 		    
@@ -544,7 +562,8 @@ public class SaleIssueSupport {
 		    info.setTotalAmount(m.getFtotalamount());
 		    info.setTotalLocalAmount(m.getFtotalamount());
 	    }
-	 
+	    info.put("BusCode", typeVal);
+	    
 	    return info;
 	  }
 	  

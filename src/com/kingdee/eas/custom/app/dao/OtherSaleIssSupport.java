@@ -56,9 +56,9 @@ public class OtherSaleIssSupport {
 
 	protected BigDecimal zero = new BigDecimal("0.00");
 
-	public static void doSaveBill(Context ctx,BaseSCMDTO m,String busCode){
+	public static void doSaveBill(Context ctx,BaseSCMDTO m,String typeVal,String busCode){
 		try {
-				OtherIssueBillInfo info = createBillInfo(ctx, m,busCode);
+				OtherIssueBillInfo info = createBillInfo(ctx, m,typeVal,busCode);
 				IOtherIssueBill ibiz = OtherIssueBillFactory.getLocalInstance(ctx);
 				IObjectPK pk = ibiz.save(info);
 				ibiz.submit(pk.toString());
@@ -69,7 +69,7 @@ public class OtherSaleIssSupport {
 		}
 	}
 	
-	private static OtherIssueBillInfo createBillInfo(Context ctx,BaseSCMDTO m,String busCode){
+	private static OtherIssueBillInfo createBillInfo(Context ctx,BaseSCMDTO m,String typeVal,String busCode){
 		OtherIssueBillInfo info = new OtherIssueBillInfo ();
 		 try {
 			SimpleDateFormat formmat = new SimpleDateFormat("yyyy-MM-dd");
@@ -98,8 +98,9 @@ public class OtherSaleIssSupport {
 			info.setTotalQty(BigDecimal.ZERO);
 		   
 			info.put("MsgId", m.getId());
-
-		    //业务类型
+			info.put("BusCode", typeVal);
+		    
+			//业务类型
 		    BizTypeInfo bizTypeInfo = new BizTypeInfo();
 		    bizTypeInfo.setId(BOSUuid.read("Nz878AEgEADgAABMwKg/GiQHQ1w="));
 		    info.setBizType(bizTypeInfo);

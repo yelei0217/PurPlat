@@ -101,7 +101,7 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 		 	filter.getFilterItems().add(new FilterItemInfo("processType", DateBaseProcessType.GSaleIss,CompareType.EQUALS)); //
 		 	filter.getFilterItems().add(new FilterItemInfo("PushStatus", PushStatusEnum.unDo,CompareType.EQUALS)); // 
 		 	filter.getFilterItems().add(new FilterItemInfo("dateBaseType", DateBasetype.CGZ_U_MZ_SO,CompareType.EQUALS)); // 
-		    filter.setMaskString("#0 and #1 and #2");
+		  //  filter.setMaskString("#0 and #1 and #2");
 		 	view.setFilter(filter);
 			PushRecordCollection coll= ibiz.getPushRecordCollection(view);
 			if(coll !=null && coll.size() >0 ){
@@ -125,25 +125,25 @@ public class PushRecordFacadeControllerBean extends AbstractPushRecordFacadeCont
 							String botpId = PurPlatUtil.getMappIdByFName(ctx,"INM-004"); // 销售订单下推销售出库
 						 	if(botpId!=null && !"".equals(botpId) && saleOrderInfo.getBaseStatus() == BillBaseStatusEnum.AUDITED){
 						 		sourceColl.add(saleOrderInfo);
-  						 		List<IObjectPK> pks = AppUnit.botpSave(ctx, "CC3E933B", sourceColl, botpId);
+  						 		List<IObjectPK> pks = AppUnit.botp(ctx, "CC3E933B", sourceColl, botpId);
 						 		sourceColl.clear();
 						 		if(pks !=null && pks.size() >0){
-						 			IObjectPK issPK = pks.get(0);
-									SaleIssueBillInfo saleIssInfo = iSaleIssue.getSaleIssueBillInfo(issPK); 
-									if(issPK != null && !"".equals(issPK.toString())){
-										//iSaleIssue.submit(saleIssInfo);  //销售出库单 提交
-										PushRecordInfo rInfo = new PushRecordInfo();
-										rInfo.setNumber(saleIssInfo.getNumber());
-										rInfo.setName(issPK.toString());
-										//rInfo.setDescription(m.getFnumber());
- 										rInfo.setDateBaseType(pushInfo.getDateBaseType());
-										rInfo.setProcessType(DateBaseProcessType.GSaleIss_MZ);
-										rInfo.setPushStatus(PushStatusEnum.unDo);
-										rInfo.setCU(saleIssInfo.getCU());
-										PushRecordFactory.getLocalInstance(ctx).addnew(rInfo); 
-									}
+//						 			IObjectPK issPK = pks.get(0);
+//									SaleIssueBillInfo saleIssInfo = iSaleIssue.getSaleIssueBillInfo(issPK); 
+//									if(issPK != null && !"".equals(issPK.toString())){
+////										iSaleIssue.submit(saleIssInfo);  //销售出库单 提交
+//										PushRecordInfo rInfo = new PushRecordInfo();
+//										rInfo.setNumber(saleIssInfo.getNumber());
+//										rInfo.setName(issPK.toString());
+//										//rInfo.setDescription(m.getFnumber());
+// 										rInfo.setDateBaseType(pushInfo.getDateBaseType());
+//										rInfo.setProcessType(DateBaseProcessType.GSaleIss_MZ);
+//										rInfo.setPushStatus(PushStatusEnum.unDo);
+//										rInfo.setCU(saleIssInfo.getCU());
+//										PushRecordFactory.getLocalInstance(ctx).addnew(rInfo); 
+//									}
 						 			pushInfo.setPushStatus(PushStatusEnum.doSuccess);
-						 			pushInfo.setDescription(saleOrderInfo.getNumber()+"--"+saleIssInfo.getNumber());
+						 			pushInfo.setDescription(saleOrderInfo.getNumber()+"--"+saleOrderInfo.getNumber());
 								}else
 									 pushInfo.setPushStatus(PushStatusEnum.doFail);
 							}else

@@ -1,5 +1,11 @@
 package com.kingdee.eas.custom.app.dao.base;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
+import mondrian.rolap.BitKey.Big;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -83,7 +89,10 @@ public class BaseSCMSupport {
 								// 判断msgId 是否存在SaleOrderDTO
 								if(!PurPlatUtil.judgeMsgIdExists(ctx, baseType.getValue(),busCode, m.getId())){
 									result = VMISaleOrderSupport.judgeModel(ctx,m,busCode);
-									VMISaleOrderSupport.doInsertBill(ctx, m,baseType.getValue(), busCode,jsonStr);
+									if("".equals(result))
+										VMISaleOrderSupport.doInsertBill(ctx, m,baseType.getValue(), busCode,jsonStr);
+									else
+										purPlatMenu = PurPlatSyncEnum.EXCEPTION_SERVER;
 								}else
 									purPlatMenu = PurPlatSyncEnum.EXISTS_BILL;
 							}else
@@ -152,6 +161,8 @@ public class BaseSCMSupport {
 	 */
 	private static String judgeModel(Context ctx,BaseSCMDTO m,String busCode ){
 		 String result = "";
+		 Map<String,BigDecimal> checkEntryMap = new HashMap<String,BigDecimal>();
+		 
 		 //组织是否存在
 		 if(m.getFstorageorgunitid() != null && !"".equals(m.getFstorageorgunitid()) ){
 			 IObjectPK orgPK = new  ObjectUuidPK(m.getFstorageorgunitid());
@@ -223,7 +234,7 @@ public class BaseSCMSupport {
 				 if(m.getFtotaltaxamount().compareTo( m.getFtotaltax().add(m.getFtotalamount() )) != 0)
 					 result = result +"价税合计等于金额加税额的合计,";
 		  }
-			 
+			
 			if(m.getDetails() !=null && m.getDetails().size() > 0 ){	 
 				 for(BaseSCMDetailDTO dvo : m.getDetails()){
 					 int j = 0 ; 
@@ -311,20 +322,53 @@ public class BaseSCMSupport {
 					if(dvo.getFtaxamount() == null){ 
 						 result = result +"第"+j+1+"行 价税合计不能为空,";
 					}
-					
-//					  if(dvo.getFdeliverydate() == null){ 
-//							 result = result +"第"+j+1+"行 交货日期不能为空,";
-//						}
-					  
-//				   if(busCode.contains("_SO") || busCode.contains("_SS") )	{
-//						if(dvo.getFsenddate() == null){ 
-//							 result = result +"第"+j+1+"行 发货日期不能为空,";
-//						} 
-//				   }
- 
+					// 判断 是否需要验证数量 
+					if(PurPlatUtil.checkwarecount_BusCode_List.contains(busCode)){
+						 if(dvo.getFmaterialid() !=null && !"".equals(dvo.getFmaterialid()) && dvo.getFwarehouseid() !=null && !"".equals(dvo.getFwarehouseid())&&
+							dvo.getFbaseunitid() !=null && !"".equals(dvo.getFbaseunitid()) && dvo.getFbaseqty() !=null && !"".equals(dvo.getFbaseqty())){
+							 String ispresent = "0";
+							 if(dvo.getFispresent() !=null && !"".equals(dvo.getFispresent()))
+								 ispresent = dvo.getFispresent();
+							 String key = dvo.getFwarehouseid()+"_"+dvo.getFbaseunitid()+"_"+dvo.getFmaterialid()+"_"+ispresent;
+							 BigDecimal oqty = BigDecimal.ZERO;
+							 if(checkEntryMap.get(key) !=null)
+								  oqty = checkEntryMap.get(key) ; 
+							 	  oqty = oqty.add(dvo.getFbaseqty()); 
+								 checkEntryMap.put(key, oqty); 
+						  }	 
+					}
 				 }
 			} else 
 				result = result +"至少有一条明细行的数据,";
+			
+			if("".equals(result) && PurPlatUtil.checkwarecount_BusCode_List.contains(busCode) && checkEntryMap.size() > 0){
+				// VMI 业务 
+				if("VMI2CB_LZ_PI".equals(busCode) || "VMIB_MZ_PI".equals(busCode) || "VMI_U_MZ_SO".equals(busCode) ){
+					 for(String key :checkEntryMap.keySet()){
+						 String [] arrays = key.split("_");
+						 BigDecimal operQty = checkEntryMap.get(key);
+						 if(arrays !=null && arrays.length == 4){ 
+							 BigDecimal dbQty = PurPlatUtil.getInventoryQtyVIM(ctx,m.getFstorageorgunitid(), arrays[0], arrays[1], arrays[2]);
+							 if(operQty.compareTo(dbQty) > 0) 
+								 result = "物料："+arrays[2]+"数量不足。"; 
+						 } 
+					 }
+				}else{
+					 for(String key :checkEntryMap.keySet()){
+						 String [] arrays = key.split("_");
+						 BigDecimal operQty = checkEntryMap.get(key);
+						 if(arrays !=null && arrays.length == 4){ 
+							 boolean iszp = false ;
+							 if( arrays[3] !=null && !"".equals(arrays[3])){
+								 if("1".equals(arrays[3])) iszp = true ;
+							 }
+							 BigDecimal dbQty = PurPlatUtil.getInventoryQty(ctx,m.getFstorageorgunitid(), arrays[0], arrays[1], arrays[2], iszp);
+							 if(operQty.compareTo(dbQty) > 0) 
+								 result = "物料："+arrays[2]+"数量不足。"; 
+						 } 
+					 }
+				} 
+			}
 			 
 		 return result;
 	}

@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -137,8 +138,7 @@ public class VMISaleOrderSupport {
 			 
 			 sbr1.append(") values (");
 			String deliveDateStr = null ;
-			String sendDateStr =   null;
-
+			String sendDateStr =   null; 
 			if(dvo.getFsenddate() !=null && !"".equals(dvo.getFsenddate() ))
 				sendDateStr =   dvo.getFsenddate();
 			else
@@ -147,8 +147,7 @@ public class VMISaleOrderSupport {
 			if(dvo.getFdeliverydate() !=null && !"".equals(dvo.getFdeliverydate() ))
 				deliveDateStr =   dvo.getFdeliverydate();
 			else
-				deliveDateStr =   PurPlatUtil.getCurrentDateStr();
-			
+				deliveDateStr =   PurPlatUtil.getCurrentDateStr(); 
 			
 			Map<String,String> mmp = PurPlatUtil.getMaterialInfoByMId(ctx, dvo.getFmaterialid());
 			int isPresent = 0;
@@ -237,6 +236,7 @@ public class VMISaleOrderSupport {
 	 */
 	public static String judgeModel(Context ctx,VMISaleOrderDTO m,String busCode ){
 		 String result = "";
+		 Map<String,BigDecimal> checkEntryMap = new HashMap<String,BigDecimal>();
 		 //组织是否存在
 		 if(m.getFstorageorgunitid() != null && !"".equals(m.getFstorageorgunitid()) ){
 			 IObjectPK orgPK = new  ObjectUuidPK(m.getFstorageorgunitid());
@@ -294,6 +294,13 @@ public class VMISaleOrderSupport {
 					 else{
  						if(!PurPlatUtil.judgeExists(ctx, "Warehouse",m.getFstorageorgunitid(), dvo.getFwarehouseid()))
 							 result = result +"第"+j+1+"行仓库ID不存在,";
+ 						else
+							try {
+								if(!PurPlatUtil.getWareIsStarted(ctx,m.getFstorageorgunitid(), dvo.getFwarehouseid()))
+									 result = result +"第"+j+1+"行仓库未结束初始化,";
+							} catch (EASBizException e) {
+								e.printStackTrace();
+							}
 					 } 
 					 
 					 if(dvo.getFunitid() ==null || "".equals(dvo.getFunitid()) ){
@@ -344,9 +351,31 @@ public class VMISaleOrderSupport {
 					if(dvo.getFlzptaxrate() == null){  result = result +"第"+j+1+"行	栗喆采购税率,";}
 					if(dvo.getFlzptax() == null){  result = result +"第"+j+1+"行	栗喆采购税额,";}
 					if(dvo.getFlzptaxamount() == null){  result = result +"第"+j+1+"行	栗喆采购价税合计,";}
+					
+					// 判断 是否需要验证数量 
+					 if(dvo.getFmaterialid() !=null && !"".equals(dvo.getFmaterialid()) && dvo.getFwarehouseid() !=null && !"".equals(dvo.getFwarehouseid())&&
+						dvo.getFbaseunitid() !=null && !"".equals(dvo.getFbaseunitid()) && dvo.getFbaseqty() !=null && !"".equals(dvo.getFbaseqty())){
+						 String key = dvo.getFwarehouseid()+"_"+dvo.getFbaseunitid()+"_"+dvo.getFmaterialid()+"_0";
+						 BigDecimal oqty = BigDecimal.ZERO;
+						if(checkEntryMap.get(key) !=null)
+							  oqty = checkEntryMap.get(key) ; 
+							 oqty = oqty.add(dvo.getFbaseqty()); 
+							checkEntryMap.put(key, oqty); 
+					 }	  
 				 }
 			} else 
 				result = result +"至少有一条明细行的数据,";
+			if("".equals(result) && checkEntryMap.size() > 0){ 
+				 for(String key :checkEntryMap.keySet()){
+					 String [] arrays = key.split("_");
+					 BigDecimal operQty = checkEntryMap.get(key);
+					 if(arrays !=null && arrays.length == 4){ 
+						 BigDecimal dbQty = PurPlatUtil.getInventoryQtyVIM(ctx,m.getFstorageorgunitid(), arrays[0], arrays[1], arrays[2]);
+						 if(operQty.compareTo(dbQty) > 0) 
+							 result = "物料："+arrays[2]+"数量不足。"; 
+					 } 
+				 }
+			}
 		 return result;
 	}
 	

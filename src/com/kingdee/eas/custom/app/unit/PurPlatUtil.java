@@ -1,5 +1,6 @@
 package com.kingdee.eas.custom.app.unit;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,6 +12,7 @@ import java.util.Map;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
 import com.kingdee.eas.common.EASBizException;
+import com.kingdee.eas.custom.util.DBUtil;
 import com.kingdee.eas.custom.util.VerifyUtil;
 import com.kingdee.eas.util.app.DbUtil;
 import com.kingdee.jdbc.rowset.IRowSet;
@@ -657,6 +659,30 @@ public class PurPlatUtil {
 	 	}
 	 }; 
 	 
+	  /**
+	  *  检查库存数量 集合
+	  */
+	 public final static HashSet<String> checkwarecount_BusCode_List = new HashSet<String>(){
+	 	{
+	 		add("GZ_LZ_SS");//	栗喆销售出库单 
+	 		add("GZB_LZ_PI");//	栗喆-采购入库单(红单) 
+	 		add("GZB_MZ_PI");//	门诊采购入库(红单) 
+	 		add("DZB_MZ_PI");//	门诊采购入库单(红单)
+	 		add("VMI2CB_LZ_PI");//	隐形矫正加-栗喆销售出库单  
+	 		add("VMIB_MZ_PI");//	门诊-采购入库单VMI(红单)
+	 		add("CGZ_U_MZ_SO");//	门诊高值领用-销售订单
+	 		add("VMI_U_MZ_SO");//	VMI物料领用 门诊-销售订单 
+	 		add("YC_SS");//	义齿加工-销售出库单
+	 		add("YX_MZ_SS");//	隐形矫正加-门诊销售出库
+	 		add("YX_LZ_SS");//	隐形矫正加-栗喆销售出库单 
+	 		add("ZZ_YC_LZ_SS");//种植原厂基台-粟喆-销售出库单 
+	 		add("ZZ_YC_MZ_SS");//种植原厂基台-门诊-销售出库单 
+	 		add("SO_LZ_SS");//对外销售采购-栗喆-销售出库单
+	 		add("SOB_LZ_PI");//对外销售退货-栗喆-采购入库单
+	 	}
+	 }; 
+	 
+	 
 	 /**
 	  * 判断时间格式 格式必须为“YYYY-MM-dd”
 	  * 2004-2-30 是无效的
@@ -731,5 +757,67 @@ public class PurPlatUtil {
 			return flag;
 		}
 		
-
+		public static BigDecimal getInventoryQtyVIM(Context ctx, String orgId,String houseId, String unitId, String materNumber) {
+			BigDecimal qty = new BigDecimal(0.0D);
+			StringBuffer sql = new StringBuffer();
+			sql.append("/*dialect*/select a.FStorageOrgUnitID,a.fwarehouseid,").append("\n");
+			sql.append("a.FUnitID,a.FMaterialID,sum(a.FBaseQty) FQuantity").append("\n");
+			sql.append("from T_IM_Inventory a inner join T_BD_MATERIAL b on a.FMaterialID =b.FID ").append("\n");
+			sql.append(" inner join T_BD_MeasureUnit c on a.FUnitID = c.FID ").append("\n");
+			sql.append(" where FSTORESTATUSID='181875d5-0105-1000-e000-012ec0a812fd62A73FA5'").append("\n");
+			sql.append(" and a.FStoreTypeID='181875d5-0105-1000-e000-0114c0a812fd97D461A6'").append("\n");
+			sql.append(" and a.FStorageOrgUnitID = '").append(orgId).append("'");
+			sql.append(" and a.FCOMPANYORGUNITID = '").append(orgId).append("'");
+			sql.append(" and a.fwarehouseid = '").append(houseId).append("'");
+			sql.append(" and c.FNumber = '").append(unitId).append("'");
+			sql.append(" and b.FNumber = '").append(materNumber).append("'");
+			sql.append(" group by a.FStorageOrgUnitID,a.fwarehouseid,a.FUnitID,a.FMaterialID");
+			IRowSet rs = null;
+			try {
+				rs = DBUtil.executeQuery(ctx, sql);
+				if ((rs != null) && (rs.size() > 0) && (rs.next())&& (rs.getObject("FQuantity") != null))
+					qty = (BigDecimal) rs.getObject("FQuantity");
+			} catch (BOSException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return qty;
+		}
+		
+		public static BigDecimal getInventoryQty(Context ctx, String orgId,String houseId, String unitId, String materNumber, boolean isZengpin) {
+			BigDecimal qty = new BigDecimal(0.0D);
+			StringBuffer sql = new StringBuffer();
+			String isZengpinSql = "";
+			if (isZengpin)
+				isZengpinSql = " and a.FStoreTypeID = 'N5YMUAEgEADgAABPwKg/GpfUYaY=' ";
+			else {
+				isZengpinSql = " and a.FStoreTypeID = '181875d5-0105-1000-e000-0111c0a812fd97D461A6' ";
+			}
+			Map mp = new HashMap();
+			sql.append("/*dialect*/select a.FStorageOrgUnitID,a.fwarehouseid,").append("\n");
+			sql.append("a.FUnitID,a.FMaterialID,sum(a.FBaseQty) FQuantity").append("\n");
+			sql.append("from T_IM_Inventory a inner join T_BD_MATERIAL b on a.FMaterialID =b.FID ").append("\n");
+			sql.append(" inner join T_BD_MeasureUnit c on a.FUnitID = c.FID ").append("\n");
+			sql.append(" where a.FSTORESTATUSID='181875d5-0105-1000-e000-012ec0a812fd62A73FA5'").append("\n");
+			sql.append(" and a.FStorageOrgUnitID = '").append(orgId).append("'").append(isZengpinSql);
+			sql.append(" and a.FCOMPANYORGUNITID = '").append(orgId).append("'");
+			sql.append(" and a.fwarehouseid = '").append(houseId).append("'");
+			sql.append(" and c.FNumber = '").append(unitId).append("'");
+			sql.append(" and b.FNumber = '").append(materNumber).append("'");
+			sql.append(" group by a.FStorageOrgUnitID,a.fwarehouseid,a.FUnitID,a.FMaterialID");
+			IRowSet rs = null;
+			try {
+				rs = DBUtil.executeQuery(ctx, sql);
+				if ((rs != null) && (rs.size() > 0) && (rs.next())&& (rs.getObject("FQuantity") != null))
+					qty = (BigDecimal) rs.getObject("FQuantity");
+			} catch (BOSException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return qty;
+		}
+		
+		
 }

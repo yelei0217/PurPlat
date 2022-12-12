@@ -112,18 +112,17 @@ public class SaleOrderSupport {
 			 sbr1.append(") values (");
 			 
 			 
-			String deliveDateStr = "";
-			String sendDateStr =   dvo.getFsenddate();
-			
-			if( dvo.getFdeliverydate()!=null && !"".equals( dvo.getFdeliverydate()))
-				deliveDateStr = dvo.getFdeliverydate();
-			else
-				deliveDateStr = bizDateStr;
-			
-			if( dvo.getFsenddate()!=null && !"".equals( dvo.getFsenddate()))
-				sendDateStr = dvo.getFsenddate();
-			else
-				sendDateStr = bizDateStr;
+				String deliveDateStr = null ;
+				String sendDateStr =   null; 
+				if(dvo.getFsenddate() !=null && !"".equals(dvo.getFsenddate() ))
+					sendDateStr =   dvo.getFsenddate();
+				else
+					sendDateStr =   PurPlatUtil.getCurrentDateStr();
+
+				if(dvo.getFdeliverydate() !=null && !"".equals(dvo.getFdeliverydate() ))
+					deliveDateStr =   dvo.getFdeliverydate();
+				else
+					deliveDateStr =   PurPlatUtil.getCurrentDateStr(); 
 
 			Map<String,String> mmp = PurPlatUtil.getMaterialInfoByMId(ctx, dvo.getFmaterialid());
 			int isPresent = 0;

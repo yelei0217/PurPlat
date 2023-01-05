@@ -1,6 +1,8 @@
 package com.kingdee.eas.custom.app.unit;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -12,6 +14,9 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kingdee.bos.BOSException;
@@ -54,7 +59,6 @@ import com.kingdee.jdbc.rowset.IRowSet;
 public class MaterialUntil {
 
 	public String doCreateMaterial(Context ctx, String data) throws BOSException{
-		
 		//data = "{\"msgId\":\"pkKBgt311111\",\"operType\":0,\"reqCount\":1,\"reqTime\":\"20220715121020\",\"data\":[{\"fNumber\":\"CSqq012\",\"fName\":\"测试物料012\",\"fModel\":\"型号\",\"fMaterialGroup\":\"W1\",\"fArtNo\":\"fArtNo\",\"fBrand\":\"fBrand\",\"fCreateTime\":\"2022-07-20\",\"fUpdateTime\":\"2022-07-20\",\"fKAClass\":\"erjg\",\"fBaseUnit\":\"G01\",\"fInvUnit\":\"G04\",\"fPurUnit\":\"G04\",\"fSaleUnit\":\"G04\"}]}";
 		Map map = (Map) JSONObject.parse(data);
 		String operType = map.get("operType").toString(); 
@@ -125,7 +129,8 @@ public class MaterialUntil {
 		String version = String.valueOf(cal.getTimeInMillis());
 		loginfo.setVersion(version);
 		loginfo.setUpdateDate(new Date());
-		loginfo.setMessage(map.get("JSON").toString());
+//		loginfo.setMessage(map.get("JSON").toString());
+		loginfo.setRequest(map.get("JSON").toString());
 		loginfo.setRespond(map.get("RESJSON").toString());
 		loginfo.setStatus(flag);
 		loginfo.setProcessType(processType);
@@ -882,4 +887,23 @@ public class MaterialUntil {
 		  return ids ;
 	  }
 	  
+		public static String chageBlob2Str(String blobStr){
+			String str = "";
+			if(blobStr !=null && !"".equals(blobStr)){
+				if(!blobStr.contains("reqTime")){
+					try {
+ 						Blob b = new SerialBlob(blobStr.getBytes()); 
+						str = new String(b.getBytes(1, (int) b.length()),"GBK");//blob 转 String 
+					} catch (SerialException e) {
+ 						e.printStackTrace();
+					} catch (UnsupportedEncodingException e) {
+ 						e.printStackTrace();
+					} catch (SQLException e) {
+ 						e.printStackTrace();
+					}//String 转 blob
+
+				} 
+			} 
+			return str ;
+		}
 }

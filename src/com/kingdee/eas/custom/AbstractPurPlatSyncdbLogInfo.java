@@ -142,6 +142,17 @@ public class AbstractPurPlatSyncdbLogInfo extends com.kingdee.eas.framework.Data
     {
         setBoolean("isSync", item);
     }
+    /**
+     * Object:基础资料同步记录's 请求消息property 
+     */
+    public String getRequest()
+    {
+        return getString("Request");
+    }
+    public void setRequest(String item)
+    {
+        setString("Request", item);
+    }
     public BOSObjectType getBOSType()
     {
         return new BOSObjectType("6E21F7F4");

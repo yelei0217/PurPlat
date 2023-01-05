@@ -101,9 +101,9 @@
             <lang locale="zh_TW" value="com.kingdee.eas.custom.client.PurPlatSyncdbLogListUI" />
         </rs>
         <rs key="bizUnit[com.kingdee.eas.custom.PurPlatSyncdbLog].extendedProperty.maxFieldIndex">
-            <lang locale="en_US" value="13" />
-            <lang locale="zh_CN" value="13" />
-            <lang locale="zh_TW" value="13" />
+            <lang locale="en_US" value="14" />
+            <lang locale="zh_CN" value="14" />
+            <lang locale="zh_TW" value="14" />
         </rs>
         <rs key="bizUnit[com.kingdee.eas.custom.PurPlatSyncdbLog].extendedProperty.userDefined">
             <lang locale="en_US" value="true" />

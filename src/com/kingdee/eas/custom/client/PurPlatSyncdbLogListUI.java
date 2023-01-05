@@ -46,8 +46,8 @@ public class PurPlatSyncdbLogListUI extends AbstractPurPlatSyncdbLogListUI
      	//is.doCangkuMid();
      	//is.doPersonMid();
      	
-     	//is.syncDateByType( 2 , "" , 0  , "" ,"+WTOjqOTQEuPXFlQEYMe1DfGffw=" ); 
-     	is.DoMaterialJson( ""); 
+     	is.syncDateByType( 2 , "" , 0  , "" ,"jbYAAACvgnY3xn38" ); 
+     	//is.DoMaterialJson( ""); 
      	
      	//is.DoErrorJon("");
     }

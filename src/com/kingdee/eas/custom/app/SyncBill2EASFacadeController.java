@@ -33,4 +33,6 @@ public interface SyncBill2EASFacadeController extends BizController
     public String savePurInCGW(Context ctx, String jsonStr) throws BOSException, RemoteException;
     public String rollBackPurchInBill(Context ctx, String jsonStr) throws BOSException, RemoteException;
     public String rollBackSaleIssBill(Context ctx, String jsonStr) throws BOSException, RemoteException;
+    public void syncMaterial2TempTab(Context ctx) throws BOSException, RemoteException;
+    public void syncIMCounting(Context ctx, String number) throws BOSException, RemoteException;
 }

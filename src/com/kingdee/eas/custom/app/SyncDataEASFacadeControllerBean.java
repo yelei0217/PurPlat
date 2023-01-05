@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
@@ -18,6 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
+
 import org.apache.http.client.HttpClient;
 import org.apache.log4j.Logger;
 
@@ -28,6 +33,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.kingdee.bos.BOSException;
 import com.kingdee.bos.Context;
+import com.kingdee.bos.util.BOSUuid;
 import com.kingdee.eas.basedata.assistant.KAClassficationFactory;
 import com.kingdee.eas.basedata.assistant.MeasureUnitFactory;
 import com.kingdee.eas.basedata.master.material.IMaterial;
@@ -49,6 +55,7 @@ import com.kingdee.eas.custom.app.unit.PurPlatUtil;
 import com.kingdee.eas.custom.rest.HTTPSClientUtil;
 import com.kingdee.eas.custom.rest.HTTPSTrustClient;
 import com.kingdee.eas.custom.rest.InterfaceResource;
+import com.kingdee.eas.util.app.DbUtil;
 import com.kingdee.jdbc.rowset.IRowSet;
 import com.kingdee.jdbc.rowset.IRowSetMetaData;
 
@@ -203,7 +210,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
    			inner  join  T_BD_CSSPGroup gro on gro.fid =supp.FBrowseGroupID
    			inner join  T_ORG_admin    admin  on admin.fid = supp.FCONTROLUNITID  */
    			
-				String sql  = " /*dialect*/ SELECT supp.fid  fid , supp.fnumber fnumber ,supp.fname_l2 Fname ,  gro.fname_l2 FCLASSNAME ,'' FOpenBank ,  '' FBankAccount, "+
+				String sql  = " /*dialect*/ SELECT supp.fid  fid , supp.fnumber fnumber ,supp.fname_l2 Fname ,  gro.fname_l2 FCLASSNAME ,'' FOpenBank ,  '' FBankAccount, gro.fnumber FCLASSCODE , "+
 				 "  supp.FCREATORID  Fcreator , to_char( supp.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' )   FcreateTime , to_char( supp.FLASTUPDATETIME ,'yyyy-mm-dd hh24:mi:ss' )  FupdateTime,  supp.FIsInternalCompany  FISGroup , "+
 				 "  admin.FNUMBER  ForgNumber ,  admin.FName_l2 ForgName , (case when supp.FUsedStatus = 1 then 0 else  1 end ) FStatus ,admin.Fid Forgtid, "+newOrDele+"  FupdateType ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime "+
 				 "   FROM  T_BD_Supplier  supp    "+
@@ -812,8 +819,9 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 		
 		
 		if(null != map.get("JSON") && !"".equals(map.get("JSON"))){
-			loginfo.setMessage(map.get("JSON").toString());
-		}
+			//loginfo.setMessage(map.get("JSON").toString());
+			loginfo.setRequest(map.get("JSON").toString());
+ 		}
 		
 		if(null != map.get("RESJSON") && !"".equals(map.get("RESJSON"))){
 			loginfo.setRespond(map.get("RESJSON").toString());
@@ -851,7 +859,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 		StringBuffer ids = new StringBuffer();
 		ids= ids.append("'");
 		try {
-			String sql = " /*dialect*/select  fid ,cfdatebasetype TYPE , cfmessage  MESSAGE    from  CT_CUS_PurPlatSyncdbLog where  cfstatus = 0 and  cfdatebasetype = 6 and  nvl(CFSendCount,0) = 0  and  cfIsSync = 0 ";
+			String sql = " /*dialect*/select  fid ,cfdatebasetype TYPE , CFRequest  MESSAGE    from  CT_CUS_PurPlatSyncdbLog where  cfstatus = 0 and  cfdatebasetype = 6 and  nvl(CFSendCount,0) = 0  and  cfIsSync = 0 ";
 			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
 			  
 			Map<String, String> typemap = new  HashMap<String, String>();
@@ -907,7 +915,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 		try {
 			
 			
-			String sql = " /*dialect*/select  fid ,cfdatebasetype TYPE , cfmessage  MESSAGE    from  CT_CUS_PurPlatSyncdbLog where  cfstatus = 0 and  cfdatebasetype != 6 and  nvl(CFSendCount,0) < 4  and  cfIsSync = 0 ";
+			String sql = " /*dialect*/select  fid ,cfdatebasetype TYPE , CFRequest  MESSAGE    from  CT_CUS_PurPlatSyncdbLog where  cfstatus = 0 and  cfdatebasetype != 6 and  nvl(CFSendCount,0) < 4  and  cfIsSync = 0 ";
 			IRowSet  rs = com.kingdee.eas.custom.util.DBUtil.executeQuery(ctx,sql);
 			  
 			Map<String, String> typemap = new  HashMap<String, String>();
@@ -949,7 +957,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					boolean flag = false;
 					if(info.getDateBaseType()!=null  && "6".equals(info.getDateBaseType().getValue())){
 						MaterialUntil  ma = new MaterialUntil();
-				    	ma.doCreateMaterial(ctx , info.getMessage());
+				    	ma.doCreateMaterial(ctx , info.getRequest());
 					}else if(info.getDateBaseType()!=null  && "4".equals(info.getDateBaseType().getValue())){//1:客户  
 						flag =  syncDate(ctx,1,data,newOrDele,"",info.getDescription(),info);
 						
@@ -1013,6 +1021,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			throws BOSException {
 		// TODO Auto-generated method stub
 		//return super._materialSyncFun(ctx, data); 
+		System.out.println(data);
 //		data  ="{\"msgId\":\"20221021160707\",\"reqCount\":\"1\",\"operType\":\"0\",\"reqTime\":\"20221021160707\",\"data\":[{\"fArtNo\":\"普通\",\"fBaseUnit\":\"包子\",\"fBrand\":\"医宁\",\"fCreateTime\":\"2022-10-21\",\"fInvUnit\":\"瓶\",\"fKAClass\":\"G01\",\"fMaterialGroup\":\"W303\",\"fModel\":\"普通\",\"fName\":\"10/21 测试商品 222\",\"fNumber\":\"411\",\"fPurUnit\":\"12\",\"fSaleUnit\":\"12\",\"fSpec\":\"普通\",\"fUpdateTime\":\"2022-10-21\"}]}";
 		Map map = (Map) JSONObject.parse(data);
 		 
@@ -1095,10 +1104,16 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				String version = String.valueOf(cal.getTimeInMillis());
 				loginfo.setVersion(version);
 				loginfo.setUpdateDate(new Date());
-				loginfo.setMessage(com.alibaba.fastjson.JSONObject.toJSONString(mapInData));
+				loginfo.setRequest(com.alibaba.fastjson.JSONObject.toJSONString(mapInData));
+				//loginfo.setMessage(com.alibaba.fastjson.JSONObject.toJSONString(mapInData));
 				loginfo.setRespond(jsonStr);
 				loginfo.setStatus(false);
 				loginfo.setIsSync(false);
+				
+				String number = cal.getTimeInMillis() + "." + msgId+"-"+inCount;
+				String name = msgId+"-"+inCount;
+				String request = com.alibaba.fastjson.JSONObject.toJSONString(mapInData);
+				
 				
 				String type = map.get("operType").toString();
 				//0-新增，1-修改，2-禁用
@@ -1114,13 +1129,25 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				 
 				String updatetime = sdf1.format(new Date()).substring(11);
 				loginfo.setUpdatetime(Time.valueOf(updatetime));
-				try {
-					PurPlatSyncdbLogFactory.getLocalInstance(ctx).save(loginfo);
-				} catch (EASBizException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					PurPlatSyncdbLogFactory.getLocalInstance(ctx).save(loginfo);
+//				} catch (EASBizException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				
+				
+				String sId = BOSUuid.create("3171BFAD").toString();
+				
+				String sql =" /*dialect*/INSERT INTO CT_CUS_PURPLATSYNCDBLOG (FNUMBER, FSIMPLENAME, FID, FCREATORID, FCREATETIME, FLASTUPDATEUSERID, FLASTUPDATETIME, FCONTROLUNITID," +
+						" CFDATEBASETYPE, CFSTATUS, CFVERSION, CFUPDATETIME, CFUPDATEDATE, CFPROCESSTYPE, CFMESSAGE, CFRESPOND, CFSENDCOUNT, CFERRORMESSAGE, CFISSYNC, CFREQUEST, FNAME_L2) " +
+						"VALUES ('"+number+"', '"+name+"', '"+sId+"', " +
+						"'256c221a-0106-1000-e000-10d7c0a813f413B7DE7F', sysdate, '256c221a-0106-1000-e000-10d7c0a813f413B7DE7F', sysdate," +
+						" '00000000-0000-0000-0000-000000000000CCE7AED4', '6', 0, '"+version+"',sysdate, sysdate, '2', null, " +
+						"'"+jsonStr+"', 0, '123123', 0, '"+request+"', '"+name+"')";
+				
+				DbUtil.execute(ctx, sql);
+ 					 
 				inCount++;
 			}else{
 				thisCount++;
@@ -1147,7 +1174,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 		String version = String.valueOf(cal.getTimeInMillis());
 		loginfo.setVersion(version);
 		loginfo.setUpdateDate(new Date());
-		loginfo.setMessage(data);
+		loginfo.setReqest(data);
 		loginfo.setRespond(jsonStr);
 		loginfo.setStatus(false);
 		loginfo.setIsSync(false);
@@ -1960,7 +1987,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			} 
 			
  
-			String sql  = " /*dialect*/ SELECT supp.fid  fid , supp.fnumber fnumber ,nvl(supp.fname_l2,'') Fname ,  gro.fname_l2 FCLASSNAME ,'' FOpenBank ,  '' FBankAccount, "+
+			String sql  = " /*dialect*/ SELECT supp.fid  fid , supp.fnumber fnumber ,nvl(supp.fname_l2,'') Fname ,  gro.fname_l2 FCLASSNAME ,'' FOpenBank ,  '' FBankAccount,  gro.fnumber FCLASSCODE ,  "+
 			 "  supp.FCREATORID  Fcreator , to_char( supp.FCREATETIME ,'yyyy-mm-dd hh24:mi:ss' )   FcreateTime , to_char( supp.FLASTUPDATETIME ,'yyyy-mm-dd hh24:mi:ss' )  FupdateTime,  supp.FIsInternalCompany  FISGroup , "+
 			 "  admin.FNUMBER  ForgNumber ,admin.FName_l2 ForgName , (case when supp.FUsedStatus = 1 then 0 else  1 end ) FStatus ,admin.Fid Forgtid, (case when supp.FUsedStatus = 1 then 1 else  2 end )  FupdateType ,to_char( sysdate  ,'yyyy-mm-dd hh24:mi:ss' ) FsynTime "+
 			 "   FROM  T_BD_Supplier  supp    "+
@@ -2045,7 +2072,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 		
 		/**
 		 * 
-		 * 获取仓库与门诊映射关系
+		 * 获取中心仓库与门诊映射关系
 		 * 
 		 */
 		@Override
@@ -2183,7 +2210,9 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 				if(msgIdJE !=null && msgIdJE.getAsString() !=null && !"".equals( msgIdJE.getAsString())&&
 						busCodeJE !=null && busCodeJE.getAsString() !=null && !"".equals( busCodeJE.getAsString())&&
 						reqTimeJE !=null && reqTimeJE.getAsString() !=null && !"".equals( reqTimeJE.getAsString())) {
-					
+					//客户类型：内部客户，外部客户
+					//是否传递HIS ：是
+					//所有公司的客户
 					msgId = msgIdJE.getAsString();
 					if(busCodeJE.getAsString().equals(baseType.getName())){
 						String sql =" select a.FID cusid ,a.FNUMBER cusno ,a.FNAME_L2 cusna,b.FNUMBER cateno,b.FNAME_L2 catena, "+
@@ -2236,9 +2265,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 			
 			return new GsonBuilder().disableHtmlEscaping().create().toJson(respondDTO); 
 		}
-    
-	    
-		
+      
 		protected String  sendBaseDataToB2B(Context ctx, String jsonStr)
 		throws BOSException {
 			//return super._savePaymentBill(ctx, jsonStr);
@@ -2250,8 +2277,7 @@ public class SyncDataEASFacadeControllerBean extends AbstractSyncDataEASFacadeCo
 					e.printStackTrace();
 			} 
 			return result;
-		}
-		
+		} 
 		 
 	    
 }

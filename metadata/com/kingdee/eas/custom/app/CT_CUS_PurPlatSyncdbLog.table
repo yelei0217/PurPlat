@@ -241,7 +241,7 @@
             <isNullable>true</isNullable>
             <defaultValue />
             <sqlType>NVARCHAR</sqlType>
-            <length>2000</length>
+            <length>255</length>
             <scale>0</scale>
             <precision>0</precision>
         </column>
@@ -283,7 +283,7 @@
             <isNullable>true</isNullable>
             <defaultValue />
             <sqlType>NVARCHAR</sqlType>
-            <length>255</length>
+            <length>1000</length>
             <scale>0</scale>
             <precision>0</precision>
         </column>
@@ -298,6 +298,20 @@
             <defaultValue />
             <sqlType>INT</sqlType>
             <length>1</length>
+            <scale>0</scale>
+            <precision>0</precision>
+        </column>
+        <column>
+            <name>CFRequest</name>
+            <alias>dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFRequest].alias</alias>
+            <description>dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFRequest].description</description>
+            <userDefined>true</userDefined>
+            <isMultilingual>false</isMultilingual>
+            <isEncoded>false</isEncoded>
+            <isNullable>true</isNullable>
+            <defaultValue />
+            <sqlType>NVARCHAR</sqlType>
+            <length>2000</length>
             <scale>0</scale>
             <precision>0</precision>
         </column>
@@ -440,6 +454,18 @@
             <lang locale="zh_CN" value="处理类型" />
             <lang locale="zh_HK" value="處理類型" />
             <lang locale="zh_TW" value="處理類型" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFRequest].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="请求消息" />
+            <lang locale="zh_HK" value="請求消息" />
+            <lang locale="zh_TW" value="請求消息" />
+        </rs>
+        <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFRequest].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="请求消息" />
+            <lang locale="zh_HK" value="請求消息" />
+            <lang locale="zh_TW" value="請求消息" />
         </rs>
         <rs key="dataTable[com.kingdee.eas.custom.app.CT_CUS_PurPlatSyncdbLog].columns.column[CFRespond].alias">
             <lang locale="en_US" value="null" />

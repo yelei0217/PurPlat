@@ -257,4 +257,29 @@ public class SyncBill2EASFacade extends AbstractBizCtrl implements ISyncBill2EAS
             throw new EJBRemoteException(err);
         }
     }
+    /**
+     *同步物料至临时表-User defined method
+     */
+    public void syncMaterial2TempTab() throws BOSException
+    {
+        try {
+            getController().syncMaterial2TempTab(getContext());
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
+    /**
+     *同步EAS盘点数据-User defined method
+     *@param number 盘点任务编码
+     */
+    public void syncIMCounting(String number) throws BOSException
+    {
+        try {
+            getController().syncIMCounting(getContext(), number);
+        }
+        catch(RemoteException err) {
+            throw new EJBRemoteException(err);
+        }
+    }
 }

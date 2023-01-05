@@ -428,6 +428,47 @@
             </parameters>
             <configured>false</configured>
         </method>
+        <method>
+            <name>syncMaterial2TempTab</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[syncMaterial2TempTab].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[syncMaterial2TempTab].description</description>
+            <innerID>28df6c72-08b8-45b0-812b-d5ed9018c431</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <configured>false</configured>
+        </method>
+        <method>
+            <name>syncIMCounting</name>
+            <isListenerMethod>false</isListenerMethod>
+            <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[syncIMCounting].alias</alias>
+            <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[syncIMCounting].description</description>
+            <innerID>572049ab-845e-4cf4-9562-4e90ff2f7fcd</innerID>
+            <accessLevel>public</accessLevel>
+            <subClassingMode>normal</subClassingMode>
+            <returnValueType />
+            <metadataRef />
+            <transactionAttribute>Supports</transactionAttribute>
+            <userDefined>true</userDefined>
+            <userDefinedLogic />
+            <parameters>
+                <parameter>
+                    <name>number</name>
+                    <alias>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[syncIMCounting].parameters.parameter[number].alias</alias>
+                    <description>facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[syncIMCounting].parameters.parameter[number].description</description>
+                    <direction>in</direction>
+                    <dataType>String</dataType>
+                    <metadataRef />
+                    <userDefined>true</userDefined>
+                </parameter>
+            </parameters>
+            <configured>false</configured>
+        </method>
     </methods>
     <resource>
         <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].alias">
@@ -810,6 +851,40 @@
             <lang locale="zh_TW" value="傳入json參數" />
         </rs>
         <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[saveSaleOrder].parameters.parameter[jsonStr].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[syncIMCounting].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="同步EAS盘点数据" />
+            <lang locale="zh_HK" value="同步EAS盤點數據" />
+            <lang locale="zh_TW" value="同步EAS盤點數據" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[syncIMCounting].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="同步EAS盘点数据" />
+            <lang locale="zh_HK" value="同步EAS盤點數據" />
+            <lang locale="zh_TW" value="同步EAS盤點數據" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[syncIMCounting].parameters.parameter[number].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="盘点任务编码" />
+            <lang locale="zh_HK" value="盤點任務編碼" />
+            <lang locale="zh_TW" value="盤點任務編碼" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[syncIMCounting].parameters.parameter[number].description">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="" />
+            <lang locale="zh_TW" value="null" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[syncMaterial2TempTab].alias">
+            <lang locale="en_US" value="null" />
+            <lang locale="zh_CN" value="同步物料至临时表" />
+            <lang locale="zh_HK" value="同步物料至臨時表" />
+            <lang locale="zh_TW" value="同步物料至臨時表" />
+        </rs>
+        <rs key="facade[com.kingdee.eas.custom.app.SyncBill2EASFacade].methods.method[syncMaterial2TempTab].description">
             <lang locale="en_US" value="null" />
             <lang locale="zh_CN" value="" />
             <lang locale="zh_TW" value="null" />

@@ -61,6 +61,7 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
     protected com.kingdee.bos.ctrl.swing.KDLabelContainer contSendCount;
     protected com.kingdee.bos.ctrl.swing.KDLabelContainer conterrorMessage;
     protected com.kingdee.bos.ctrl.swing.KDCheckBox chkisSync;
+    protected com.kingdee.bos.ctrl.swing.KDLabelContainer contRequest;
     protected com.kingdee.bos.ctrl.swing.KDTextField txtNumber;
     protected com.kingdee.bos.ctrl.extendcontrols.KDBizMultiLangBox txtName;
     protected com.kingdee.bos.ctrl.swing.KDTextField txtSimpleName;
@@ -74,6 +75,8 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
     protected com.kingdee.bos.ctrl.swing.KDTextField txtRespond;
     protected com.kingdee.bos.ctrl.swing.KDFormattedTextField txtSendCount;
     protected com.kingdee.bos.ctrl.swing.KDTextField txterrorMessage;
+    protected com.kingdee.bos.ctrl.swing.KDScrollPane scrollPaneRequest;
+    protected com.kingdee.bos.ctrl.swing.KDTextArea txtRequest;
     protected com.kingdee.eas.custom.PurPlatSyncdbLogInfo editData = null;
     /**
      * output class constructor
@@ -109,6 +112,7 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
         this.contSendCount = new com.kingdee.bos.ctrl.swing.KDLabelContainer();
         this.conterrorMessage = new com.kingdee.bos.ctrl.swing.KDLabelContainer();
         this.chkisSync = new com.kingdee.bos.ctrl.swing.KDCheckBox();
+        this.contRequest = new com.kingdee.bos.ctrl.swing.KDLabelContainer();
         this.txtNumber = new com.kingdee.bos.ctrl.swing.KDTextField();
         this.txtName = new com.kingdee.bos.ctrl.extendcontrols.KDBizMultiLangBox();
         this.txtSimpleName = new com.kingdee.bos.ctrl.swing.KDTextField();
@@ -122,6 +126,8 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
         this.txtRespond = new com.kingdee.bos.ctrl.swing.KDTextField();
         this.txtSendCount = new com.kingdee.bos.ctrl.swing.KDFormattedTextField();
         this.txterrorMessage = new com.kingdee.bos.ctrl.swing.KDTextField();
+        this.scrollPaneRequest = new com.kingdee.bos.ctrl.swing.KDScrollPane();
+        this.txtRequest = new com.kingdee.bos.ctrl.swing.KDTextArea();
         this.kDLabelContainer1.setName("kDLabelContainer1");
         this.kDLabelContainer2.setName("kDLabelContainer2");
         this.kDLabelContainer3.setName("kDLabelContainer3");
@@ -137,6 +143,7 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
         this.contSendCount.setName("contSendCount");
         this.conterrorMessage.setName("conterrorMessage");
         this.chkisSync.setName("chkisSync");
+        this.contRequest.setName("contRequest");
         this.txtNumber.setName("txtNumber");
         this.txtName.setName("txtName");
         this.txtSimpleName.setName("txtSimpleName");
@@ -150,6 +157,8 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
         this.txtRespond.setName("txtRespond");
         this.txtSendCount.setName("txtSendCount");
         this.txterrorMessage.setName("txterrorMessage");
+        this.scrollPaneRequest.setName("scrollPaneRequest");
+        this.txtRequest.setName("txtRequest");
         // CoreUI		
         this.btnPrint.setVisible(false);		
         this.btnPrintPreview.setVisible(false);		
@@ -226,6 +235,11 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
         this.chkisSync.setText(resHelper.getString("chkisSync.text"));		
         this.chkisSync.setVisible(true);		
         this.chkisSync.setHorizontalAlignment(2);
+        // contRequest		
+        this.contRequest.setBoundLabelText(resHelper.getString("contRequest.boundLabelText"));		
+        this.contRequest.setBoundLabelLength(100);		
+        this.contRequest.setBoundLabelUnderline(true);		
+        this.contRequest.setVisible(true);
         // txtNumber		
         this.txtNumber.setMaxLength(80);
         // txtName
@@ -271,7 +285,12 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
         this.txterrorMessage.setHorizontalAlignment(2);		
         this.txterrorMessage.setMaxLength(255);		
         this.txterrorMessage.setRequired(false);
-        this.setFocusTraversalPolicy(new com.kingdee.bos.ui.UIFocusTraversalPolicy(new java.awt.Component[] {dateBaseType,chkstatus,txtversion,updatetime,pkupdateDate,processType,txtMessage,txtSendCount,txterrorMessage,chkisSync}));
+        // scrollPaneRequest
+        // txtRequest		
+        this.txtRequest.setVisible(true);		
+        this.txtRequest.setRequired(false);		
+        this.txtRequest.setMaxLength(2000);
+        this.setFocusTraversalPolicy(new com.kingdee.bos.ui.UIFocusTraversalPolicy(new java.awt.Component[] {dateBaseType,chkstatus,txtversion,updatetime,pkupdateDate,processType,txtMessage,txtSendCount,txterrorMessage,chkisSync,txtRequest}));
         this.setFocusCycleRoot(true);
 		//Register control's property binding
 		registerBindings();
@@ -297,7 +316,7 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
      */
     public void initUIContentLayout()
     {
-        this.setBounds(new Rectangle(0, 0, 979, 579));
+        this.setBounds(new Rectangle(0, 0, 979, 664));
         this.setLayout(null);
         kDLabelContainer1.setBounds(new Rectangle(648, 10, 270, 19));
         this.add(kDLabelContainer1, null);
@@ -325,10 +344,12 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
         this.add(contRespond, null);
         contSendCount.setBounds(new Rectangle(329, 82, 270, 19));
         this.add(contSendCount, null);
-        conterrorMessage.setBounds(new Rectangle(10, 346, 909, 113));
+        conterrorMessage.setBounds(new Rectangle(5, 362, 909, 113));
         this.add(conterrorMessage, null);
         chkisSync.setBounds(new Rectangle(648, 82, 270, 19));
         this.add(chkisSync, null);
+        contRequest.setBounds(new Rectangle(12, 493, 900, 130));
+        this.add(contRequest, null);
         //kDLabelContainer1
         kDLabelContainer1.setBoundEditor(txtNumber);
         //kDLabelContainer2
@@ -355,6 +376,10 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
         contSendCount.setBoundEditor(txtSendCount);
         //conterrorMessage
         conterrorMessage.setBoundEditor(txterrorMessage);
+        //contRequest
+        contRequest.setBoundEditor(scrollPaneRequest);
+        //scrollPaneRequest
+        scrollPaneRequest.getViewport().add(txtRequest, null);
 
     }
 
@@ -479,7 +504,8 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
 		dataBinder.registerBinding("Message", String.class, this.txtMessage, "text");
 		dataBinder.registerBinding("Respond", String.class, this.txtRespond, "text");
 		dataBinder.registerBinding("SendCount", int.class, this.txtSendCount, "value");
-		dataBinder.registerBinding("errorMessage", String.class, this.txterrorMessage, "text");		
+		dataBinder.registerBinding("errorMessage", String.class, this.txterrorMessage, "text");
+		dataBinder.registerBinding("Request", String.class, this.txtRequest, "text");		
 	}
 	//Regiester UI State
 	private void registerUIState(){
@@ -640,7 +666,8 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
 		getValidateHelper().registerBindProperty("Message", ValidateHelper.ON_SAVE);    
 		getValidateHelper().registerBindProperty("Respond", ValidateHelper.ON_SAVE);    
 		getValidateHelper().registerBindProperty("SendCount", ValidateHelper.ON_SAVE);    
-		getValidateHelper().registerBindProperty("errorMessage", ValidateHelper.ON_SAVE);    		
+		getValidateHelper().registerBindProperty("errorMessage", ValidateHelper.ON_SAVE);    
+		getValidateHelper().registerBindProperty("Request", ValidateHelper.ON_SAVE);    		
 	}
 
 
@@ -694,6 +721,7 @@ public abstract class AbstractPurPlatSyncdbLogEditUI extends com.kingdee.eas.fra
         sic.add(new SelectorItemInfo("Respond"));
         sic.add(new SelectorItemInfo("SendCount"));
         sic.add(new SelectorItemInfo("errorMessage"));
+        sic.add(new SelectorItemInfo("Request"));
         return sic;
     }        
 

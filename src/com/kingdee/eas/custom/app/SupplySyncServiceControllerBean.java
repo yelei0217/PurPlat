@@ -1524,7 +1524,7 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 		
 		if("0".equals(isgroupOa)){
 			StringBuffer sql = new StringBuffer();
-			sql.append("/*dialect*/ select a.FID as FID, c.fname_l2 as FCLASSNAME,a.FNumber as FNUMBER,a.FName_L2 as FNAME,'' as  FOPENBANK,'' as FBANKACCOUNT,")
+			sql.append("/*dialect*/ select a.FID as FID, c.fname_l2 as FCLASSNAME,a.FNumber as FNUMBER,a.FName_L2 as FNAME,'' as  FOPENBANK,'' as FBANKACCOUNT,c.FNUMBER as FCLASSCODE,")
 			.append("a.FCreatorID as FCREATOR,(CASE WHEN b.FNumber='M' THEN 1 ELSE 0 END) as FISGROUP, ")
 			.append("b.FNumber as FORGNUMBER,b.FName_L2 as FORGNAME,(case a.FUsedStatus when 1  then 0 when 0 then 0  else 2 end  ) as FupdateType,b.FID as FORGTID,0 as FSIGN,''as FSYNLOG,0 as FMAILSIGN,")
 			.append("to_char(a.FCreateTime,'yyyy-mm-dd hh24:mi:ss') as FCreateTime,to_char(a.FLastUpdateTime,'yyyy-mm-dd hh24:mi:ss') as FUpdateTime ,")
@@ -1538,7 +1538,7 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 				String name = rows.getString("FNAME");
 				String number = rows.getString("FNUMBER"); 
 				String isgroup = rows.getString("FISGROUP"); 
-				
+				String fclasscode = rows.getString("FCLASSCODE"); 
 				
 				String updateType = rows.getString("FupdateType");
 				if("2".equals(updateType)){
@@ -1559,6 +1559,7 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 				hismap.put("fcreatetime",createtime );
 				hismap.put("fupdatetime",updatetime );
 				hismap.put("fcreator",creator );  
+				hismap.put("fclasscode",fclasscode );  
 			}
 			
 			CompanyOrgUnitInfo companyInfo;
@@ -1576,7 +1577,7 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
  
 		}else if("1".equals(isgroupOa)){
 			StringBuffer sql = new StringBuffer();
-			sql.append("/*dialect*/ select a.FID as FID, c.fname_l2 as FCLASSNAME,a.FNumber as FNUMBER,a.FName_L2 as FNAME,'' as  FOPENBANK,'' as FBANKACCOUNT,")
+			sql.append("/*dialect*/ select a.FID as FID, c.fname_l2 as FCLASSNAME,a.FNumber as FNUMBER,a.FName_L2 as FNAME,'' as  FOPENBANK,'' as FBANKACCOUNT,c.FNUMBER as FCLASSCODE, ")
 			.append("a.FCreatorID as FCREATOR,(CASE WHEN b.FNumber='M' THEN 1 ELSE 0 END) as FISGROUP,b.fid FORGTID ,b.fnumber FORGNUMBER,b.fname_l2 FORGNAME,")
 			.append("to_char(a.FCreateTime,'yyyy-mm-dd hh24:mi:ss') as FCreateTime,to_char(a.FLastUpdateTime,'yyyy-mm-dd hh24:mi:ss') as FUpdateTime ,")
 			.append("(case a.FUsedStatus when 3  then 1 else 0 end  ) as FStatus  from T_BD_Supplier a  INNER JOIN T_ORG_CtrlUnit  b on a.FADMINCUID=b.FID")
@@ -1589,7 +1590,7 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 				String name = rows.getString("FNAME");
 				String number = rows.getString("FNUMBER"); 
 				String isgroup = rows.getString("FISGROUP"); 
-				
+				String fclasscode = rows.getString("FCLASSCODE"); 
 				
 				
 
@@ -1615,6 +1616,7 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
 				hismap.put("forgnumber",orgnumber );
 				hismap.put("forgname",orgname );
 				hismap.put("forgtid",orgid ); 
+				hismap.put("fclasscode",fclasscode );  
 				 
 			}
 		}
@@ -1921,8 +1923,7 @@ public class SupplySyncServiceControllerBean extends AbstractSupplySyncServiceCo
    	                ex.printStackTrace();
    	            }
    	        }
-        }
-       
+        } 
        return result;
    }
 

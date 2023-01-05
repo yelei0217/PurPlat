@@ -387,4 +387,44 @@ public abstract class AbstractSyncBill2EASFacadeControllerBean extends AbstractB
         return null;
     }
 
+    public void syncMaterial2TempTab(Context ctx) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("28df6c72-08b8-45b0-812b-d5ed9018c431"), new Object[]{ctx});
+            invokeServiceBefore(svcCtx);
+              if(!svcCtx.invokeBreak()) {
+            _syncMaterial2TempTab(ctx);
+            }
+            invokeServiceAfter(svcCtx);
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected void _syncMaterial2TempTab(Context ctx) throws BOSException
+    {    	
+        return;
+    }
+
+    public void syncIMCounting(Context ctx, String number) throws BOSException
+    {
+        try {
+            ServiceContext svcCtx = createServiceContext(new MetaDataPK("572049ab-845e-4cf4-9562-4e90ff2f7fcd"), new Object[]{ctx, number});
+            invokeServiceBefore(svcCtx);
+              if(!svcCtx.invokeBreak()) {
+            _syncIMCounting(ctx, number);
+            }
+            invokeServiceAfter(svcCtx);
+        } catch (BOSException ex) {
+            throw ex;
+        } finally {
+            super.cleanUpServiceState();
+        }
+    }
+    protected void _syncIMCounting(Context ctx, String number) throws BOSException
+    {    	
+        return;
+    }
+
 }

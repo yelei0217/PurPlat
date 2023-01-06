@@ -262,48 +262,72 @@ public class SyncBill2EASFacadeControllerBean extends AbstractSyncBill2EASFacade
 	protected void _syncIMCounting(Context ctx, String number) throws BOSException {
 		if(number !=null && !"".equals(number)){
 			StringBuffer sbr = new StringBuffer();
-			sbr.append(" /*dialect*/select m.FNUMBER skuId,c.FCountingQty qty,mu.FNUMBER uno, ").append("\r\n");
-			sbr.append(" spu.supname,spu.pinpai,spu.huohao,sku.spuId,sku.bigUnitCode,sku.smallUnitCode,sku.model,sku.rate,").append("\r\n");
-			sbr.append(" decode(m.FMATERIALGROUPID,'Dtmk86FlSCmVG2q3RQFBp8efwEI=',1,'m0jaPS40Sx2p7U36OsuGa8efwEI=',2,2) type ").append("\r\n");
-			sbr.append(" from T_IM_CountingTask a ").append("\r\n");
-			sbr.append(" inner join T_IM_COUNTINGTABLE  b on a.FID = b.FCOUNTINGTASKID ").append("\r\n");
-			sbr.append(" inner join T_IM_COUNTINGTABLEENTRY c on c.FPARENTID = b.FID ").append("\r\n");
-			sbr.append(" inner join T_BD_Material m  on c.FMATERIALID = m.FID ").append("\r\n");
-			sbr.append(" inner join T_BD_MeasureUnit mu on  mu.FID = c.FBASEUNIT ").append("\r\n");
-			
-			sbr.append(" inner join eas_material_sku sku on  sku.skuId = m.fnumber ").append("\r\n");
-			sbr.append(" inner join eas_material_spu spu on  sku.spuId = spu.spuId ").append("\r\n");
-			
-			sbr.append(" where m.FMATERIALGROUPID in ('Dtmk86FlSCmVG2q3RQFBp8efwEI=','m0jaPS40Sx2p7U36OsuGa8efwEI=') and m.FStatus =1 ").append("\r\n");
-			sbr.append(" and a.FNUMBER = '").append(number).append("' and m.FCONTROLUNITID<>'iQMu+uuiQda3ZeJ4FCNppMznrtQ=' and c.FCOUNTINGQTY<>0   ");
+			sbr.append(" /*dialect*/select b.FStorageOrgUnitID as easOrgId, b.FWarehouseID as warehouseFid, m.FNUMBER skuId,c.FCountingQty qty,mu.FNUMBER uno,  ").append("\r\n");
+			sbr.append("  m1.supname,m1.pinpai,m1.huohao,m1.bigUnitCode,m1.bigUnitName,m1.smallUnitCode,m1.smallUnitName,m1.model ,m1.rate,m1.categoryCode,m1.categoryName,  ").append("\r\n");
+			sbr.append("  decode(c.FStoreTypeID,'3', decode(m.FMATERIALGROUPID,'Dtmk86FlSCmVG2q3RQFBp8efwEI=',1,'m0jaPS40Sx2p7U36OsuGa8efwEI=',2,2) ,2) type  ").append("\r\n");
+			sbr.append("   from T_IM_CountingTask a  ").append("\r\n");
+			sbr.append("  inner join T_IM_COUNTINGTABLE  b on a.FID = b.FCOUNTINGTASKID  ").append("\r\n");
+			sbr.append("  inner join T_IM_COUNTINGTABLEENTRY c on c.FPARENTID = b.FID  ").append("\r\n");
+			sbr.append("  inner join T_BD_Material m  on c.FMATERIALID = m.FID  ").append("\r\n");
+			sbr.append("  inner join T_BD_MeasureUnit mu on  mu.FID = c.FBASEUNIT  ").append("\r\n");
+			sbr.append(" inner join  (  select m.fid,m.FNAME_L2 supname,m.CFPINPAI as pinpai ,m.CFHUOHAO as huohao,mg.FNumber categoryCode,mg.FName_l2 as categoryName  ").append("\r\n");
+			sbr.append("  ,mu.FNUMBER as bigUnitCode,mu.FNAME_L2 as bigUnitName,mu.FNUMBER as smallUnitCode,mu.FNAME_L2 as smallUnitName,m.FMODEL model, 1 rate  ").append("\r\n");
+			sbr.append(" from T_BD_MATERIAL m  ").append("\r\n");
+			sbr.append(" inner join T_BD_MeasureUnit mu on  m.FBaseUnit = mu.FID  ").append("\r\n");
+			sbr.append(" inner join T_BD_MaterialGroup mg on mg.fid = m.FMATERIALGROUPID  ").append("\r\n");
+			sbr.append(" where m.FMATERIALGROUPID in ('Dtmk86FlSCmVG2q3RQFBp8efwEI=','m0jaPS40Sx2p7U36OsuGa8efwEI=') and m.FStatus =1  ").append("\r\n");
+			sbr.append(" and m.FCONTROLUNITID<>'iQMu+uuiQda3ZeJ4FCNppMznrtQ='  ").append("\r\n");
+			sbr.append(" and m.fid not in (  ").append("\r\n");
+			sbr.append(" select distinct a.FID from T_BD_Material a  ").append("\r\n");
+			sbr.append(" INNER JOIN  T_BD_MultiMeasureUnit  b  on a.FID =b.FMATERIALID  ").append("\r\n");
+			sbr.append(" where b.FBASECONVSRATE <> 1 and a.FMATERIALGROUPID in('m0jaPS40Sx2p7U36OsuGa8efwEI=','Dtmk86FlSCmVG2q3RQFBp8efwEI=')  ").append("\r\n");
+			sbr.append(" and a.FCONTROLUNITID<>'iQMu+uuiQda3ZeJ4FCNppMznrtQ=' and a.FStatus =1  ").append("\r\n");
+			sbr.append(" )  ").append("\r\n");
+			sbr.append(" union all  ").append("\r\n");
+			sbr.append(" select m.fid,m.FNAME_L2 supname,m.CFPINPAI as pinpai ,m.CFHUOHAO as huohao,mg.FNumber categoryCode,mg.FName_l2 as categoryName  ").append("\r\n");
+			sbr.append(" ,mu1.FNUMBER as bigUnitCode,mu1.FNAME_L2 as bigUnitName,mu2.FNUMBER as smallUnitCode,mu2.FNAME_L2 as smallUnitName,  ").append("\r\n");
+			sbr.append("  m.FMODEL model,mmu.FBASECONVSRATE rate  ").append("\r\n");
+			sbr.append(" from T_BD_Material m  ").append("\r\n");
+			sbr.append(" INNER JOIN  T_BD_MultiMeasureUnit mmu on mmu.FMATERIALID = m.FID  ").append("\r\n");
+			sbr.append(" inner join T_BD_MeasureUnit mu1 on mu1.FID = mmu.FMEASUREUNITID  ").append("\r\n");
+			sbr.append(" inner join T_BD_MeasureUnit mu2 on mu2.FID = m.FBASEUNIT  ").append("\r\n");
+			sbr.append(" inner join T_BD_MaterialGroup mg on mg.fid = m.FMATERIALGROUPID  ").append("\r\n");
+			sbr.append(" where mmu.FBASECONVSRATE <> 1 and m.FMATERIALGROUPID in('m0jaPS40Sx2p7U36OsuGa8efwEI=','Dtmk86FlSCmVG2q3RQFBp8efwEI=')  ").append("\r\n");
+			sbr.append(" and m.FCONTROLUNITID<>'iQMu+uuiQda3ZeJ4FCNppMznrtQ=' and m.FStatus =1  ").append("\r\n");
+			sbr.append("  ) m1 on m1.FID= m.FID  ").append("\r\n");
+			sbr.append("  where a.FNUMBER = '").append(number).append("' and m.FMATERIALGROUPID in ('Dtmk86FlSCmVG2q3RQFBp8efwEI=','m0jaPS40Sx2p7U36OsuGa8efwEI=') and m.FStatus =1  ").append("\r\n");
+			sbr.append("  and m.FCONTROLUNITID<>'iQMu+uuiQda3ZeJ4FCNppMznrtQ=' and c.FCOUNTINGQTY<>0  ").append("\r\n");
 			System.out.println("query SQL ####################################################"+sbr.toString());
 			try {
 				IRowSet rs =  DbUtil.executeQuery(ctx, sbr.toString());
 				if(rs !=null && rs.size() > 0){
 					List datas = new ArrayList(); 
 					while(rs.next()){
-						Map mp =new HashMap();
+						Map mp =new HashMap(); 
+						mp.put("goodName", rs.getObject("supname")); //	商品名
+						mp.put("brandName", rs.getObject("pinpai")); //品牌名
+						mp.put("specName", rs.getObject("model")); //规格名
+						mp.put("type", rs.getObject("type"));//类型 1：高值,2：低值,3:VMI
+						mp.put("warehouseFid", rs.getObject("warehouseFid")); //EAS仓库id 
+					    mp.put("bigUnitCode", rs.getObject("bigUnitCode"));//大单位code
+					    mp.put("bigUnitName", rs.getObject("bigUnitCode"));//大单位名
+						mp.put("smallUnitCode", rs.getObject("smallUnitCode"));//小单位code
+						mp.put("smallUnitName", rs.getObject("smallUnitCode"));//小单位名
+						mp.put("num", rs.getObject("qty"));//数量
+						mp.put("spuId", "OLD_"+rs.getObject("skuId")); //spuId
 						mp.put("skuId", rs.getObject("skuId")); //skuId
-						mp.put("qty", rs.getObject("qty"));//数量
-						mp.put("uno", rs.getObject("uno"));//计量单位编码
-						mp.put("type", rs.getObject("type"));//类型
-						
-						mp.put("supname", rs.getObject("supname"));//supname
-						mp.put("pinpai", rs.getObject("pinpai"));//pinpai
-						mp.put("huohao", rs.getObject("huohao"));//huohao
-						mp.put("spuId", rs.getObject("spuId"));//spuId
-						mp.put("bigUnitCode", rs.getObject("bigUnitCode"));//bigUnitCode
-						
-						mp.put("smallUnitCode", rs.getObject("smallUnitCode"));//smallUnitCode
-						mp.put("model", rs.getObject("model"));//model
-						mp.put("rate", rs.getObject("rate"));//bigUnitCode
-						
+						mp.put("validityTime", "2039-12-30"); //easOrgId
+						mp.put("easOrgId", rs.getObject("easOrgId")); //easOrgId
+						mp.put("count", rs.getObject("rate"));//换算后比列数量 
+						mp.put("categoryCode", rs.getObject("categoryCode")); //分类
+						mp.put("categoryName", rs.getObject("categoryName")); //分类名
+						mp.put("produce", ""); //	生产地  
 						datas.add(mp);
 					} 
 					
 					if(datas !=null && datas.size() >0){
 						//调用his接口
-					    String url = "http://sr.wellekq.com:10091/his-war/notify/syncSupplier"; //测试地址
+					    String url = "http://sr.wellekq.com:10091/his-war/mall-api/material/initStock"; //测试地址
 					    //String url = "https://his5.meiweigroup.com/his-war/notify/syncSupplier";  //生产地址
 						String result =  sendMessageToHis(url,JSONObject.toJSONString(datas));
 						System.out.println("_syncIMCounting result is :"+result);
